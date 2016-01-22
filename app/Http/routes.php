@@ -36,5 +36,22 @@ Route::group(['namespace' => 'Backend', 'prefix' => 'admin', 'middleware' => 'ad
     require (__DIR__ . '/Routes/Backend/LogViewer.php');
 });
 
+/**
+ *Importer Routes.
+ *Developer: Me(Vini)
+ *Note: i screwed the roles/permission dashboard, their url is ..../admin/access/users
+ *Note2:i`m gonna need the routes prefixes: obras, clientes, contatos, usuarios, importacoes, importacao(maybe), apontador.
+ */
+
+/*
+* OBRAS
+*/
+
 Route::get('obras', array('middleware' => 'admin', 'as' => 'obras', 'uses' => 'importer\ObrasController@index'));
-Route::get('obras/{id}', array('middleware' => 'admin', 'as' => 'obras/{id}', 'uses' => 'importer\ObrasController@ver'));
+Route::get('obra/{id}', array('middleware' => 'admin', 'as' => 'obras/{id}', 'uses' => 'importer\ObrasController@ver'));
+
+//END OBRAS
+
+/*
+* END IMPORTER
+*/
