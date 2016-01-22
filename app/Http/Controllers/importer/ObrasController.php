@@ -4,6 +4,9 @@ namespace App\Http\Controllers\importer;
 
 use Illuminate\Http\Request;
 use App\importer\obra;
+use App\importer\cliente;
+use App\importer\etapa;
+use App\importer\subetapas;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
@@ -18,6 +21,25 @@ class ObrasController extends Controller
     {
         $obras=obra::get_all();
         return view('backend.importer.obras-listar',compact('obras'));
+    }
+
+    public function ver($id)
+    {
+        $obra         = obra::get_by_id($id);
+        $cliente      = cliente::get_by_id($obra->clienteID);
+        $construtora  = cliente::get_by_id($obra->construtoraID);
+        $gerenciadora = cliente::get_by_id($obra->gerenciadoraID);
+        $calculista   = cliente::get_by_id($obra->calculistaID);
+        $detalhamento = cliente::get_by_id($obra->detalhamentoID);
+        $montagem     = cliente::get_by_id($obra->montagemID);
+        $etapas       = etapa::get_all($id);
+        $cont = sizeof($etapas) - 1;
+
+        for ($i=0; $i < $cont; $i++) {
+            $etapas[$i]->subetapas = subetapas::get_all($etapas[$i]->etapaID);
+        }
+
+        return view('backend.importer.obras-perfil',compact('obra', 'cliente', 'construtora', 'gerenciadora', 'calculista','detalhamento','montagem','etapas'));
     }
 
     /**

@@ -1,4 +1,3 @@
-@section('content')
 <div class="row">
     <div class="col-lg-4">
         <div class="panel panel-primary">
@@ -40,7 +39,7 @@
                         if(isset($cliente->endereco)) echo $cliente->endereco . '<br />';
                         if(isset($cliente->nomeCidade)) echo $cliente->nomeCidade . ', ' . $cliente->nomeEstado . ' - ' . $cliente->uf . '<br />';
                         if(isset($cliente->cep)) echo 'CEP: ' . $cliente->cep . '<br />';
-                        if(isset($cliente->fone)) echo 'Fone: ' . telefone($cliente->fone);
+                        if(isset($cliente->fone)) echo 'Fone: ' . $cliente->fone;
                     ?>
                 </address>
             </div>
@@ -68,7 +67,7 @@
                         if(isset($construtora->endereco)) echo $construtora->endereco . '<br />';
                         if(isset($construtora->nomeCidade)) echo $construtora->nomeCidade . ', ' . $construtora->nomeEstado . ' - ' . $construtora->uf . '<br />';
                         if(isset($construtora->cep)) echo 'CEP: ' . $construtora->cep . '<br />';
-                        if(isset($construtora->fone)) echo 'Fone: ' . telefone($construtora->fone);
+                        if(isset($construtora->fone)) echo 'Fone: ' . $construtora->fone;
                     ?>
                 </address>
             </div>
@@ -96,7 +95,7 @@
                         if(isset($gerenciadora->endereco)) echo $gerenciadora->endereco . '<br />';
                         if(isset($gerenciadora->nomeCidade)) echo $gerenciadora->nomeCidade . ', ' . $gerenciadora->nomeEstado . ' - ' . $gerenciadora->uf . '<br />';
                         if(isset($gerenciadora->cep)) echo 'CEP: ' . $gerenciadora->cep . '<br />';
-                        if(isset($gerenciadora->fone)) echo 'Fone: ' . telefone($gerenciadora->fone);
+                        if(isset($gerenciadora->fone)) echo 'Fone: ' . $gerenciadora->fone;
                     ?>
                 </address>
             </div>
@@ -124,7 +123,7 @@
                         if(isset($calculista->endereco)) echo $calculista->endereco . '<br />';
                         if(isset($calculista->nomeCidade)) echo $calculista->nomeCidade . ', ' . $calculista->nomeEstado . ' - ' . $calculista->uf . '<br />';
                         if(isset($calculista->cep)) echo 'CEP: ' . $calculista->cep . '<br />';
-                        if(isset($calculista->fone)) echo 'Fone: ' . telefone($calculista->fone);
+                        if(isset($calculista->fone)) echo 'Fone: ' . $calculista->fone;
                     ?>
                 </address>
             </div>
@@ -152,7 +151,7 @@
                         if(isset($detalhamento->endereco)) echo $detalhamento->endereco . '<br />';
                         if(isset($detalhamento->nomeCidade)) echo $detalhamento->nomeCidade . ', ' . $detalhamento->nomeEstado . ' - ' . $detalhamento->uf . '<br />';
                         if(isset($detalhamento->cep)) echo 'CEP: ' . $detalhamento->cep . '<br />';
-                        if(isset($detalhamento->fone)) echo 'Fone: ' . telefone($detalhamento->fone);
+                        if(isset($detalhamento->fone)) echo 'Fone: ' . $detalhamento->fone;
                     ?>
                 </address>
             </div>
@@ -180,7 +179,7 @@
                         if(isset($montagem->endereco)) echo $montagem->endereco . '<br />';
                         if(isset($montagem->nomeCidade)) echo $montagem->nomeCidade . ', ' . $montagem->nomeEstado . ' - ' . $montagem->uf . '<br />';
                         if(isset($montagem->cep)) echo 'CEP: ' . $montagem->cep . '<br />';
-                        if(isset($montagem->fone)) echo 'Fone: ' . telefone($montagem->fone);
+                        if(isset($montagem->fone)) echo 'Fone: ' . $montagem->fone;
                     ?>
                 </address>
             </div>
@@ -191,8 +190,7 @@
     <?php } ?>
 </div>
 <div class="row">
-    <div class="col-lg-12 col-md-12 text-right">
-        <a href="<?=base_url() . 'saas/obras/editar/' . $obra->obraID;?>" type="button" class="btn btn-warning">Editar Obra</a>
+    <div class="col-lg-12 col-md-12 text-left">
+        <a href="javascript:history.back()" type="button" class="btn btn-default"><< Voltar</a>
     </div>
 </div>
-@endsection

@@ -2,7 +2,11 @@
 
 namespace App\importer;
 
+use DB;
+
 use Illuminate\Database\Eloquent\Model;
+use Auth;
+
 
 class etapa extends Model
 {
@@ -16,7 +20,7 @@ class etapa extends Model
         parent::__construct();
     }
 
-    public function get_by_id($id)
+    public static function get_by_id($id)
     {
        $query = 	DB::table('etapas')->select('*')
             ->leftJoin('obras', 'obras.obraID', '=', 'etapas.obraID')
@@ -26,13 +30,13 @@ class etapa extends Model
             ->get();
 
        if($query):
-            return $query;
+            return $query[0];
         endif;
 
         return false;
     }
 
-    public function get_by_field($field, $value, $limit = null)
+    public static function get_by_field($field, $value, $limit = null)
     {
          $query = 	DB::table('etapas')
     		->select('*')
@@ -47,7 +51,7 @@ class etapa extends Model
 
     }
 
-     public function get_by_field2($field, $value)
+     public static function get_by_field2($field, $value)
     {
 
     	 $query = 	DB::table('etapas')
@@ -61,14 +65,14 @@ class etapa extends Model
 
             return $query;
     }
-    public function get_all($obraID)
+    public static function get_all($obraID)
     {
        $query = DB::table('etapas')
             ->leftJoin('obras', 'obras.obraID', '=', 'etapas.obraID')
             ->leftJoin('clientes', 'clientes.clienteID', '=', 'obras.clienteID')
             ->where('clientes.locatarioID',  access()->user()->locatarioID)
             ->where('etapas.obraID', $obraID)
-            ->order_by('codigoEtapa', 'asc')
+            ->orderby('codigoEtapa', 'asc')
             ->get();
 
         return $query;

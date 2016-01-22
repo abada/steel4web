@@ -1,3 +1,5 @@
+@extends('backend.layouts.master')
+
 @section('page-header')
     <h1>
        Obra: {{ $obra->nome }}
@@ -10,7 +12,7 @@
             <div class="panel panel-default">
                 <!-- /.panel-heading -->
                 <div class="panel-body">
-                    <!-- Nav tabs -->
+                    <div class="nav-tabs-custom">
                     <ul class="nav nav-tabs">
                         <li class="active"><a href="#detalhes" data-toggle="tab">Detalhes</a>
                         </li>
@@ -22,12 +24,13 @@
                     <div class="tab-content">
                         <div class="tab-pane fade in active" id="detalhes">
                             <br />
-                            <?php $this->load->view('sistema/paginas-saas/obras-perfil-inc'); ?>
+                             @include('backend.importer.obras-perfil-inc')
                         </div>
                         <div class="tab-pane fade" id="etapas">
                         <br />
-                        <?php $this->load->view('sistema/paginas-saas/etapas-listar-inc'); ?>
+                             @include('backend.importer.etapas-listar-inc')
                         </div>
+                    </div>
                     </div>
                 </div>
                 <!-- /.panel-body -->
@@ -40,7 +43,7 @@
 
     <div class="row">
         <div class="col-lg-6 col-md-6">
-            <a href="<?=base_url() . 'saas/obras/listar';?>" type="button" class="btn btn-default"><< Voltar</a>
+            <a href="javascript:history.back()" type="button" class="btn btn-default"><< Voltar</a>
         </div>
     </div>
 @endsection

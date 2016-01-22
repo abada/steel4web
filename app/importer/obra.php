@@ -34,7 +34,7 @@ class obra extends Model
 
 
         if(count($query) > 0):
-            return $query;
+            return $query[0];
         endif;
 
         return false;

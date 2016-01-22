@@ -1,5 +1,3 @@
-
-@section('content')
 <div class="row">
     <div class="col-lg-12">
 
@@ -11,16 +9,17 @@
                 <div class="panel panel-info">
                     <div class="panel-heading">
                         <span class="text-left">
-                            <a href="<?=base_url() . 'saas/etapas/editar/' . $etapa->obraID . '/' . $etapa->etapaID;?>" title="Editar">Código: <?=$etapa->codigoEtapa;?></a>
+                            <a href="#" title="Editar">Código: <?=$etapa->codigoEtapa;?></a>
                         </span>
                         <span class="pull-right">
-                             <a href="<?=base_url() . 'saas/etapas/excluir/' . $etapa->obraID . '/' . $etapa->etapaID;?>" onclick="return confirma_exclusao('<?='Código ' . $etapa->codigoEtapa;?>')" ><i class="fa fa-times"></i> Excluir</a>
+                             <a href="#
+                            " onclick="return confirma_exclusao('<?='Código ' . $etapa->codigoEtapa;?>')" ><i class="fa fa-times"></i> Excluir</a>
                         </span>
                     </div>
                     <!-- /.panel-heading -->
                     <div class="panel-body">
 
-                        <strong>Peso: </strong><?=peso($etapa->peso);?><br /><br />
+                        <strong>Peso: </strong><?=$etapa->peso;?><br /><br />
                         <strong>Detalhes da etapa:</strong><br /><br />
                         <?php if($etapa->estruturaPrincipal == 1) echo '<p class="fa fa-check"> Estrutura Principal</p><br />';?>
                         <?php if($etapa->estruturaSecundaria == 1) echo '<p class="fa fa-check"> Estrutura Secundária</p><br />';?>
@@ -43,10 +42,10 @@
                         <?php if(!empty($etapa->subetapas) && $etapa->subetapas != ''){ ?>
                         <h4>Subetapas Cadastradas:</h4>
                         <?php foreach ($etapa->subetapas as $subetapa) { ?>
-                        <p><a href="<?=base_url() . 'saas/subetapa/listar/' . $etapa->obraID . '/' . $etapa->etapaID;?>">Código: <?=$subetapa->codigoSubetapa;?></a></p>
+                        <p><a href="#">Código: <?=$subetapa->codigoSubetapa;?></a></p>
                         <?php } ?>
                         <?php } ?>
-                        <p align="right"><a class="btn btn-primary" href="<?=base_url() . 'saas/subetapa/listar/' . $etapa->obraID . '/' . $etapa->etapaID;?>">Cadastrar Sub-etapa</a></p>
+                        <p align="right"><a class="btn btn-primary" href="#">Cadastrar Sub-etapa</a></p>
 
                     </div>
                     <!-- /.panel-body -->
@@ -68,7 +67,7 @@
             <?php } ?>
 
         <div class="col-lg-12 col-md-12 text-right">
-           <a href="<?=base_url() . 'saas/etapas/cadastrar/' . $obra->obraID;?>" type="button" class="btn btn-primary">Cadastrar etapa</a>
+           <a href="#" type="button" class="btn btn-primary">Cadastrar etapa</a>
         </div>
         <!-- /.panel -->
     </div>
@@ -81,4 +80,3 @@
         return true;
     }
 </script>
-@endsection

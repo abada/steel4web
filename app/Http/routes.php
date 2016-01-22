@@ -37,3 +37,4 @@ Route::group(['namespace' => 'Backend', 'prefix' => 'admin', 'middleware' => 'ad
 });
 
 Route::get('obras', array('middleware' => 'admin', 'as' => 'obras', 'uses' => 'importer\ObrasController@index'));
+Route::get('obras/{id}', array('middleware' => 'admin', 'as' => 'obras/{id}', 'uses' => 'importer\ObrasController@ver'));

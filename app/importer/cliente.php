@@ -14,7 +14,7 @@ class cliente extends Model
     protected $table = 'clientes';
     protected $primaryKey = 'clienteID';
 
-    public function get_by_id($id)
+    public static function get_by_id($id)
     {
          $query = 	DB::table('clientes')
                     ->select('*')
@@ -24,7 +24,7 @@ class cliente extends Model
 
 
         if(count($query) > 0):
-            return $query;
+            return $query[0];
         endif;
 
         return false;
@@ -43,7 +43,7 @@ class cliente extends Model
 	}
 
 
-    public function get_all($tipoCliente=null)
+    public static function get_all($tipoCliente=null)
     {
         if($tipoCliente == 'clientes'){
         	 $query = 	DB::table('clientes')
@@ -57,7 +57,7 @@ class cliente extends Model
         return $query;
     }
 
-     public function get_all_order($tipoCliente=null)
+     public static function get_all_order($tipoCliente=null)
     {
        $query = 	DB::table('clientes')
         ->where('locatarioID',  access()->user()->locatarioID)
