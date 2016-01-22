@@ -15,12 +15,12 @@ class CreateUsersTable extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->integer('locatarioID');
             $table->string('email')->unique();
             $table->string('password', 60)->nullable();
             $table->string('confirmation_code');
             $table->boolean('confirmed')->default(config('access.users.confirm_email') ? false : true);
             $table->rememberToken();
+            $table->integer('locatario_id')->nullable()->unsigned();
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default('0000-00-00 00:00');
             $table->softDeletes();
