@@ -30,7 +30,7 @@ class CreateSteel4webTables extends Migration {
 			$table->string('cep', 255)->nullable();
 			$table->string('email', 255)->nullable();
 			$table->boolean('status')->nullable();
-			$table->dateTime('data')->nullable();
+
 			$table->timestamps();
 		});
 
@@ -64,21 +64,36 @@ class CreateSteel4webTables extends Migration {
 			$table->timestamps();
 		});
 
+		Schema::create('tiposcontatos', function (Blueprint $table) {
+			$table->increments('id');
+			$table->text('descricao')->nullable();
+
+			$table->integer('user_id')->unsigned();
+			$table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+			$table->integer('locatario_id')->unsigned();
+			$table->foreign('locatario_id')->references('id')->on('locatarios')->onDelete('cascade');
+
+			$table->timestamps();
+		});
+
 		Schema::create('contatos', function (Blueprint $table) {
 			$table->increments('id');
-			$table->string('razao', 255);
+			$table->string('razao', 255)->nullable();
 			$table->string('fantasia', 255)->nullable();
-			$table->boolean('tipo');
+
+			$table->integer('tipo_id')->nullable()->unsigned();
+			$table->foreign('tipo_id')->references('id')->on('tiposcontatos')->onDelete('set null');
+
 			$table->string('documento', 255)->nullable();
 			$table->string('inscricao', 255)->nullable();
-			$table->string('fone', 255);
-			$table->text('cidade');
-			$table->string('endereco', 255);
-			$table->string('cep', 255);
+			$table->string('fone', 255)->nullable();
+			$table->text('cidade')->nullable();
+			$table->string('endereco', 255)->nullable();
+			$table->string('cep', 255)->nullable();
 			$table->string('responsavel', 255)->nullable();
 			$table->string('email', 255)->nullable();
 			$table->string('site', 255)->nullable();
-			$table->dateTime('data');
+			$table->text('crea')->nullable();
 
 			$table->integer('cliente_id')->unsigned();
 			$table->foreign('cliente_id')->references('id')->on('clientes')->onDelete('cascade');
@@ -90,17 +105,6 @@ class CreateSteel4webTables extends Migration {
 
 			$table->timestamps();
 		});
-
-		Schema::create('tiposcontatos', function (Blueprint $table) {
-			$table->increments('id');
-			$table->text('descricao')->nullable();
-
-			$table->integer('user_id')->unsigned();
-			$table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-			$table->integer('locatario_id')->unsigned();
-			$table->foreign('locatario_id')->references('id')->on('locatarios')->onDelete('cascade');
-		});
-
 		// Schema::create('estados', function(Blueprint $table) {
 		//         $table->increments('estadoid');
 		//         $table->string('nome', 255);
@@ -137,7 +141,6 @@ class CreateSteel4webTables extends Migration {
 			$table->integer('detalhamentoid')->nullable();
 			$table->integer('montagemid')->nullable();
 
-			$table->dateTime('data');
 			$table->integer('status')->nullable();
 
 			$table->integer('user_id')->unsigned();
@@ -164,7 +167,7 @@ class CreateSteel4webTables extends Migration {
 			// $table->boolean('escadas')->nullable();
 			// $table->boolean('corrimao')->nullable();
 			// $table->string('outro', 255)->nullable();
-			// $table->text('observacao')->nullable();
+			$table->text('observacao')->nullable();
 
 			$table->integer('obra_id')->nullable()->unsigned();
 			$table->foreign('obra_id')->references('id')->on('obras')->onDelete('cascade');
@@ -1192,17 +1195,17 @@ class CreateSteel4webTables extends Migration {
 		});
 		Schema::drop('logs');
 
+		Schema::table('contatos', function (Blueprint $table) {
+			$table->dropForeign('contatos_tipo_id_foreign');
+			$table->dropForeign('contatos_user_id_foreign');
+			$table->dropForeign('contatos_locatario_id_foreign');
+		});
+		Schema::drop('contatos');
 		Schema::table('tiposcontatos', function (Blueprint $table) {
 			$table->dropForeign('tiposcontatos_user_id_foreign');
 			$table->dropForeign('tiposcontatos_locatario_id_foreign');
 		});
 		Schema::drop('tiposcontatos');
-
-		Schema::table('contatos', function (Blueprint $table) {
-			$table->dropForeign('contatos_user_id_foreign');
-			$table->dropForeign('contatos_locatario_id_foreign');
-		});
-		Schema::drop('contatos');
 
 		Schema::table('clientes', function (Blueprint $table) {
 			$table->dropForeign('clientes_user_id_foreign');

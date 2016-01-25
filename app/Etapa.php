@@ -10,6 +10,7 @@ class Etapa extends Model {
 	protected $fillable = [
 		'codigo',
 		'peso',
+		'observacao',
 		'obra_id',
 		'user_id',
 		'locatario_id',

@@ -20,7 +20,7 @@ class Contato extends Model {
 		'responsavel',
 		'email',
 		'site',
-		'data',
+		'crea',
 		'cliente_id',
 		'user_id',
 		'locatario_id',
@@ -56,5 +56,13 @@ class Contato extends Model {
 	 */
 	public function locatario() {
 		return $this->belongsTo('App\Locatario');
+	}
+
+	/**
+	 * Get the Obra of the Contato
+	 * @return Relationship belongsTo
+	 */
+	public function obras() {
+		return $this->belongsToMany('App\Obra', 'contato_obra');
 	}
 }

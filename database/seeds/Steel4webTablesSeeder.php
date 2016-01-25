@@ -1,11 +1,11 @@
 <?php
 
 use App\Cliente;
+use App\Contato;
 use App\Etapa;
 use App\Locatario;
 use App\Obra;
 use App\Subetapa;
-use Carbon\Carbon as Carbon;
 use Faker\Factory as Faker;
 use Illuminate\Database\Seeder;
 
@@ -51,7 +51,6 @@ class Steel4webTablesSeeder extends Seeder {
 			'cep' => '95320-000',
 			'email' => $faker->email(),
 			'status' => false,
-			'data' => Carbon::now(),
 		];
 
 		// DB::table('locatarios')->insert($locatarios);
@@ -62,7 +61,7 @@ class Steel4webTablesSeeder extends Seeder {
 		$user_model = new $user_model;
 		$user_model::first()->locatario_id = $locatario->id;
 
-		echo "Locatario  " . $locatario->fantasia . " criado com sucesso!\n";
+		echo "Locatario '" . $locatario->fantasia . "' criado com sucesso!\n";
 
 		// CLIENTE
 		$cliente_data = [
@@ -81,7 +80,7 @@ class Steel4webTablesSeeder extends Seeder {
 		];
 		$cliente = Cliente::create($cliente_data);
 
-		echo "Cliente  " . $cliente->fantasia . " criado com sucesso!\n";
+		echo "Cliente  '" . $cliente->fantasia . "'' criado com sucesso!\n";
 
 		$obra_data = [
 			'codigo' => $faker->phoneNumber(),
@@ -95,7 +94,6 @@ class Steel4webTablesSeeder extends Seeder {
 			'calculistaid' => NULL,
 			'detalhamentoid' => NULL,
 			'montagemid' => NULL,
-			'data' => Carbon::now(),
 			'status' => true,
 			'user_id' => $user_model::first()->id,
 			'locatario_id' => $locatario->id,
@@ -103,11 +101,54 @@ class Steel4webTablesSeeder extends Seeder {
 
 		$obra = Obra::create($obra_data);
 
-		echo "Obra  " . $obra->nome . " criada com sucesso!\n";
+		echo "Obra  '" . $obra->nome . "' criada com sucesso!\n";
+
+		$contato_data = [
+			'razao' => $faker->company(),
+			'fantasia' => $faker->company(),
+			'tipo_id' => NULL,
+			'documento' => NULL,
+			'inscricao' => NULL,
+			'fone' => $faker->phoneNumber(),
+			'cidade' => $faker->city(),
+			'endereco' => $faker->address(),
+			'cep' => '95320-000',
+			'responsavel' => NULL,
+			'email' => $faker->email(),
+			'site' => NULL,
+			'cliente_id' => $cliente->id,
+			'user_id' => $user_model::first()->id,
+			'locatario_id' => $locatario->id,
+		];
+		$contato = Contato::create($contato_data);
+		$contato->obras()->attach($obra->id);
+		echo "Contato  '" . $contato->fantasia . "'' vinculado a obra '" . $obra->nome . "'' com sucesso!\n";
+
+		$contato_data = [
+			'razao' => $faker->company(),
+			'fantasia' => $faker->company(),
+			'tipo_id' => NULL,
+			'documento' => NULL,
+			'inscricao' => NULL,
+			'fone' => $faker->phoneNumber(),
+			'cidade' => $faker->city(),
+			'endereco' => $faker->address(),
+			'cep' => '95320-000',
+			'responsavel' => NULL,
+			'email' => $faker->email(),
+			'site' => NULL,
+			'cliente_id' => $cliente->id,
+			'user_id' => $user_model::first()->id,
+			'locatario_id' => $locatario->id,
+		];
+		$contato = Contato::create($contato_data);
+		$contato->obras()->attach($obra->id);
+		echo "Contato  '" . $contato->fantasia . "'' vinculado a obra '" . $obra->nome . "'' com sucesso!\n";
 
 		$etapa_data = [
 			'codigo' => $faker->phoneNumber(),
 			'peso' => 10234,
+			'observacao' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quasi nulla fuga quod sed, tempora quo cumque! Consectetur optio labore tenetur unde aliquam, harum eligendi delectus voluptatem. Alias voluptate tempore libero.',
 			'obra_id' => $obra->id,
 			'user_id' => $user_model::first()->id,
 			'locatario_id' => $locatario->id,

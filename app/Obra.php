@@ -18,7 +18,6 @@ class Obra extends Model {
 		'calculistaid',
 		'detalhamentoid',
 		'montagemid',
-		'data',
 		'status',
 		'user_id',
 		'locatario_id',
@@ -35,7 +34,6 @@ class Obra extends Model {
 		'calculistaid',
 		'detalhamentoid',
 		'montagemid',
-		'data',
 		'status',
 		'user_id',
 		'locatario_id',
@@ -96,5 +94,13 @@ class Obra extends Model {
 	 */
 	public function handles() {
 		return $this->hasMany('App\Handle');
+	}
+
+	/**
+	 * Get the Contatos of the Obras
+	 * @return Relationship belongsTo
+	 */
+	public function contatos() {
+		return $this->belongsToMany('App\Contato', 'contato_obra');
 	}
 }

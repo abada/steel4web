@@ -19,7 +19,6 @@ class Locatario extends Model {
 		'cep',
 		'email',
 		'status',
-		'data',
 	);
 	protected $visible = array(
 		'razao',
@@ -33,7 +32,6 @@ class Locatario extends Model {
 		'cep',
 		'email',
 		'status',
-		'data',
 	);
 
 	// REVERSE RELATIONS...
