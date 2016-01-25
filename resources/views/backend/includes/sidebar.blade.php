@@ -34,14 +34,14 @@
             <li class="{{ Active::pattern('admin/dashboard') }}">
                 <a href="{!! route('admin.dashboard') !!}"><i class="fa fa-dashboard fa-fw"></i><span> Painel de Controle</span></a>
             </li>
-            <li class="{{ Active::pattern('admin/lo') }}">
-                <a href="{!! route('admin.dashboard') !!}"><i class="fa fa-users fa-fw"></i><span> Clientes</span></a>
+            <li class="{{ Active::pattern('clientes') }}">
+                <a href="{!! route('clientes') !!}"><i class="fa fa-users fa-fw"></i><span> Clientes</span></a>
             </li>
             <li class="{{ Active::pattern('obras') }}">
                 <a href="{!! route('obras') !!}"><i class="fa fa-building-o fa-fw"></i><span> Obras</span></a>
             </li>
-            <li class="{{ Active::pattern('admin/lo') }}">
-                <a href="{!! route('admin.dashboard') !!}"><i class="fa fa-phone fa-fw"></i><span> Contatos</span></a>
+            <li class="{{ Active::pattern('contatos') }}">
+                <a href="{!! route('contatos') !!}"><i class="fa fa-phone fa-fw"></i><span> Contatos</span></a>
             </li>
             <li class="{{ Active::pattern('admin/lo') }}">
                 <a href="{!! route('admin.dashboard') !!}"><i class="fa fa-user fa-fw"></i><span> Usuários</span></a>

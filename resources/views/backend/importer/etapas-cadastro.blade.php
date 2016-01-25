@@ -18,7 +18,7 @@ if (isset($edicao)) {
     <div class="row">
         <div class="col-lg-4">
             <div class="panel panel-default">
-                <div class="panel-heading">
+                <div class="panel-heading bg-navy">
                     <?=$title;?> de etapa
                 </div>
                 <div class="panel-body">
@@ -35,71 +35,13 @@ if (isset($edicao)) {
                                 </div>
 
                                 <div class="form-group">
-                                    <label>Detalhes da etapa</label>
-                                    <div class="checkbox">
-                                        <label>
-                                            <input type="checkbox" name="estruturaPrincipal" id="estruturaPrincipal" <?php if(isset($edicao) && $etapa->estruturaPrincipal == 1) echo 'checked'; ?>>Estrutura Principal
-                                        </label>
-                                    </div>
-                                    <div class="checkbox">
-                                        <label>
-                                            <input type="checkbox" name="estruturaSecundaria" id="estruturaSecundaria" <?php if(isset($edicao) && $etapa->estruturaSecundaria == 1) echo 'checked'; ?>>Estrutura Secundária
-                                        </label>
-                                    </div>
-                                    <div class="checkbox">
-                                        <label>
-                                            <input type="checkbox" name="telhasCobertura" id="telhasCobertura" <?php if(isset($edicao) && $etapa->telhasCobertura == 1) echo 'checked'; ?>>Telhas de cobertura
-                                        </label>
-                                    </div>
-                                    <div class="checkbox">
-                                        <label>
-                                            <input type="checkbox" name="telhasFechamento" id="telhasFechamento" <?php if(isset($edicao) && $etapa->telhasFechamento == 1) echo 'checked'; ?>>Telhas de fechamento
-                                        </label>
-                                    </div>
-                                    <div class="checkbox">
-                                        <label>
-                                            <input type="checkbox" name="calhas" id="calhas" <?php if(isset($edicao) && $etapa->calhas == 1) echo 'checked'; ?>>Calhas
-                                        </label>
-                                    </div>
-                                    <div class="checkbox">
-                                        <label>
-                                            <input type="checkbox" name="rufosArremates" id="rufosArremates" <?php if(isset($edicao) && $etapa->rufosArremates == 1) echo 'checked'; ?>>Rufos e Arremates
-                                        </label>
-                                    </div>
-                                    <div class="checkbox">
-                                        <label>
-                                            <input type="checkbox" name="steelDeck" id="steelDeck" <?php if(isset($edicao) && $etapa->steelDeck == 1) echo 'checked'; ?>>SteelDeck
-                                        </label>
-                                    </div>
-                                    <div class="checkbox">
-                                        <label>
-                                            <input type="checkbox" name="gradesPiso" id="gradesPiso" <?php if(isset($edicao) && $etapa->gradesPiso == 1) echo 'checked'; ?>>Grades e Piso
-                                        </label>
-                                    </div>
-                                    <div class="checkbox">
-                                        <label>
-                                            <input type="checkbox" name="escadas" id="escadas" <?php if(isset($edicao) && $etapa->escadas == 1) echo 'checked'; ?>>Escadas
-                                        </label>
-                                    </div>
-                                    <div class="checkbox">
-                                        <label>
-                                            <input type="checkbox" name="corrimao" id="corrimao" <?php if(isset($edicao) && $etapa->corrimao == 1) echo 'checked'; ?>>Corrimão
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label>Outro:</label>
-                                    <input class="form-control" name="outro" id="outro" <?php if (isset($edicao)) echo 'value="' . $etapa->outro . '"' ?>>
-                                </div>
-
-                                <div class="form-group">
                                     <label>Observação:</label>
                                     <textarea class="form-control" rows="3" id="observacao" name="observacao"><?php if (isset($edicao) && $etapa->observacao != '') echo $etapa->observacao;?></textarea>
                                 </div>
 
 
                                 <?php if (isset($edicao)) { ?>
-                                <input type="hidden" name="etapaID" id="etapaID" value="<?=$etapa->etapaID;?>">
+                                <input type="hidden" name="etapaID" id="etapaID" value="<?=$etapa->id;?>">
                                 <?php } ?>
                                 <input type="hidden" name="obraID" id="obraID" value="<?=$obraID;?>">
 
@@ -117,7 +59,7 @@ if (isset($edicao)) {
         </div>
         <!-- /.col-lg-4 -->
         <div class="col-lg-4 hidden" id="tipoLoading" style="margin-top:20px;background:rgba(0,0,0,0)">
-              <img style="width:10%;margin-left:45%"src="<?=base_url('assets/img/ajax-loader.gif');?>">
+              <img style="width:10%;margin-left:45%"src="/img/ajax-loader.gif">
         </div>
         <div class="col-lg-4 hidden" id="tipoSuccess">
             <div class="panel panel-green">
@@ -153,5 +95,5 @@ if (isset($edicao)) {
             <!-- /.col-lg-4 -->
         </div>
     </div>
-    <a href="javascript:history.back()" type="button" class="btn btn-default"><< Voltar</a>
+    <a href="javascript:history.back()" type="button" class="btn btn-primary"><< Voltar</a>
 @endsection

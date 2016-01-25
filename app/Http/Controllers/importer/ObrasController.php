@@ -5,6 +5,7 @@ namespace App\Http\Controllers\importer;
 use Illuminate\Http\Request;
 use App\importer\obra;
 use App\importer\cliente;
+use App\importer\contato;
 use App\importer\etapa;
 use App\importer\subetapas;
 use App\Http\Requests;
@@ -26,12 +27,12 @@ class ObrasController extends Controller
     public function ver($id)
     {
         $obra         = obra::get_by_id($id);
-        $cliente      = cliente::get_by_id($obra->clienteID);
-        $construtora  = cliente::get_by_id($obra->construtoraID);
-        $gerenciadora = cliente::get_by_id($obra->gerenciadoraID);
-        $calculista   = cliente::get_by_id($obra->calculistaID);
-        $detalhamento = cliente::get_by_id($obra->detalhamentoID);
-        $montagem     = cliente::get_by_id($obra->montagemID);
+        $cliente      = cliente::get_by_id($obra->cliente_id);
+        $construtora  = contato::get_by_id($obra->construtoraid);
+        $gerenciadora = contato::get_by_id($obra->gerenciadoraid);
+        $calculista   = contato::get_by_id($obra->calculistaid);
+        $detalhamento = contato::get_by_id($obra->detalhamentoid);
+        $montagem     = contato::get_by_id($obra->montagemid);
         $etapas       = etapa::get_all($id);
         $cont = sizeof($etapas) - 1;
 

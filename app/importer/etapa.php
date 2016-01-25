@@ -11,9 +11,9 @@ use Auth;
 class etapa extends Model
 {
 
-	protected $fillable = ['codigoEtapa', 'peso', 'observacao', 'obra_ID'];
+	protected $fillable = ['codigo', 'peso', 'user_id', 'obra_id', 'locatario_id', 'observacao'];
     protected $table = 'etapas';
-    protected $primaryKey = 'etapaID';
+    protected $primaryKey = 'id';
 
     function __construct()
     {
@@ -23,10 +23,10 @@ class etapa extends Model
     public static function get_by_id($id)
     {
        $query = 	DB::table('etapas')->select('*')
-            ->leftJoin('obras', 'obras.obraID', '=', 'etapas.obraID')
-            ->join('clientes', 'clientes.clienteID', '=', 'obras.clienteID')
-            ->where($this->tableID, $id)
-            ->where('clientes.locatarioID', access()->user()->locatarioID)
+            ->leftJoin('obras', 'obras.id', '=', 'etapas.obra_id')
+            ->join('clientes', 'clientes.id', '=', 'obras.cliente_id')
+            ->where('id', $id)
+            ->where('clientes.locatario_id', access()->user()->locatario_id)
             ->get();
 
        if($query):
@@ -41,9 +41,9 @@ class etapa extends Model
          $query = 	DB::table('etapas')
     		->select('*')
             ->where($field, $value)
-            ->leftJoin('obras', 'obras.obraID', '=', 'etapas.obraID')
-            ->leftJoin('clientes', 'clientes.clienteID', '=', 'obras.clienteID')
-            ->where('clientes.locatarioID', access()->user()->locatarioID)
+            ->leftJoin('obras', 'obras.id', '=', 'etapas.obra_id')
+            ->leftJoin('clientes', 'clientes.id', '=', 'obras.cliente_id')
+            ->where('clientes.locatario_id', access()->user()->locatario_id)
             ->get();
 
         
@@ -56,33 +56,24 @@ class etapa extends Model
 
     	 $query = 	DB::table('etapas')
     		->select('*')
-            ->where($field, $value)
-            ->leftJoin('obras', 'obras.obraID', '=', 'etapas.obraID')
-            ->leftJoin('clientes', 'clientes.clienteID', '=', 'obras.clienteID')
-            ->where('clientes.locatarioID', access()->user()->locatarioID)
+            ->leftJoin('obras', 'obras.id', '=', 'etapas.obra_id')
+            ->leftJoin('clientes', 'clientes.id', '=', 'obras.cliente_id')
+            ->where('clientes.locatario_id', access()->user()->locatario_id)
             ->where('obras.'.$field, $value)
             ->get();
 
             return $query;
     }
-    public static function get_all($obraID)
+    public static function get_all($obra_id)
     {
        $query = DB::table('etapas')
-            ->leftJoin('obras', 'obras.obraID', '=', 'etapas.obraID')
-            ->leftJoin('clientes', 'clientes.clienteID', '=', 'obras.clienteID')
-            ->where('clientes.locatarioID',  access()->user()->locatarioID)
-            ->where('etapas.obraID', $obraID)
-            ->orderby('codigoEtapa', 'asc')
+            ->select('*')
+            ->where('locatario_id',  access()->user()->locatario_id)
+            ->where('obra_id', $obra_id)
+            ->orderby('codigo', 'asc')
             ->get();
 
         return $query;
     }
 
-    public static function insert($attributes)
-    {	
-    	$data = DB::table('etapas')->insert($attributes);
-        if($data):
-            return $data->id();
-        endif;
-    }
 }

@@ -10,9 +10,9 @@ class locatarios extends Model
 {
     
 
-	protected $fillable = ['razao', 'fantasia', 'tipo', 'documento', 'inscricao', 'fone', 'endereco', 'cep', 'email', 'status', 'data'];
+	protected $fillable = ['razao', 'fantasia', 'tipo', 'documento', 'inscricao', 'fone', 'cidade', 'endereco', 'cep', 'email', 'status', 'data'];
     protected $table = 'locatarios';
-    protected $primaryKey = 'locatarioID';
+    protected $primaryKey = 'id';
 
      public static function get_all()
     {
@@ -25,7 +25,7 @@ class locatarios extends Model
     {
         $query = 	DB::table('locatarios')
                     ->select('*')
-                    ->where('locatarioID', $id)
+                    ->where('id', $id)
                     ->get();
 
 

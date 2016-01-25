@@ -8,8 +8,15 @@ if (isset($edicao)) {
     $name = 'form-cliente';
     $tipo = 'Cadastrar';
 }
+if(isset($contato)){
+    $name = 'form-contato';
+    $tipo = 'Cadastrar';
+}elseif(isset($contato) && isset($edicao)){
+     $name = 'form-contato-edita';
+    $tipo = 'Editar';
+}
 if(isset($disable)){
-    $tipo = 'Perfil';
+    $tipo = 'Perfil de ';
     $name = '';
 }
 ?>
@@ -17,7 +24,7 @@ if(isset($disable)){
 
 @section('page-header')
     <h1>
-        <?=$tipo;?> de Cliente
+        <?=$tipo;?> Cliente
     </h1>
 @endsection
 
@@ -25,8 +32,8 @@ if(isset($disable)){
     <div class="row">
         <div class="col-lg-8">
             <div class="panel panel-default">
-                <div class="panel-heading">
-                    <?=$tipo;?> de cliente
+                <div class="panel-heading bg-navy">
+                    <?=$tipo;?> cliente
                 </div>
                 <div class="panel-body">
                     <div class="row">
@@ -67,28 +74,6 @@ if(isset($disable)){
                             </div>
                             <!-- /.col-lg-6 (nested) -->
                             <div class="col-lg-6">
-                                <div class="form-group">
-                                    <label for="estado">Seu Estado</label>
-                                    <select class="form-control" id="estado" name="estado"  onchange='search_cities($(this).val())' <?php if (isset($disable)) echo 'disabled'; ?>>
-                                        <option>Selecione...</option>
-                                         <?php
-                                            foreach ($estados as $estado) {
-                                        ?>
-                                        <option value="<?= $estado->estadoID; ?>" <?php if (isset($edicao) && $estadoDados->estadoID == $estado->estadoID) echo 'selected'; ?>><?= $estado->nome . ' - ' . $estado->uf; ?></option>
-                                        <?php } ?>
-                                    </select>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="cidade">Sua Cidade</label>
-                                     <select class="form-control" id="cidade" name="cidade" <?php if (isset($disable)) echo 'disabled'; ?>>
-                                        <?php if (isset($edicao) && isset($cidadeDados)){ ?>
-                                        <option value="<?= $cidadeDados->cidadeID; ?>" <?php if (isset($edicao)) echo 'selected'; ?>><?= $cidadeDados->nome; ?></option>
-                                        <?php } else { ?>
-                                        <option>Selecione o Estado...</option>
-                                        <?php } ?>
-                                    </select>
-                                </div>
 
                                 <div class="form-group">
                                     <label>Endereço:</label>
@@ -100,12 +85,20 @@ if(isset($disable)){
                                     <input class="form-control cep" name="cep" id="cep" <?php if (isset($edicao)) echo 'value="' . $cliente->cep . '"' ?> <?php if (isset($disable)) echo 'disabled'; ?>>
                                 </div>
 
-                                <input type="hidden" name="cliente" id="cliente" value="1">
-                                <?php if (isset($edicao)) { ?>
-                                <input type="hidden" name="clienteID" id="clienteID" value="<?=$clienteID;?>">
+                                <div class="form-group">
+                                    <label>Site:</label>
+                                    <input class="form-control site" name="site" id="site" <?php if (isset($edicao)) echo 'value="' . $cliente->site . '"' ?> <?php if (isset($disable)) echo 'disabled'; ?>>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Responsavel:</label>
+                                    <input class="form-control responsavel" name="responsavel" id="responsavel" <?php if (isset($edicao)) echo 'value="' . $cliente->responsavel . '"' ?> <?php if (isset($disable)) echo 'disabled'; ?>>
+                                </div>
+                                <?php if (isset($edicao) || isset($disable)){ ?>
+                                <input type="hidden" name="id" id="id" value="{{$cliente->id}}">
                                 <?php } ?>
                                 <?php if (isset($disable)) { ?>
-                                <a href="<?=base_url() . 'saas/clientes/editar/' . $clienteID?>" type="button" class="btn btn-primary btn-block">Editar</a>
+                                <a href="editar/{{$cliente->id}}" type="button" class="btn btn-primary btn-block">Editar</a>
                                 <?php } else { ?>
                                 <button type="submit" class="btn btn-primary btn-block">Gravar</button>
                                 <?php } ?>
@@ -122,7 +115,7 @@ if(isset($disable)){
         </div>
         <!-- /.col-lg-4 -->
         <div class="col-lg-4 hidden" id="tipoLoading" style="margin-top:20px;background:rgba(0,0,0,0)">
-              <img style="width:10%;margin-left:45%"src="<?=base_url('assets/img/ajax-loader.gif');?>">
+              <img style="width:10%;margin-left:45%" src="/img/ajax-loader.gif">
         </div>
         <div class="col-lg-4 hidden" id="tipoSuccess">
             <div class="panel panel-green">
@@ -158,15 +151,6 @@ if(isset($disable)){
             <!-- /.col-lg-4 -->
         </div>
     </div>
-    <a href="javascript:history.back()" type="button" class="btn btn-default"><< Voltar</a>
+    <a href="javascript:history.back()" type="button" class="btn btn-primary"><< Voltar</a>
 
-<script type="text/javascript">
-   function search_cities(estadoID){
-        $.post("<?=base_url();?>service/enderecos/cidades", {
-            estadoID : estadoID
-        }, function(data){
-            $('#cidade').html(data);
-        });
-    };
-</script>
 @endsection

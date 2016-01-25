@@ -56,28 +56,30 @@ class handle_temp extends Model
 		'FLG_DWG',
 		'obra',
 		'id',
-		'fklote',
-		'fkestagio',
+		'lote_id',
+		'estagio_id',
 		'GROUP',
 		'fketapa',
 		'CATE',
-		'fkImportacao',
-		'fkpreparacao',
-		'fkmedicao',
+		'importacao_id',
+		'preparacao_id',
+		'medicao_id',
 		'X',
 		'Y',
 		'Z',
 		'A',
-		'B'
+		'B',
+		'user_id',
+		'locatario_id'
 	];
 
-	protected $table = 'temp_temp_tbhandle';
+	protected $table = 'temp_handles';
     protected $primaryKey = 'id';
 
      public static function get_by_id($id)
     { 
-    	$data = 	DB::table('temp_tbhandle')
-       			->where('locatarioID',  access()->user()->locatarioID)
+    	$data = 	DB::table('temp_handles')
+       			->where('locatario_id',  access()->user()->locatario_id)
        			->where('id', $id)
        			->get();
 
@@ -90,7 +92,7 @@ class handle_temp extends Model
 
     public static function get_by_field($field, $value, $limit = null)
     {
-       $data = 	DB::table('temp_tbhandle')->where($field, $value);
+       $data = 	DB::table('temp_handles')->where($field, $value);
 
         if(!$limit == null){
            $data->take($limit);
@@ -106,8 +108,8 @@ class handle_temp extends Model
 
     public static function get_all()
     {
-       $data =  DB::table('temp_tbhandle')
-                        ->where('locatario_ID',  access()->user()->locatarioID)
+       $data =  DB::table('temp_handles')
+                        ->where('locatario_ID',  access()->user()->locatario_id)
 
                         ->get();
         return $data;
@@ -115,7 +117,7 @@ class handle_temp extends Model
 
         public static function insert($attributes)
     {
-       $data = DB::table('temp_tbhandle')->insert($attributes);
+       $data = DB::table('temp_handles')->insert($attributes);
         if($data):
             return $data->id();
         endif;

@@ -189,8 +189,3 @@
     </div>
     <?php } ?>
 </div>
-<div class="row">
-    <div class="col-lg-12 col-md-12 text-left">
-        <a href="javascript:history.back()" type="button" class="btn btn-default"><< Voltar</a>
-    </div>
-</div>

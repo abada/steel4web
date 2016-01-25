@@ -1,4 +1,7 @@
 $(document).ready(function() {
+  $('#dataTables').DataTable({
+        responsive: true
+    });
     var table = $('#lotPointer').DataTable();
  
     $('#formButton').click( function() {

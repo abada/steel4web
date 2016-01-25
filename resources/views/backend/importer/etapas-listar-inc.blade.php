@@ -9,35 +9,18 @@
                 <div class="panel panel-info">
                     <div class="panel-heading">
                         <span class="text-left">
-                            <a href="#" title="Editar">Código: <?=$etapa->codigoEtapa;?></a>
+                            <a href="#" title="Editar">Código: <?=$etapa->codigo;?></a>
                         </span>
                         <span class="pull-right">
                              <a href="#
-                            " onclick="return confirma_exclusao('<?='Código ' . $etapa->codigoEtapa;?>')" ><i class="fa fa-times"></i> Excluir</a>
+                            " onclick="return confirma_exclusao('<?='Código ' . $etapa->codigo;?>')" ><i class="fa fa-times"></i> Excluir</a>
                         </span>
                     </div>
                     <!-- /.panel-heading -->
                     <div class="panel-body">
 
                         <strong>Peso: </strong><?=$etapa->peso;?><br /><br />
-                        <strong>Detalhes da etapa:</strong><br /><br />
-                        <?php if($etapa->estruturaPrincipal == 1) echo '<p class="fa fa-check"> Estrutura Principal</p><br />';?>
-                        <?php if($etapa->estruturaSecundaria == 1) echo '<p class="fa fa-check"> Estrutura Secundária</p><br />';?>
-                        <?php if($etapa->telhasCobertura == 1) echo '<p class="fa fa-check"> Telhas de cobertura</p><br />';?>
-                        <?php if($etapa->telhasFechamento == 1) echo '<p class="fa fa-check"> Telhas de fechamento</p><br />';?>
-                        <?php if($etapa->calhas == 1) echo '<p class="fa fa-check"> Calhas</p><br />';?>
-                        <?php if($etapa->rufosArremates == 1) echo '<p class="fa fa-check"> Rufos e arremates</p><br />';?>
-                        <?php if($etapa->steelDeck == 1) echo '<p class="fa fa-check"> SteelDeck</p><br />';?>
-                        <?php if($etapa->gradesPiso == 1) echo '<p class="fa fa-check"> Grades e pisos</p><br />';?>
-                        <?php if($etapa->escadas == 1) echo '<p class="fa fa-check"> Escadas</p><br />';?>
-                        <?php if($etapa->corrimao == 1) echo '<p class="fa fa-check"> Corrimão</p><br />';?>
-
-                        <?php if(isset($etapa->outro) && $etapa->outro != '') echo '<p class="fa fa-check"> <strong>Outro:</strong> ' . $etapa->outro . '<p><br />';?>
-                        <?php if(isset($etapa->observacao) && $etapa->observacao != '') { ?>
-                        <br /><em><strong>Observações:</strong></em><br />
-                        <em><?=$etapa->observacao;?></em>
-                        <?php } ?>
-
+                       
                         <hr />
                         <?php if(!empty($etapa->subetapas) && $etapa->subetapas != ''){ ?>
                         <h4>Subetapas Cadastradas:</h4>
@@ -67,14 +50,14 @@
             <?php } ?>
 
         <div class="col-lg-12 col-md-12 text-right">
-           <a href="#" type="button" class="btn btn-primary">Cadastrar etapa</a>
+           <a href="../etapa/cadastro/{{$obra->id}}" type="button" class="btn btn-primary">Cadastrar etapa</a>
         </div>
         <!-- /.panel -->
     </div>
 </div>
 <script>
-    function confirma_exclusao(codigoEtapa) {
-        if (!confirm("Deseja realmente excluir a etapa: '" + codigoEtapa + "' ?")) {
+    function confirma_exclusao(codigo) {
+        if (!confirm("Deseja realmente excluir a etapa: '" + codigo + "' ?")) {
             return false;
         }
         return true;

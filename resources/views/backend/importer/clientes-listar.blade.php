@@ -7,17 +7,28 @@
 @endsection
 
 @section('content')
+<?php 
+    if(isset($contato)){
+        $name = 'Contatos';
+        $nome2 = 'Contato';
+        $type = 'contato';
+    }else{
+        $name = 'Clientes';
+        $nome2 = 'Cliente';
+        $type = 'cliente';
+    }
+ ?>
     <div class="row">
         <div class="col-lg-12">
             <div class="panel panel-default">
-                <div class="panel-heading">
-                    Listagem de clientes
+                <div class="panel-heading bg-navy">
+                    Listagem de {{$name}}
                 </div>
                 <?php if (!empty($clientes)) { ?>
                 <!-- /.panel-heading -->
                 <div class="panel-body">
                     <div class="dataTable_wrapper">
-                        <table class="table table-striped table-bordered  dt-responsive nowrap table-hover" cellspacing="0" width="100%" id="dataTables">
+                        <table class="table table-striped table-bordered  dt-responsive nowrap table-hover dataTables" cellspacing="0" width="100%" id="dataTables">
                             <thead>
                                 <tr>
                                     <th>Razão Social</th>
@@ -33,16 +44,16 @@
                                     $tipo = 'Física';
                                 } else {
                                     $tipo = 'Jurídico';
-                                }
+                                } 
                                 ?>
                                 <tr class="stripped">
-                                    <td><a href="<?=base_url() . 'saas/clientes/ver/' . $cliente->clienteID;?>"><?=$cliente->razao;?></a></td>
+                                    <td><a href="{{$type}}/{{$cliente->id}}"><?=$cliente->razao;?></a></td>
                                     <td><?=$cliente->fantasia;?></td>
                                     <td class="telefone"><?=$cliente->fone;?></td>
                                     <td class="text-center"><?=$tipo;?></td>
                                      <td>
                                         <div class="text-center">
-                                            <a href="<?=base_url() . 'saas/clientes/editar/' . $cliente->clienteID;?>" alt="Editar cliente" title="Editar cliente">
+                                            <a href="{{$type}}/editar/{{$cliente->id}}" alt="Editar cliente" title="Editar cliente">
                                                 <i class="fa fa-edit fa-fw"></i>
                                             </a>
                                         </div>
@@ -67,18 +78,11 @@
         </div>
         <!-- /.col-lg-12 -->
         <div class="col-lg-6 col-md-6">
-            <a href="javascript:history.back()" type="button" class="btn btn-default"><< Voltar</a>
+            <a href="javascript:history.back()" type="button" class="btn btn-primary"><< Voltar</a>
         </div>
         <div class="col-lg-6 col-md-6 text-right">
-           <a href="<?=base_url('saas/clientes/cadastrar/');?>" type="button" class="btn btn-primary">Cadastrar cliente</a>
+           <a href="{{$type}}/cadastro" type="button" class="btn btn-primary">Cadastrar {{$nome2}}</a>
         </div>
     </div>
 
-<script type="text/javascript">
-$(document).ready(function() {
-    $('#dataTables').DataTable({
-        responsive: true
-    });
-});
-</script>
 @endsection

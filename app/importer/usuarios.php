@@ -9,14 +9,14 @@ use Auth;
 
 class usuarios extends Model
 {
-    protected $fillable = ['name', 'password', 'email', 'status', 'locatarioID'];
+    protected $fillable = ['name', 'password', 'email', 'status', 'locatario_id', 'confirmed', 'remember_token', 'confirmation_token'];
     protected $table = 'users';
     protected $primaryKey = 'id';
 
     public static function get_by_id($id)
     {
         $data = 	DB::table('users')
-       			->where('locatarioID',  access()->user()->locatarioID)
+       			->where('locatario_id',  access()->user()->locatario_id)
        			->where('id', $id)
        			->get();
 
@@ -33,7 +33,7 @@ class usuarios extends Model
        $data = 	DB::table('users')
                     		->select('*')
                             ->where($field, $value)
-                            ->where('locatarioID',  access()->user()->locatarioID)
+                            ->where('locatario_id',  access()->user()->locatario_id)
                     		->get();
 
         if($data):
@@ -48,7 +48,7 @@ class usuarios extends Model
         #Method Chaining APENAS PHP >= 5
          $data = 	DB::table('users')
                     		->select('*')
-                    		->where('locatarioID',  access()->user()->locatarioID)
+                    		->where('locatario_id',  access()->user()->locatario_id)
                     		->get();
 
        if($data):
@@ -62,7 +62,7 @@ class usuarios extends Model
     {
          $data = 	DB::table('users')
                     		->select('*')
-                    		->where('locatarioID',  access()->user()->locatarioID)
+                    		->where('locatario_id',  access()->user()->locatario_id)
                     		->order_by('id', 'desc')->take(10)->get();
        
         return $data;

@@ -9,16 +9,16 @@ use Auth;
 class obra extends Model
 {
 
-	protected $fillable = ['codigo', 'nome', 'descricao', 'cidadeID', 'endereco', 'cep', 'clienteID', 'construtoraID','gerenciadoraID', 'calculistaID', 'detalhamentoID', 'montagemID', 'data', 'status' ];
+	protected $fillable = ['codigo', 'nome', 'descricao', 'cidade', 'endereco', 'cep', 'cliente_id', 'construtoraid','gerenciadoraid', 'calculistaid', 'detalhamentoid', 'montagemid', 'data', 'status', 'user_id', 'locatario_id' ];
     protected $table = 'obras';
-    protected $primaryKey = 'obraID';
+    protected $primaryKey = 'id';
 
      public static function get_all()
     {
         $query = 	DB::table('obras')
-        			->select('obras.obraID', 'obras.codigo AS codigoObra', 'obras.nome AS nomeObra', 'obras.data', 'clientes.razao', 'clientes.fantasia', 'status')
-        			 ->leftJoin('clientes', 'clientes.clienteID', '=', 'obras.clienteID')
-        			 ->where('clientes.locatarioID', access()->user()->locatarioID)
+        			->select('obras.id', 'obras.codigo AS codigoObra', 'obras.nome AS nomeObra', 'obras.data', 'clientes.razao', 'clientes.fantasia', 'status')
+        			 ->leftJoin('clientes', 'clientes.id', '=', 'obras.cliente_id')
+        			 ->where('obras.locatario_id', access()->user()->locatario_id)
                     ->get();
         return $query;
     }
@@ -27,9 +27,8 @@ class obra extends Model
     {
         $query = 	DB::table('obras')
                     ->select('*')
-                    ->leftJoin('clientes', 'clientes.clienteID', '=', 'obras.clienteID')
-                    ->where('obraID', $id)
-                    ->where('clientes.locatarioID',  access()->user()->locatarioID)
+                    ->where('id', $id)
+                    ->where('locatario_id',  access()->user()->locatario_id)
                     ->get();
 
 
@@ -45,7 +44,7 @@ class obra extends Model
          $query = 	DB::table('obras')
                     		->select('*')
                             ->where($field, $value)
-                            ->where('locatarioID',  access()->user()->locatarioID)
+                            ->where('locatario_id',  access()->user()->locatario_id)
                     		->get();
 
             return $query;
@@ -55,9 +54,9 @@ class obra extends Model
 	public static function get_all_order()
     {
         $query = 	DB::table('obras')
-        		->select('obras.obraID', 'obras.codigo AS codigoObra', 'obras.nome AS nomeObra', 'obras.data', 'clientes.razao', 'clientes.fantasia', 'status')
-                ->leftJoin('clientes', 'clientes.clienteID', '=', 'obras.clienteID')
-                ->where('clientes.locatarioID', access()->user()->locatarioID)
+        		->select('obras.id', 'obras.codigo AS codigoObra', 'obras.nome AS nomeObra', 'obras.data', 'clientes.razao', 'clientes.fantasia', 'status')
+                ->leftJoin('clientes', 'clientes.id', '=', 'obras.clienteID')
+                ->where('clientes.locatario_id', access()->user()->locatario_id)
                 ->orderby('status', 'desc')->take(10)
                 ->get();
         return $query;
@@ -66,8 +65,7 @@ class obra extends Model
      public static function get_all_right(){
          $query = 	DB::table('obras')
          	->select('*')
-            ->join('clientes', 'clientes.clienteID', '=', 'obras.clienteID')
-            ->where('clientes.locatarioID', access()->user()->locatarioID)
+            ->where('locatario_id', access()->user()->locatario_id)
             ->get();
         return $query;
     }
@@ -83,7 +81,7 @@ class obra extends Model
     public static function updat($id, $attributes)
     {
         $data = DB::table('obras')
-            ->where('obraID', $id)
+            ->where('id', $id)
             ->update($attributes);
 
         if($data):
@@ -94,7 +92,7 @@ class obra extends Model
 
     public static function del($id, $limit = null)
     {
-       $data = DB::table('obras')->where('obraID',$id)->delete();
+       $data = DB::table('obras')->where('id',$id)->delete();
 
         if($data):
             return true;

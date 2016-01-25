@@ -4,22 +4,27 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="_token" content="{{ csrf_token() }}" />
+        <meta name="csrf-token" content="{{ csrf_token() }}">
         <link rel="shortcut icon" href="{{{ asset('img/steel4web.ico') }}}">
 
         <title>@yield('title', 'Steel4Web')</title>
 
         <!-- Meta -->
         <meta name="description" content="@yield('meta_description', 'Default Description')">
-        <meta name="author" content="@yield('meta_author', 'Anthony Rappa')">
+        <meta name="author" content="@yield('meta_author', 'System3D')">
+        <meta name="_token" content="{{ csrf_token() }}" />
+
+    </script>
         @yield('meta')
 
         <!-- Styles -->
         @yield('before-styles-end')
         {!! Html::style(elixir('css/backend.css')) !!}
+        {!! Html::style(elixir('css/frontend.css')) !!}
+
+        
+        {{HTML::style('css/frontend/dataTables.min.css')}}
         {{HTML::style('css/frontend/custom.css')}}
-        {{HTML::style('css/frontend/dataTables.bootstrap.css')}}
-        {{HTML::style('css/frontend/dataTables.responsive.css')}}
         <link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet"/>
         @yield('after-styles-end')
 
@@ -58,13 +63,16 @@
     <!-- JavaScripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
     <script>window.jQuery || document.write('<script src="{{asset('js/vendor/jquery/jquery-2.1.4.min.js')}}"><\/script>')</script>
+    {!! Html::script('js/vendor/dataTables.min.js') !!}
     {!! Html::script('js/vendor/bootstrap/bootstrap.min.js') !!}
 
     @yield('before-scripts-end')
     {!! HTML::script(elixir('js/backend.js')) !!}
+
     @yield('after-scripts-end')
-     <script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
-     {!! Html::script('js/vendor/dataTables.bootstrap.min.js') !!}
+     
+   
+    <script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
     {!! Html::script('js/vendor/funcoes.js') !!}
     {!! Html::script('js/vendor/jquery.mask.min.js') !!}
     {!! Html::script('js/vendor/moment.js') !!}

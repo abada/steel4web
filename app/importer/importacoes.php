@@ -9,9 +9,9 @@ use Auth;
 
 class importacoes extends Model
 {
-    protected $fillable = ['name', 'password', 'email', 'status', 'locatarioID'];
+    protected $fillable = ['name', 'password', 'email', 'status', 'locatario_id'];
     protected $table = 'importacoes';
-    protected $primaryKey = 'importacaoID';
+    protected $primaryKey = 'id';
 
     function __construct()
     {
@@ -21,8 +21,8 @@ class importacoes extends Model
      public static function get_by_id($id)
     {
         $data = 	DB::table('importacoes')
-       			->where('locatarioID',  access()->user()->locatarioID)
-       			->where('importacaoID', $id)
+       			->where('locatario_id',  access()->user()->locatario_id)
+       			->where('id', $id)
        			->get();
 
 
@@ -38,7 +38,7 @@ class importacoes extends Model
        $data = 	DB::table('importacoes')
                     		->select('*')
                             ->where($field, $value)
-                            ->where('locatarioID',  access()->user()->locatarioID)
+                            ->where('locatario_id',  access()->user()->locatario_id)
                     		->get();
 
         if($data):
@@ -51,9 +51,9 @@ class importacoes extends Model
     public static function get_all()
     {
          $data = 	DB::table('importacoes')
-                		->select('obras.obraID', 'obras.codigo AS codigoObra', 'obras.nome AS nomeObra', 'obras.data', 'clientes.razao', 'clientes.fantasia')
-                        ->leftJoin('clientes', 'clientes.clienteID', '=', 'obras.clienteID')
-                        ->where('locatarioID',  access()->user()->locatarioID)
+                		->select('obras.id', 'obras.codigo AS codigoObra', 'obras.nome AS nomeObra', 'obras.data', 'clientes.razao', 'clientes.fantasia')
+                        ->leftJoin('clientes', 'clientes.id', '=', 'obras.cliente_id')
+                        ->where('locatario_id',  access()->user()->locatario_id)
                         ->get();
 
         return $query;
@@ -62,33 +62,33 @@ class importacoes extends Model
      public static function get_all_list()
     {
       $data =  DB::table('importacoes')
-                        ->where('locatarioID',  access()->user()->locatarioID)->get();
+                        ->where('locatario_id',  access()->user()->locatario_id)->get();
         return $data;
     } 
 
     public static function get_all_count(){
         $data =  DB::table('importacoes')
-                        ->where('locatarioID',  access()->user()->locatarioID)->get();
+                        ->where('locatario_id',  access()->user()->locatario_id)->get();
         return $data;
     }
 
       public static function get_all_order()
     {
         $data =  DB::table('importacoes')
-                        ->where('locatarioID',  access()->user()->locatarioID)
-                        ->orderby('importacaoID', 'desc')->take(10)->get();
+                        ->where('locatario_id',  access()->user()->locatario_id)
+                        ->orderby('id', 'desc')->take(10)->get();
         return $data;
     }
 
     public static function get_names($subetapaID)
     {
        $data =  DB::table('subetapas')
-       			->select('subetapas.codigoSubetapa', 'subetapas.etapaID', 'etapas.codigoEtapa', 'obras.nome', 'clientes.razao')
-                ->leftJoin('etapas', 'etapas.etapaID', '=', 'subetapas.etapaID')
-                ->leftJoin('obras', 'obras.obraID', '=', 'etapas.obraID')
-                ->join('clientes', 'clientes.clienteID', '=', 'obras.clienteID')
-                ->where('subetapas.subetapaID', $subetapaID)
-                ->where('clientes.locatarioID', access()->user()->locatarioID)
+       			->select('subetapas.codigoSubetapa', 'subetapas.etapa_id', 'etapas.codigo', 'obras.nome', 'clientes.razao')
+                ->leftJoin('etapas', 'etapas.id', '=', 'subetapas.etapa_id')
+                ->leftJoin('obras', 'obras.id', '=', 'etapas.obra_id')
+                ->join('clientes', 'clientes.id', '=', 'obras.cliente_id')
+                ->where('subetapas.id', $subetapaID)
+                ->where('clientes.locatario_id', access()->user()->locatario_id)
                 ->get();
 
         return $data;
@@ -97,12 +97,12 @@ class importacoes extends Model
     public static function get_dados($subetapaID)
     {
          $data =  DB::table('subetapas')
-         		->select('subetapas.subetapaID', 'subetapas.etapaID', 'etapas.obraID', 'obras.clienteID', 'clientes.locatarioID')
-                ->leftJoin('etapas', 'etapas.etapaID', '=', 'subetapas.etapaID')
-                ->leftJoin('obras', 'obras.obraID', '=', 'etapas.obraID')
-                ->join('clientes', 'clientes.clienteID', '=', 'obras.clienteID')
-                ->where('subetapas.subetapaID', $subetapaID)
-                ->where('clientes.locatarioID', access()->user()->locatarioID)
+         		->select('subetapas.id', 'subetapas.etapa_id', 'etapas.obra_id', 'obras.cliente_id', 'clientes.locatario_id')
+                ->leftJoin('etapas', 'etapas.id', '=', 'subetapas.etapa_id')
+                ->leftJoin('obras', 'obras.id', '=', 'etapas.obra_id')
+                ->join('clientes', 'clientes.id', '=', 'obras.cliente_id')
+                ->where('subetapas.subetapa_id', $subetapaID)
+                ->where('clientes.locatario_id', access()->user()->locatario_id)
                 ->get();
 
         return $data;
@@ -112,7 +112,7 @@ class importacoes extends Model
     {
          $data =  DB::table('importacoes')
          ->select('importacaoNr')
-            ->where('subetapaID', $subetapaID)
+            ->where('subetapa_id', $subetapaID)
             ->orderby('importacaoNr', 'desc')
             ->get();
 
@@ -130,10 +130,10 @@ class importacoes extends Model
    
 
     public static function getCoords($mar, $qtd){
-        $data =  DB::table('tbhandle')
-            ->join('obras', 'obras.obraID', '=', 'tbhandle.obra')
-            ->join('clientes', 'clientes.clienteID', '=', 'obras.clienteID')
-            ->where('clientes.locatarioID', access()->user()->locatarioID)
+        $data =  DB::table('handles')
+            ->join('obras', 'obras.id', '=', 'handles.obra')
+            ->join('clientes', 'clientes.id', '=', 'obras.cliente_id')
+            ->where('clientes.locatario_id', access()->user()->locatario_id)
             ->where('MAR_PEZ', $mar)
             ->where('FLG_REC', 3)
             ->orderby('X', 'asc') //Mode XY, -XY would be (X DESC Y ASC), -X-Y would be (X DESC Y DESC) and X-Y would be (X ASC Y DESC)
@@ -144,10 +144,10 @@ class importacoes extends Model
     }
 
     public static function getConjuntos($id){
-        $data =  DB::table('tbhandle')
+        $data =  DB::table('handles')
         ->distinct('MAR_PEZ')
              ->where('FLG_REC', 3)
-             ->where('fkimportacao', $id)
+             ->where('importacao_id', $id)
              ->groupby('MAR_PEZ')->get();
         return $data;
     }

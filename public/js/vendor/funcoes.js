@@ -1,65 +1,20 @@
 $(document).ready(function(){
+
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
     var Basepath = "http://localhost/new_s4w";
 
     // Inicio das regras de gravação de etapas do saas
     jQuery("#form-etapa").submit(function(e){
+        e.preventDefault();
         var codigoEtapa         = $("#codigoEtapa").val();
         var peso                = $("#peso").val();
-        var outro               = $("#outro").val();
-        var observacao          = $("#observacao").val();
         var obraID              = $("#obraID").val();
-
-        if($("#estruturaPrincipal").is(":checked")) {
-            var estruturaPrincipal = 1;
-        } else {
-            var estruturaPrincipal = 0;
-        }
-        if($("#estruturaSecundaria").is(":checked")) {
-            var estruturaSecundaria = 1;
-        } else {
-            var estruturaSecundaria = 0;
-        }
-        if($("#telhasCobertura").is(":checked")) {
-            var telhasCobertura = 1;
-        } else {
-            var telhasCobertura = 0;
-        }
-        if($("#telhasFechamento").is(":checked")) {
-            var telhasFechamento = 1;
-        } else {
-            var telhasFechamento = 0;
-        }
-        if($("#calhas").is(":checked")) {
-            var calhas = 1;
-        } else {
-            var calhas = 0;
-        }
-        if($("#rufosArremates").is(":checked")) {
-            var rufosArremates = 1;
-        } else {
-            var rufosArremates = 0;
-        }
-        if($("#steelDeck").is(":checked")) {
-            var steelDeck = 1;
-        } else {
-            var steelDeck = 0;
-        }
-        if($("#gradesPiso").is(":checked")) {
-            var gradesPiso = 1;
-        } else {
-            var gradesPiso = 0;
-        }
-        if($("#escadas").is(":checked")) {
-            var escadas = 1;
-        } else {
-            var escadas = 0;
-        }
-        if($("#corrimao").is(":checked")) {
-            var corrimao = 1;
-        } else {
-            var corrimao = 0;
-        }
-
+        var observacao          = $("#observacao").val();
 
         if (obraID != '' && codigoEtapa != '' && peso != '') {
             $('#tipoError2').addClass('hidden');
@@ -68,8 +23,8 @@ $(document).ready(function(){
             $('#tipoLoading').removeClass('hidden');
             jQuery.ajax({
                 type: "POST",
-                data: {codigoEtapa:codigoEtapa, peso:peso, estruturaPrincipal:estruturaPrincipal, estruturaSecundaria:estruturaSecundaria, telhasCobertura:telhasCobertura, telhasFechamento:telhasFechamento, calhas:calhas, rufosArremates:rufosArremates, steelDeck:steelDeck, gradesPiso:gradesPiso, escadas:escadas, corrimao:corrimao, outro:outro, observacao:observacao, obraID:obraID},
-                url: Basepath + "/saas/etapas/gravar",
+                data: {codigo:codigoEtapa, peso:peso,  obra_id:obraID, observacao:observacao},
+                url: "/etapa/gravar",
                 dataType: "html",
                 success: function(result){
                     if (result.substring(0,7) == 'sucesso') {
@@ -94,7 +49,7 @@ $(document).ready(function(){
          } else {
             alert('Verifique os campos obrigatórios!');
          }
-         e.preventDefault();
+        
     });
 
     // Inicio das regras de gravação de etapas do saas
@@ -388,6 +343,7 @@ $(document).ready(function(){
 
     // Inicio das regras de gravação de clientes
     jQuery("#form-cliente").submit(function(e){
+          e.preventDefault();
         var razao     = $("#razao").val();
         var fantasia  = $("#fantasia").val();
         var email     = $("#email").val();
@@ -395,19 +351,21 @@ $(document).ready(function(){
         var documento = $("#documento").val();
         var inscricao = $("#inscricao").val();
         var telefone  = $("#telefone").val();
-        var cidade    = $("#cidade").val();
+        var site    = $("#site").val();
+        var responsavel    = $("#responsavel").val();
         var endereco  = $("#endereco").val();
         var cep       = $("#cep").val();
 
-        if ( razao != '' && fantasia != '' && email != '' && tipo != '' && documento != '' && inscricao != '' && telefone != '' && cidade != '' && endereco != '' && cep != '') {
+
+        if ( razao != '' && fantasia != '' && email != '' && tipo != '' && documento != '' && inscricao != '' && telefone != '' && endereco != '' && cep != '') {
             $('#tipoError2').addClass('hidden');
             $('#tipoError').addClass('hidden');
             $('#tipoSuccess').addClass('hidden');
             $('#tipoLoading').removeClass('hidden');
             jQuery.ajax({
                 type: "POST",
-                data: {razao:razao, fantasia:fantasia, email:email, tipo:tipo, documento:documento, inscricao:inscricao, telefone:telefone, cidade:cidade, endereco:endereco, cep:cep},
-                url: Basepath + "/saas/clientes/gravar",
+                data: {razao:razao, fantasia:fantasia, email:email, tipo:tipo, documento:documento, inscricao:inscricao, telefone:telefone, site:site, responsavel:responsavel, endereco:endereco, cep:cep},
+                url: "/cliente/gravar",
                 dataType: "html",
                 success: function(result){
                     if (result.substring(0,7) == 'sucesso') {
@@ -440,10 +398,11 @@ $(document).ready(function(){
          } else {
             alert('Todos os campos são obrigatórios!');
          }
-         e.preventDefault();
+       
     });
 
     jQuery("#form-cliente-edita").submit(function(e){
+        e.preventDefault();
         var razao     = $("#razao").val();
         var fantasia  = $("#fantasia").val();
         var email     = $("#email").val();
@@ -451,20 +410,20 @@ $(document).ready(function(){
         var documento = $("#documento").val();
         var inscricao = $("#inscricao").val();
         var telefone  = $("#telefone").val();
-        var cidade    = $("#cidade").val();
+        var site    = $("#site").val();
+        var responsavel    = $("#responsavel").val();
         var endereco  = $("#endereco").val();
         var cep       = $("#cep").val();
-        var clienteID = $("#clienteID").val();
 
-        if ( razao != '' && fantasia != '' && email != '' && tipo != '' && documento != '' && inscricao != '' && telefone != '' && cidade != '' && endereco != '' && cep != '') {
+        if ( razao != '' && fantasia != '' && email != '' && tipo != '' && documento != '' && inscricao != '' && telefone != '' && endereco != '' && cep != '') {
             $('#tipoError2').addClass('hidden');
             $('#tipoError').addClass('hidden');
             $('#tipoSuccess').addClass('hidden');
             $('#tipoLoading').removeClass('hidden');
             jQuery.ajax({
                 type: "POST",
-                data: {razao:razao, fantasia:fantasia, email:email, tipo:tipo, documento:documento, inscricao:inscricao, telefone:telefone, cidade:cidade, endereco:endereco, cep:cep, clienteID:clienteID},
-                url: Basepath + "/saas/clientes/gravarEdicao",
+                data: {razao:razao, fantasia:fantasia, email:email, tipo:tipo, documento:documento, inscricao:inscricao, telefone:telefone, site:site, responsavel:responsavel, endereco:endereco, cep:cep},
+                url: "/cliente/update",
                 dataType: "html",
                 success: function(result){
                     if (result.substring(0,7) == 'sucesso') {
@@ -497,9 +456,126 @@ $(document).ready(function(){
          } else {
             alert('Todos os campos são obrigatórios!');
          }
-         e.preventDefault();
     });
     // FIM das regras de gravação de clientes
+
+     // Inicio das regras de gravação de Contatos
+    jQuery("#form-contato").submit(function(e){
+          e.preventDefault();
+        var razao     = $("#razao").val();
+        var fantasia  = $("#fantasia").val();
+        var email     = $("#email").val();
+        var tipo      = $("#tipo").val();
+        var documento = $("#documento").val();
+        var inscricao = $("#inscricao").val();
+        var telefone  = $("#telefone").val();
+        var site    = $("#site").val();
+        var responsavel    = $("#responsavel").val();
+        var endereco  = $("#endereco").val();
+        var cep       = $("#cep").val();
+
+
+        if ( razao != '' && fantasia != '' && email != '' && tipo != '' && documento != '' && inscricao != '' && telefone != '' && endereco != '' && cep != '') {
+            $('#tipoError2').addClass('hidden');
+            $('#tipoError').addClass('hidden');
+            $('#tipoSuccess').addClass('hidden');
+            $('#tipoLoading').removeClass('hidden');
+            jQuery.ajax({
+                type: "POST",
+                data: {razao:razao, fantasia:fantasia, email:email, tipo:tipo, documento:documento, inscricao:inscricao, telefone:telefone, site:site, responsavel:responsavel, endereco:endereco, cep:cep},
+                url: "/contato/gravar",
+                dataType: "html",
+                success: function(result){
+                    if (result.substring(0,7) == 'sucesso') {
+                        $('#tipoLoading').addClass('hidden');
+                        $('#tipoSuccess').removeClass('hidden');
+                        $('#tipoError').addClass('hidden');
+                        $('#tipoError2').addClass('hidden');
+                        $("#razao").val('');
+                        $("#fantasia").val('');
+                        $("#email").val('');
+                        $("#tipo").val('');
+                        $("#documento").val('');
+                        $("#inscricao").val('');
+                        $("#telefone").val('');
+                        $("#cidade").val('');
+                        $("#endereco").val('');
+                        $("#cep").val('');
+                    } else {
+                        $('#tipoLoading').addClass('hidden');
+                        $('#tipoError2').removeClass('hidden');
+                        $('#tipoSuccess').addClass('hidden');
+                    }
+                },
+                error: function(result){
+                    $('#tipoLoading').addClass('hidden');
+                    $('#tipoError').removeClass('hidden');
+                    $('#tipoSuccess').addClass('hidden');
+                },
+            });
+         } else {
+            alert('Todos os campos são obrigatórios!');
+         }
+       
+    });
+
+    jQuery("#form-contato-edita").submit(function(e){
+        e.preventDefault();
+        var razao     = $("#razao").val();
+        var fantasia  = $("#fantasia").val();
+        var email     = $("#email").val();
+        var tipo      = $("#tipo").val();
+        var documento = $("#documento").val();
+        var inscricao = $("#inscricao").val();
+        var telefone  = $("#telefone").val();
+        var site    = $("#site").val();
+        var responsavel    = $("#responsavel").val();
+        var endereco  = $("#endereco").val();
+        var cep       = $("#cep").val();
+
+        if ( razao != '' && fantasia != '' && email != '' && tipo != '' && documento != '' && inscricao != '' && telefone != '' && endereco != '' && cep != '') {
+            $('#tipoError2').addClass('hidden');
+            $('#tipoError').addClass('hidden');
+            $('#tipoSuccess').addClass('hidden');
+            $('#tipoLoading').removeClass('hidden');
+            jQuery.ajax({
+                type: "POST",
+                data: {razao:razao, fantasia:fantasia, email:email, tipo:tipo, documento:documento, inscricao:inscricao, telefone:telefone, site:site, responsavel:responsavel, endereco:endereco, cep:cep},
+                url: "/contato/update",
+                dataType: "html",
+                success: function(result){
+                    if (result.substring(0,7) == 'sucesso') {
+                        $('#tipoLoading').addClass('hidden');
+                        $('#tipoSuccess').removeClass('hidden');
+                        $('#tipoError').addClass('hidden');
+                        $('#tipoError2').addClass('hidden');
+                        $("#razao").val('');
+                        $("#fantasia").val('');
+                        $("#email").val('');
+                        $("#tipo").val('');
+                        $("#documento").val('');
+                        $("#inscricao").val('');
+                        $("#telefone").val('');
+                        $("#cidade").val('');
+                        $("#endereco").val('');
+                        $("#cep").val('');
+                    } else {
+                        $('#tipoLoading').addClass('hidden');
+                        $('#tipoError2').removeClass('hidden');
+                        $('#tipoSuccess').addClass('hidden');
+                    }
+                },
+                error: function(result){
+                    $('#tipoLoading').addClass('hidden');
+                    $('#tipoError').removeClass('hidden');
+                    $('#tipoSuccess').addClass('hidden');
+                },
+            });
+         } else {
+            alert('Todos os campos são obrigatórios!');
+         }
+    });
+    // FIM das regras de gravação de Contatos
 
     // Inicio das regras de gravação de parceiro
     jQuery("#form-parceiro").submit(function(e){
@@ -998,10 +1074,6 @@ $(document).ready(function(){
         });
     }
         
-
-    $('#dataTables').DataTable({
-         responsive: true
-    });
 
     var FoneMaskBehavior = function (val) {
       return val.replace(/\D/g, '').length === 11 ? '(00) 00000-0000' : '(00) 0000-00009';

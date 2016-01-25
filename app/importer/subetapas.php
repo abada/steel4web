@@ -11,18 +11,15 @@ use Auth;
 class subetapas extends Model
 {
 
-	protected $fillable = ['codigoSubetapa', 'peso', 'tipo', 'observacao', 'etapaID'];
+	protected $fillable = ['codigoSubetapa', 'peso', 'tiposubetapa_id', 'observacao', 'etapa_id', 'user_id', 'locatario_id'];
     protected $table = 'subetapas';
-    protected $primaryKey = 'subetapaID';
+    protected $primaryKey = 'id';
 
     public static function get_by_id($id)
     {
-        $query = 	DB::table('subetapas')->select('subetapas.*')
-            ->leftJoin('etapas', 'etapas.etapaID', '=', 'subetapas.etapaID')
-            ->leftJoin('obras', 'obras.obraID', '=', 'etapas.obraID')
-            ->leftJoin('clientes', 'clientes.clienteID', '=', 'obras.clienteID')
-            ->where('subetapaID', $id)
-             ->where('clientes.locatarioID',  access()->user()->locatarioID)
+        $query = 	DB::table('subetapas')->select('*')
+            ->where('id', $id)
+             ->where('locatario_id',  access()->user()->locatario_id)
              ->get();
 
         if(count($query) > 0):
@@ -34,11 +31,8 @@ class subetapas extends Model
 
     public static function get_by_field($field, $value, $limit = null)
     {
-       $query = 	DB::table('subetapas')->select('subetapas.*')
-            ->leftJoin('etapas', 'etapas.etapaID', '=', 'subetapas.etapaID')
-            ->leftJoin('obras', 'obras.obraID', '=', 'etapas.obraID')
-            ->leftJoin('clientes', 'clientes.clienteID', '=', 'obras.clienteID')
-            ->where('clientes.locatarioID',  access()->user()->locatarioID)
+       $query = 	DB::table('subetapas')->select('*')
+            ->where('locatario_id',  access()->user()->locatario_id)
             ->where($field, $value)
             ->get();
 
@@ -53,15 +47,12 @@ class subetapas extends Model
         return false;
     }
 
-    public static function get_all($etapaID)
+    public static function get_all($etapa_id)
     {
-         $query = 	DB::table('subetapas')->select('subetapas.*')
-            ->leftJoin('etapas', 'etapas.etapaID', '=', 'subetapas.etapaID')
-            ->leftJoin('obras', 'obras.obraID', '=', 'etapas.obraID')
-            ->leftJoin('clientes', 'clientes.clienteID', '=', 'obras.clienteID')
-            ->where('clientes.locatarioID',  access()->user()->locatarioID)
-            ->where('subetapas.etapaID', $etapaID)
-            ->orderby('codigoEtapa', 'asc')
+         $query = 	DB::table('subetapas')->select('*')
+            ->where('locatario_id',  access()->user()->locatario_id)
+            ->where('etapa_id', $etapa_id)
+            ->orderby('codigoSubetapa', 'asc')
             ->get();
 
         if(count($query) > 0):

@@ -9,7 +9,7 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="panel panel-default">
-                <div class="panel-heading">
+                <div class="panel-heading bg-navy">
                     Listagem de obras
                 </div>
                 @if(!empty($obras))
@@ -42,7 +42,7 @@
                                 ?>
                                 <tr class="<?=$tipoStatus;?>" >
                                     <td><?=$obra->codigoObra;?></td>
-                                    <td><a href="obra/{{$obra->obraID}}"><?=$obra->nomeObra;?></a></td>
+                                    <td><a href="obra/{{$obra->id}}"><?=$obra->nomeObra;?></a></td>
                                     <td><?=$obra->fantasia;?></td>
                                     <td><?=$obra->data;?></td>
                                     <td class="text-center">
@@ -80,7 +80,7 @@
         </div>
         <!-- /.col-lg-12 -->
         <div class="col-lg-6 col-md-6">
-            <a href="javascript:history.back()" type="button" class="btn btn-default"><< Voltar</a>
+            <a href="javascript:history.back()" type="button" class="btn btn-primary"><< Voltar</a>
         </div>
         <div class="col-lg-6 col-md-6 text-right">
            <a href="#" type="button" class="btn btn-primary">Cadastrar Obra</a>

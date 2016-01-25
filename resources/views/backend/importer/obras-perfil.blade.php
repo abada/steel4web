@@ -43,7 +43,7 @@
 
     <div class="row">
         <div class="col-lg-6 col-md-6">
-            <a href="javascript:history.back()" type="button" class="btn btn-default"><< Voltar</a>
+            <a href="javascript:history.back()" type="button" class="btn btn-primary"><< Voltar</a>
         </div>
     </div>
 @endsection
