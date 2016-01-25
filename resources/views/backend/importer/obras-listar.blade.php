@@ -42,7 +42,7 @@
                                 ?>
                                 <tr class="<?=$tipoStatus;?>" >
                                     <td><?=$obra->codigoObra;?></td>
-                                    <td><a href="#"><?=$obra->nomeObra;?></a></td>
+                                    <td><a href="obra/{{$obra->obraID}}"><?=$obra->nomeObra;?></a></td>
                                     <td><?=$obra->fantasia;?></td>
                                     <td><?=$obra->data;?></td>
                                     <td class="text-center">

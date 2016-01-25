@@ -37,8 +37,8 @@
             <li class="{{ Active::pattern('admin/lo') }}">
                 <a href="{!! route('admin.dashboard') !!}"><i class="fa fa-users fa-fw"></i><span> Clientes</span></a>
             </li>
-            <li class="{{ Active::pattern('admin/lo') }}">
-                <a href="{!! route('admin.dashboard') !!}"><i class="fa fa-building-o fa-fw"></i><span> Obras</span></a>
+            <li class="{{ Active::pattern('obras') }}">
+                <a href="{!! route('obras') !!}"><i class="fa fa-building-o fa-fw"></i><span> Obras</span></a>
             </li>
             <li class="{{ Active::pattern('admin/lo') }}">
                 <a href="{!! route('admin.dashboard') !!}"><i class="fa fa-phone fa-fw"></i><span> Contatos</span></a>
