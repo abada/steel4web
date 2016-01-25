@@ -4,18 +4,43 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Subetapa extends Model {
-	protected $table = 'subetapas';
-	protected $fillable = [
-		'cod',
-		'peso',
-		'tiposubetapa_id',
-		'observacao',
+class Importacao extends Model {
+
+	protected $table = 'importacoes';
+	protected $fillable = array(
+		'descricao',
+		'cliente_id',
+		'obra_id',
 		'etapa_id',
+		'subetapa_id',
+		'dbf2d',
+		'ifc',
+		'fbx',
+		'ifc_orig',
+		'fbx_orig',
+		'erro_debug',
+		'importacaoNr',
+		'observacoes',
+		'sentido',
 		'user_id',
 		'locatario_id',
-	];
+	);
 
+	/**
+	 * Get the Cliente of the model
+	 * @return Relationship belongsTo
+	 */
+	public function cliente() {
+		return $this->belongsTo('App\Cliente');
+	}
+
+	/**
+	 * Get the Obra of the model
+	 * @return Relationship belongsTo
+	 */
+	public function obra() {
+		return $this->belongsTo('App\Obra');
+	}
 	/**
 	 * Get the Etapa of the model
 	 * @return Relationship belongsTo
@@ -23,15 +48,13 @@ class Subetapa extends Model {
 	public function etapa() {
 		return $this->belongsTo('App\Etapa');
 	}
-
 	/**
-	 * Get the TipoSubetapa of the model
+	 * Get the Subetapa of the model
 	 * @return Relationship belongsTo
 	 */
-	public function tipo() {
-		return $this->belongsTo('App\TipoSubetapa', 'tiposubetapa_id');
+	public function subetapa() {
+		return $this->belongsTo('App\Subetapa');
 	}
-
 	/**
 	 * Get the User (owner) of the model
 	 * @return Relationship belongsTo
@@ -56,13 +79,6 @@ class Subetapa extends Model {
 	 */
 	public function handles() {
 		return $this->hasMany('App\Handle');
-	}
-
-	/**
-	 * Get the importacoes for the blog post.
-	 */
-	public function importacoes() {
-		return $this->hasMany('App\Importacao');
 	}
 
 }

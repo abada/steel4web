@@ -4,17 +4,11 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Subetapa extends Model {
-	protected $table = 'subetapas';
-	protected $fillable = [
-		'cod',
-		'peso',
-		'tiposubetapa_id',
-		'observacao',
-		'etapa_id',
-		'user_id',
-		'locatario_id',
-	];
+class Medicao extends Model {
+
+	protected $table = 'medicoes';
+
+	protected $fillable = ['descricao', 'periodo', 'montador', 'obs', 'etapa_id', 'user_id', 'locatario_id'];
 
 	/**
 	 * Get the Etapa of the model
@@ -22,14 +16,6 @@ class Subetapa extends Model {
 	 */
 	public function etapa() {
 		return $this->belongsTo('App\Etapa');
-	}
-
-	/**
-	 * Get the TipoSubetapa of the model
-	 * @return Relationship belongsTo
-	 */
-	public function tipo() {
-		return $this->belongsTo('App\TipoSubetapa', 'tiposubetapa_id');
 	}
 
 	/**
@@ -51,18 +37,19 @@ class Subetapa extends Model {
 	// REVERSE RELATIONSHIPS...
 
 	/**
+	 * Get the related Model
+	 * @return Relationship hasMany
+	 */
+	public function cjtomontagem() {
+		return $this->hasMany('App\CjtoMontagem');
+	}
+
+	/**
 	 * Get the related Models
 	 * @return Relationship hasMany
 	 */
 	public function handles() {
 		return $this->hasMany('App\Handle');
-	}
-
-	/**
-	 * Get the importacoes for the blog post.
-	 */
-	public function importacoes() {
-		return $this->hasMany('App\Importacao');
 	}
 
 }

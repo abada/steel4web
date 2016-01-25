@@ -4,10 +4,8 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Obra extends Model
-{
+class Obra extends Model {
 	protected $table = 'obras';
-	public $timestamps = true;
 	protected $fillable = array(
 		'codigo',
 		'nome',
@@ -43,4 +41,60 @@ class Obra extends Model
 		'locatario_id',
 	);
 
+	/**
+	 * Get the Cliente of the model
+	 * @return Relationship belongsTo
+	 */
+	public function cliente() {
+		return $this->belongsTo('App\Cliente');
+	}
+
+	/**
+	 * Get the User (owner) of the model
+	 * @return Relationship belongsTo
+	 */
+	public function user() {
+		return $this->belongsTo('App\Model\Access\User\User');
+	}
+
+	/**
+	 * Get the LOCATÁRIO (company of users) of the model
+	 * @return Relationship belongsTo
+	 */
+	public function locatario() {
+		return $this->belongsTo('App\Locatario');
+	}
+
+	// REVERSE RELATIONSHIPS...
+
+	/**
+	 * Get the related Models
+	 * @return Relationship hasMany
+	 */
+	public function cjtomontagem() {
+		return $this->hasMany('App\CjtoMontagem');
+	}
+
+	/**
+	 * Get the importacoes for the blog post.
+	 */
+	public function importacoes() {
+		return $this->hasMany('App\Importacao');
+	}
+
+	/**
+	 * Get the related Models
+	 * @return Relationship hasMany
+	 */
+	public function etapas() {
+		return $this->hasMany('App\Etapa');
+	}
+
+	/**
+	 * Get the related Models
+	 * @return Relationship hasMany
+	 */
+	public function handles() {
+		return $this->hasMany('App\Handle');
+	}
 }
