@@ -4,6 +4,9 @@ namespace App\Http\Controllers\importer;
 
 use Illuminate\Http\Request;
 use App\importer\obra;
+use App\Obra as obr;
+use App\TipoContato as tipo;
+use App\Cliente as client;
 use App\importer\cliente;
 use App\importer\contato;
 use App\importer\etapa;
@@ -43,69 +46,12 @@ class ObrasController extends Controller
         return view('backend.importer.obras-perfil',compact('obra', 'cliente', 'construtora', 'gerenciadora', 'calculista','detalhamento','montagem','etapas'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function cadastro()
     {
-        //
+         $tipos = tipo::all();
+         $clientes = client::all();
+         return view('backend.importer.obras-cadastro',compact('tipos', 'clientes'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
+   
 }

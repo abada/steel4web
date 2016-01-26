@@ -1,10 +1,37 @@
 @extends('backend.layouts.master')
 
 @section('page-header')
-    <h1>
+<div class="row">
+    <div class="col-lg-8">
+         <h3>
         Categoria de Contatos
-    </h1>
-
+        </h3>
+    </div>
+    <div class="col-lg-4">
+         @if(Session::has('success'))
+        <div class="panel panel-green">
+            <div class="panel-heading"> 
+                Sucesso!
+            <div class="closePanel"><i class="fa fa-times"></i></div>
+            </div>
+            <div class="panel-body">
+                {{Session::get('success')}}
+            </div>
+        </div>
+    @elseif(Session::has('error'))
+        <div class="panel panel-red">
+            <div class="panel-heading"> 
+                Error!
+                <div class="closePanel"><i class="fa fa-times"></i></div>
+            </div>
+            <div class="panel-body">
+                {{Session::get('error')}}
+            </div>
+        </div>
+    @endif
+    </div>
+</div>
+   
 @endsection
 
 @section('content')

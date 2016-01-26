@@ -14,8 +14,8 @@
     <h1>
         {{ $name }}
         @if(isset($contato))
-       <a href="contato/tipos" type="button" style='float:right' class="btn btn-primary">Tipos de Contatos</a>
-    @endif
+           <a href="contato/tipos" type="button" style='float:right' class="btn btn-primary">Tipos de Contatos</a>
+        @endif
     </h1>
 
 @endsection

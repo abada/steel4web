@@ -83,11 +83,17 @@ class ContatosController extends Controller
     }
 
     public function tipoExcluir($id){
-        $conts = cont::where('tipo_id',5)->get();
-        if(!empty($conts->id))
-        dd($conts);
-        else
-        dd('issoae');
+        $conts = cont::where('tipo_id',$id)->get();
+        if(isset($conts[0])){
+             \Session::flash('error', 'Categoria em uso, exclusão proibida.');
+            return redirect()->route('contato/tipos');   
+        }
+        else{
+           $del = tipo::find($id)->delete();
+            \Session::flash('success', 'Categoria excluida com Sucesso.');
+            return redirect()->route('contato/tipos');
+            
+        }
 
     }
 

@@ -83,7 +83,7 @@
             <a href="javascript:history.back()" type="button" class="btn btn-primary"><< Voltar</a>
         </div>
         <div class="col-lg-6 col-md-6 text-right">
-           <a href="#" type="button" class="btn btn-primary">Cadastrar Obra</a>
+           <a href="../obra/cadastro" type="button" class="btn btn-primary">Cadastrar Obra</a>
         </div>
     </div>
 @endsection

@@ -5,7 +5,7 @@ if(isset($edicao)){
     $tipe = 'Editar';
 }else{
     $name = 'form-tipo';
-    $tipoSuccess = 'Cadastrar';
+    $tipe = 'Cadastrar';
 }
 ?>
 
@@ -92,7 +92,7 @@ if(isset($edicao)){
         <div class="col-lg-4">
             <div class="row">
                 <div class="col-lg-6 text-left">
-                    <a href="javascript:history.back()" type="button" class="btn btn-primary"><< Voltar</a>
+                    <a href="../contato/tipos" type="button" class="btn btn-primary"><< Voltar</a>
                 </div>
             </div>
         </div>

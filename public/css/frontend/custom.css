@@ -1,3 +1,12 @@
+.closePanel{
+    float:right;
+    margin-right:5px;
+}
+.closePanel:hover{
+    cursor: pointer;
+    color:#525252;
+}
+
 .panel-green {
     border-color: #5cb85c;
 }

@@ -1,4 +1,10 @@
 $(document).ready(function() {
+
+  $('.closePanel').click(function(e) {
+    e.preventDefault();
+    $(this).parent('.panel-heading').parent('.panel').fadeOut('fast');
+  });
+
   $('#dataTables').DataTable({
         responsive: true
     });
@@ -6,10 +12,6 @@ $(document).ready(function() {
  
     $('#formButton').click( function() {
         var data = table.$('input, select').serialize();
-     /*   alert(
-            "The following data would have been submitted to the server: \n\n"+
-            data.substr( 0, 120 )+'...'
-        ); */
          jQuery.ajax({
                 type: "POST",
                 data: {dados:data},

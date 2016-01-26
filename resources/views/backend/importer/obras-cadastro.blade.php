@@ -36,23 +36,10 @@ if (isset($edicao)) {
                                     <label>Descrição:</label>
                                     <input class="form-control" name="descricao" id="descricao" <?php if (isset($edicao)) echo 'value="' . $obra->descricao . '"' ?>>
                                 </div>
-                                <div class="form-group">
-                                    <label for="estado">Estado</label>
-                                    <select class="form-control" id="estado" name="estado"  onchange='search_cities($(this).val())'>
-                                        <option>Selecione...</option>
-                                         <?php
-                                            foreach ($estados as $estado) {
-                                        ?>
-                                        <option value="<?= $estado->estadoID; ?>"><?= $estado->nome . ' - ' . $estado->uf; ?></option>
-                                        <?php } ?>
-                                    </select>
-                                </div>
 
                                 <div class="form-group">
                                     <label for="cidade">Cidade</label>
-                                     <select class="form-control" id="cidade" name="cidade">
-                                        <option>Selecione o Estado...</option>
-                                    </select>
+                                     <input class="form-control" id="cidade" name="cidade" <?php if (isset($edicao)) echo 'value="' . $obra->cidade . '"' ?>>
                                 </div>
 
                                 <div class="form-group">
@@ -72,50 +59,12 @@ if (isset($edicao)) {
                                     <select class="form-control" name="clienteID" id="clienteID">
                                         <option>Selecione...</option>
                                         <?php foreach ($clientes as $cliente) { ?>
-                                        <option value="<?=$cliente->clienteID;?>" <?php if(isset($edicao) && $obra->clienteID == $cliente->clienteID) echo 'selected'; ?>><?=$cliente->razao;?></option>;
+                                        <option value="<?=$cliente->id;?>" <?php if(isset($edicao) && $obra->cliente_id == $cliente->cliente_id) echo 'selected'; ?>><?=$cliente->razao;?></option>;
                                         <?php } ?>
                                     </select>
                                 </div>
 
-                                <div class="form-group">
-                                    <label>Construtora:</label>
-                                    <select class="form-control" name="construtora" id="construtora">
-                                        <option>Selecione...</option>
-                                        <?php foreach ($construtoras as $construtora) { ?>
-                                        <option value="<?=$construtora->clienteID;?>" <?php if(isset($edicao) && $obra->construtoraID == $construtora->clienteID) echo 'selected'; ?>><?=$construtora->razao;?></option>;
-                                        <?php } ?>
-                                    </select>
-                                </div>
-
-                                <div class="form-group">
-                                    <label>Gerenciadora:</label>
-                                    <select class="form-control" name="gerenciadora" id="gerenciadora">
-                                        <option>Selecione...</option>
-                                        <?php foreach ($gerenciadoras as $gerenciadora) { ?>
-                                        <option value="<?=$gerenciadora->clienteID;?>" <?php if(isset($edicao) && $obra->gerenciadoraID == $gerenciadora->clienteID) echo 'selected'; ?>><?=$gerenciadora->razao;?></option>;
-                                        <?php } ?>
-                                    </select>
-                                </div>
-
-                                <div class="form-group">
-                                    <label>Calculista:</label>
-                                    <select class="form-control" name="calculista" id="calculista">
-                                        <option>Selecione...</option>
-                                        <?php foreach ($calculistas as $calculista) { ?>
-                                        <option value="<?=$calculista->clienteID;?>" <?php if(isset($edicao) && $obra->calculistaID == $calculista->clienteID) echo 'selected'; ?>><?=$calculista->razao;?></option>;
-                                        <?php } ?>
-                                    </select>
-                                </div>
-
-                                <div class="form-group">
-                                    <label>Detalhamento:</label>
-                                    <select class="form-control" name="detalhamento" id="detalhamento">
-                                        <option>Selecione...</option>
-                                        <?php foreach ($detalhamentos as $detalhamento) { ?>
-                                        <option value="<?=$detalhamento->clienteID;?>" <?php if(isset($edicao) && $obra->detalhamentoID == $detalhamento->clienteID) echo 'selected'; ?>><?=$detalhamento->razao;?></option>;
-                                        <?php } ?>
-                                    </select>
-                                </div>
+                               
 
                                 <div class="form-group">
                                     <label>Montagem:</label>
@@ -182,15 +131,5 @@ if (isset($edicao)) {
         </div>
     </div>
     <a href="javascript:history.back()" type="button" class="btn btn-default"><< Voltar</a>
-
-<script type="text/javascript">
-   function search_cities(estadoID){
-        $.post("<?=base_url();?>service/enderecos/cidades", {
-            estadoID : estadoID
-        }, function(data){
-            $('#cidade').html(data);
-        });
-    };
-</script>
 
 @endsection
