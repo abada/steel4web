@@ -40,16 +40,18 @@ Route::group(['namespace' => 'Backend', 'prefix' => 'admin', 'middleware' => 'ad
  *Importer Routes.
  *Developer: Me(Vini)
  *Note: i screwed the roles/permission dashboard, their url is ..../admin/access/users
- *Note2:i`m gonna need the routes prefixes: obra(s), cliente(s), contato(s), usuario(s), importacao(oes), apontador.
+ *Note2:i`m gonna need the routes prefixes: obra(s), cliente(s), contato(s), usuario(s), importacao(oes), apontador, tipo.
  */
 
 /*
 * OBRAS
 */
 
-Route::get('obras', array('middleware' => 'admin', 'as' => 'obras', 'uses' => 'importer\ObrasController@index'));
-Route::get('obra.{id}', array('middleware' => 'admin', 'as' => 'obras.{id}', 'uses' => 'importer\ObrasController@ver'));
 Route::get('obra/cadastro', array('middleware' => 'admin', 'as' => 'obra/cadastro', 'uses' => 'importer\ObrasController@cadastro'));
+Route::get('obra/editar/{id}', array('middleware' => 'admin', 'as' => 'obra/editar/{id}', 'uses' => 'importer\ObrasController@editar'));
+Route::post('obra/gravar', array('middleware' => 'admin', 'as' => 'obra/gravar', 'uses' => 'importer\ObrasController@gravar'));
+Route::get('obras', array('middleware' => 'admin', 'as' => 'obras', 'uses' => 'importer\ObrasController@index'));
+Route::get('obra/{id}', array('middleware' => 'admin', 'as' => 'obra', 'uses' => 'importer\ObrasController@ver'));
 
 //END OBRAS
 
@@ -67,12 +69,12 @@ Route::post('etapa/update', array('middleware' => 'admin', 'as' => 'etapa/update
 /*
 * CLIENTES
 */
-
+Route::get('cliente/cadastro', array('middleware' => 'admin', 'as' => 'cliente/cadastro', 'uses' => 'importer\ClientesController@cadastro'));
 Route::get('clientes', array('middleware' => 'admin', 'as' => 'clientes', 'uses' => 'importer\ClientesController@index'));
 Route::get('cliente/{id}', array('middleware' => 'admin', 'as' => 'cliente/{id}', 'uses' => 'importer\ClientesController@ver'));
 Route::get('cliente/editar/{id}', array('middleware' => 'admin', 'as' => 'cliente/editar/{id}', 'uses' => 'importer\ClientesController@editar'));
 Route::post('cliente/update', array('middleware' => 'admin', 'as' => 'cliente/update', 'uses' => 'importer\ClientesController@gravarEdicao'));
-Route::get('cliente/cadastro', array('middleware' => 'admin', 'as' => 'cliente/cadastro', 'uses' => 'importer\ClientesController@cadastro'));
+
 Route::post('cliente/gravar', array('middleware' => 'admin', 'as' => 'cliente/gravar', 'uses' => 'importer\ClientesController@gravar'));
 
 //END CLIENTES

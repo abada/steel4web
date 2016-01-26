@@ -51,7 +51,7 @@
                             <thead>
                                 <tr>
                                     <th>Descrição</th>
-                                    <th>Data</th>
+                                    <th width="10%">Data</th>
                                     <th width="10%">Ações</th>
                                 </tr>
                             </thead>

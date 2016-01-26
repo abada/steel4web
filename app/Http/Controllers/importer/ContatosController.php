@@ -13,8 +13,9 @@ class ContatosController extends Controller
 {
     public function cadastro()
     {
+         $tipos = tipo::all();
     	 $contato = true;
-         return view('backend.importer.clientes-cadastro',compact('contato'));
+         return view('backend.importer.clientes-cadastro',compact('contato','tipos'));
     }
 
     public function index()
@@ -122,11 +123,13 @@ class ContatosController extends Controller
             $dados['locatario_id'] =access()->user()->locatario_id;
             $dados['user_id']   =access()->user()->id;
             $dados['cliente_id']   = 1;
+            $dados['fone'] = $dados['telefone'];
+            unset($dados['telefone']);
 
-           if(isset($dados['razao']) && isset($dados['fantasia']) && isset($dados['tipo']) && isset($dados['documento']) && isset($dados['telefone']) && isset($dados['endereco']) && isset($dados['locatario_id'])) {
+           if(isset($dados['fantasia']) && isset($dados['tipo_id']) && isset($dados['email']) && isset($dados['fone']) && isset($dados['endereco']) && isset($dados['cep']) && isset($dados['cidade'])) {
 
 
-               $clienteID = cliente::create($dados);
+               $clienteID = cont::create($dados);
 
 
                 if($clienteID){

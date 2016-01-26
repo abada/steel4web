@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\LocatarioScope;
 use Illuminate\Database\Eloquent\Model;
 
 class Etapa extends Model {
@@ -15,6 +16,13 @@ class Etapa extends Model {
 		'user_id',
 		'locatario_id',
 	];
+
+	protected static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope(new LocatarioScope);
+    }
 
 	/**
 	 * Get the Obra of the model

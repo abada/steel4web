@@ -55,7 +55,7 @@
                                              <a href="#" alt="Mudar Status" title="Mudar Status" style="text-decoration:none">
                                                 <i class="fa fa-refresh fa-fw"></i>
                                             </a>
-                                            <a href="#" alt="Editar obra" title="Editar obra">
+                                            <a href="../obra/editar/{{$obra->id}}" alt="Editar obra" title="Editar obra">
                                                 <i class="fa fa-edit fa-fw"></i>
                                             </a>
                                         </div>

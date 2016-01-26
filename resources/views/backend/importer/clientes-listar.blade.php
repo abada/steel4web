@@ -47,19 +47,37 @@
                             <?php foreach ($clientes as $cliente) {
                                 if(!isset($contato)){
                                     if ($cliente->tipo == 0) {
-                                        $tipo = 'Física';
+                                        $tip = 'Física';
                                     } else {
-                                        $tipo = 'Jurídico';
+                                        $tip = 'Jurídico';
                                     } 
                                 }else{
-                                    $tipo = $cliente->tipo->descricao;
+                                    $tip = isset($cliente->tipo->descricao) ? $cliente->tipo->descricao : '-';
                                 }
                                 ?>
                                 <tr class="stripped">
-                                    <td><a href="{{$type}}/{{$cliente->id}}"><?=$cliente->razao;?></a></td>
-                                    <td><?=$cliente->fantasia;?></td>
+                                    <td>
+                                    @if(!isset($contato))
+                                    <a href="{{$type}}/{{$cliente->id}}"><?=$cliente->razao;?></a>
+                                    @else
+                                        @if(!empty($cliente->razao))
+                                          <a href="{{$type}}/{{$cliente->id}}">{{$cliente->razao}}</a>
+                                        @else
+                                         -
+                                        @endif
+                                    @endif
+                                    </td>
+                                    <td>
+                                    @if(isset($contato) && empty($cliente->razao))
+                                    <a href="{{$type}}/{{$cliente->id}}">
+                                    @endif
+                                        <?=$cliente->fantasia;?>
+                                    @if(isset($contato))
+                                    </a>
+                                    @endif
+                                    </td>
                                     <td class="telefone"><?=$cliente->fone;?></td>
-                                    <td class="text-center"><?=$tipo;?></td>
+                                    <td class="text-center"><?=$tip;?></td>
                                      <td>
                                         <div class="text-center">
                                             <a href="{{$type}}/editar/{{$cliente->id}}" alt="Editar {{$type}}" title="Editar {{$type}}">

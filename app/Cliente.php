@@ -2,11 +2,19 @@
 
 namespace App;
 
+use App\LocatarioScope;
 use Illuminate\Database\Eloquent\Model;
 
 class Cliente extends Model {
 	protected $table = 'clientes';
-	protected $fillable = ['razao', 'fantasia', 'documento', 'inscricao', 'fone', 'endereco', 'cep', 'responsavel', 'email', 'site', 'user_id', 'locatario_id'];
+	protected $fillable = ['razao', 'fantasia', 'cidade', 'documento', 'inscricao', 'fone', 'endereco', 'cep', 'responsavel', 'email', 'site', 'user_id', 'locatario_id'];
+
+	protected static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope(new LocatarioScope);
+    }
 
 	/**
 	 * Get the obras for the blog post.

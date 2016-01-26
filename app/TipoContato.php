@@ -1,12 +1,19 @@
 <?php
 
 namespace App;
-
+use App\LocatarioScope;
 use Illuminate\Database\Eloquent\Model;
 
 class TipoContato extends Model {
 	protected $table = 'tiposcontatos';
 	protected $fillable = ['descricao', 'user_id', 'locatario_id'];
+
+	protected static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope(new LocatarioScope);
+    }
 
 	/**
 	 * Get the contatos.

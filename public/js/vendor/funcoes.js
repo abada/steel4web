@@ -149,28 +149,23 @@ $(document).ready(function(){
 
     // Inicio das regras de gravação de usuários do saas
     jQuery("#form-obra").submit(function(e){
-        var codigo       = $("#codigo").val();
-        var nome         = $("#nome").val();
-        var descricao    = $("#descricao").val();
-        var cidade       = $("#cidade").val();
-        var endereco     = $("#endereco").val();
-        var cep          = $("#cep").val();
-        var clienteID    = $("#clienteID").val();
-        var construtora  = $("#construtora").val();
-        var gerenciadora = $("#gerenciadora").val();
-        var calculista   = $("#calculista").val();
-        var detalhamento = $("#detalhamento").val();
-        var montagem     = $("#montagem").val();
+        $.fn.serializeAndEncode = function() {
+    return $.map(this.serializeArray(), function(val) {
+        return [val.name, encodeURIComponent(val.value)].join('=');
+    }).join('&');
+};
 
-        if (nome != '' && cidade != '' && endereco != '' && clienteID != '') {
+       var data = $("#form-obra").serializeAndEncode();
+
+        if (data) {
             $('#tipoError2').addClass('hidden');
             $('#tipoError').addClass('hidden');
             $('#tipoSuccess').addClass('hidden');
             $('#tipoLoading').removeClass('hidden');
             jQuery.ajax({
                 type: "POST",
-                data: {codigo:codigo, nome:nome, descricao:descricao, cidade:cidade, endereco:endereco, cep:cep, clienteID:clienteID, construtora:construtora, gerenciadora:gerenciadora, calculista:calculista, detalhamento:detalhamento, montagem:montagem},
-                url: Basepath + "/saas/obras/gravar",
+                data: {dados:data}, 
+                url: "/obra/gravar",
                 dataType: "html",
                 success: function(result){
                     if (result.substring(0,7) == 'sucesso') {
@@ -354,6 +349,7 @@ $(document).ready(function(){
         var site    = $("#site").val();
         var responsavel    = $("#responsavel").val();
         var endereco  = $("#endereco").val();
+        var cidade  = $("#cidade").val();
         var cep       = $("#cep").val();
 
 
@@ -365,7 +361,7 @@ $(document).ready(function(){
             $('#tipoLoading').removeClass('hidden');
             jQuery.ajax({
                 type: "POST",
-                data: {razao:razao, fantasia:fantasia, email:email, tipo:tipo, documento:documento, inscricao:inscricao, telefone:telefone, site:site, responsavel:responsavel, endereco:endereco, cep:cep},
+                data: {razao:razao,cidade:cidade, fantasia:fantasia, email:email, tipo:tipo, documento:documento, inscricao:inscricao, telefone:telefone, site:site, responsavel:responsavel, endereco:endereco, cep:cep},
                 url: "/cliente/gravar",
                 dataType: "html",
                 success: function(result){
@@ -415,6 +411,7 @@ $(document).ready(function(){
         var responsavel    = $("#responsavel").val();
         var endereco  = $("#endereco").val();
         var cep       = $("#cep").val();
+        var cidade       = $("#cidade").val();
         var id       = $("#id").val();
 
         if ( razao != '' && fantasia != '' && email != '' && tipo != '' && documento != '' && inscricao != '' && telefone != '' && endereco != '' && cep != '') {
@@ -424,7 +421,7 @@ $(document).ready(function(){
             $('#tipoLoading').removeClass('hidden');
             jQuery.ajax({
                 type: "POST",
-                data: {id:id, razao:razao, fantasia:fantasia, email:email, tipo:tipo, documento:documento, inscricao:inscricao, telefone:telefone, site:site, responsavel:responsavel, endereco:endereco, cep:cep},
+                data: {id:id, razao:razao, cidade:cidade, fantasia:fantasia, email:email, tipo:tipo, documento:documento, inscricao:inscricao, telefone:telefone, site:site, responsavel:responsavel, endereco:endereco, cep:cep},
                 url: "/cliente/update",
                 dataType: "html",
                 success: function(result){
@@ -465,26 +462,28 @@ $(document).ready(function(){
     jQuery("#form-contato").submit(function(e){
           e.preventDefault();
         var razao     = $("#razao").val();
+        var tipo      = $("#tipo_id").val();
         var fantasia  = $("#fantasia").val();
         var email     = $("#email").val();
-        var tipo      = $("#tipo").val();
         var documento = $("#documento").val();
         var inscricao = $("#inscricao").val();
         var telefone  = $("#telefone").val();
         var site    = $("#site").val();
         var responsavel    = $("#responsavel").val();
         var endereco  = $("#endereco").val();
+        var cidade  = $("#cidade").val();
         var cep       = $("#cep").val();
+        var crea       = $("#crea").val();
 
 
-        if ( razao != '' && fantasia != '' && email != '' && tipo != '' && documento != '' && inscricao != '' && telefone != '' && endereco != '' && cep != '') {
+        if (fantasia != '' && email != '' && tipo != ''  && cidade != '' && telefone != '' && endereco != '' && cep != '') {
             $('#tipoError2').addClass('hidden');
             $('#tipoError').addClass('hidden');
             $('#tipoSuccess').addClass('hidden');
             $('#tipoLoading').removeClass('hidden');
             jQuery.ajax({
                 type: "POST",
-                data: {razao:razao, fantasia:fantasia, email:email, tipo:tipo, documento:documento, inscricao:inscricao, telefone:telefone, site:site, responsavel:responsavel, endereco:endereco, cep:cep},
+                data: {razao:razao, fantasia:fantasia, tipo_id:tipo, cidade:cidade, crea:crea, email:email, documento:documento, inscricao:inscricao, telefone:telefone, site:site, responsavel:responsavel, endereco:endereco, cep:cep},
                 url: "/contato/gravar",
                 dataType: "html",
                 success: function(result){
@@ -533,17 +532,19 @@ $(document).ready(function(){
         var site    = $("#site").val();
         var responsavel    = $("#responsavel").val();
         var endereco  = $("#endereco").val();
+         var cidade  = $("#cidade").val();
         var cep       = $("#cep").val();
+        var crea       = $("#crea").val();
         var id       = $("#id").val();
 
-        if ( razao != '' && fantasia != '' && email != '' && tipo != '' && documento != '' && inscricao != '' && telefone != '' && endereco != '' && cep != '') {
+       if (fantasia != '' && email != '' && tipo != ''  && cidade != '' && telefone != '' && endereco != '' && cep != '') {
             $('#tipoError2').addClass('hidden');
             $('#tipoError').addClass('hidden');
             $('#tipoSuccess').addClass('hidden');
             $('#tipoLoading').removeClass('hidden');
             jQuery.ajax({
                 type: "POST",
-                data: {id:id, razao:razao, fantasia:fantasia, email:email, tipo_id:tipo, documento:documento, inscricao:inscricao, telefone:telefone, site:site, responsavel:responsavel, endereco:endereco, cep:cep},
+                data: {id:id, razao:razao, cidade:cidade, crea:crea, fantasia:fantasia, email:email, tipo_id:tipo, documento:documento, inscricao:inscricao, telefone:telefone, site:site, responsavel:responsavel, endereco:endereco, cep:cep},
                 url: "/contato/update",
                 dataType: "html",
                 success: function(result){

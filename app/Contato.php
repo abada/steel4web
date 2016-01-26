@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\LocatarioScope;
 
 class Contato extends Model {
 
@@ -17,6 +18,7 @@ class Contato extends Model {
 		'cidade',
 		'endereco',
 		'cep',
+		'tipo_id',
 		'responsavel',
 		'email',
 		'site',
@@ -25,6 +27,13 @@ class Contato extends Model {
 		'user_id',
 		'locatario_id',
 	];
+
+	protected static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope(new LocatarioScope);
+    }
 
 	/**
 	 * Get the Cliente of the model
@@ -65,4 +74,5 @@ class Contato extends Model {
 	public function obras() {
 		return $this->belongsToMany('App\Obra', 'contato_obra');
 	}
+
 }

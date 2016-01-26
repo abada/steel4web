@@ -44,20 +44,24 @@ if(isset($disable)){
                          <div class="col-lg-6">
                             <form role="form" name="<?=$name;?>" id="<?=$name;?>" accept-charset="utf-8">
                                 <div class="form-group">
-                                    <label>Razão Social:</label>
+                                    <label>Razão Social 
+                                    @if(!isset($contato))
+                                        <i style='color:red'>*</i>
+                                    @endif
+                                     :</label>
                                     <input class="form-control" name="razao" id="razao" <?php if (isset($edicao)) echo 'value="' . $cliente->razao . '"' ?> <?php if (isset($disable)) echo 'disabled'; ?>>
                                 </div>
                                 <div class="form-group">
-                                    <label>Nome Fantasia:</label>
+                                    <label>Nome Fantasia <i style='color:red'>*</i> :</label>
                                     <input class="form-control" name="fantasia" id="fantasia" <?php if (isset($edicao)) echo 'value="' . $cliente->fantasia . '"' ?> <?php if (isset($disable)) echo 'disabled'; ?>>
                                 </div>
                                 <div class="form-group">
-                                    <label>Email:</label>
+                                    <label>Email <i style='color:red'>*</i> :</label>
                                     <input class="form-control" name="email" id="email" <?php if (isset($edicao)) echo 'value="' . $cliente->email . '"' ?> <?php if (isset($disable)) echo 'disabled'; ?>>
                                 </div>
-                                @if(!$contato)
+                                @if(!isset($contato))
                                  <div class="form-group">
-                                    <label>Tipo de Cliente:</label>
+                                    <label>Tipo de Cliente <i style='color:red'>*</i> :</label>
                                     <select class="form-control" name="tipo" id="tipo" <?php if (isset($disable)) echo 'disabled'; ?>>
                                         <option value="0" <?php if (isset($edicao) && $tipo == 0) echo 'selected'; ?>>Físico</option>
                                         <option value="1" <?php if (isset($edicao) && $tipo == 1) echo 'selected'; ?>>Jurídico</option>
@@ -65,7 +69,7 @@ if(isset($disable)){
                                 </div>
                                 @else
                                     <div class="form-group">
-                                    <label>Tipo de Contato:</label>
+                                    <label>Tipo de Contato <i style='color:red'>*</i> :</label>
                                     <select class="form-control" name="tipo_id" id="tipo_id" <?php if (isset($disable)) echo 'disabled'; ?>>
                                         @foreach($tipos as $Type)
                                         <option value="{{$Type->id}}" <?php if (isset($edicao) && $tipo == $Type->id) echo 'selected'; ?>>{{$Type->descricao}}</option>
@@ -74,28 +78,41 @@ if(isset($disable)){
                                 </div>
                                 @endif
                                  <div class="form-group">
-                                    <label>Documento:</label>
+                                    <label>Documento 
+                                        @if(!isset($contato))
+                                        <i style='color:red'>*</i>
+                                        @endif
+                                         :</label>
                                     <input class="form-control documento" name="documento" id="documento"  <?php if (isset($edicao)) echo 'value="' . $cliente->documento . '"' ?> <?php if (isset($disable)) echo 'disabled'; ?>>
                                 </div>
                                 <div class="form-group">
-                                    <label>Inscrição Estadual:</label>
+                                    <label>Inscrição Estadual 
+                                        @if(!isset($contato))
+                                        <i style='color:red'>*</i>
+                                        @endif :</label>
                                     <input class="form-control" name="inscricao" id="inscricao"  <?php if (isset($edicao)) echo 'value="' . $cliente->inscricao . '"' ?> <?php if (isset($disable)) echo 'disabled'; ?>>
                                 </div>
                                  <div class="form-group">
-                                    <label>Telefone:</label>
+                                    <label>Telefone <i style='color:red'>*</i> :</label>
                                     <input class="form-control telefone" name="telefone" id="telefone" <?php if (isset($edicao)) echo 'value="' . $cliente->fone . '"' ?> <?php if (isset($disable)) echo 'disabled'; ?>>
                                 </div>
+                             
                             </div>
                             <!-- /.col-lg-6 (nested) -->
                             <div class="col-lg-6">
+                                
+                                <div class="form-group">
+                                    <label>Cidade <i style='color:red'>*</i> :</label>
+                                    <input class="form-control" name="cidade" id="cidade" <?php if (isset($edicao)) echo 'value="' . $cliente->cidade . '"' ?> <?php if (isset($disable)) echo 'disabled'; ?>>
+                                </div>
 
                                 <div class="form-group">
-                                    <label>Endereço:</label>
+                                    <label>Endereço <i style='color:red'>*</i> :</label>
                                     <input class="form-control" name="endereco" id="endereco" <?php if (isset($edicao)) echo 'value="' . $cliente->endereco . '"' ?> <?php if (isset($disable)) echo 'disabled'; ?>>
                                 </div>
 
                                 <div class="form-group">
-                                    <label>CEP:</label>
+                                    <label>CEP <i style='color:red'>*</i> :</label>
                                     <input class="form-control cep" name="cep" id="cep" <?php if (isset($edicao)) echo 'value="' . $cliente->cep . '"' ?> <?php if (isset($disable)) echo 'disabled'; ?>>
                                 </div>
 
@@ -108,6 +125,12 @@ if(isset($disable)){
                                     <label>Responsavel:</label>
                                     <input class="form-control responsavel" name="responsavel" id="responsavel" <?php if (isset($edicao)) echo 'value="' . $cliente->responsavel . '"' ?> <?php if (isset($disable)) echo 'disabled'; ?>>
                                 </div>
+                                @if(isset($contato))
+                                <div class="form-group">
+                                    <label>CREA:</label>
+                                    <input class="form-control crea" name="crea" id="crea" <?php if (isset($edicao)) echo 'value="' . $cliente->crea . '"' ?> <?php if (isset($disable)) echo 'disabled'; ?>>
+                                </div>
+                                @endif
                                 <?php if (isset($edicao) || isset($disable)){ ?>
                                 <input type="hidden" name="id" id="id" value="{{$cliente->id}}">
                                 <?php } ?>
@@ -116,7 +139,7 @@ if(isset($disable)){
                                 <?php } else { ?>
                                 <button type="submit" class="btn btn-primary btn-block">Gravar</button>
                                 <?php } ?>
-
+                               <i style='color:red;float:right;margin-right:15px;margin-top:10px'>*<strong style='color:#323232'> Campos Obrigatorios</strong></i>
                             </form>
                         </div>
                         <!-- /.col-lg-12 (nested) -->

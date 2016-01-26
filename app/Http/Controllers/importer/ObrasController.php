@@ -5,6 +5,7 @@ namespace App\Http\Controllers\importer;
 use Illuminate\Http\Request;
 use App\importer\obra;
 use App\Obra as obr;
+use App\Contato as cont;
 use App\TipoContato as tipo;
 use App\Cliente as client;
 use App\importer\cliente;
@@ -49,8 +50,62 @@ class ObrasController extends Controller
     public function cadastro()
     {
          $tipos = tipo::all();
+          $selIds = array();
+         
          $clientes = client::all();
-         return view('backend.importer.obras-cadastro',compact('tipos', 'clientes'));
+         $contatos = cont::all();
+         foreach($contatos as $contat){
+            $selIds[] = $contat->tipo_id;
+         }
+         return view('backend.importer.obras-cadastro',compact('tipos', 'clientes', 'contatos','selIds'));
+    }
+
+    public function editar($id)
+    {
+         $edicao = true;
+         $tipos = tipo::all();
+         $clientes = client::all();
+         $contatos = cont::all();
+         $obra = obr::find($id);
+         $selected= array();
+         $selIds = array();
+         $sel= array();
+         foreach($contatos as $contat){
+            $selIds[] = $contat->tipo_id;
+         }
+         foreach($obra->contatos as $contato){
+            
+            $selected[]['contato'] = $contato->pivot->contato_id;
+         }
+         for($x=0;$x<count($selected);$x++){
+            $sel[] = cont::find($selected[$x]['contato']);
+         }
+         
+         return view('backend.importer.obras-cadastro',compact('tipos', 'clientes', 'contatos', 'obra', 'edicao','sel','selIds'));
+    }
+
+    public function gravar(Request $request){
+        $dados = $request->all();
+        $data = explode('&', $dados['dados']);
+        $dadinho = array();
+        $contes = array();
+        foreach($data as $dat){
+            list($key,$value) = explode('=',$dat);
+            if(strpos($key, 'X95c55e5759335f81907e08fe999ed1f8X')){
+               $newKey = str_replace('X95c55e5759335f81907e08fe999ed1f8X', '', $key);
+               $contes[$newKey] = $value;
+            }else{
+                $dadinho[$key] = urldecode($value);
+            }
+        }
+        $dadinho['locatario_id'] =access()->user()->locatario_id;
+        $dadinho['user_id']   =access()->user()->id;
+        $obraID = obr::create($dadinho);
+
+        foreach($contes as $cano){
+            $mario = array('obra_id' => $obraID, 'contato_id' => $cano);
+            $dxd = ////CREATE THE FUCKIN OBRA_CONTATO MODEL AND INSERT MARIO IN THE FECKING DB USEING THA WANKER
+        }
     }
 
    

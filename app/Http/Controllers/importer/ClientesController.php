@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\importer\cliente;
+use App\Cliente as client;
 use App\Http\Controllers\Controller;
 
 class ClientesController extends Controller
@@ -38,9 +39,6 @@ class ClientesController extends Controller
     public function ver($id)
     {
         $cliente   = cliente::get_by_id($id);
-        if ($cliente->locatario_id != access()->user()->locatario_id) {
-            return redirect()->route('clientes');
-        }
         $edicao = true;
         $disable = true;
 
@@ -54,8 +52,10 @@ class ClientesController extends Controller
 
             $dados['locatario_id'] =access()->user()->locatario_id;
             $dados['user_id']   =access()->user()->id;
+            $dados['fone'] = $dados['telefone'];
+            unset($dados['telefone']);
 
-            if(isset($dados['razao']) && isset($dados['fantasia']) && isset($dados['tipo']) && isset($dados['documento']) && isset($dados['telefone']) && isset($dados['endereco']) && isset($dados['locatario_id'])) {
+            if(isset($dados['razao']) && isset($dados['fantasia']) && isset($dados['tipo']) && isset($dados['cep']) && isset($dados['inscricao']) && isset($dados['documento']) && isset($dados['fone']) && isset($dados['endereco']) && isset($dados['cidade'])) {
 
 
                 $clienteID = cliente::create($dados);
@@ -76,9 +76,9 @@ class ClientesController extends Controller
             $dados['user_id']   =access()->user()->id;
             $dados['fone'] = $dados['telefone'];
             unset($dados['telefone']);
-            $id = $dados['user_id'];
-            unset($dados['user_id']);
-               $clienteID =   cliente::where('id',$id)->update($dados);
+            $id = $dados['id'];
+            unset($dados['id']);
+               $clienteID =   client::where('id',$id)->update($dados);
 
 
                 if($clienteID){

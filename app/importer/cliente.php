@@ -10,7 +10,7 @@ use Auth;
 class cliente extends Model
 {
 
-	protected $fillable = ['razao', 'fantasia', 'user_id', 'documento', 'inscricao', 'fone', 'endereco', 'cep', 'email', 'site', 'locatario_id'];
+	protected $fillable = ['razao', 'fantasia', 'user_id', 'documento', 'inscricao', 'cidade', 'fone', 'endereco', 'cep', 'email', 'site', 'locatario_id', 'tipo', 'responsavel'];
     protected $table = 'clientes';
     protected $primaryKey = 'id';
 

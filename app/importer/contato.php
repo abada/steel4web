@@ -10,7 +10,7 @@ use Auth;
 
 class contato extends Model
 {
-    protected $fillable = ['razao', 'fantasia', 'user_id', 'documento', 'inscricao', 'fone', 'endereco', 'cep', 'email', 'site', 'locatario_id'];
+    protected $fillable = ['razao', 'fantasia', 'user_id', 'documento', 'inscricao', 'fone', 'endereco', 'cep', 'email', 'site', 'locatario_id', 'cidade', 'crea'];
     protected $table = 'contatos';
     protected $primaryKey = 'id';
 
