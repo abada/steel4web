@@ -80,12 +80,18 @@ Route::post('cliente/gravar', array('middleware' => 'admin', 'as' => 'cliente/gr
 * CONTATOS
 */
 
+Route::get('tipo/cadastro', array('middleware' => 'admin', 'as' => 'tipo/cadastro', 'uses' => 'importer\ContatosController@tipoCadastro'));
 Route::get('contato/cadastro', array('middleware' => 'admin', 'as' => 'contato/cadastro', 'uses' => 'importer\ContatosController@cadastro'));
 Route::get('contatos', array('middleware' => 'admin', 'as' => 'contatos', 'uses' => 'importer\ContatosController@index'));
+Route::get('contato/tipos', array('middleware' => 'admin', 'as' => 'contato/tipos', 'uses' => 'importer\ContatosController@tipos'));
 Route::get('contato/{id}', array('middleware' => 'admin', 'as' => 'contato/{id}', 'uses' => 'importer\ContatosController@ver'));
 Route::get('contato/editar/{id}', array('middleware' => 'admin', 'as' => 'contato/editar/{id}', 'uses' => 'importer\ContatosController@editar'));
 Route::post('contato/update', array('middleware' => 'admin', 'as' => 'contato/update', 'uses' => 'importer\ContatosController@gravarEdicao'));
 Route::post('contato/gravar', array('middleware' => 'admin', 'as' => 'contato/gravar', 'uses' => 'importer\ContatosController@gravar'));
+Route::post('tipo/gravar', array('middleware' => 'admin', 'as' => 'tipo/gravar', 'uses' => 'importer\ContatosController@gravarTipo'));
+Route::get('tipo/editar/{id}', array('middleware' => 'admin', 'as' => 'tipo/editar/{id}', 'uses' => 'importer\ContatosController@tipoEditar'));
+Route::get('tipo/excluir/{id}', array('middleware' => 'admin', 'as' => 'tipo/excluir/{id}', 'uses' => 'importer\ContatosController@tipoExcluir'));
+Route::post('tipo/update', array('middleware' => 'admin', 'as' => 'tipo/update', 'uses' => 'importer\ContatosController@gravarTipoEdicao'));
 
 //END CONTATOS
 

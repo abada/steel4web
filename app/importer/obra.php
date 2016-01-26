@@ -16,7 +16,7 @@ class obra extends Model
      public static function get_all()
     {
         $query = 	DB::table('obras')
-        			->select('obras.id', 'obras.codigo AS codigoObra', 'obras.nome AS nomeObra', 'obras.data', 'clientes.razao', 'clientes.fantasia', 'status')
+        			->select('obras.id', 'obras.codigo AS codigoObra', 'obras.nome AS nomeObra', 'obras.created_at', 'clientes.razao', 'clientes.fantasia', 'status')
         			 ->leftJoin('clientes', 'clientes.id', '=', 'obras.cliente_id')
         			 ->where('obras.locatario_id', access()->user()->locatario_id)
                     ->get();

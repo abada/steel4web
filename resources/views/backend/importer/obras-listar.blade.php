@@ -44,7 +44,7 @@
                                     <td><?=$obra->codigoObra;?></td>
                                     <td><a href="obra/{{$obra->id}}"><?=$obra->nomeObra;?></a></td>
                                     <td><?=$obra->fantasia;?></td>
-                                    <td><?=$obra->data;?></td>
+                                    <td><?=$obra->created_at;?></td>
                                     <td class="text-center">
                                         <span class="text-<?=$tipoStatus;?>">
                                             <?=$status;?>
@@ -86,11 +86,4 @@
            <a href="#" type="button" class="btn btn-primary">Cadastrar Obra</a>
         </div>
     </div>
-<script type="text/javascript">
-$(document).ready(function() {
-    $('#dataTables').DataTable({
-        responsive: true
-    });
-});
-</script>
 @endsection

@@ -12,7 +12,7 @@ class TipoContato extends Model {
 	 * Get the contatos.
 	 */
 	public function contatos() {
-		return $this->hasMany('App\Contato', 'tipo');
+		return $this->hasMany('App\Contato');
 	}
 
 	/**

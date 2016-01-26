@@ -39,7 +39,7 @@ class Contato extends Model {
 	 * @return Relationship belongsTo
 	 */
 	public function tipo() {
-		return $this->belongsTo('App\TipoContato', 'tipo');
+		return $this->belongsTo('App\TipoContato');
 	}
 
 	/**

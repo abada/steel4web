@@ -25,7 +25,7 @@
                         <?php if(!empty($etapa->subetapas) && $etapa->subetapas != ''){ ?>
                         <h4>Subetapas Cadastradas:</h4>
                         <?php foreach ($etapa->subetapas as $subetapa) { ?>
-                        <p><a href="#">Código: <?=$subetapa->codigoSubetapa;?></a></p>
+                        <p><a href="#">Código: <?=$subetapa->cod;?></a></p>
                         <?php } ?>
                         <?php } ?>
                         <p align="right"><a class="btn btn-primary" href="#">Cadastrar Sub-etapa</a></p>

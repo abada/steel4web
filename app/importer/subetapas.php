@@ -11,7 +11,7 @@ use Auth;
 class subetapas extends Model
 {
 
-	protected $fillable = ['codigoSubetapa', 'peso', 'tiposubetapa_id', 'observacao', 'etapa_id', 'user_id', 'locatario_id'];
+	protected $fillable = ['cod', 'peso', 'tiposubetapa_id', 'observacao', 'etapa_id', 'user_id', 'locatario_id'];
     protected $table = 'subetapas';
     protected $primaryKey = 'id';
 
@@ -52,7 +52,7 @@ class subetapas extends Model
          $query = 	DB::table('subetapas')->select('*')
             ->where('locatario_id',  access()->user()->locatario_id)
             ->where('etapa_id', $etapa_id)
-            ->orderby('codigoSubetapa', 'asc')
+            ->orderby('cod', 'asc')
             ->get();
 
         if(count($query) > 0):

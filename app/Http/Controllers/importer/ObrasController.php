@@ -37,7 +37,7 @@ class ObrasController extends Controller
         $cont = sizeof($etapas) - 1;
 
         for ($i=0; $i < $cont; $i++) {
-            $etapas[$i]->subetapas = subetapas::get_all($etapas[$i]->etapaID);
+            $etapas[$i]->subetapas = subetapas::get_all($etapas[$i]->id);
         }
 
         return view('backend.importer.obras-perfil',compact('obra', 'cliente', 'construtora', 'gerenciadora', 'calculista','detalhamento','montagem','etapas'));

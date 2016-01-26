@@ -1,6 +1,7 @@
 @extends('backend.layouts.master')
 
 <?php
+$name2 = 'Cliente';
 if (isset($edicao)) {
     $name = 'form-cliente-edita';
     $tipo = 'Editar';
@@ -11,7 +12,9 @@ if (isset($edicao)) {
 if(isset($contato)){
     $name = 'form-contato';
     $tipo = 'Cadastrar';
-}elseif(isset($contato) && isset($edicao)){
+    $name2 = 'Contato';
+}
+if(isset($contato) && isset($edicao)){
      $name = 'form-contato-edita';
     $tipo = 'Editar';
 }
@@ -24,7 +27,7 @@ if(isset($disable)){
 
 @section('page-header')
     <h1>
-        <?=$tipo;?> Cliente
+        {{ $tipo }} {{ $name2 }}
     </h1>
 @endsection
 
@@ -33,7 +36,7 @@ if(isset($disable)){
         <div class="col-lg-8">
             <div class="panel panel-default">
                 <div class="panel-heading bg-navy">
-                    <?=$tipo;?> cliente
+                    {{ $tipo }} {{ $name2 }}
                 </div>
                 <div class="panel-body">
                     <div class="row">
@@ -52,6 +55,7 @@ if(isset($disable)){
                                     <label>Email:</label>
                                     <input class="form-control" name="email" id="email" <?php if (isset($edicao)) echo 'value="' . $cliente->email . '"' ?> <?php if (isset($disable)) echo 'disabled'; ?>>
                                 </div>
+                                @if(!$contato)
                                  <div class="form-group">
                                     <label>Tipo de Cliente:</label>
                                     <select class="form-control" name="tipo" id="tipo" <?php if (isset($disable)) echo 'disabled'; ?>>
@@ -59,6 +63,16 @@ if(isset($disable)){
                                         <option value="1" <?php if (isset($edicao) && $tipo == 1) echo 'selected'; ?>>Jurídico</option>
                                     </select>
                                 </div>
+                                @else
+                                    <div class="form-group">
+                                    <label>Tipo de Contato:</label>
+                                    <select class="form-control" name="tipo_id" id="tipo_id" <?php if (isset($disable)) echo 'disabled'; ?>>
+                                        @foreach($tipos as $Type)
+                                        <option value="{{$Type->id}}" <?php if (isset($edicao) && $tipo == $Type->id) echo 'selected'; ?>>{{$Type->descricao}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                @endif
                                  <div class="form-group">
                                     <label>Documento:</label>
                                     <input class="form-control documento" name="documento" id="documento"  <?php if (isset($edicao)) echo 'value="' . $cliente->documento . '"' ?> <?php if (isset($disable)) echo 'disabled'; ?>>

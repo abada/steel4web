@@ -357,6 +357,7 @@ $(document).ready(function(){
         var cep       = $("#cep").val();
 
 
+
         if ( razao != '' && fantasia != '' && email != '' && tipo != '' && documento != '' && inscricao != '' && telefone != '' && endereco != '' && cep != '') {
             $('#tipoError2').addClass('hidden');
             $('#tipoError').addClass('hidden');
@@ -414,6 +415,7 @@ $(document).ready(function(){
         var responsavel    = $("#responsavel").val();
         var endereco  = $("#endereco").val();
         var cep       = $("#cep").val();
+        var id       = $("#id").val();
 
         if ( razao != '' && fantasia != '' && email != '' && tipo != '' && documento != '' && inscricao != '' && telefone != '' && endereco != '' && cep != '') {
             $('#tipoError2').addClass('hidden');
@@ -422,7 +424,7 @@ $(document).ready(function(){
             $('#tipoLoading').removeClass('hidden');
             jQuery.ajax({
                 type: "POST",
-                data: {razao:razao, fantasia:fantasia, email:email, tipo:tipo, documento:documento, inscricao:inscricao, telefone:telefone, site:site, responsavel:responsavel, endereco:endereco, cep:cep},
+                data: {id:id, razao:razao, fantasia:fantasia, email:email, tipo:tipo, documento:documento, inscricao:inscricao, telefone:telefone, site:site, responsavel:responsavel, endereco:endereco, cep:cep},
                 url: "/cliente/update",
                 dataType: "html",
                 success: function(result){
@@ -524,7 +526,7 @@ $(document).ready(function(){
         var razao     = $("#razao").val();
         var fantasia  = $("#fantasia").val();
         var email     = $("#email").val();
-        var tipo      = $("#tipo").val();
+        var tipo      = $("#tipo_id").val();
         var documento = $("#documento").val();
         var inscricao = $("#inscricao").val();
         var telefone  = $("#telefone").val();
@@ -532,6 +534,7 @@ $(document).ready(function(){
         var responsavel    = $("#responsavel").val();
         var endereco  = $("#endereco").val();
         var cep       = $("#cep").val();
+        var id       = $("#id").val();
 
         if ( razao != '' && fantasia != '' && email != '' && tipo != '' && documento != '' && inscricao != '' && telefone != '' && endereco != '' && cep != '') {
             $('#tipoError2').addClass('hidden');
@@ -540,7 +543,7 @@ $(document).ready(function(){
             $('#tipoLoading').removeClass('hidden');
             jQuery.ajax({
                 type: "POST",
-                data: {razao:razao, fantasia:fantasia, email:email, tipo:tipo, documento:documento, inscricao:inscricao, telefone:telefone, site:site, responsavel:responsavel, endereco:endereco, cep:cep},
+                data: {id:id, razao:razao, fantasia:fantasia, email:email, tipo_id:tipo, documento:documento, inscricao:inscricao, telefone:telefone, site:site, responsavel:responsavel, endereco:endereco, cep:cep},
                 url: "/contato/update",
                 dataType: "html",
                 success: function(result){
@@ -576,6 +579,106 @@ $(document).ready(function(){
          }
     });
     // FIM das regras de gravação de Contatos
+
+    // Inicio das regras de gravação de Categorias de Contatos
+    jQuery("#form-tipo").submit(function(e){
+          e.preventDefault();
+        var descricao     = $("#descricao").val();
+
+
+
+        if ( descricao != '') {
+            $('#tipoError2').addClass('hidden');
+            $('#tipoError').addClass('hidden');
+            $('#tipoSuccess').addClass('hidden');
+            $('#tipoLoading').removeClass('hidden');
+            jQuery.ajax({
+                type: "POST",
+                data: {descricao:descricao},
+                url: "/tipo/gravar",
+                dataType: "html",
+                success: function(result){
+                    if (result.substring(0,7) == 'sucesso') {
+                        $('#tipoLoading').addClass('hidden');
+                        $('#tipoSuccess').removeClass('hidden');
+                        $('#tipoError').addClass('hidden');
+                        $('#tipoError2').addClass('hidden');
+                        $("#razao").val('');
+                        $("#fantasia").val('');
+                        $("#email").val('');
+                        $("#tipo").val('');
+                        $("#documento").val('');
+                        $("#inscricao").val('');
+                        $("#telefone").val('');
+                        $("#cidade").val('');
+                        $("#endereco").val('');
+                        $("#cep").val('');
+                    } else {
+                        $('#tipoLoading').addClass('hidden');
+                        $('#tipoError2').removeClass('hidden');
+                        $('#tipoSuccess').addClass('hidden');
+                    }
+                },
+                error: function(result){
+                    $('#tipoLoading').addClass('hidden');
+                    $('#tipoError').removeClass('hidden');
+                    $('#tipoSuccess').addClass('hidden');
+                },
+            });
+         } else {
+            alert('Todos os campos são obrigatórios!');
+         }
+       
+    });
+
+    jQuery("#form-tipo-edita").submit(function(e){
+        e.preventDefault();
+        var descricao     = $("#descricao").val();
+        var id     = $("#id").val();
+
+         if ( descricao != '') {
+           $('#tipoError2').addClass('hidden');
+            $('#tipoError').addClass('hidden');
+            $('#tipoSuccess').addClass('hidden');
+            $('#tipoLoading').removeClass('hidden');
+            jQuery.ajax({
+                type: "POST",
+                data: {descricao:descricao, id:id},
+                url: "/tipo/update",
+                dataType: "html",
+                success: function(result){
+                    if (result.substring(0,7) == 'sucesso') {
+                        $('#tipoLoading').addClass('hidden');
+                        $('#tipoSuccess').removeClass('hidden');
+                        $('#tipoError').addClass('hidden');
+                        $('#tipoError2').addClass('hidden');
+                        $("#razao").val('');
+                        $("#fantasia").val('');
+                        $("#email").val('');
+                        $("#tipo").val('');
+                        $("#documento").val('');
+                        $("#inscricao").val('');
+                        $("#telefone").val('');
+                        $("#cidade").val('');
+                        $("#endereco").val('');
+                        $("#cep").val('');
+                    } else {
+                        $('#tipoLoading').addClass('hidden');
+                        $('#tipoError2').removeClass('hidden');
+                        $('#tipoSuccess').addClass('hidden');
+                    }
+                },
+                error: function(result){
+                    $('#tipoLoading').addClass('hidden');
+                    $('#tipoError').removeClass('hidden');
+                    $('#tipoSuccess').addClass('hidden');
+                },
+            });
+         } else {
+            alert('Todos os campos são obrigatórios!');
+         }
+    });
+    // FIM das regras de gravação de Categorias de Contatos
 
     // Inicio das regras de gravação de parceiro
     jQuery("#form-parceiro").submit(function(e){

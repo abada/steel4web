@@ -1,12 +1,4 @@
 @extends('backend.layouts.master')
-
-@section('page-header')
-    <h1>
-        Clientes
-    </h1>
-@endsection
-
-@section('content')
 <?php 
     if(isset($contato)){
         $name = 'Contatos';
@@ -18,11 +10,24 @@
         $type = 'cliente';
     }
  ?>
+@section('page-header')
+    <h1>
+        {{ $name }}
+        @if(isset($contato))
+       <a href="contato/tipos" type="button" style='float:right' class="btn btn-primary">Tipos de Contatos</a>
+    @endif
+    </h1>
+
+@endsection
+
+@section('content')
+
     <div class="row">
         <div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-heading bg-navy">
                     Listagem de {{$name}}
+                   
                 </div>
                 <?php if (!empty($clientes)) { ?>
                 <!-- /.panel-heading -->
@@ -40,11 +45,15 @@
                             </thead>
                             <tbody>
                             <?php foreach ($clientes as $cliente) {
-                                if ($cliente->tipo == 0) {
-                                    $tipo = 'Física';
-                                } else {
-                                    $tipo = 'Jurídico';
-                                } 
+                                if(!isset($contato)){
+                                    if ($cliente->tipo == 0) {
+                                        $tipo = 'Física';
+                                    } else {
+                                        $tipo = 'Jurídico';
+                                    } 
+                                }else{
+                                    $tipo = $cliente->tipo->descricao;
+                                }
                                 ?>
                                 <tr class="stripped">
                                     <td><a href="{{$type}}/{{$cliente->id}}"><?=$cliente->razao;?></a></td>
@@ -53,7 +62,7 @@
                                     <td class="text-center"><?=$tipo;?></td>
                                      <td>
                                         <div class="text-center">
-                                            <a href="{{$type}}/editar/{{$cliente->id}}" alt="Editar cliente" title="Editar cliente">
+                                            <a href="{{$type}}/editar/{{$cliente->id}}" alt="Editar {{$type}}" title="Editar {{$type}}">
                                                 <i class="fa fa-edit fa-fw"></i>
                                             </a>
                                         </div>
