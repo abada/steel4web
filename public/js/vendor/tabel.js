@@ -12,16 +12,30 @@ $(document).ready(function() {
 
 $('#noSort').DataTable({
         responsive: true,
-        "ordering": false
+        "ordering": false,
+        "bInfo" : false
     });
 
+//$('.toBeHidden').hide();
+
+var toBe2 = 0;
+
+$('#subToggle').click(function(e) {
+   if(toBe2%2 != 0){
+    $('.toBeHidden').show();
+    $('.clickTable').removeClass('fa-plus').addClass('fa-minus');
+  }else{
+    $('.toBeHidden').hide();
+    $('.clickTable').removeClass('fa-minus').addClass('fa-plus');
+  }
+  toBe2++;
+});
 
 
    $('.clickTable').click(function(e) {
-      e.preventDefault();
       var id = event.target.id;
-      $('.toHide').fadeOut('400');
-      $('.'+id).fadeIn('400');
+      $('.'+id).toggle();
+      $(this).toggleClass('fa-minus fa-plus');
    });
 
   

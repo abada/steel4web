@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\LocatarioScope;
 
 class TipoSubetapa extends Model {
 
@@ -13,6 +14,13 @@ class TipoSubetapa extends Model {
 	];
 
 	protected $table = 'tipossubetapas';
+
+	protected static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope(new LocatarioScope);
+    }
 
 	/**
 	 * Get the User (owner) of the model

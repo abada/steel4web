@@ -31,8 +31,8 @@
             <br>
 
             <!-- Optionally, you can add icons to the links -->
-            <li class="{{ Active::pattern('admin/dashboard') }}">
-                <a href="{!! route('admin.dashboard') !!}"><i class="fa fa-dashboard fa-fw"></i><span> Painel de Controle</span></a>
+            <li class="{{ Active::pattern('dashboard') }}">
+                <a href="{!! route('dashboard') !!}"><i class="fa fa-dashboard fa-fw"></i><span> Painel de Controle</span></a>
             </li>
             <li class="{{ Active::pattern('clientes') }} {{ Active::pattern('cliente/*') }}">
                 <a href="{!! route('clientes') !!}"><i class="fa fa-users fa-fw"></i><span> Clientes</span></a>

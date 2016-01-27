@@ -36,7 +36,7 @@ class EtapasController extends Controller
             $att = $dados;
                $clienteID = etap::create($att);
             $subAtt = array(
-                'cod'               => 'estrutura',
+                'cod'               => $clienteID->codigo.'-A',
                 'peso'              => $clienteID->peso,
                 'tiposubetapa_id'   => 1,
                 'observacao'        => $dados['observacao'],
@@ -52,4 +52,50 @@ class EtapasController extends Controller
                 }
             die('erro');
     }
+
+    public function gravarEdicao(Request $request)
+    {
+        
+        $dados = $request->all();
+
+            $dados['user_id']   =access()->user()->id;
+            $ID = (int)  $dados['obra_id'];
+            $id = $dados['etapaID'];
+            unset($dados['etapaID']);
+            unset($dados['obra_id']);
+            $att = $dados;
+            $clienteID = etap::find($id);
+            $clienteID->update($att);
+            $subEdit = sub::where('etapa_id',$id)->where('tiposubetapa_id',1);
+            $subAtt = array(
+                'peso'              => $clienteID->peso,
+                'tiposubetapa_id'   => 1,
+                'observacao'        => $dados['observacao'],
+                'user_id'           => $dados['user_id']
+                );
+            $subCreate = $subEdit->update($subAtt);
+
+
+                if($clienteID && $subCreate){
+                    die('sucesso');
+                }
+            die('erro');
+    }
+
+    public function excluir(Request $request)
+    {
+        $dados = $request->all();
+        $etapaID = $dados['id'];
+        $etapa = etap::find($etapaID);
+        $obraID = $etapa->obra_id;
+        if(count($etapa->subetapas) > 1){
+            die('erro') ; 
+        }
+        else{
+          $etapa->delete();
+          die('sucesso');
+            
+        }
+        }
+       
 }

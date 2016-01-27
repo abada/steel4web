@@ -41,7 +41,7 @@ class Locatario extends Model {
 	 * @return Relationship hasMany
 	 */
 	public function users() {
-		return $this->hasMany('App\Model\Access\User\User');
+		return $this->hasMany('App\Models\Access\User\User');
 	}
 
 	/**

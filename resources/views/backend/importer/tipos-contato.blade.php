@@ -90,7 +90,7 @@
         </div>
         <!-- /.col-lg-12 -->
         <div class="col-lg-6 col-md-6">
-            <a href="javascript:history.back()" type="button" class="btn btn-primary"><< Voltar</a>
+            <a href="/contatos" type="button" class="btn btn-primary"><< Voltar</a>
         </div>
         <div class="col-lg-6 col-md-6 text-right">
            <a href="../tipo/cadastro" type="button" class="btn btn-primary">Cadastrar Categoria de Contato</a>

@@ -40,10 +40,14 @@ if (isset($edicao)) {
                                 </div>
 
 
-                                <?php if (isset($edicao)) { ?>
+                                <?php if (isset($edicao)) {
+                                  $obraID = $etapa->obra_id;
+                                 ?>
                                 <input type="hidden" name="etapaID" id="etapaID" value="<?=$etapa->id;?>">
-                                <?php } ?>
                                 <input type="hidden" name="obraID" id="obraID" value="<?=$etapa->obra_id;?>">
+                                <?php }else{ ?>
+                                <input type="hidden" name="obraID" id="obraID" value="<?=$obraID;?>">
+                                <?php } ?>
 
                                 <button type="submit" class="btn btn-primary btn-block">Gravar</button>
 
@@ -95,5 +99,5 @@ if (isset($edicao)) {
             <!-- /.col-lg-4 -->
         </div>
     </div>
-    <a href="javascript:history.back()" type="button" class="btn btn-primary"><< Voltar</a>
+    <a href="/obra/{{$obraID}}#etapas" type="button" class="btn btn-primary"><< Voltar</a>
 @endsection

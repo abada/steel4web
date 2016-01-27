@@ -6,8 +6,6 @@ $(document).ready(function(){
         }
     });
 
-    var Basepath = "http://localhost/new_s4w";
-
     // Inicio das regras de gravação de etapas do saas
     jQuery("#form-etapa").submit(function(e){
         e.preventDefault();
@@ -52,76 +50,23 @@ $(document).ready(function(){
         
     });
 
-    // Inicio das regras de gravação de etapas do saas
     jQuery("#form-etapa-edita").submit(function(e){
+        e.preventDefault();
         var codigoEtapa         = $("#codigoEtapa").val();
         var peso                = $("#peso").val();
-        var outro               = $("#outro").val();
-        var observacao          = $("#observacao").val();
         var obraID              = $("#obraID").val();
-        var etapaID             = $("#etapaID").val();
+        var observacao          = $("#observacao").val();
+        var etapaID          = $("#etapaID").val();
 
-        if($("#estruturaPrincipal").is(":checked")) {
-            var estruturaPrincipal = 1;
-        } else {
-            var estruturaPrincipal = 0;
-        }
-        if($("#estruturaSecundaria").is(":checked")) {
-            var estruturaSecundaria = 1;
-        } else {
-            var estruturaSecundaria = 0;
-        }
-        if($("#telhasCobertura").is(":checked")) {
-            var telhasCobertura = 1;
-        } else {
-            var telhasCobertura = 0;
-        }
-        if($("#telhasFechamento").is(":checked")) {
-            var telhasFechamento = 1;
-        } else {
-            var telhasFechamento = 0;
-        }
-        if($("#calhas").is(":checked")) {
-            var calhas = 1;
-        } else {
-            var calhas = 0;
-        }
-        if($("#rufosArremates").is(":checked")) {
-            var rufosArremates = 1;
-        } else {
-            var rufosArremates = 0;
-        }
-        if($("#steelDeck").is(":checked")) {
-            var steelDeck = 1;
-        } else {
-            var steelDeck = 0;
-        }
-        if($("#gradesPiso").is(":checked")) {
-            var gradesPiso = 1;
-        } else {
-            var gradesPiso = 0;
-        }
-        if($("#escadas").is(":checked")) {
-            var escadas = 1;
-        } else {
-            var escadas = 0;
-        }
-        if($("#corrimao").is(":checked")) {
-            var corrimao = 1;
-        } else {
-            var corrimao = 0;
-        }
-
-
-        if (obraID != '' && codigoEtapa != '' && peso != '' && etapaID != '') {
+        if (obraID != '' && codigoEtapa != '' && peso != '') {
             $('#tipoError2').addClass('hidden');
             $('#tipoError').addClass('hidden');
             $('#tipoSuccess').addClass('hidden');
             $('#tipoLoading').removeClass('hidden');
             jQuery.ajax({
                 type: "POST",
-                data: {codigoEtapa:codigoEtapa, peso:peso, estruturaPrincipal:estruturaPrincipal, estruturaSecundaria:estruturaSecundaria, telhasCobertura:telhasCobertura, telhasFechamento:telhasFechamento, calhas:calhas, rufosArremates:rufosArremates, steelDeck:steelDeck, gradesPiso:gradesPiso, escadas:escadas, corrimao:corrimao, outro:outro, observacao:observacao, obraID:obraID, etapaID:etapaID},
-                url: Basepath + "/s4w/saas/etapas/gravarEdicao",
+                data: {codigo:codigoEtapa, peso:peso,  obra_id:obraID, observacao:observacao, etapaID:etapaID},
+                url: "/etapa/update",
                 dataType: "html",
                 success: function(result){
                     if (result.substring(0,7) == 'sucesso') {
@@ -146,6 +91,98 @@ $(document).ready(function(){
          }
          e.preventDefault();
     });
+    //Termino Etapas
+
+
+    // Inicio das regras de gravação de subetapas
+    $("#form-subetapa").submit(function(e){
+        e.preventDefault();
+        var cod                 = $("#codigoSubetapa").val();
+        var peso                = $("#peso").val();
+        var tipo                = $("#tipo").val();
+        var observacao          = $("#observacao").val();
+        var etapa_id            = $('#etapaID').val();
+
+        if (cod != '' && tipo != '' && peso != '') {
+            $('#tipoError2').addClass('hidden');
+            $('#tipoError').addClass('hidden');
+            $('#tipoSuccess').addClass('hidden');
+            $('#tipoLoading').removeClass('hidden');
+            jQuery.ajax({
+                type: "POST",
+                data: {cod:cod, peso:peso,  etapa_id:etapa_id, observacao:observacao, tiposubetapa_id:tipo},
+                url: "/subetapa/gravar",
+                dataType: "html",
+                success: function(result){
+                    if (result.substring(0,7) == 'sucesso') {
+                        $('#tipoLoading').addClass('hidden');
+                        $('#tipoSuccess').removeClass('hidden');
+                        $('#tipoError').addClass('hidden');
+                        $('#tipoError2').addClass('hidden');
+                        $("#codigoEtapa").val('');
+                        $("#peso").val('');
+                    } else {
+                        $('#tipoLoading').addClass('hidden');
+                        $('#tipoError2').removeClass('hidden');
+                        $('#tipoSuccess').addClass('hidden');
+                    }
+                },
+                error: function(result){
+                    $('#tipoLoading').addClass('hidden');
+                    $('#tipoError').removeClass('hidden');
+                    $('#tipoSuccess').addClass('hidden');
+                },
+            });
+         } else {
+            alert('Verifique os campos obrigatórios!');
+         }
+        
+    });
+
+    $("#form-subetapa-edita").submit(function(e){
+        e.preventDefault();
+        var cod                 = $("#codigoSubetapa").val();
+        var peso                = $("#peso").val();
+        var tipo                = $("#tipo").val();
+        var observacao          = $("#observacao").val();
+        var etapa_id            = $('#etapaID').val();
+        var id                  = $('#subetapaID').val();
+
+        if (cod != '' && tipo != '' && peso != '') {
+            $('#tipoError2').addClass('hidden');
+            $('#tipoError').addClass('hidden');
+            $('#tipoSuccess').addClass('hidden');
+            $('#tipoLoading').removeClass('hidden');
+            jQuery.ajax({
+                type: "POST",
+                data: {cod:cod, peso:peso,  etapa_id:etapa_id, observacao:observacao, tiposubetapa_id:tipo,id:id},
+                url: "/subetapa/update",
+                dataType: "html",
+                success: function(result){
+                    if (result.substring(0,7) == 'sucesso') {
+                        $('#tipoLoading').addClass('hidden');
+                        $('#tipoSuccess').removeClass('hidden');
+                        $('#tipoError').addClass('hidden');
+                        $('#tipoError2').addClass('hidden');
+                    } else {
+                        $('#tipoLoading').addClass('hidden');
+                        $('#tipoError2').removeClass('hidden');
+                        $('#tipoSuccess').addClass('hidden');
+                    }
+                },
+                error: function(result){
+                    $('#tipoLoading').addClass('hidden');
+                    $('#tipoError').removeClass('hidden');
+                    $('#tipoSuccess').addClass('hidden');
+                },
+            });
+         } else {
+            alert('Verifique os campos obrigatórios!');
+         }
+         e.preventDefault();
+    });
+    //TErmino Subetapas
+
 
     // Inicio das regras de gravação de usuários do saas
     jQuery("#form-obra").submit(function(e){
@@ -1208,4 +1245,82 @@ $(document).ready(function(){
     $('#xerro').click(function() {
         $('#convertError').fadeOut('fast');
     });
+
+    $('.delEtapa').click(function(e) {
+        e.preventDefault();
+        $('#tipoError2').addClass('hidden');
+        $('#tipoError').addClass('hidden');
+        $('#tipoSuccess').addClass('hidden');
+        $('#tipoLoading').removeClass('hidden');
+        var idEtapa          = $(this).attr('name');
+        $.ajax({
+          url: "/etapa/excluir",
+          type: "POST",
+          data: {id: idEtapa},
+          dataType: "html",
+          success: function(result){
+           if (result.substring(0,7) == 'sucesso') {
+            location.reload();
+        } else {
+            $('#tipoError2').addClass('hidden');
+            $('#tipoLoading').addClass('hidden');
+            $('#tipoError').removeClass('hidden');
+            $('#tipoSuccess').addClass('hidden');
+        }
+          },
+        error: function(result){
+            $('#tipoError2').addClass('hidden');
+            $('#tipoLoading').addClass('hidden');
+            $('#tipoError').removeClass('hidden');
+            $('#tipoSuccess').addClass('hidden');
+        }
+        });
+    });
+
+    $('.delSubEtapa').click(function(e) {
+        e.preventDefault();
+        $('#tipoError2').addClass('hidden');
+        $('#tipoError').addClass('hidden');
+        $('#tipoSuccess').addClass('hidden');
+        $('#tipoLoading').removeClass('hidden');
+        var idEtapa          = $(this).attr('name');
+        $.ajax({
+          url: "/subetapa/excluir",
+          type: "POST",
+          data: {id: idEtapa},
+          dataType: "html",
+          success: function(result){
+           if (result.substring(0,7) == 'sucesso') {
+            location.reload();
+        }
+        else if(result.substring(0,7) == 'erro2') {
+            $('#tipoError').addClass('hidden');
+            $('#tipoLoading').addClass('hidden');
+            $('#tipoError2').removeClass('hidden');
+            $('#tipoSuccess').addClass('hidden');
+        }
+        else{
+            $('#tipoError2').addClass('hidden');
+            $('#tipoLoading').addClass('hidden');
+            $('#tipoError').removeClass('hidden');
+            $('#tipoSuccess').addClass('hidden');
+        }
+          },
+        error: function(result){
+            $('#tipoError2').addClass('hidden');
+            $('#tipoLoading').addClass('hidden');
+            $('#tipoError').removeClass('hidden');
+            $('#tipoSuccess').addClass('hidden');
+        }
+        });
+    });
+    var url = document.location.toString();
+if (url.match('#')) {
+    $('.nav-tabs a[href=#'+url.split('#')[1]+']').tab('show') ;
+} 
+
+// Change hash for page-reload
+$('.nav-tabs a').on('shown.bs.tab', function (e) {
+    window.location.hash = e.target.hash;
+})
 });

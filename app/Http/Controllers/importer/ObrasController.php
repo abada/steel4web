@@ -147,7 +147,8 @@ class ObrasController extends Controller
                     $y++; 
                 }
             }
-            $obra_contato = $ThatObra->contatos()->sync($mario);
+            $delCO = $ThatObra->contatos()->where('obra_id',$id)->detach();
+            $obra_contato = $ThatObra->contatos()->attach($mario);
             die('sucesso');
         }
 
