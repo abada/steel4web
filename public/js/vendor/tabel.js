@@ -8,6 +8,24 @@ $(document).ready(function() {
   $('#dataTables').DataTable({
         responsive: true
     });
+
+
+$('#noSort').DataTable({
+        responsive: true,
+        "ordering": false
+    });
+
+
+
+   $('.clickTable').click(function(e) {
+      e.preventDefault();
+      var id = event.target.id;
+      $('.toHide').fadeOut('400');
+      $('.'+id).fadeIn('400');
+   });
+
+  
+
     var table = $('#lotPointer').DataTable();
  
     $('#formButton').click( function() {

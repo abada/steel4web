@@ -17,7 +17,7 @@ if (isset($edicao)) {
     <div class="row">
         <div class="col-lg-8">
             <div class="panel panel-default">
-                <div class="panel-heading bg-navy">
+                <div class="panel-heading bg-padrao">
                     <?=$title;?> de obra
                 </div>
                 <div class="panel-body">
@@ -54,11 +54,6 @@ if (isset($edicao)) {
                                 </div>
                                     @endif
                                 @endforeach
-
-                                <?php if (isset($edicao)) { ?>
-                                <input type="hidden" name="obraID" id="obraID" value="<?=$obra->id;?>">
-                                <?php } ?>
-
                                
 
                             </form>
@@ -103,6 +98,9 @@ if (isset($edicao)) {
                                     <label>CEP <i style='color:red'>*</i> :</label>
                                     <input class="form-control cep" name="cep" id="cep" <?php if (isset($edicao)) echo 'value="' . $obra->cep . '"' ?>>
                                 </div>
+                                @if(isset($edicao))
+                                    <input type="hidden" name='id' value='{{$obra->id}}'>
+                                @endif
                                  <button type="submit" style='margin-top:40px' class="btn btn-primary btn-block">Gravar</button>
                                  <i style='color:red;float:right;margin-right:15px;margin-top:10px'>*<strong style='color:#323232'> Campos Obrigatorios</strong></i>
                             </div>

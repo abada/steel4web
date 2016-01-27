@@ -39,7 +39,7 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="panel panel-default">
-                <div class="panel-heading bg-navy">
+                <div class="panel-heading bg-padrao">
                     Listagem de Categoria de Contatos
                    
                 </div>

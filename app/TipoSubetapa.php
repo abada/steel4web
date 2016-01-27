@@ -12,6 +12,8 @@ class TipoSubetapa extends Model {
 		'locatario_id',
 	];
 
+	protected $table = 'tipossubetapas';
+
 	/**
 	 * Get the User (owner) of the model
 	 * @return Relationship belongsTo

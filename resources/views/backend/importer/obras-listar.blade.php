@@ -9,7 +9,7 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="panel panel-default">
-                <div class="panel-heading bg-navy">
+                <div class="panel-heading bg-padrao">
                     Listagem de obras
                 </div>
                 @if(!empty($obras))
@@ -44,7 +44,7 @@
                                     <td><?=$obra->codigoObra;?></td>
                                     <td><a href="obra/{{$obra->id}}"><?=$obra->nomeObra;?></a></td>
                                     <td><?=$obra->fantasia;?></td>
-                                    <td><?=$obra->created_at;?></td>
+                                    <td class="text-center"><?php echo date("d/m/Y", strtotime($obra->created_at));?></td>
                                     <td class="text-center">
                                         <span class="text-<?=$tipoStatus;?>">
                                             <?=$status;?>

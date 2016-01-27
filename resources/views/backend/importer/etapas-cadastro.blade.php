@@ -18,7 +18,7 @@ if (isset($edicao)) {
     <div class="row">
         <div class="col-lg-4">
             <div class="panel panel-default">
-                <div class="panel-heading bg-navy">
+                <div class="panel-heading bg-padrao">
                     <?=$title;?> de etapa
                 </div>
                 <div class="panel-body">
@@ -27,7 +27,7 @@ if (isset($edicao)) {
                             <form role="form" name="<?=$name;?>" id="<?=$name;?>" accept-charset="utf-8">
                                 <div class="form-group">
                                     <label>Código da Etapa:</label>
-                                    <input class="form-control" name="codigoEtapa" id="codigoEtapa" <?php if (isset($edicao)) echo 'value="' . $etapa->codigoEtapa . '"' ?>>
+                                    <input class="form-control" name="codigoEtapa" id="codigoEtapa" <?php if (isset($edicao)) echo 'value="' . $etapa->codigo . '"' ?>>
                                 </div>
                                 <div class="form-group">
                                     <label>Peso:</label>
@@ -43,7 +43,7 @@ if (isset($edicao)) {
                                 <?php if (isset($edicao)) { ?>
                                 <input type="hidden" name="etapaID" id="etapaID" value="<?=$etapa->id;?>">
                                 <?php } ?>
-                                <input type="hidden" name="obraID" id="obraID" value="<?=$obraID;?>">
+                                <input type="hidden" name="obraID" id="obraID" value="<?=$etapa->obra_id;?>">
 
                                 <button type="submit" class="btn btn-primary btn-block">Gravar</button>
 

@@ -197,29 +197,22 @@ $(document).ready(function(){
     });
 
     jQuery("#form-obra-edita").submit(function(e){
-        var codigo       = $("#codigo").val();
-        var nome         = $("#nome").val();
-        var descricao    = $("#descricao").val();
-        var cidade       = $("#cidade").val();
-        var endereco     = $("#endereco").val();
-        var cep          = $("#cep").val();
-        var clienteID    = $("#clienteID").val();
-        var construtora  = $("#construtora").val();
-        var gerenciadora = $("#gerenciadora").val();
-        var calculista   = $("#calculista").val();
-        var detalhamento = $("#detalhamento").val();
-        var montagem     = $("#montagem").val();
-        var obraID       = $("#obraID").val();
+       $.fn.serializeAndEncode = function() {
+    return $.map(this.serializeArray(), function(val) {
+        return [val.name, encodeURIComponent(val.value)].join('=');
+    }).join('&');
+};
 
-        if (nome != '' && cidade != '' && endereco != '' && clienteID != '') {
+       var data = $("#form-obra-edita").serializeAndEncode();
+          if (data) {
             $('#tipoError2').addClass('hidden');
             $('#tipoError').addClass('hidden');
             $('#tipoSuccess').addClass('hidden');
             $('#tipoLoading').removeClass('hidden');
             jQuery.ajax({
                 type: "POST",
-                data: {codigo:codigo, nome:nome, descricao:descricao, cidade:cidade, endereco:endereco, cep:cep, clienteID:clienteID, construtora:construtora, gerenciadora:gerenciadora, calculista:calculista, detalhamento:detalhamento, montagem:montagem, obraID:obraID},
-                url: Basepath + "/s4w/saas/obras/gravarEdicao",
+                data: {dados:data}, 
+                url: "/obra/update",
                 dataType: "html",
                 success: function(result){
                     if (result.substring(0,7) == 'sucesso') {
@@ -476,7 +469,7 @@ $(document).ready(function(){
         var crea       = $("#crea").val();
 
 
-        if (fantasia != '' && email != '' && tipo != ''  && cidade != '' && telefone != '' && endereco != '' && cep != '') {
+        if (razao != '' && email != '' && tipo != ''  && cidade != '' && telefone != '' && endereco != '' && cep != '') {
             $('#tipoError2').addClass('hidden');
             $('#tipoError').addClass('hidden');
             $('#tipoSuccess').addClass('hidden');
@@ -1202,7 +1195,6 @@ $(document).ready(function(){
     // $('.documento').mask('00.000.000/0000-00', docOptions);
     // $('.documento').mask('00.000.000/0000-00', options);
     $('.cep').mask('00000-000');
-
 
     $('#subImport').click(function() {
         $('#tipoLoading').removeClass('hidden');

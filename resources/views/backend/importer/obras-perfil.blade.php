@@ -2,7 +2,7 @@
 
 @section('page-header')
     <h1>
-       Obra: {{ $obra->nome }}
+       {{ $obra->nome }}
     </h1>
 @endsection
 

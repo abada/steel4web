@@ -18,15 +18,17 @@
         @yield('meta')
 
         <!-- Styles -->
+
         @yield('before-styles-end')
+
         {!! Html::style(elixir('css/backend.css')) !!}
         {!! Html::style(elixir('css/frontend.css')) !!}
-
-        
+    
+        <link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet"/>
         {{HTML::style('css/frontend/dataTables.min.css')}}
         {{HTML::style('css/frontend/custom.css')}}
-        <link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet"/>
         @yield('after-styles-end')
+
 
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -64,6 +66,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 
     <script>window.jQuery || document.write('<script src="{{asset('js/vendor/jquery/jquery-2.1.4.min.js')}}"><\/script>')</script>
+    <script type="text/javascript"> $(document).ready(function () { $('.dropdown-toggle').dropdown(); }); </script>
      {!! Html::script('js/vendor/dataTables.min.js') !!}
     {!! Html::script('js/vendor/bootstrap/bootstrap.min.js') !!}
    

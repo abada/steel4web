@@ -49,25 +49,28 @@
     </div>
     <?php } ?>
 
-    <?php if (isset($construtora)) { ?>
+   @foreach($contatos as $contato)
     <div class="col-lg-4">
-        <div class="panel panel-default">
+        <div class="panel panel-padrao">
             <div class="panel-heading">
-                Detalhes da construtora
+                {{$contato->tipo->descricao}}
             </div>
             <!-- /.panel-heading -->
             <div class="panel-body">
                 <address>
                     <?php
-                        if(isset($construtora->fantasia)) echo '<strong>' . $construtora->fantasia . '</strong><br />';
-                        if(isset($construtora->razao)) echo '<strong>' . $construtora->razao . '</strong><br />';
+                        if(!empty($contato->fantasia)) echo '<strong>' . $contato->fantasia . '</strong><br />';
+                        if(!empty($contato->razao)) echo '<strong>' . $contato->razao . '</strong><br />';
                         echo '<br />';
-                        if(isset($construtora->email)) echo 'Email: ' . $construtora->email . '<br />';
-                        if(isset($construtora->site)) echo 'Site: ' . $construtora->site . '<br />';
-                        if(isset($construtora->endereco)) echo $construtora->endereco . '<br />';
-                        if(isset($construtora->nomeCidade)) echo $construtora->nomeCidade . ', ' . $construtora->nomeEstado . ' - ' . $construtora->uf . '<br />';
-                        if(isset($construtora->cep)) echo 'CEP: ' . $construtora->cep . '<br />';
-                        if(isset($construtora->fone)) echo 'Fone: ' . $construtora->fone;
+                        if(!empty($contato->email)) echo 'Email: ' . $contato->email . '<br />';
+                        if(!empty($contato->site)) echo 'Site: ' . $contato->site . '<br />';
+                        if(!empty($contato->endereco)) echo $contato->endereco . '<br />';
+                        if(!empty($contato->cidade)) echo $contato->cidade . '<br />';
+                        if(!empty($contato->cep)) echo 'CEP: ' . $contato->cep . '<br />';
+                        if(!empty($contato->fone)) echo 'Fone: ' . $contato->fone;
+                        if(!empty($contato->documento)) echo 'Documento: ' . $contato->documento . '<br />';
+                        if(!empty($contato->responsavel)) echo 'Responsavel: ' . $contato->responsavel . '<br />';
+                        if(!empty($contato->crea)) echo 'CREA: ' . $contato->crea . '<br />';
                     ?>
                 </address>
             </div>
@@ -75,117 +78,6 @@
         </div>
         <!-- /.panel -->
     </div>
-    <?php } ?>
+   @endforeach
 
-    <?php if (isset($gerenciadora)) { ?>
-    <div class="col-lg-4">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                Detalhes da gerenciadora
-            </div>
-            <!-- /.panel-heading -->
-            <div class="panel-body">
-                <address>
-                    <?php
-                        if(isset($gerenciadora->fantasia)) echo '<strong>' . $gerenciadora->fantasia . '</strong><br />';
-                        if(isset($gerenciadora->razao)) echo '<strong>' . $gerenciadora->razao . '</strong><br />';
-                        echo '<br />';
-                        if(isset($gerenciadora->email)) echo 'Email: ' . $gerenciadora->email . '<br />';
-                        if(isset($gerenciadora->site)) echo 'Site: ' . $gerenciadora->site . '<br />';
-                        if(isset($gerenciadora->endereco)) echo $gerenciadora->endereco . '<br />';
-                        if(isset($gerenciadora->nomeCidade)) echo $gerenciadora->nomeCidade . ', ' . $gerenciadora->nomeEstado . ' - ' . $gerenciadora->uf . '<br />';
-                        if(isset($gerenciadora->cep)) echo 'CEP: ' . $gerenciadora->cep . '<br />';
-                        if(isset($gerenciadora->fone)) echo 'Fone: ' . $gerenciadora->fone;
-                    ?>
-                </address>
-            </div>
-            <!-- /.panel-body -->
-        </div>
-        <!-- /.panel -->
-    </div>
-    <?php } ?>
-
-    <?php if (isset($calculista)) { ?>
-    <div class="col-lg-4">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                Detalhes do calculista
-            </div>
-            <!-- /.panel-heading -->
-            <div class="panel-body">
-                <address>
-                    <?php
-                        if(isset($calculista->fantasia)) echo '<strong>' . $calculista->fantasia . '</strong><br />';
-                        if(isset($calculista->razao)) echo '<strong>' . $calculista->razao . '</strong><br />';
-                        echo '<br />';
-                        if(isset($calculista->email)) echo 'Email: ' . $calculista->email . '<br />';
-                        if(isset($calculista->site)) echo 'Site: ' . $calculista->site . '<br />';
-                        if(isset($calculista->endereco)) echo $calculista->endereco . '<br />';
-                        if(isset($calculista->nomeCidade)) echo $calculista->nomeCidade . ', ' . $calculista->nomeEstado . ' - ' . $calculista->uf . '<br />';
-                        if(isset($calculista->cep)) echo 'CEP: ' . $calculista->cep . '<br />';
-                        if(isset($calculista->fone)) echo 'Fone: ' . $calculista->fone;
-                    ?>
-                </address>
-            </div>
-            <!-- /.panel-body -->
-        </div>
-        <!-- /.panel -->
-    </div>
-    <?php } ?>
-
-    <?php if (isset($detalhamento)) { ?>
-    <div class="col-lg-4">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                Detalhes do detalhamento
-            </div>
-            <!-- /.panel-heading -->
-            <div class="panel-body">
-                <address>
-                    <?php
-                        if(isset($detalhamento->fantasia)) echo '<strong>' . $detalhamento->fantasia . '</strong><br />';
-                        if(isset($detalhamento->razao)) echo '<strong>' . $detalhamento->razao . '</strong><br />';
-                        echo '<br />';
-                        if(isset($detalhamento->email)) echo 'Email: ' . $detalhamento->email . '<br />';
-                        if(isset($detalhamento->site)) echo 'Site: ' . $detalhamento->site . '<br />';
-                        if(isset($detalhamento->endereco)) echo $detalhamento->endereco . '<br />';
-                        if(isset($detalhamento->nomeCidade)) echo $detalhamento->nomeCidade . ', ' . $detalhamento->nomeEstado . ' - ' . $detalhamento->uf . '<br />';
-                        if(isset($detalhamento->cep)) echo 'CEP: ' . $detalhamento->cep . '<br />';
-                        if(isset($detalhamento->fone)) echo 'Fone: ' . $detalhamento->fone;
-                    ?>
-                </address>
-            </div>
-            <!-- /.panel-body -->
-        </div>
-        <!-- /.panel -->
-    </div>
-    <?php } ?>
-
-    <?php if (isset($montagem)) { ?>
-    <div class="col-lg-4">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                Detalhes da montagem
-            </div>
-            <!-- /.panel-heading -->
-            <div class="panel-body">
-                <address>
-                    <?php
-                        if(isset($montagem->fantasia)) echo '<strong>' . $montagem->fantasia . '</strong><br />';
-                        if(isset($montagem->razao)) echo '<strong>' . $montagem->razao . '</strong><br />';
-                        echo '<br />';
-                        if(isset($montagem->email)) echo 'Email: ' . $montagem->email . '<br />';
-                        if(isset($montagem->site)) echo 'Site: ' . $montagem->site . '<br />';
-                        if(isset($montagem->endereco)) echo $montagem->endereco . '<br />';
-                        if(isset($montagem->nomeCidade)) echo $montagem->nomeCidade . ', ' . $montagem->nomeEstado . ' - ' . $montagem->uf . '<br />';
-                        if(isset($montagem->cep)) echo 'CEP: ' . $montagem->cep . '<br />';
-                        if(isset($montagem->fone)) echo 'Fone: ' . $montagem->fone;
-                    ?>
-                </address>
-            </div>
-            <!-- /.panel-body -->
-        </div>
-        <!-- /.panel -->
-    </div>
-    <?php } ?>
 </div>

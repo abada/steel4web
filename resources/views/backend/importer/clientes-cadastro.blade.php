@@ -35,7 +35,7 @@ if(isset($disable)){
     <div class="row">
         <div class="col-lg-8">
             <div class="panel panel-default">
-                <div class="panel-heading bg-navy">
+                <div class="panel-heading bg-padrao">
                     {{ $tipo }} {{ $name2 }}
                 </div>
                 <div class="panel-body">
@@ -45,14 +45,16 @@ if(isset($disable)){
                             <form role="form" name="<?=$name;?>" id="<?=$name;?>" accept-charset="utf-8">
                                 <div class="form-group">
                                     <label>Razão Social 
-                                    @if(!isset($contato))
                                         <i style='color:red'>*</i>
-                                    @endif
                                      :</label>
                                     <input class="form-control" name="razao" id="razao" <?php if (isset($edicao)) echo 'value="' . $cliente->razao . '"' ?> <?php if (isset($disable)) echo 'disabled'; ?>>
                                 </div>
                                 <div class="form-group">
-                                    <label>Nome Fantasia <i style='color:red'>*</i> :</label>
+                                    <label>Nome Fantasia
+                                      @if(!isset($contato))
+                                        <i style='color:red'>*</i>
+                                      @endif
+                                      :</label>
                                     <input class="form-control" name="fantasia" id="fantasia" <?php if (isset($edicao)) echo 'value="' . $cliente->fantasia . '"' ?> <?php if (isset($disable)) echo 'disabled'; ?>>
                                 </div>
                                 <div class="form-group">
@@ -137,7 +139,7 @@ if(isset($disable)){
                                 <?php if (isset($disable)) { ?>
                                 <a href="editar/{{$cliente->id}}" type="button" class="btn btn-primary btn-block">Editar</a>
                                 <?php } else { ?>
-                                <button type="submit" class="btn btn-primary btn-block">Gravar</button>
+                                <button style='margin-top:40px' type="submit" class="btn btn-primary btn-block">Gravar</button>
                                 <?php } ?>
                                <i style='color:red;float:right;margin-right:15px;margin-top:10px'>*<strong style='color:#323232'> Campos Obrigatorios</strong></i>
                             </form>

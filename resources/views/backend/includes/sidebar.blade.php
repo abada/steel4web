@@ -34,17 +34,17 @@
             <li class="{{ Active::pattern('admin/dashboard') }}">
                 <a href="{!! route('admin.dashboard') !!}"><i class="fa fa-dashboard fa-fw"></i><span> Painel de Controle</span></a>
             </li>
-            <li class="{{ Active::pattern('clientes') }}">
+            <li class="{{ Active::pattern('clientes') }} {{ Active::pattern('cliente/*') }}">
                 <a href="{!! route('clientes') !!}"><i class="fa fa-users fa-fw"></i><span> Clientes</span></a>
             </li>
-            <li class="{{ Active::pattern('obras') }}">
+            <li class="{{ Active::pattern('obras') }} {{ Active::pattern('obra/*') }} {{ Active::pattern('etapa/*') }} {{ Active::pattern('subetapa/*') }}">
                 <a href="{!! route('obras') !!}"><i class="fa fa-building-o fa-fw"></i><span> Obras</span></a>
             </li>
-            <li class="{{ Active::pattern('contatos') }}">
+            <li class="{{ Active::pattern('contatos') }} {{ Active::pattern('contato/*') }} {{ Active::pattern('tipo/*') }}">
                 <a href="{!! route('contatos') !!}"><i class="fa fa-phone fa-fw"></i><span> Contatos</span></a>
             </li>
-            <li class="{{ Active::pattern('admin/lo') }}">
-                <a href="{!! route('admin.dashboard') !!}"><i class="fa fa-user fa-fw"></i><span> Usuários</span></a>
+            <li class="{{ Active::pattern('admin/access/*') }}">
+                <a href="{!!url('admin/access/users')!!}"><i class="fa fa-user fa-fw"></i><span> Usuários</span></a>
             </li>
             <li class="{{ Active::pattern('admin/lo') }}">
                 <a href="http://steel4web.com.br/dev/gestor-de-lotes/public/lotes"><i class="fa fa-home fa-fw"></i><span> Gestor de Lotes</span></a>

@@ -126,7 +126,7 @@ class ContatosController extends Controller
             $dados['fone'] = $dados['telefone'];
             unset($dados['telefone']);
 
-           if(isset($dados['fantasia']) && isset($dados['tipo_id']) && isset($dados['email']) && isset($dados['fone']) && isset($dados['endereco']) && isset($dados['cep']) && isset($dados['cidade'])) {
+           if(isset($dados['razao']) && isset($dados['tipo_id']) && isset($dados['email']) && isset($dados['fone']) && isset($dados['endereco']) && isset($dados['cep']) && isset($dados['cidade'])) {
 
 
                $clienteID = cont::create($dados);
@@ -149,12 +149,15 @@ class ContatosController extends Controller
             unset($dados['telefone']);
             $id = $dados['id'];
 
+            if(isset($dados['razao']) && isset($dados['tipo_id']) && isset($dados['email']) && isset($dados['fone']) && isset($dados['endereco']) && isset($dados['cep']) && isset($dados['cidade'])) {
+
                $clienteID =   cliente::where('id',$id)->update($dados);
 
             if($clienteID){
                 die('sucesso');
             }
-
+            
+            }
         die('erro'); 
     }
 }

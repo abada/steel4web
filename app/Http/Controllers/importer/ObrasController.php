@@ -8,6 +8,7 @@ use App\Obra as obr;
 use App\Contato as cont;
 use App\TipoContato as tipo;
 use App\Cliente as client;
+use App\Etapa as etap;
 use App\importer\cliente;
 use App\importer\contato;
 use App\importer\etapa;
@@ -30,21 +31,17 @@ class ObrasController extends Controller
 
     public function ver($id)
     {
-        $obra         = obra::get_by_id($id);
+        $obra         = obr::find($id);
         $cliente      = cliente::get_by_id($obra->cliente_id);
-        $construtora  = contato::get_by_id($obra->construtoraid);
-        $gerenciadora = contato::get_by_id($obra->gerenciadoraid);
-        $calculista   = contato::get_by_id($obra->calculistaid);
-        $detalhamento = contato::get_by_id($obra->detalhamentoid);
-        $montagem     = contato::get_by_id($obra->montagemid);
-        $etapas       = etapa::get_all($id);
-        $cont = sizeof($etapas) - 1;
+        $contatos     = obr::find($id)->contatos;
+      //  $cont = sizeof($etapas) - 1;
+       // dd($obra->etapas[0]->subetapas);
 
-        for ($i=0; $i < $cont; $i++) {
+      /*  for ($i=0; $i < $cont; $i++) {
             $etapas[$i]->subetapas = subetapas::get_all($etapas[$i]->id);
-        }
+        } */
 
-        return view('backend.importer.obras-perfil',compact('obra', 'cliente', 'construtora', 'gerenciadora', 'calculista','detalhamento','montagem','etapas'));
+        return view('backend.importer.obras-perfil',compact('obra', 'cliente', 'contatos','etapas'));
     }
 
     public function cadastro()
@@ -100,12 +97,61 @@ class ObrasController extends Controller
         }
         $dadinho['locatario_id'] =access()->user()->locatario_id;
         $dadinho['user_id']   =access()->user()->id;
+        $dadinho['status'] = 1;
         $obraID = obr::create($dadinho);
-
-        foreach($contes as $cano){
-            $mario = array('obra_id' => $obraID, 'contato_id' => $cano);
-            $dxd = ////CREATE THE FUCKIN OBRA_CONTATO MODEL AND INSERT MARIO IN THE FECKING DB USEING THA WANKER
+        if(isset($obraID)){
+            foreach($contes as $cano){
+                $mario = array('obra_id' => $obraID->id, 'contato_id' => $cano);
+                $obra_contato = $obraID->contatos()->attach(1, $mario);
+            }
+            die('sucesso');
         }
+
+        die('erro');
+    }
+
+    public function update(Request $request){
+        $dados = $request->all();
+        $data = explode('&', $dados['dados']);
+        $dadinho = array();
+        $contes = array();
+        $contes2 = array();
+        $mario = array();
+        $xx = 0;
+        foreach($data as $dat){
+            list($key,$value) = explode('=',$dat);
+            if(strpos($key, 'X95c55e5759335f81907e08fe999ed1f8X')){
+               $newKey = str_replace('X95c55e5759335f81907e08fe999ed1f8X', '', $key);
+               $contes[$xx]['tipo'] = $newKey;
+               $contes[$xx]['value'] = $value;
+               $xx++;
+            }else{
+                $dadinho[$key] = urldecode($value);
+            }
+        }
+        $dadinho['user_id']   =access()->user()->id;
+        $id = $dadinho['id'];
+        unset($dadinho['id']);
+        $dadinho['status'] = 1;
+        $ThatObra = obr::find($id);
+        $ThatObra->update($dadinho);
+        foreach($ThatObra->contatos as $contates){
+            $contes2[] = $contates->tipo->id;
+        }
+        if(isset($ThatObra)){
+            $y = 0;
+            foreach($contes as $cano){
+                
+                if($cano['value'] != 'Selecione...'){
+                    $mario[$y] = array('obra_id' => $id, 'contato_id' => $cano['value']);
+                    $y++; 
+                }
+            }
+            $obra_contato = $ThatObra->contatos()->sync($mario);
+            die('sucesso');
+        }
+
+        die('erro');
     }
 
    

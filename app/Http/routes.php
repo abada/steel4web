@@ -50,6 +50,7 @@ Route::group(['namespace' => 'Backend', 'prefix' => 'admin', 'middleware' => 'ad
 Route::get('obra/cadastro', array('middleware' => 'admin', 'as' => 'obra/cadastro', 'uses' => 'importer\ObrasController@cadastro'));
 Route::get('obra/editar/{id}', array('middleware' => 'admin', 'as' => 'obra/editar/{id}', 'uses' => 'importer\ObrasController@editar'));
 Route::post('obra/gravar', array('middleware' => 'admin', 'as' => 'obra/gravar', 'uses' => 'importer\ObrasController@gravar'));
+Route::post('obra/update', array('middleware' => 'admin', 'as' => 'obra/update', 'uses' => 'importer\ObrasController@update'));
 Route::get('obras', array('middleware' => 'admin', 'as' => 'obras', 'uses' => 'importer\ObrasController@index'));
 Route::get('obra/{id}', array('middleware' => 'admin', 'as' => 'obra', 'uses' => 'importer\ObrasController@ver'));
 
