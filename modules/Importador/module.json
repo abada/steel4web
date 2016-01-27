@@ -1,0 +1,15 @@
+{
+    "name": "Importador",
+    "alias": "importador",
+    "description": "",
+    "keywords": [],
+    "active": 1,
+    "order": 0,
+    "providers": [
+        "Modules\\Importador\\Providers\\ImportadorServiceProvider"
+    ],
+    "aliases":{},
+    "files": [
+        "start.php"
+    ]
+}

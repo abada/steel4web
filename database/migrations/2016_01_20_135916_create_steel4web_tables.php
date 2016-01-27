@@ -47,6 +47,7 @@ class CreateSteel4webTables extends Migration {
 			$table->string('responsavel', 255)->nullable();
 			$table->string('email', 255)->nullable();
 			$table->string('site', 255)->nullable();
+			$table->text('cidade')->nullable();
 			// $table->integer('cliente')->nullable();
 			// $table->integer('construtora')->nullable();
 			// $table->integer('gerenciadora')->nullable();
@@ -134,12 +135,6 @@ class CreateSteel4webTables extends Migration {
 
 			$table->integer('cliente_id')->nullable()->unsigned();
 			$table->foreign('cliente_id')->references('id')->on('clientes')->onDelete('set null');
-
-			$table->integer('construtoraid')->nullable();
-			$table->integer('gerenciadoraid')->nullable();
-			$table->integer('calculistaid')->nullable();
-			$table->integer('detalhamentoid')->nullable();
-			$table->integer('montagemid')->nullable();
 
 			$table->integer('status')->nullable();
 

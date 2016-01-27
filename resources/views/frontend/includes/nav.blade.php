@@ -24,7 +24,7 @@
                 <li>{!! link_to_route('frontend.macros', trans('navs.frontend.macros')) !!}</li>
             </ul>
 
-            
+
 
             <!-- Right Side Of Navbar -->
             <ul class="nav navbar-nav navbar-right">

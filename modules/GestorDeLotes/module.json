@@ -1,0 +1,15 @@
+{
+    "name": "GestorDeLotes",
+    "alias": "gestordelotes",
+    "description": "",
+    "keywords": [],
+    "active": 1,
+    "order": 0,
+    "providers": [
+        "Modules\\GestorDeLotes\\Providers\\GestorDeLotesServiceProvider"
+    ],
+    "aliases":{},
+    "files": [
+        "start.php"
+    ]
+}

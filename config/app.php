@@ -184,6 +184,8 @@ return [
 		App\Providers\MacroServiceProvider::class,
 
 		Nwidart\DbExporter\DbExportHandlerServiceProvider::class,
+
+		Pingpong\Modules\ModulesServiceProvider::class,
 	],
 
 	/*
@@ -239,7 +241,7 @@ return [
 		'Form' => Collective\Html\FormFacade::class,
 		'Gravatar' => Creativeorange\Gravatar\Facades\Gravatar::class,
 		'Html' => Collective\Html\HtmlFacade::class,
-		'Socialite' => Laravel\Socialite\Facades\Socialite::class,
+		'Module' => 'Pingpong\Modules\Facades\Module',
 	],
 
 ];
