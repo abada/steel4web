@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\importer;
+namespace App\Http\Controllers\Cadastros;
 
 use Illuminate\Http\Request;
 use App\importer\contato as cliente;
@@ -14,15 +14,15 @@ class ContatosController extends Controller
     public function cadastro()
     {
          $tipos = tipo::all();
-    	 $contato = true;
-         return view('backend.importer.clientes-cadastro',compact('contato','tipos'));
+         $contato = true;
+         return view('frontend.cadastros.clientes-cadastro',compact('contato','tipos'));
     }
 
     public function index()
     {
-       	$contato = true;
+        $contato = true;
         $clientes = cont::all();
-        return view('backend.importer.clientes-listar',compact('clientes', 'contato'));
+        return view('frontend.cadastros.clientes-listar',compact('clientes', 'contato'));
     }
 
     public function editar($id)
@@ -35,7 +35,7 @@ class ContatosController extends Controller
         }
         $edicao    = true;
 
-       return view('backend.importer.clientes-cadastro',compact('cliente', 'edicao', 'contato','tipos'));
+       return view('frontend.cadastros.clientes-cadastro',compact('cliente', 'edicao', 'contato','tipos'));
     }
 
     public function ver($id)
@@ -49,18 +49,18 @@ class ContatosController extends Controller
         $disable = true;
         $contato = true;
 
-        return view('backend.importer.clientes-cadastro',compact('cliente', 'edicao', 'disable', 'contato','tipos'));
+        return view('frontend.cadastros.clientes-cadastro',compact('cliente', 'edicao', 'disable', 'contato','tipos'));
     }
 
     public function tipos()
     {
         $tipos = tipo::all();
 
-        return view('backend.importer.tipos-contato',compact('tipos'));
+        return view('frontend.cadastros.tipos-contato',compact('tipos'));
     }
 
     public function tipoCadastro(){
-        return view('backend.importer.tipos-cadastro');
+        return view('frontend.cadastros.tipos-cadastro');
     }
 
     public function gravarTipo(Request $request){
@@ -80,7 +80,7 @@ class ContatosController extends Controller
         $tipo = tipo::find($id);
         $edicao    = true;
 
-       return view('backend.importer.tipos-cadastro',compact('edicao','tipo')); 
+       return view('frontend.cadastros.tipos-cadastro',compact('edicao','tipo')); 
     }
 
     public function tipoExcluir($id){
@@ -117,8 +117,8 @@ class ContatosController extends Controller
 
      public function gravar(Request $request)
     {
-    	
-    	$dados = $request->all();
+        
+        $dados = $request->all();
 
             $dados['locatario_id'] =access()->user()->locatario_id;
             $dados['user_id']   =access()->user()->id;

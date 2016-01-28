@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\importer;
+namespace App\Http\Controllers\Cadastros;
 
 use Illuminate\Http\Request;
 use App\importer\etapa;
@@ -14,7 +14,7 @@ class EtapasController extends Controller
 {
     public function cadastrar($obraID)
     {
-        return view('backend.importer.etapas-cadastro',compact('obraID'));
+        return view('frontend.cadastros.etapas-cadastro',compact('obraID'));
     }
 
      public function editar($etapaID)
@@ -22,7 +22,7 @@ class EtapasController extends Controller
         $edicao = true;
         $etapa  = etap::find($etapaID);
 
-        return view('backend.importer.etapas-cadastro',compact('etapa', 'edicao'));
+        return view('frontend.cadastros.etapas-cadastro',compact('etapa', 'edicao'));
     }
 
     public function gravar(Request $request)

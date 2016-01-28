@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\importer;
+namespace App\Http\Controllers\Cadastros;
 
 use Illuminate\Http\Request;
 
@@ -13,14 +13,14 @@ class ClientesController extends Controller
 {
      public function cadastro()
     {
-         return view('backend.importer.clientes-cadastro');
+         return view('frontend.cadastros.clientes-cadastro');
     }
 
     public function index()
     {
        
         $clientes = cliente::get_all('clientes');
-        return view('backend.importer.clientes-listar',compact('clientes'));
+        return view('frontend.cadastros.clientes-listar',compact('clientes'));
     }
 
     public function editar($id)
@@ -33,7 +33,7 @@ class ClientesController extends Controller
         }
         $edicao    = true;
 
-       return view('backend.importer.clientes-cadastro',compact('cliente', 'edicao'));
+       return view('frontend.cadastros.clientes-cadastro',compact('cliente', 'edicao'));
     }
 
     public function ver($id)
@@ -42,7 +42,7 @@ class ClientesController extends Controller
         $edicao = true;
         $disable = true;
 
-        return view('backend.importer.clientes-cadastro',compact('cliente', 'edicao', 'disable'));
+        return view('frontend.cadastros.clientes-cadastro',compact('cliente', 'edicao', 'disable'));
     }
 
      public function gravar(Request $request)

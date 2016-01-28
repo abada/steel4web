@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\importer;
+namespace App\Http\Controllers\Cadastros;
 
 use Illuminate\Http\Request;
 use App\importer\obra;
@@ -26,7 +26,7 @@ class ObrasController extends Controller
     public function index()
     {
         $obras=obra::get_all();
-        return view('backend.importer.obras-listar',compact('obras'));
+        return view('frontend.cadastros.obras-listar',compact('obras'));
     }
 
     public function ver($id)
@@ -41,7 +41,7 @@ class ObrasController extends Controller
             $etapas[$i]->subetapas = subetapas::get_all($etapas[$i]->id);
         } */
 
-        return view('backend.importer.obras-perfil',compact('obra', 'cliente', 'contatos','etapas'));
+        return view('frontend.cadastros.obras-perfil',compact('obra', 'cliente', 'contatos','etapas'));
     }
 
     public function cadastro()
@@ -54,7 +54,7 @@ class ObrasController extends Controller
          foreach($contatos as $contat){
             $selIds[] = $contat->tipo_id;
          }
-         return view('backend.importer.obras-cadastro',compact('tipos', 'clientes', 'contatos','selIds'));
+         return view('frontend.cadastros.obras-cadastro',compact('tipos', 'clientes', 'contatos','selIds'));
     }
 
     public function editar($id)
@@ -78,7 +78,7 @@ class ObrasController extends Controller
             $sel[] = cont::find($selected[$x]['contato']);
          }
          
-         return view('backend.importer.obras-cadastro',compact('tipos', 'clientes', 'contatos', 'obra', 'edicao','sel','selIds'));
+         return view('frontend.cadastros.obras-cadastro',compact('tipos', 'clientes', 'contatos', 'obra', 'edicao','sel','selIds'));
     }
 
     public function gravar(Request $request){

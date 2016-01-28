@@ -4,27 +4,24 @@
         <!-- Sidebar user panel -->
         <div class="user-panel">
             <div class="pull-left image">
-                <img src="img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                {{ Html::image('img/1234.jpg', 'User Image', array('class' => 'img-circle')) }}
             </div>
             <div class="pull-left info">
-                <p>Alexander Pierce</p>
+                <p> @if(access()->user())
+                      {{access()->user()->name}}
+                      @endif</p>
                 <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
             </div>
         </div>
 
         <!-- sidebar menu: : style can be found in sidebar.less -->
         <ul class="sidebar-menu">
+            <li class="header"></li>
             <!-- <li class="header">MAIN NAVIGATION</li> -->
-            <li class="treeview">
-                <a href="#">
-                    <i class="fa fa-dashboard"></i> <span>Dashboard</span> <i class="fa fa-angle-left pull-right"></i>
-                </a>
-                <ul class="treeview-menu">
-                    <li><a href="index.html"><i class="fa fa-circle-o"></i> Dashboard v1</a></li>
-                    <li><a href="index2.html"><i class="fa fa-circle-o"></i> Dashboard v2</a></li>
-                </ul>
+            <li class="{{ Active::pattern('dashboard2') }}">
+                <a href="{{ url('dashboard2') }}"><i class="fa fa-dashboard fa-fw"></i><span> Painel de Controle</span></a>
             </li>
-
+            <li class="header">Módulos</li>
             @if( Module::has('Importador') )
             <li class="{{ (Request::is(Module::find('Importador')->getLowerName() . '*')) ? 'active' : ''}}">
                 <a href="{{ url('importador') }}"><i class="fa fa-upload fa-fw"></i> Importador</a>
@@ -36,8 +33,21 @@
                 <a href="{{ url('gestordelotes') }}"><i class="fa fa-th fa-fw"></i> Gestor de Lotes</a>
             </li>
             @endif
+            <li class="header">Cadastros</li>
+            <li class="{{ Active::pattern('clientes') }} {{ Active::pattern('cliente/*') }}">
+                <a href="{!! route('clientes') !!}"><i class="fa fa-users fa-fw"></i><span> Clientes</span></a>
+            </li>
+            <li class="{{ Active::pattern('obras') }} {{ Active::pattern('obra/*') }} {{ Active::pattern('etapa/*') }} {{ Active::pattern('subetapa/*') }}">
+                <a href="{!! route('obras') !!}"><i class="fa fa-building-o fa-fw"></i><span> Obras</span></a>
+            </li>
+            <li class="{{ Active::pattern('contatos') }} {{ Active::pattern('contato/*') }} {{ Active::pattern('tipo/*') }}">
+                <a href="{!! route('contatos') !!}"><i class="fa fa-phone fa-fw"></i><span> Contatos</span></a>
+            </li>
+            <li class="{{ Active::pattern('admin/access/*') }}">
+                <a href="{!!url('admin/access/users')!!}"><i class="fa fa-user fa-fw"></i><span> Usuários</span></a>
+            </li>
 
-            <li class="treeview">
+         <!--   <li class="treeview">
                 <a href="#">
                     <i class="fa fa-files-o"></i>
                     <span>Layout Options</span>
@@ -160,7 +170,7 @@
             <li><a href="#"><i class="fa fa-circle-o text-red"></i> <span>Important</span></a></li>
             <li><a href="#"><i class="fa fa-circle-o text-yellow"></i> <span>Warning</span></a></li>
             <li><a href="#"><i class="fa fa-circle-o text-aqua"></i> <span>Information</span></a></li>
-        </ul>
+        </ul> -->
     </section>
     <!-- /.sidebar -->
 </aside>

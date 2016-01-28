@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\importer;
+namespace App\Http\Controllers\Cadastros;
 
 use Illuminate\Http\Request;
 
@@ -15,7 +15,7 @@ class DashboardController extends Controller
 	$id = access()->user()->locatario_id;
     $dados = loc::find($id);
 
-     return view('backend.importer.dashboard',compact('dados'));
+     return view('frontend.cadastros.dashboard',compact('dados'));
 	}
     
 }

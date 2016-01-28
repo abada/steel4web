@@ -37,28 +37,27 @@ Route::group(['namespace' => 'Backend', 'prefix' => 'admin', 'middleware' => 'ad
 });
 
 /**
- *Importer Routes.
+ *Cadastros Routes.
  *Developer: Me(Vini)
- *Note: i screwed the roles/permission dashboard, their url is ..../admin/access/users
- *Note2:i`m gonna need the routes prefixes: obra(s), cliente(s), contato(s), usuario(s), importacao(oes), apontador, tipo.
+ *Prefixes: obra(s), cliente(s), contato(s), usuario(s), etapa(s), subetapa(s).
  */
 /* DASHBOARD */
-Route::get('dashboard2', array('middleware' => 'admin', 'as' => 'dashboard2', 'uses' => 'importer\DashboardController@index'));
+Route::get('dashboard2', array('middleware' => 'admin', 'as' => 'dashboard2', 'uses' => 'Cadastros\DashboardController@index'));
 /*
 * OBRAS
 */
 //Pagina de Cadastro
-Route::get('obra/cadastro', array('middleware' => 'admin', 'as' => 'obra/cadastro', 'uses' => 'importer\ObrasController@cadastro'));
+Route::get('obra/cadastro', array('middleware' => 'admin', 'as' => 'obra/cadastro', 'uses' => 'Cadastros\ObrasController@cadastro'));
 //Pagina de Edicao
-Route::get('obra/editar/{id}', array('middleware' => 'admin', 'as' => 'obra/editar/{id}', 'uses' => 'importer\ObrasController@editar'));
+Route::get('obra/editar/{id}', array('middleware' => 'admin', 'as' => 'obra/editar/{id}', 'uses' => 'Cadastros\ObrasController@editar'));
 //Realiza Cadastro
-Route::post('obra/gravar', array('middleware' => 'admin', 'as' => 'obra/gravar', 'uses' => 'importer\ObrasController@gravar'));
+Route::post('obra/gravar', array('middleware' => 'admin', 'as' => 'obra/gravar', 'uses' => 'Cadastros\ObrasController@gravar'));
 //Realiza Edicao
-Route::post('obra/update', array('middleware' => 'admin', 'as' => 'obra/update', 'uses' => 'importer\ObrasController@update'));
+Route::post('obra/update', array('middleware' => 'admin', 'as' => 'obra/update', 'uses' => 'Cadastros\ObrasController@update'));
 //Lista Obras
-Route::get('obras', array('middleware' => 'admin', 'as' => 'obras', 'uses' => 'importer\ObrasController@index'));
+Route::get('obras', array('middleware' => 'admin', 'as' => 'obras', 'uses' => 'Cadastros\ObrasController@index'));
 //Perfil da Obra
-Route::get('obra/{id}', array('middleware' => 'admin', 'as' => 'obra', 'uses' => 'importer\ObrasController@ver'));
+Route::get('obra/{id}', array('middleware' => 'admin', 'as' => 'obra', 'uses' => 'Cadastros\ObrasController@ver'));
 
 //END OBRAS
 
@@ -66,31 +65,43 @@ Route::get('obra/{id}', array('middleware' => 'admin', 'as' => 'obra', 'uses' =>
 * ETAPAS
 */
 //Pagina de Cadastro
-Route::get('etapa/cadastro/{obraID}', array('middleware' => 'admin', 'as' => 'etapa/cadastro/{obraID}', 'uses' => 'importer\EtapasController@cadastrar'));
+Route::get('etapa/cadastro/{obraID}', array('middleware' => 'admin', 'as' => 'etapa/cadastro/{obraID}', 'uses' => 'Cadastros\EtapasController@cadastrar'));
 //Realiza Cadastro
-Route::post('etapa/gravar', array('middleware' => 'admin', 'as' => 'etapa/gravar', 'uses' => 'importer\EtapasController@gravar'));
+Route::post('etapa/gravar', array('middleware' => 'admin', 'as' => 'etapa/gravar', 'uses' => 'Cadastros\EtapasController@gravar'));
 //Pagina de Edicao
-Route::get('etapa/editar/{id}', array('middleware' => 'admin', 'as' => 'etapa/editar/{id}', 'uses' => 'importer\EtapasController@editar'));
+Route::get('etapa/editar/{id}', array('middleware' => 'admin', 'as' => 'etapa/editar/{id}', 'uses' => 'Cadastros\EtapasController@editar'));
 //Realiza Edicao
-Route::post('etapa/update', array('middleware' => 'admin', 'as' => 'etapa/update', 'uses' => 'importer\EtapasController@gravarEdicao'));
+Route::post('etapa/update', array('middleware' => 'admin', 'as' => 'etapa/update', 'uses' => 'Cadastros\EtapasController@gravarEdicao'));
 //Exclui Etapa
-Route::post('etapa/excluir', array('middleware' => 'admin', 'as' => 'etapa/excluir', 'uses' => 'importer\EtapasController@excluir'));
+Route::post('etapa/excluir', array('middleware' => 'admin', 'as' => 'etapa/excluir', 'uses' => 'Cadastros\EtapasController@excluir'));
 
 //END ETAPAS
 
 /*
-* SUBETAPAS
+*  SUBETAPAS
 */
 //Pagina de Cadastro
-Route::get('subetapa/criar/{id}', array('middleware' => 'admin', 'as' => 'subetapa/criar/{id}', 'uses' => 'importer\SubetapasController@cadastrar'));
+Route::get('subetapa/criar/{id}', array('middleware' => 'admin', 'as' => 'subetapa/criar/{id}', 'uses' => 'Cadastros\SubetapasController@cadastrar'));
 //Realiza Cadastro
-Route::post('subetapa/gravar', array('middleware' => 'admin', 'as' => 'subetapa/gravar', 'uses' => 'importer\SubetapasController@gravar'));
+Route::post('subetapa/gravar', array('middleware' => 'admin', 'as' => 'subetapa/gravar', 'uses' => 'Cadastros\SubetapasController@gravar'));
 //Pagina de Edicao
-Route::get('subetapa/editar/{id}', array('middleware' => 'admin', 'as' => 'subetapa/editar/{id}', 'uses' => 'importer\SubetapasController@editar'));
+Route::get('subetapa/editar/{id}', array('middleware' => 'admin', 'as' => 'subetapa/editar/{id}', 'uses' => 'Cadastros\SubetapasController@editar'));
 //Realiza Edicao
-Route::post('subetapa/update', array('middleware' => 'admin', 'as' => 'subetapa/update', 'uses' => 'importer\SubetapasController@gravarEdicao'));
+Route::post('subetapa/update', array('middleware' => 'admin', 'as' => 'subetapa/update', 'uses' => 'Cadastros\SubetapasController@gravarEdicao'));
 //Exclui Etapa
-Route::post('subetapa/excluir', array('middleware' => 'admin', 'as' => 'subetapa/excluir', 'uses' => 'importer\SubetapasController@excluir'));
+Route::post('subetapa/excluir', array('middleware' => 'admin', 'as' => 'subetapa/excluir', 'uses' => 'Cadastros\SubetapasController@excluir'));
+//Lista Tipos de Subetapas
+Route::get('subetapa/tipos', array('middleware' => 'admin', 'as' => 'subetapa/tipos', 'uses' => 'Cadastros\SubetapasController@tipos'));
+//Gravar Tipos de Subetapas
+Route::post('subetapa/tipo/gravar', array('middleware' => 'admin', 'as' => 'subetapa/tipo/gravar', 'uses' => 'Cadastros\SubetapasController@gravarTipo'));
+//Pagina de Edicao de Tipo de Subetapas
+Route::get('subetapa/tipo/editar/{id}', array('middleware' => 'admin', 'as' => 'subetapa/tipo/editar/{id}', 'uses' => 'Cadastros\SubetapasController@tipoEditar'));
+//Excluir Tipo de Subetapas
+Route::get('subetapa/tipo/excluir/{id}', array('middleware' => 'admin', 'as' => 'subetapa/tipo/excluir/{id}', 'uses' => 'Cadastros\SubetapasController@tipoExcluir'));
+//Realiza Edicao de Tipo de Subetapas
+Route::post('subetapa/tipo/update', array('middleware' => 'admin', 'as' => 'subetapa/tipo/update', 'uses' => 'Cadastros\SubetapasController@gravarTipoEdicao'));
+//Pagina de Cadastro de Tipo de Subetapas
+Route::get('subetapa/tipo/cadastro', array('middleware' => 'admin', 'as' => 'subetapa/tipo/cadastro', 'uses' => 'Cadastros\SubetapasController@tipoCadastro'));
 
 //END SUBETAPAS
 
@@ -98,50 +109,50 @@ Route::post('subetapa/excluir', array('middleware' => 'admin', 'as' => 'subetapa
 * CLIENTES
 */
 //Pagina de Cadastro
-Route::get('cliente/cadastro', array('middleware' => 'admin', 'as' => 'cliente/cadastro', 'uses' => 'importer\ClientesController@cadastro'));
+Route::get('cliente/cadastro', array('middleware' => 'admin', 'as' => 'cliente/cadastro', 'uses' => 'Cadastros\ClientesController@cadastro'));
 //Lista Clientes
-Route::get('clientes', array('middleware' => 'admin', 'as' => 'clientes', 'uses' => 'importer\ClientesController@index'));
+Route::get('clientes', array('middleware' => 'admin', 'as' => 'clientes', 'uses' => 'Cadastros\ClientesController@index'));
 //Perfil de Cliente
-Route::get('cliente/{id}', array('middleware' => 'admin', 'as' => 'cliente/{id}', 'uses' => 'importer\ClientesController@ver'));
+Route::get('cliente/{id}', array('middleware' => 'admin', 'as' => 'cliente/{id}', 'uses' => 'Cadastros\ClientesController@ver'));
 //Pagina de Edicao
-Route::get('cliente/editar/{id}', array('middleware' => 'admin', 'as' => 'cliente/editar/{id}', 'uses' => 'importer\ClientesController@editar'));
+Route::get('cliente/editar/{id}', array('middleware' => 'admin', 'as' => 'cliente/editar/{id}', 'uses' => 'Cadastros\ClientesController@editar'));
 //Realiza Edicao
-Route::post('cliente/update', array('middleware' => 'admin', 'as' => 'cliente/update', 'uses' => 'importer\ClientesController@gravarEdicao'));
+Route::post('cliente/update', array('middleware' => 'admin', 'as' => 'cliente/update', 'uses' => 'Cadastros\ClientesController@gravarEdicao'));
 //Realiza Cadastro
-Route::post('cliente/gravar', array('middleware' => 'admin', 'as' => 'cliente/gravar', 'uses' => 'importer\ClientesController@gravar'));
+Route::post('cliente/gravar', array('middleware' => 'admin', 'as' => 'cliente/gravar', 'uses' => 'Cadastros\ClientesController@gravar'));
 
 //END CLIENTES
 
 /*
 * CONTATOS
 */
-//Pagina de Cadastro de Tipo de Cliente
-Route::get('tipo/cadastro', array('middleware' => 'admin', 'as' => 'tipo/cadastro', 'uses' => 'importer\ContatosController@tipoCadastro'));
-//Pagina de Cadastro de Cliente
-Route::get('contato/cadastro', array('middleware' => 'admin', 'as' => 'contato/cadastro', 'uses' => 'importer\ContatosController@cadastro'));
+//Pagina de Cadastro de Tipo de Contatos
+Route::get('contato/tipo/cadastro', array('middleware' => 'admin', 'as' => 'contato/tipo/cadastro', 'uses' => 'Cadastros\ContatosController@tipoCadastro'));
+//Pagina de Cadastro de Contatos
+Route::get('contato/cadastro', array('middleware' => 'admin', 'as' => 'contato/cadastro', 'uses' => 'Cadastros\ContatosController@cadastro'));
 //Lista Contatos
-Route::get('contatos', array('middleware' => 'admin', 'as' => 'contatos', 'uses' => 'importer\ContatosController@index'));
+Route::get('contatos', array('middleware' => 'admin', 'as' => 'contatos', 'uses' => 'Cadastros\ContatosController@index'));
 //Lista Tipos de Contatos
-Route::get('contato/tipos', array('middleware' => 'admin', 'as' => 'contato/tipos', 'uses' => 'importer\ContatosController@tipos'));
+Route::get('contato/tipos', array('middleware' => 'admin', 'as' => 'contato/tipos', 'uses' => 'Cadastros\ContatosController@tipos'));
 //Perfil do Contato
-Route::get('contato/{id}', array('middleware' => 'admin', 'as' => 'contato/{id}', 'uses' => 'importer\ContatosController@ver'));
+Route::get('contato/{id}', array('middleware' => 'admin', 'as' => 'contato/{id}', 'uses' => 'Cadastros\ContatosController@ver'));
 //Pagina de Edicao de CLientes
-Route::get('contato/editar/{id}', array('middleware' => 'admin', 'as' => 'contato/editar/{id}', 'uses' => 'importer\ContatosController@editar'));
-//Realiza Edicao de Cliente
-Route::post('contato/update', array('middleware' => 'admin', 'as' => 'contato/update', 'uses' => 'importer\ContatosController@gravarEdicao'));
-//Realiza Cadastro de Cliente
-Route::post('contato/gravar', array('middleware' => 'admin', 'as' => 'contato/gravar', 'uses' => 'importer\ContatosController@gravar'));
-//Realiza Cadastro de Tipo de Cliente
-Route::post('tipo/gravar', array('middleware' => 'admin', 'as' => 'tipo/gravar', 'uses' => 'importer\ContatosController@gravarTipo'));
+Route::get('contato/editar/{id}', array('middleware' => 'admin', 'as' => 'contato/editar/{id}', 'uses' => 'Cadastros\ContatosController@editar'));
+//Realiza Edicao de Contatos
+Route::post('contato/update', array('middleware' => 'admin', 'as' => 'contato/update', 'uses' => 'Cadastros\ContatosController@gravarEdicao'));
+//Realiza Cadastro de Contatos
+Route::post('contato/gravar', array('middleware' => 'admin', 'as' => 'contato/gravar', 'uses' => 'Cadastros\ContatosController@gravar'));
+//Realiza Cadastro de Tipo de Contatos
+Route::post('contato/tipo/gravar', array('middleware' => 'admin', 'as' => 'contato/tipo/gravar', 'uses' => 'Cadastros\ContatosController@gravarTipo'));
 //Pagina de Edicao de Tipo de Clientes
-Route::get('tipo/editar/{id}', array('middleware' => 'admin', 'as' => 'tipo/editar/{id}', 'uses' => 'importer\ContatosController@tipoEditar'));
+Route::get('contato/tipo/editar/{id}', array('middleware' => 'admin', 'as' => 'contato/tipo/editar/{id}', 'uses' => 'Cadastros\ContatosController@tipoEditar'));
 //Excluir Tipo de Contato
-Route::get('tipo/excluir/{id}', array('middleware' => 'admin', 'as' => 'tipo/excluir/{id}', 'uses' => 'importer\ContatosController@tipoExcluir'));
-//Realiza Edicao de Tipo de Cliente
-Route::post('tipo/update', array('middleware' => 'admin', 'as' => 'tipo/update', 'uses' => 'importer\ContatosController@gravarTipoEdicao'));
+Route::get('contato/tipo/excluir/{id}', array('middleware' => 'admin', 'as' => 'contato/tipo/excluir/{id}', 'uses' => 'Cadastros\ContatosController@tipoExcluir'));
+//Realiza Edicao de Tipo de Contatos
+Route::post('contato/tipo/update', array('middleware' => 'admin', 'as' => 'contato/tipo/update', 'uses' => 'Cadastros\ContatosController@gravarTipoEdicao'));
 
 //END CONTATOS
 
 /*
-* END IMPORTER
+* END Cadastros
 */

@@ -1,12 +1,21 @@
     <!-- jQuery 2.1.4 -->
-    <script src="plugins/jQuery/jQuery-2.1.4.min.js"></script>
+    {!! Html::script('plugins/jQuery/jQuery-2.1.4.min.js') !!}
+    <!-- Datatables -->
+    {!! Html::script('plugins/datatables/datatables.min.js') !!}
     <!-- Bootstrap 3.3.5 -->
-    <script src="js/bootstrap.min.js"></script>
+    {!! Html::script('js/bootstrap.min.js') !!}
+    <!-- Dropdown Fix -->
+    <script type="text/javascript"> $(document).ready(function () { $('.dropdown-toggle').dropdown(); }); </script>
     <!-- SlimScroll -->
-    <script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
+    {!! Html::script('plugins/slimScroll/jquery.slimscroll.min.js') !!}
     <!-- FastClick -->
-    <script src="plugins/fastclick/fastclick.min.js"></script>
-    <!-- AdminLTE App -->
-    <script src="js/app.min.js"></script>
+    {!! Html::script('plugins/fastclick/fastclick.min.js') !!}
+    <!-- Editable -->
+    {!! Html::script('plugins/editable/bootstrap-editable.min.js') !!}
+    <!-- Moment -->
+    {!! Html::script('plugins/moment.js') !!}
+    <!-- Masks -->
+    {!! Html::script('plugins/jquery.mask.min.js') !!}
+
     <!-- AdminLTE for demo purposes -->
-    <!-- <script src="js/demo.js"></script> -->
+    <!-- <script src="js/demo.js"></script>

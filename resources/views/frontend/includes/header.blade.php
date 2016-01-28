@@ -34,7 +34,7 @@
                       <li><!-- start message -->
                         <a href="#">
                           <div class="pull-left">
-                            <img src="img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                            {{ Html::image('img/user2-160x160.jpg', 'User Image', array('class' => 'img-circle')) }}
                           </div>
                           <h4>
                             Support Team
@@ -103,15 +103,21 @@
               <!-- User Account: style can be found in dropdown.less -->
               <li class="dropdown user user-menu">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                  <img src="img/user2-160x160.jpg" class="user-image" alt="User Image">
-                  <span class="hidden-xs">Alexander Pierce</span>
+                  {{ Html::image('img/1234.jpg', 'User Image', array('class' => 'user-image')) }}
+                  <span class="hidden-xs">
+                     @if(access()->user())
+                      {{access()->user()->name}}
+                      @endif
+                  </span>
                 </a>
                 <ul class="dropdown-menu">
                   <!-- User image -->
                   <li class="user-header">
-                    <img src="img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                    {{ Html::image('img/1234.jpg', 'User Image', array('class' => 'img-circle')) }}
                     <p>
-                      Alexander Pierce - Web Developer
+                      @if(access()->user())
+                      {{access()->user()->name}}
+                      @endif
                       <small>Member since Nov. 2012</small>
                     </p>
                   </li>
@@ -122,9 +128,11 @@
 
                   <li class="user-body">
                     <div class="col-xs-4 text-center">
-                    	@if (access()->user()->canChangePassword())
-							<a href="{!! route('auth.password.change') !!}"><i class="fa fa-key fa-fw"></i> Aterar senha</a>
-						@endif
+                      @if(access()->user())
+                      	@if (access()->user()->canChangePassword())
+            							<a href="{!! route('auth.password.change') !!}"><i class="fa fa-key fa-fw"></i> Aterar senha</a>
+            						@endif
+                      @endif
                     </div>
                     <div class="col-xs-4 text-center">
                       <a href="#">???</a>
@@ -144,10 +152,10 @@
                   </li>
                 </ul>
               </li>
-              <!-- Control Sidebar Toggle Button -->
+              <!-- Control Sidebar Toggle Button 
               <li>
                 <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
-              </li>
+              </li> -->
             </ul>
           </div>
         </nav>
