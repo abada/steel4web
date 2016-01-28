@@ -43,7 +43,7 @@ Route::group(['namespace' => 'Backend', 'prefix' => 'admin', 'middleware' => 'ad
  *Note2:i`m gonna need the routes prefixes: obra(s), cliente(s), contato(s), usuario(s), importacao(oes), apontador, tipo.
  */
 /* DASHBOARD */
-Route::get('dashboard', array('middleware' => 'admin', 'as' => 'dashboard', 'uses' => 'importer\DashboardController@index'));
+Route::get('dashboard2', array('middleware' => 'admin', 'as' => 'dashboard2', 'uses' => 'importer\DashboardController@index'));
 /*
 * OBRAS
 */

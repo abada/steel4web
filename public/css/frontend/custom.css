@@ -2,6 +2,10 @@
     font-size:26px;
 }
 
+.obraContatos .row .col-lg-4:nth-child(3n+4) {  
+clear:left;
+}
+
 .bg-padrao{
     background-color: #283744 !important;
     color: #f5f5f5 !important ;

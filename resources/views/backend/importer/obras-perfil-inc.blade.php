@@ -1,3 +1,4 @@
+<div class="obraContatos">
 <div class="row">
     <div class="col-lg-4">
         <div class="panel panel-primary">
@@ -80,4 +81,5 @@
     </div>
    @endforeach
 
+</div>
 </div>
