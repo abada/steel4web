@@ -105,6 +105,10 @@
                             <div class="row">
                                 <div class="col-lg-12">
                                     <form role="form" method="post" action="/importador/gravar" enctype="multipart/form-data" id='dbftogo'>
+                                    	<div class="form-group">
+                                            <label>Nome</label>
+                                            <input type='text' name="descricao" class="form-control" >
+                                        </div>
                                         <div class="form-group">
                                             <label>Arquivo DBF</label>
                                             <input type="file" name="files[]" accept=".DBF,.dbf" id='dbfile'/>
@@ -120,6 +124,14 @@
                                         <div class="form-group">
                                             <label>Observações</label>
                                             <textarea name="observacoes" class="form-control" rows="3"></textarea>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>Sentido</label> <br>
+                                            <input type="radio" name='sentido' value='1'> X / Y &nbsp; &nbsp;
+                                            <input type="radio" name='sentido' value='2'> -X / Y &nbsp; &nbsp;
+                                            <input type="radio" name='sentido' value='3'> -X- / Y &nbsp; &nbsp;
+                                            <input type="radio" name='sentido' value='4'> X / -Y &nbsp; &nbsp;
                                         </div>
 
 										<input type="hidden" name="_token" value="{{ csrf_token() }}">

@@ -166,6 +166,9 @@ $('#subToggle').click(function(e) {
                 dataType: "html",
                 success: function(r){
                   var subed = JSON.parse(r);
+                  if(subed.importacaoNr > 0){
+               //     $("#dbftogo input:radio").attr('disabled',true);
+                  }
                   $('#toReceiveSubId').val(subed.subetapa_id);
                 }
             });
