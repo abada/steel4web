@@ -37,7 +37,7 @@
                                 ?>
                                 <tr class="<?=$tipoStatus;?>" >
                                     <td><?=$obra->codigoObra;?></td>
-                                    <td><a href="obra/{{$obra->id}}"><?=$obra->nomeObra;?></a></td>
+                                    <td><a href="{{ url('obra/'.$obra->id) }}"><?=$obra->nomeObra;?></a></td>
                                     <td><?=$obra->fantasia;?></td>
                                     <td class="text-center"><?php echo date("d/m/Y", strtotime($obra->created_at));?></td>
                                     <td class="text-center">
@@ -50,7 +50,7 @@
                                              <a href="#" alt="Mudar Status" title="Mudar Status" style="text-decoration:none">
                                                 <i class="fa fa-refresh fa-fw"></i>
                                             </a>
-                                            <a href="../obra/editar/{{$obra->id}}" alt="Editar obra" title="Editar obra">
+                                            <a href="{{ url('obra/editar/'.$obra->id) }}" alt="Editar obra" title="Editar obra">
                                                 <i class="fa fa-edit fa-fw"></i>
                                             </a>
                                         </div>
@@ -78,7 +78,7 @@
             <a href="javascript:history.back()" type="button" class="btn btn-primary"><< Voltar</a>
         </div>
         <div class="col-lg-6 col-md-6 text-right">
-           <a href="../obra/cadastro" type="button" class="btn btn-primary">Cadastrar Obra</a>
+           <a href="{{ url('obra/cadastro') }}" type="button" class="btn btn-primary">Cadastrar Obra</a>
         </div>
     </div>
 @endsection

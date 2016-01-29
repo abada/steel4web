@@ -1,9 +1,9 @@
     <!-- jQuery 2.1.4 -->
     {!! Html::script('plugins/jQuery/jQuery-2.1.4.min.js') !!}
-    <!-- Datatables -->
-    {!! Html::script('plugins/datatables/datatables.min.js') !!}
     <!-- Bootstrap 3.3.5 -->
     {!! Html::script('js/bootstrap.min.js') !!}
+    <!-- Datatables -->
+    {!! Html::script('plugins/datatables/datatables.min.js') !!}
     <!-- Dropdown Fix -->
     <script type="text/javascript"> $(document).ready(function () { $('.dropdown-toggle').dropdown(); }); </script>
     <!-- SlimScroll -->

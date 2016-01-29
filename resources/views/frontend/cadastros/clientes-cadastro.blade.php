@@ -129,9 +129,11 @@ if(isset($disable)){
                                 <?php if (isset($edicao) || isset($disable)){ ?>
                                 <input type="hidden" name="id" id="id" value="{{$cliente->id}}">
                                 <?php } ?>
-                                <?php if (isset($disable)) { ?>
-                                <a href="editar/{{$cliente->id}}" type="button" class="btn btn-primary btn-block">Editar</a>
-                                <?php } else { ?>
+                                <?php if (isset($disable) && !isset($contato)) { ?>
+                                <a href="{{url ('editar/'.$cliente->id) }}" type="button" class="btn btn-primary btn-block">Editar</a>
+                                <?php } elseif(isset($disable) && isset($contato)) { ?>
+                                <a href="{{url ('contato/editar/'.$cliente->id) }}" type="button" class="btn btn-primary btn-block">Editar</a>
+                                <?php }else{ ?>
                                 <button style='margin-top:40px' type="submit" class="btn btn-primary btn-block">Gravar</button>
                                 <?php } ?>
                                <i style='color:red;float:right;margin-right:15px;margin-top:10px'>*<strong style='color:#323232'> Campos Obrigatorios</strong></i>

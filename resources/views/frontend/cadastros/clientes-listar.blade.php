@@ -49,10 +49,10 @@
                                 <tr class="stripped">
                                     <td>
                                     @if(!isset($contato))
-                                    <a href="{{$type}}/{{$cliente->id}}"><?=$cliente->razao;?></a>
+                                    <a href="{{ url($type.'/'.$cliente->id) }}"><?=$cliente->razao;?></a>
                                     @else
                                         @if(!empty($cliente->razao))
-                                          <a href="{{$type}}/{{$cliente->id}}">{{$cliente->razao}}</a>
+                                          <a href="{{ url($type.'/'.$cliente->id) }}">{{$cliente->razao}}</a>
                                         @else
                                          -
                                         @endif
@@ -60,7 +60,7 @@
                                     </td>
                                     <td>
                                     @if(isset($contato) && empty($cliente->razao))
-                                    <a href="{{$type}}/{{$cliente->id}}">
+                                    <a href="{{ url($type.'/'.$cliente->id) }}">
                                     @endif
                                         <?=$cliente->fantasia;?>
                                     @if(isset($contato))
@@ -71,7 +71,7 @@
                                     <td class="text-center"><?=$tip;?></td>
                                      <td>
                                         <div class="text-center">
-                                            <a href="{{$type}}/editar/{{$cliente->id}}" alt="Editar {{$type}}" title="Editar {{$type}}">
+                                            <a href="{{ url($type.'/editar/'.$cliente->id) }}" alt="Editar {{$type}}" title="Editar {{$type}}">
                                                 <i class="fa fa-edit fa-fw"></i>
                                             </a>
                                         </div>
@@ -102,9 +102,9 @@
         </div>
         <div class="col-lg-6 col-md-6 text-right">
              @if(isset($contato))
-            <a href="../contato/tipos" type="button" class="btn btn-primary">Tipos de Contatos</a>
+            <a href="{{ url('contato/tipos') }}" type="button" class="btn btn-primary">Tipos de Contatos</a>
              @endif
-           <a href="{{$type}}/cadastro" type="button" class="btn btn-primary">Cadastrar {{$nome2}}</a>
+           <a href="{{ url($type.'/cadastro') }}" type="button" class="btn btn-primary">Cadastrar {{$nome2}}</a>
         </div>
     </div>
 @endsection
