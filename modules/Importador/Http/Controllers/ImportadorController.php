@@ -11,14 +11,27 @@ use App\Etapa as etap;
 use App\Subetapa as sub;
 use App\Importacao as imp;
 use App\Handle as handle;
+use App\Temp_Handle as tempH;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Input;
+use Symfony\Component\HttpFoundation\Response;
 
 class ImportadorController extends Controller {
 	
 	public function index()
-	{
-		$obras = obr::all(); 
+	{  
+        $obras = obr::all(); 
+        if(\Session::get('history')){
+            $subID = \Session::get('history');
+            $dados = sub::find($subID);
+            $etapaID = $dados->etapa->id;
+            $etapas = etap::where('obra_id',$dados->etapa->obra_id)->get();
+            $subetapas = sub::where('etapa_id',$dados->etapa_id)->get();
+            $imps = imp::where('subetapa_id',$dados->id)->get();
+            $history = true;
+            return view('importador::index',compact('obras', 'etapas', 'subetapas', 'imps','history','subID','etapaID' ));
+        }
+		
 		return view('importador::index',compact('obras'));
 	}
 
@@ -63,23 +76,50 @@ class ImportadorController extends Controller {
     	$data = $dados['id'];
     	$subetapa = sub::find($data);
         $impsNr =  count($subetapa->importacoes);
+        if($impsNr > 0){
+            $sentido = $subetapa->importacoes[0]->sentido;
+        }else{
+            $sentido = 1;
+        }
     	$send = array(
     		'subetapa_id'   =>  $subetapa->id,
-            'importacaoNr'  =>  $impsNr
+            'importacaoNr'  =>  $impsNr,
+            'sentido'       =>  $sentido,
+            'importacoes'   =>  $subetapa->importacoes,
+            'editar'        =>  url('importador/editar'),
+            'excluir'       =>  url('importador/excluir'),
+            'download'      =>  storage_path().'/app',
+            'image'         =>  asset('img/')
     	); 
         return json_encode($send);
     }
 
     public function gravar(Request $request){
         $getRequest  = $request->all();
-        $subetapa_id = $getRequest['subetapa_id'];
-        $sentido     = $getRequest['sentido'];
-        $observacoes = $getRequest['observacoes'];
-        $descricao = $getRequest['descricao'];
+        if(isset($getRequest['subetapa_id'])){
+          $subetapa_id = $getRequest['subetapa_id'];
+          $request->session()->put('subID', $subetapa_id);
+        }
+        else{
+            \Session::flash('flash_danger', '<i class="fa fa-exclamation-triangle"></i>&nbsp;&nbsp;  Falha na Importação, Tente Reselecionar a Subetapa.');
+            return redirect()->route('importador');
+        }
+         \Session::flash('history', $subetapa_id);
+        if(!empty($getRequest['descricao']))
+             $descricao = $getRequest['descricao'];
+        else{
+            \Session::flash('imp_danger', '<i class="fa fa-exclamation-triangle"></i>&nbsp;&nbsp;  Informe a Descrição desta importação.');
+            return redirect()->route('importador');
+        }
+        $observacoes = isset($getRequest['observacoes']) ? $getRequest['observacoes'] : null;
+        
         $dados = sub::find($subetapa_id);
         $files =  $request->files->all();
         $extDone = array();
         $exts = array('dbf', 'ifc', 'fbx');
+
+
+
         foreach($files as $namess){
             foreach($namess as $names){
      
@@ -89,41 +129,59 @@ class ImportadorController extends Controller {
                     $ext = strtolower($ext);
                     if(!in_array($ext, $exts)){
                          \Session::flash('imp_danger', '<i class="fa fa-exclamation-triangle"></i>&nbsp;&nbsp;  Falha na Importação, Envie somente arquivos dbf, ifc ou fbx.');
-                         return back()
-                        ->withInput();
+                         return redirect()->route('importador');
                     }elseif(in_array($ext, $extDone)){
                          \Session::flash('flash_danger', '<i class="fa fa-exclamation-triangle"></i>&nbsp;&nbsp;  Falha na Importação, Envie somente um arquivo de cada tipo.');
-                        return redirect()->route('importador')->withInput();
+                        return redirect()->route('importador');
                     }else{
                         $extDone[] = $ext;
                     }
                 }
             }
         }
-        if(!isset($dados->importacoes->importacaoNr)){
-            if(count($extDone) < 2){
-                \Session::flash('imp_danger', '<i class="fa fa-exclamation-triangle"></i>&nbsp;&nbsp;  Arquivos dbf e ifc obrigatorios na primeira Importação.');
-                     return back()->withInput();
-            }elseif(!in_array('dbf', $extDone)){
-                 \Session::flash('imp_danger', '<i class="fa fa-exclamation-triangle"></i>&nbsp;&nbsp;  Arquivos dbf e ifc obrigatorios na primeira Importação.');
-                     return back()->withInput();
-            }elseif(!in_array('ifc', $extDone)){
-               \Session::flash('imp_danger', '<i class="fa fa-exclamation-triangle"></i>&nbsp;&nbsp;  Arquivos dbf e ifc obrigatorios na primeira Importação.');
-                     return back()->withInput();
-            }
-        }  
+
+        if(empty($extDone)){
+            \Session::flash('imp_danger', '<i class="fa fa-exclamation-triangle"></i>&nbsp;&nbsp;  Falha na Importação, Nenhum Arquivo Recebido.');
+               return redirect()->route('importador');
+        }
+        
         $maxSize = 1024 * 1024 * 50;
         $final = array();
-        $nroImportacao = count($dados->importacao);
-        $nroImportacao = (!empty($nroImportacao)) ? (count($nroImportacao)+1) : 1;
+        $nroImportacao = count($dados->importacoes);
+        $nroImportacao = (!empty($nroImportacao)) ? ($nroImportacao+1) : 1;
+
+        if($nroImportacao == 1){
+            if(isset($getRequest['sentido']))
+             $sentido     = $getRequest['sentido'];
+            else{
+                \Session::flash('imp_danger', '<i class="fa fa-exclamation-triangle"></i>&nbsp;&nbsp;  Informe o Sentido de Construção.');
+                return redirect()->route('importador');
+            }
+        }else{
+            $sentido = $dados->importacoes[0]->sentido;
+        }
+        
         $path = $dados->locatario_id . "/" . $dados->etapa->obra->cliente_id . "/" . $dados->etapa->obra_id . "/" . $dados->etapa_id . "/" . $dados->id . "/" . $nroImportacao . "/";
+         if($nroImportacao <= 1){
+            if(count($extDone) < 2){
+                \Session::flash('imp_danger', '<i class="fa fa-exclamation-triangle"></i>&nbsp;&nbsp;  Arquivos dbf e ifc obrigatorios na primeira Importação.');
+                     return redirect()->route('importador');
+            }elseif(!in_array('dbf', $extDone)){
+                 \Session::flash('imp_danger', '<i class="fa fa-exclamation-triangle"></i>&nbsp;&nbsp;  Arquivos dbf e ifc obrigatorios na primeira Importação.');
+                     return redirect()->route('importador');
+            }elseif(!in_array('ifc', $extDone)){
+               \Session::flash('imp_danger', '<i class="fa fa-exclamation-triangle"></i>&nbsp;&nbsp;  Arquivos dbf e ifc obrigatorios na primeira Importação.');
+                     return redirect()->route('importador');
+            }
+        } 
+
         foreach($files as $filex){
             foreach($filex as $file){
 
                 if(isset($file)){
                     if($file->getSize() > $maxSize){
                         \Session::flash('imp_danger', '<i class="fa fa-exclamation-triangle"></i>&nbsp;&nbsp;  O arquivo enviado é muito grande, envie arquivos de até 50MB.');
-                     return back()->withInput();
+                     return redirect()->route('importador');
                     }
                     $extension = $file->getClientOriginalExtension();
                     $finalName = $file->getClientOriginalName();
@@ -151,32 +209,65 @@ class ImportadorController extends Controller {
         $final['sentido'] = $sentido;
         $final['user_id'] = access()->user()->id;
         $final['descricao'] = $descricao;
-
+        $errorr = array();
         $impSucess = imp::create($final);
         if(isset($impSucess)){
             if(!empty($final['dbf2d'])){
-              $recordDbf = $this->savedbf($impSucess->id);
-            }
+            if($nroImportacao == 1){
+                $recordDbf = $this->savedbf($impSucess->id);
+              if($recordDbf === false) $errorr['dbf'] = '<i class="fa fa-exclamation-triangle"></i>&nbsp;&nbsp; Falha ao cadastrar DBF, certifique-se de que o arquivo segue o padrão previsto.';
+            }else{
+                $temp = true;
+                 $recordDbf = $this->savedbf($impSucess->id, $temp);
+                 if($recordDbf != 'ok'){
+                    $errorr['dbf'] = "<p><i class='fa fa-exclamation-triangle'></i>&nbsp;&nbsp;O(s) seguinte(s) conjunto(s): <br><br><strong>
+                    ";
+                        foreach($recordDbf as $copy){
+                            list($mark, $x, $y, $z) = explode('&', $copy);
+                            $x = empty($x) ? 0 : $x;
+                            $y = empty($y) ? 0 : $y;
+                            $z = empty($z) ? 0 : $z;
+                            $errorr['dbf'] .= $mark.' - X:'.$x.' - Y:'.$y.' - Z:'.$z.'<br>';
+                        }
+                     $errorr['dbf'] .= "</strong><br> Ja estão cadastrado(s) no sistema. <br><strong> Importação não realizada.</strong></p>";
+                 }elseif($recordDbf === false){
+                    $errorr['dbf'] = '<i class="fa fa-exclamation-triangle"></i>&nbsp;&nbsp;Falha ao cadastrar DBF, certifique-se de que o arquivo segue o padrão previsto.';
+                }
+              
+               }
+             }
             if(!empty($final['ifc_orig'])){
               $convertIFC = $this->converteIfc($impSucess->id);
+              if($convertIFC === false) $errorr['ifc'] = '<i class="fa fa-exclamation-triangle"></i>&nbsp;&nbsp;Falha ao converter IFC.';
             }
-            if($recordDbf !== false && $convertIFC !== false){
+            if(!empty($final['fbx_orig'])){
+              $convertFBX = $this->converteFbx($impSucess->id);
+              if($convertFBX === false) $errorr['fbx'] = '<i class="fa fa-exclamation-triangle"></i>&nbsp;&nbsp;Falha ao converter FBX.';
+            }
+            if(count($errorr) > 0){
+                $erroMsg = '';
+                $this->Wrath($impSucess->id);
+                foreach($errorr as $ero){
+                    $erroMsg .= $ero.'<br>';
+                }
+                 \Session::flash('imp_danger', $erroMsg);
+                     return redirect()->route('importador');
+            }else{
                 \Session::flash('flash_success', '<i class="fa fa-check"></i>&nbsp;&nbsp;  Importação realizada com sucesso!');
                 return redirect()->route('importador'); 
-            }else{
-                 \Session::flash('imp_danger', '<i class="fa fa-exclamation-triangle"></i>&nbsp;&nbsp;  Falha ao cadastrar DBF, certifique-se de que o arquivo segue o padrão previsto..');
-                     return back()->withInput();
+                
             }
-
-           
+        }else{
+            \Session::flash('imp_danger', '<i class="fa fa-exclamation-triangle"></i>&nbsp;&nbsp;  Falha ao Importar.');
+                return redirect()->route('importador');
         }
     }
 
-    private function savedbf($importacaoID) {
+    private function savedbf($importacaoID,$temp = null) {
         $check = true;
         $desc = $this->getFields();
         $dados = imp::find($importacaoID);
-        $path = 'C:/xampp/htdocs/FeeltheSteel/storage/app';
+        $path = storage_path().'/app';
         $arquivo = $path . "/" . $dados->locatario_id . "/" . $dados->cliente_id . "/" . $dados->obra_id . "/" 
         . $dados->etapa_id . "/" . $dados->subetapa_id . "/" . $dados->importacaoNr . "/" . $dados->dbf2d;
         $fdbf = fopen($arquivo,'r'); 
@@ -227,20 +318,69 @@ class ImportadorController extends Controller {
             $record['obra_id']         = $dados->obra_id;
             $record['etapa_id']      = $dados->etapa_id;
             $record['importacao_id'] = $dados->id;
+            $record['subetapa_id']  = $dados->subetapa_id;
             $record['locatario_id']    = access()->user()->locatario_id;
             $record['user_id']    = access()->user()->id;
-         
-           $importID = handle::create($record);
+         if(isset($temp)){
+            $importID = tempH::create($record);
+         }else{
+            $importID = handle::create($record);
+         }
+           
        }
         }
-        if(!empty($importID)){
-            fclose($fdbf);
-            return $importID;
-        }else{
-            fclose($fdbf);
-            return false;
+        if(isset($importID) && isset($temp)){
+           $tempCheck = $this->checkTemp($dados->id);
+           if($tempCheck == 'ok'){
+                $this->insertTemp($importacaoID);
+                $tempDel = tempH::where('importacao_id',$importacaoID);
+                $tempDel = tempH::delete();
+                fclose($fdbf);
+                return 'ok';
+            }else{
+                fclose($fdbf);
+                return $tempCheck; 
+            }
         }
          
+    }
+
+    private function checkTemp($importacaoID){
+    $dados = tempH::where('importacao_id',$importacaoID)->get();
+    $here = handle::where('subetapa_id',$dados[0]->subetapa_id)->get();
+    $xyz = array();
+    $x=0;
+    foreach($dados as $dado){
+        if($dado->FLG_REC == 3 && $dado->NUM_COM != 'MATHEUS' && $dado->NUM_DIS != 'TESTANDO'){
+            foreach($here as $hr){
+                if($hr->FLG_REC == 3){
+                    if($dado->X == $hr->X && $dado->Y == $hr->Y && $dado->Z == $hr->Z){
+                        $tempxyz = $dado->MAR_PEZ.'&'.str_replace(' ', '', $dado->X).'&'.str_replace(' ', '', $dado->Y).'&'.str_replace(' ', '', $dado->Z);
+                        if(!in_array($tempxyz, $xyz)){
+                            $xyz[] = $tempxyz;
+                        }
+                    }
+                }
+            }
+        }
+    }
+       $xyz = !empty($xyz[0]) ? $xyz : 'ok';
+       return $xyz;
+    }
+
+    private function insertTemp($importacaoID){
+
+        $dados = tempH::where('importacao_id',$importacaoID)->get();
+        foreach($dados as $dado){
+            dd($dado);
+            unset($dado->id);
+            $importID = handle::create($dado);
+        }
+        if(!empty($importID)){
+            return $importID;
+        }else{
+            return false;
+        }
     }
 
     private function converteIfc($importacaoID)
@@ -248,12 +388,12 @@ class ImportadorController extends Controller {
 
         $dados = imp::find($importacaoID);
 
-        $path = 'C:/xampp/htdocs/FeeltheSteel/storage/app/' . $dados->locatario_id . "/" . $dados->cliente_id . "/" . $dados->obra_id . "/" . $dados->etapa_id . "/" 
+        $path = storage_path().'/app/' . $dados->locatario_id . "/" . $dados->cliente_id . "/" . $dados->obra_id . "/" . $dados->etapa_id . "/" 
         . $dados->subetapa_id . "/" . $dados->importacaoNr . "/";
 
         $Ifc_File = $path . $dados->ifc_orig;
 
-        $IFC_convert_exe = 'C:/xampp/htdocs/FeeltheSteel/exe/ifcconvert.exe';
+        $IFC_convert_exe = base_path().'/exe/ifcconvert.exe';
 
         $ifcfile = $dados->importacaoNr . "_ifc.obj";
         $Ifc_Destino = $path . $ifcfile;
@@ -277,34 +417,61 @@ class ImportadorController extends Controller {
 
          $dados = imp::find($importacaoID);
 
-        $path = 'C:/xampp/htdocs/FeeltheSteel/storage/app/' . $dados->locatario_id . "/" . $dados->cliente_id . "/" . $dados->obra_id . "/" . $dados->etapa_id . "/" 
+        $path = storage_path().'/app/' . $dados->locatario_id . "/" . $dados->cliente_id . "/" . $dados->obra_id . "/" . $dados->etapa_id . "/" 
         . $dados->subetapa_id . "/" . $dados->importacaoNr . "/";
 
         $Fbx_File = $path . $dados->fbx_orig;
 
-        $FBX_convert_exe = 'C:/xampp/htdocs/FeeltheSteel/exe/FbxConverter.exe';
+        $FBX_convert_exe = base_path().'/exe/FbxConverter.exe';
 
         $fbxfile = $dados->importacaoNr . "_fbx.obj";
         $Fbx_Destino = $path . $fbxfile;
 
         exec("$FBX_convert_exe $Fbx_File $Fbx_Destino");
 
-        if(file_exists($Fbx_Destino)){
+       if(file_exists($Fbx_Destino)) {
             $attibutes = array(
-                    'arquivo'      => $fbxfile,
-                    'locatario_id'  => $dados->locatario_id,
-                    'cliente_id'    => $dados->cliente_id,
-                    'obra_id'       => $dados->obra_id,
-                    'etapa_id'      => $dados->etapa_id,
-                    'subetapa_id'   => $dados->subetapa_id,
-                    'importacaoNr' => $dados->importacaoNr,
-                    'observacoes'  => 'Convertido pelo sistema'
-                    );
+                'fbx'      => $fbxfile
+                );
 
-            $importacaoID = $this->import->insert($attibutes);
+            $dates = imp::find($importacaoID)->update($attibutes);
             return true;
         }
         return false;
+    } 
+
+    public function download(Request $request){
+        $dados = $request->all();
+        list($impId, $ext) = explode('&&&',$dados['data']);
+        $imp = imp::find($impId);
+        if($ext == 'dbf')
+            $file = $imp->dbf2d;
+        elseif($ext=='ifc_orig')
+            $file = $imp->ifc_orig;
+        else
+            $file = $imp->fbx_orig;
+        
+        $path = storage_path('app').'/'.$imp->locatario_id.'/'.$imp->obra->cliente_id.'/'.$imp->obra_id.'/'.$imp->etapa_id.'/'.$imp->subetapa_id.'/'.$imp->importacaoNr.'/'.$file;
+        return response()->download($path);
+
+    }
+
+    
+ 
+
+    private function Wrath($Morgoth){
+        $Angband = imp::find($Morgoth);
+        $Balrogs = tempH::where('importacao_id',$Morgoth);
+        $Finarfin = $Balrogs->get();
+        if(!empty($Finarfin))
+             $Balrogs = tempH::where('importacao_id',$Morgoth)->delete();
+        $Ancalagon = handle::where('importacao_id',$Morgoth);
+        $Earendil  = $Ancalagon->get();
+        if(!empty($Earendil))
+             $Ancalagon = tempH::where('importacao_id',$Morgoth)->delete();
+        $IronHills = storage_path().'/app/'.$Angband->locatario_id . "/" . $Angband->obra->cliente_id . "/" . $Angband->obra_id . "/" . $Angband->etapa_id . "/" . $Angband->subetapa_id . "/" . $Angband->importacaoNr;
+        $Ruin = File::deleteDirectory($IronHills);
+        $Angband->delete();
     }
 
 

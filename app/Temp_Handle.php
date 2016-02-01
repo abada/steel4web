@@ -5,9 +5,9 @@ namespace App;
 use App\LocatarioScope;
 use Illuminate\Database\Eloquent\Model;
 
-class Handle extends Model {
-
-	protected $table = 'handles';
+class Temp_Handle extends Model
+{
+   protected $table = 'temp_handles';
 
 	protected $fillable = [
 		'HANDLE',
@@ -80,7 +80,7 @@ class Handle extends Model {
         static::addGlobalScope(new LocatarioScope);
     }
 
-	/**
+    /**
 	 * Get the Obra of the model
 	 * @return Relationship belongsTo
 	 */
@@ -169,5 +169,4 @@ class Handle extends Model {
 	public function cjtomontagem() {
 		return $this->hasMany('App\CjtoMontagem');
 	}
-
 }

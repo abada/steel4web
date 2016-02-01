@@ -21,11 +21,11 @@
                     <div class="tab-content">
                         <div class="tab-pane fade in active" id="detalhes">
                             <br />
-                             @include('backend.importer.obras-perfil-inc')
+                             @include('frontend.cadastros.obras-perfil-inc')
                         </div>
                         <div class="tab-pane fade" id="etapas">
                         <br />
-                             @include('backend.importer.etapas-listar-inc')
+                             @include('frontend.cadastros.etapas-listar-inc')
                         </div>
                     </div>
                     </div>
