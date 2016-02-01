@@ -153,11 +153,11 @@ $('#subToggle').click(function(e) {
                 }
             });
         $('.inputsubetapa').removeClass('hidden');
-        $('#inputSubmit').removeClass('hidden');
         $('.TypeLoading').addClass('hidden'); 
       });
 
        $('#inputsubetapa').change(function() {
+         $('#inputSubmit').removeClass('hidden');
            var sube = $('#inputsubetapa').val();
            jQuery.ajax({
                 type: "POST",
@@ -165,6 +165,8 @@ $('#subToggle').click(function(e) {
                url: "/importador/importar",
                 dataType: "html",
                 success: function(r){
+                  var subed = JSON.parse(r);
+                  $('#toReceiveSubId').val(subed.subetapa_id);
                 }
             });
        });
@@ -172,6 +174,7 @@ $('#subToggle').click(function(e) {
          $('#importTable').DataTable({
               responsive: true
           });
-  
+
+
     
 } );

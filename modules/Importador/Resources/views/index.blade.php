@@ -28,7 +28,8 @@
                 <select id="inputsubetapa" class="form-control" required="required" name="inputsubetapa">
                 </select>
             </div>
-            <a id='inputSubmit' class="btn btn-primary hidden">Nova Importação</a>
+            <button type="button" id='inputSubmit' class="btn btn-primary hidden" data-toggle="modal" data-target="#impScreen">Nova Importação</button>
+
             <div class="form-group">
              <div class="TypeLoading hidden"></div>
             </div>
@@ -62,13 +63,121 @@
 			</div>
 		</div>
 	</div>
+
+
+	<div id="impScreen" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Nova Importação</h4>
+      </div>
+      <div class="modal-body">
+        <!-- IMPORT BEGINS -->
+
+        	<ul class="nav nav-tabs">
+                        <li class="active"><a href="#tecnometal" data-toggle="tab">Tecnometal</a>
+                        </li>
+                        <li><a href="#tekla" data-toggle="tab">Tekla</a>
+                        </li>
+                        <li><a href="#cadem" data-toggle="tab">ST_CadEM</a>
+                        </li>
+                        <li><a href="#manual" data-toggle="tab">Manual</a>
+                        </li>
+                    </ul>
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                        <div class="tab-pane fade in active" id="tecnometal">
+                            <br />
+                            <h4>Importação de arquivos padrão Tecnometal</h4>
+                            <br />
+                            @if (Session::get('imp_danger'))
+							<div class="alert alert-danger">
+						        @if(is_array(json_decode(Session::get('imp_danger'), true)))
+						            {!! implode('', Session::get('imp_danger')->all(':message<br/>')) !!}
+						        @else
+						            {!! Session::get('imp_danger') !!}
+						        @endif
+						    </div>
+						    @endif
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <form role="form" method="post" action="/importador/gravar" enctype="multipart/form-data" id='dbftogo'>
+                                        <div class="form-group">
+                                            <label>Arquivo DBF</label>
+                                            <input type="file" name="files[]" accept=".DBF,.dbf" id='dbfile'/>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Arquivo IFC</label>
+                                            <input type="file" name="files[]" accept=".ifc" id='ifcile'/>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Arquivo FBX</label>
+                                            <input type="file" name="files[]" accept=".fbx" id='fbxile'/>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Observações</label>
+                                            <textarea name="observacoes" class="form-control" rows="3"></textarea>
+                                        </div>
+
+										<input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                        <input type="hidden" name="subetapa_id" id='toReceiveSubId' value="">
+                                        <button type="submit" class="btn btn-primary btn-block" id="subImport"><i class="fa fa-cloud-upload"></i> Importar</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="tekla">
+                            <br />
+                            <h4>Importação de arquivos padrão Tekla</h4>
+                            <p>&nbsp;</p>
+                            <h3>Em construção</h3>
+                        </div>
+                        <div class="tab-pane fade" id="cadem">
+                            <br />
+                            <h4>Importação de arquivos padrão ST_CadEM</h4>
+                            <p>&nbsp;</p>
+                            <h3>Em construção</h3>
+                        </div>
+                        <div class="tab-pane fade" id="manual">
+                            <br />
+                            <h4>Importação de arquivos Manual</h4>
+                            <p>&nbsp;</p>
+                            <h3>Em construção</h3>
+                        </div>
+                    </div>
+                <!-- /.panel-body -->
+
+        <!-- IMPORT ENDS -->
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
 	 
 
 @endsection
 
 
+
+
+
 @section('scripts')
 {!! Html::script('js/Ajax/funcoes.js') !!}
 {!! Html::script('js/Ajax/tabel.js') !!}
+
+@if (Session::get('imp_danger'))
+<script>
+$(document).ready(function () {
+    $('#impScreen').modal('show');
+});
+</script>
+@endif
 
 @endsection

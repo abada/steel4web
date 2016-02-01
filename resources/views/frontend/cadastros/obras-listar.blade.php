@@ -38,7 +38,7 @@ if ($obra->status == 0) {
 	?>
                                 <tr class="<?=$tipoStatus;?>" >
                                     <td><?=$obra->codigoObra;?></td>
-                                    <td><a href="obra/{{$obra->id}}"><?=$obra->nomeObra;?></a></td>
+                                    <td><a href="{{ url('obra/'.$obra->id) }}"><?=$obra->nomeObra;?></a></td>
                                     <td><?=$obra->fantasia;?></td>
                                     <td class="text-center"><?php echo date("d/m/Y", strtotime($obra->created_at)); ?></td>
                                     <td class="text-center">
@@ -51,7 +51,7 @@ if ($obra->status == 0) {
                                              <a href="#" alt="Mudar Status" title="Mudar Status" style="text-decoration:none">
                                                 <i class="fa fa-refresh fa-fw"></i>
                                             </a>
-                                            <a href="../obra/editar/{{$obra->id}}" alt="Editar obra" title="Editar obra">
+                                            <a href="{{ url('obra/editar/'.$obra->id) }}" alt="Editar obra" title="Editar obra">
                                                 <i class="fa fa-edit fa-fw"></i>
                                             </a>
                                         </div>

@@ -35,8 +35,8 @@
                                     <td class="text-center"><?php echo date("d/m/Y", strtotime($etapa->created_at));?></td>
                                     <td>
                                         <div class="text-center hoverActions">
-                                            <a style='color:#f5f5f5' href="../subetapa/criar/{{$etapa->id}}" title='Criar Subetapa'> <i class="fa fa-plus-square"></i></a>&nbsp;&nbsp;
-                                              <a style='color:#f5f5f5' href="../etapa/editar/{{$etapa->id}}" title='Editar Etapa'> <i class="fa fa-edit fa-fw"></i></a>&nbsp;&nbsp;
+                                            <a style='color:#f5f5f5' href="{{ url('subetapa/criar/'.$etapa->id) }}" title='Criar Subetapa'> <i class="fa fa-plus-square"></i></a>&nbsp;&nbsp;
+                                              <a style='color:#f5f5f5' href="{{ url('etapa/editar/'.$etapa->id) }}" title='Editar Etapa'> <i class="fa fa-edit fa-fw"></i></a>&nbsp;&nbsp;
                              <a style='color:#f5f5f5' name='{{$etapa->id}}' class='delEtapa' title='Excluir Etapa' href="#" 
                              ><i class="fa fa-times"></i></a>
                                         </div>
@@ -51,7 +51,7 @@
                                         <td class="text-center">{{$subetapa->tipo->descricao}}</td>
                                         <td>
                                             <div class="text-center">
-                                                  <a href="../subetapa/editar/{{$subetapa->id}}" title='Editar Subetapa'> <i class="fa fa-edit fa-fw"></i></a>&nbsp;&nbsp;
+                                                  <a href="{{ url('subetapa/editar/'.'$subetapa->id) }}" title='Editar Subetapa'> <i class="fa fa-edit fa-fw"></i></a>&nbsp;&nbsp;
                                                   <a title='Excluir Subetapa' href="#" name='{{$subetapa->id}}' class='delSubEtapa'  ><i class="fa fa-times"></i></a>
                                             </div>
                                         </td>
@@ -80,6 +80,6 @@
         </div>
         <!-- /.col-lg-12 -->
         <div class="col-lg-12 col-md-12 text-right">
-           <a href="../etapa/cadastro/{{$obra->id}}" type="button" class="btn btn-primary">Cadastrar etapa</a>
+           <a href="{{ url('etapa/cadastro/'.'$obra->id) }}" type="button" class="btn btn-primary">Cadastrar etapa</a>
         </div>
     </div>

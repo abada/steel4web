@@ -38,10 +38,10 @@
                                     <td>{{ date('d/m/Y', strtotime($tipo->created_at)) }}</td>
                                      <td>
                                         <div class="text-center">
-                                            <a href="../{{$type}}/tipo/editar/{{$tipo->id}}" alt="Editar {{$name_s}}" title="Editar {{$name_s}}">
+                                            <a href="{{ url($type.'/tipo/editar/'.$tipo->id) }}" alt="Editar {{$name_s}}" title="Editar {{$name_s}}">
                                                 <i class="fa fa-edit fa-fw"></i>
                                             </a>
-                                            <a href="../{{$type}}/tipo/excluir/{{$tipo->id}}" alt="Excluir {{$name_s}}" title="Excluir {{$name_s}}">
+                                            <a href="{{ url($type.'/tipo/excluir/'.$tipo->id) }}" alt="Excluir {{$name_s}}" title="Excluir {{$name_s}}">
                                                 <i class="fa fa-trash fa-fw"></i>
                                             </a>
                                         </div>
@@ -67,7 +67,7 @@
         <!-- /.col-lg-12 -->
         @if(!isset($sub))
         <div class="col-lg-6 col-md-6">
-            <a href="/contatos" type="button" class="btn btn-primary"><< Voltar</a>
+            <a href="{{ url('contatos') }}" type="button" class="btn btn-primary"><< Voltar</a>
         </div>
         @else
         <div class="col-lg-6 col-md-6">
@@ -75,7 +75,7 @@
         </div>
         @endif
         <div class="col-lg-6 col-md-6 text-right">
-           <a href="../{{$type}}/tipo/cadastro" type="button" class="btn btn-primary">Cadastrar {{$name_s}}</a>
+           <a href="{{ url($type.'/tipo/cadastro') }}" type="button" class="btn btn-primary">Cadastrar {{$name_s}}</a>
         </div>
         
     </div>

@@ -43,7 +43,7 @@ if(isset($edicao)){
                                 <input type="hidden" name="id" id="id" value="{{$tipo->id}}">
                                 <?php } ?>
                                 <?php if (isset($disable)) { ?>
-                                <a href="../tipo/editar/{{$tipo->id}}" type="button" class="btn btn-primary btn-block">Editar</a>
+                                <a href="{{ url('tipo/editar/'.$tipo->id) }}" type="button" class="btn btn-primary btn-block">Editar</a>
                                 <?php } else { ?>
                                 <button type="submit" class="btn btn-primary btn-block">Gravar</button>
                                 <?php } ?>
@@ -100,11 +100,7 @@ if(isset($edicao)){
         <div class="col-lg-4">
             <div class="row">
                 <div class="col-lg-6 text-left">
-                    @if(!isset($edicao))
-                    <a href="../tipos" type="button" class="btn btn-primary"><< Voltar</a>
-                    @else
-                    <a href="../../tipos" type="button" class="btn btn-primary"><< Voltar</a>
-                    @endif
+                    <a href="{{ url($type.'/tipos') }}" type="button" class="btn btn-primary"><< Voltar</a>
                 </div>
             </div>
         </div>

@@ -93,7 +93,7 @@ if (isset($edicao)) {
             <!-- /.col-lg-4 -->
         </div>
     </div>
-    <a href="/obra/{{$obraID}}#etapas" type="button" class="btn btn-primary"><< Voltar</a>
+    <a href="{{ url('obra/'.$obraID.'#etapas') }}" type="button" class="btn btn-primary"><< Voltar</a>
 @endsection
 @section('scripts')
 {!! Html::script('js/Ajax/funcoes.js') !!}

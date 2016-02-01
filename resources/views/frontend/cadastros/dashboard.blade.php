@@ -18,13 +18,13 @@
                 <div class="panel-list">
                     @if(count($dados->clientes)>0)
                         @foreach($dados->clientes as $cliente)
-                        <a href="/cliente/{{$cliente->id}}">{{$cliente->razao}}</a>
+                        <a href="{{ url('cliente/'.$cliente->id) }}">{{$cliente->razao}}</a>
                         @endforeach
                     @else
                         <span>Nenhum Cliente Cadastrado.</span>
                     @endif
                 </div>
-                <a href="/clientes">
+                <a href="{{ url('clientes') }}">
                     <div class="panel-footer">
                         <span class="pull-left">Ver todos</span>
                         <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -49,13 +49,13 @@
                 <div class="panel-list">
                     @if(count($dados->obras)>0)
                         @foreach($dados->obras as $obra)
-                        <a href="/obra/{{$obra->id}}">{{$obra->nome}}</a>
+                        <a href="{{ url('obra/'.$obra->id) }}">{{$obra->nome}}</a>
                         @endforeach
                     @else
                         <span>Nenhuma Obra Cadastrado.</span>
                     @endif
                 </div>
-                <a href="/obras">
+                <a href="{{ url('obras') }}">
                     <div class="panel-footer">
                         <span class="pull-left">Ver todas</span>
                         <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -80,13 +80,13 @@
                 <div class="panel-list">
                     @if(count($dados->users)>0)
                         @foreach($dados->users as $user)
-                        <a href="/admin/access/users/{{$user->id}}/edit">{{$user->name}}</a>
+                        <a href="{{ url('admin/access/users/'.$user->id.'/edit') }}">{{$user->name}}</a>
                         @endforeach
                     @else
                         <span>Nenhuma Obra Cadastrado.</span>
                     @endif
                 </div>
-                <a href="/admin/access/users">
+                <a href="{{ url('admin/access/users') }}">
                     <div class="panel-footer">
                         <span class="pull-left">Ver todos</span>
                         <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>

@@ -75,8 +75,9 @@ if (isset($edicao)) {
             </div>
              <div class="row">
                         <div class="col-lg-12">
-                        <a href="/obra/<?php if(isset($edicao)) echo $subetapa->etapa->obra_id; else echo $obraID ?>#etapas" type="button" class="btn btn-primary"><< Voltar</a>
-                        <a href="/subetapa/tipos" type="button" style='float:right' class="btn btn-primary">Tipos de Subetapas</a>
+                            <?php if(isset($edicao)) $tourl =  $subetapa->etapa->obra_id; else $tourl = $obraID; ?>
+                        <a href="{{ url('obra/'.$tourl.'#etapas') }}" type="button" class="btn btn-primary"><< Voltar</a>
+                        <a href="{{ url('subetapa/tipos') }}" type="button" style='float:right' class="btn btn-primary">Tipos de Subetapas</a>
                     </div>
                     </div>
             <!-- /.panel -->
