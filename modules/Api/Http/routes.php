@@ -7,6 +7,6 @@ Route::group(['middleware' => 'admin', 'prefix' => 'api', 'namespace' => 'Module
 	});
 
 	Route::get('/{resource_name?}/{resource_id?}/attach/{attached_resource_name?}/{attached_resource_id?}', 'ApiController@attach');
-	Route::get('/{resource_name?}/{resource_id?}/{resource_relationship?}/{related_resource_id?}/{related_related_resource?}/{related_related_resource_id?}', 'ApiController@index');
-	Route::post('/{resource_name?}/{resource_id?}/{resource_relationship?}/{related_resource_id?}/{related_related_resource?}/{related_related_resource_id?}', 'ApiController@store');
+	Route::get('/{res_name?}/{res_id?}/{rel_one?}/{rel_one_id?}/{rel_two?}/{rel_two_id?}/{rel_three?}/{rel_three_id?}/{rel_four?}/{rel_four_id?}', 'ApiController@index');
+	Route::post('/{res_name?}/{res_id?}/{rel_one?}/{rel_one_id?}/{rel_two?}/{rel_two_id?}/{rel_three?}/{rel_three_id?}/{rel_four?}/{rel_four_id?}', 'ApiController@store');
 });

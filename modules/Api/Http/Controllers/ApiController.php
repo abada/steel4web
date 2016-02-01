@@ -6,7 +6,7 @@ use Pingpong\Modules\Routing\Controller;
 
 class ApiController extends Controller {
 
-	public function index(Request $request, $resource_name = null, $resource_id = null, $resource_relationship = null, $resource_relationship_id = null, $related_related_resource = null, $related_related_resource_id = null) {
+	public function index(Request $request, $res_name = null, $res_id = null, $rel_one = null, $rel_one_id = null, $rel_two = null, $rel_two_id = null, $rel_three = null, $rel_three_id = null, $rel_four = null, $rel_four_id = null) {
 		$status = array();
 
 		// dd($request->all());
@@ -14,130 +14,58 @@ class ApiController extends Controller {
 		$locatario = $locatario->find(access()->user()->locatario_id);
 		$resource = null;
 
-		if ($resource_name != null) {
-			$resource = $locatario->{$resource_name}; // EX: locatario->obras
+		if ($res_name != null) {
+			$resource = $locatario->{$res_name}; // EX: locatario->obras
 			if (!$resource) {$resource = null;}
 		}
 
-		if ($resource_id != null) {
-			$resource = $resource->find($resource_id); // EX: obras->find( XXX )
+		if ($res_id != null) {
+			$resource = $resource->find($res_id); // EX: obras->find( XXX )
 			if (!$resource) {$resource = null;}
 		}
 
-		if ($resource_relationship != null) {
-			$resource = $resource->{$resource_relationship}; // EX: obra->etapas
+		if ($rel_one != null) {
+			$resource = $resource->{$rel_one}; // EX: obra->etapas
 			if (!$resource) {$resource = null;}
 		}
 
-		if ($resource_relationship_id != null) {
-			$resource = $resource->find($resource_relationship_id); // EX: etapas->find( XXX )
+		if ($rel_one_id != null) {
+			$resource = $resource->find($rel_one_id); // EX: etapas->find( XXX )
 			if (!$resource) {$resource = null;}
 		}
 
-		if ($related_related_resource != null) {
-			$resource = $resource->{$related_related_resource}; // EX: obra->etapas
+		if ($rel_two != null) {
+			$resource = $resource->{$rel_two}; // EX: etapa->subetapas
 			if (!$resource) {$resource = null;}
 		}
 
-		if ($related_related_resource_id != null) {
-			$resource = $resource->find($related_related_resource_id); // EX: etapas->find( XXX )
+		if ($rel_two_id != null) {
+			$resource = $resource->find($rel_two_id); // EX: subetapas->find( XXX )
 			if (!$resource) {$resource = null;}
 		}
 
-		dd($resource);
+		if ($rel_three != null) {
+			$resource = $resource->{$rel_three}; // EX: subetapa->importacoes
+			if (!$resource) {$resource = null;}
+		}
+
+		if ($rel_three_id != null) {
+			$resource = $resource->find($rel_three_id); // EX: importacoes->find( XXX )
+			if (!$resource) {$resource = null;}
+		}
+
+		if ($rel_four != null) {
+			$resource = $resource->{$rel_four};
+			if (!$resource) {$resource = null;}
+		}
+
+		if ($rel_four_id != null) {
+			$resource = $resource->find($rel_four_id);
+			if (!$resource) {$resource = null;}
+		}
+
+		// dd($resource);
 		return json_encode($resource);
-
-		if ($resource) {
-
-			if ($resource_id != null) {
-
-				$resource = $resource->find($resource_id); // EX: obras->find( XXX )
-
-				if ($resource && $resource_relationship != null && $resource->{$resource_relationship}) {
-					// EX: obra->etapas
-
-					$resource = $resource->{$resource_relationship};
-
-					if ($resource && $resource_relationship_id != null) {
-
-						$resource = $resource->find($resource_relationship_id);
-
-						dd($resource);
-
-						if ($related_related_resource != null && $resource->{$resource_relationship}->find($resource_relationship_id)->{$related_related_resource}) {
-
-							$return = (count($resource) > 0) ? $resource : null;
-							if ($request->ajax()) {return $return;} else {dd($return);}
-
-						}
-
-						$return = (count($resource) > 0) ? $resource : null;
-						if ($request->ajax()) {return $return;} else {dd($return);}
-
-					}
-
-					$return = (count($resource) > 0) ? $resource : null;
-					if ($request->ajax()) {return $return;} else {dd($return);}
-
-				}
-
-				// EX: return Obras
-				$return = (count($resource) > 0) ? $resource : null;
-				if ($request->ajax()) {return $return;} else {dd($return);}
-
-			}
-
-			$return = (count($resource) > 0) ? $resource : null;
-			if ($request->ajax()) {return $return;} else {dd($return);}
-
-		} else {
-			$status['error'] = ':(';
-			$return = $status;
-			if ($request->ajax()) {return $return;} else {dd($status);}
-		}
-
-		if ($resource_id != null && $resource_name != null && $resource_relationship = null) {
-
-			if ($resource) {
-				$resource = $resource->find($resource_id);
-				$status[$resource_name] = $resource;
-				return $status;
-			} else {
-				$status['error'] = ':(';
-				return $status;
-			}
-
-		} else
-		if ($resource_id != null && $resource_name != null) {
-
-			if ($resource) {
-				$resource = $resource->find($resource_id);
-				$status[$resource_name] = $resource;
-				return $status;
-			} else {
-				$status['error'] = ':(';
-				return $status;
-			}
-
-		} else
-		if ($resource_name != null) {
-
-			if ($resource) {
-				$status[$resource_name] = $resource->toArray();
-				return $status;
-			} else {
-				$status['error'] = ':(';
-				return $status;
-			}
-
-		}
-
-		$status['clientes'] = $request->user()->clients->toArray();
-		$status['contatos'] = $request->user()->contacts->toArray();
-		$status['obras'] = $request->user()->projects->toArray();
-		$status['consultas-tecnicas'] = $request->user()->tecnhical_consults->toArray();
-
-		return $status;
 	}
 
 }

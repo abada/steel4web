@@ -1,21 +1,21 @@
 <?php
 
-Route::group(['middleware' => 'web'], function() {
-    /**
-     * Switch between the included languages
-     */
-    Route::group(['namespace' => 'Language'], function () {
-        require (__DIR__ . '/Routes/Language/Language.php');
-    });
+Route::group(['middleware' => 'web'], function () {
+	/**
+	 * Switch between the included languages
+	 */
+	Route::group(['namespace' => 'Language'], function () {
+		require (__DIR__ . '/Routes/Language/Language.php');
+	});
 
-    /**
-     * Frontend Routes
-     * Namespaces indicate folder structure
-     */
-    Route::group(['namespace' => 'Frontend'], function () {
-        require (__DIR__ . '/Routes/Frontend/Frontend.php');
-        require (__DIR__ . '/Routes/Frontend/Access.php');
-    });
+	/**
+	 * Frontend Routes
+	 * Namespaces indicate folder structure
+	 */
+	Route::group(['namespace' => 'Frontend'], function () {
+		require (__DIR__ . '/Routes/Frontend/Frontend.php');
+		require (__DIR__ . '/Routes/Frontend/Access.php');
+	});
 });
 
 /**
@@ -24,16 +24,16 @@ Route::group(['middleware' => 'web'], function() {
  * Admin middleware groups web, auth, and routeNeedsPermission
  */
 Route::group(['namespace' => 'Backend', 'prefix' => 'admin', 'middleware' => 'admin'], function () {
-    /**
-     * These routes need view-backend permission
-     * (good if you want to allow more than one group in the backend,
-     * then limit the backend features by different roles or permissions)
-     *
-     * Note: Administrator has all permissions so you do not have to specify the administrator role everywhere.
-     */
-    require (__DIR__ . '/Routes/Backend/Dashboard.php');
-    require (__DIR__ . '/Routes/Backend/Access.php');
-    require (__DIR__ . '/Routes/Backend/LogViewer.php');
+	/**
+	 * These routes need view-backend permission
+	 * (good if you want to allow more than one group in the backend,
+	 * then limit the backend features by different roles or permissions)
+	 *
+	 * Note: Administrator has all permissions so you do not have to specify the administrator role everywhere.
+	 */
+	require (__DIR__ . '/Routes/Backend/Dashboard.php');
+	require (__DIR__ . '/Routes/Backend/Access.php');
+	require (__DIR__ . '/Routes/Backend/LogViewer.php');
 });
 
 /**
@@ -44,8 +44,8 @@ Route::group(['namespace' => 'Backend', 'prefix' => 'admin', 'middleware' => 'ad
 /* DASHBOARD */
 Route::get('dashboard2', array('middleware' => 'admin', 'as' => 'dashboard2', 'uses' => 'Cadastros\DashboardController@index'));
 /*
-* OBRAS
-*/
+ * OBRAS
+ */
 //Pagina de Cadastro
 Route::get('obra/cadastro', array('middleware' => 'admin', 'as' => 'obra/cadastro', 'uses' => 'Cadastros\ObrasController@cadastro'));
 //Pagina de Edicao
@@ -62,8 +62,8 @@ Route::get('obra/{id}', array('middleware' => 'admin', 'as' => 'obra', 'uses' =>
 //END OBRAS
 
 /*
-* ETAPAS
-*/
+ * ETAPAS
+ */
 //Pagina de Cadastro
 Route::get('etapa/cadastro/{obraID}', array('middleware' => 'admin', 'as' => 'etapa/cadastro/{obraID}', 'uses' => 'Cadastros\EtapasController@cadastrar'));
 //Realiza Cadastro
@@ -78,8 +78,8 @@ Route::post('etapa/excluir', array('middleware' => 'admin', 'as' => 'etapa/exclu
 //END ETAPAS
 
 /*
-*  SUBETAPAS
-*/
+ *  SUBETAPAS
+ */
 //Pagina de Cadastro
 Route::get('subetapa/criar/{id}', array('middleware' => 'admin', 'as' => 'subetapa/criar/{id}', 'uses' => 'Cadastros\SubetapasController@cadastrar'));
 //Realiza Cadastro
@@ -106,8 +106,8 @@ Route::get('subetapa/tipo/cadastro', array('middleware' => 'admin', 'as' => 'sub
 //END SUBETAPAS
 
 /*
-* CLIENTES
-*/
+ * CLIENTES
+ */
 //Pagina de Cadastro
 Route::get('cliente/cadastro', array('middleware' => 'admin', 'as' => 'cliente/cadastro', 'uses' => 'Cadastros\ClientesController@cadastro'));
 //Lista Clientes
@@ -124,8 +124,8 @@ Route::post('cliente/gravar', array('middleware' => 'admin', 'as' => 'cliente/gr
 //END CLIENTES
 
 /*
-* CONTATOS
-*/
+ * CONTATOS
+ */
 //Pagina de Cadastro de Tipo de Contatos
 Route::get('contato/tipo/cadastro', array('middleware' => 'admin', 'as' => 'contato/tipo/cadastro', 'uses' => 'Cadastros\ContatosController@tipoCadastro'));
 //Pagina de Cadastro de Contatos
@@ -154,5 +154,16 @@ Route::post('contato/tipo/update', array('middleware' => 'admin', 'as' => 'conta
 //END CONTATOS
 
 /*
-* END Cadastros
-*/
+ * END Cadastros
+ */
+
+// GERAR SENHA CRIPTOGRAFADA
+Route::get('gerarsenha', function () {
+	return '<form method="POST">
+                <input type="text" name="senha" placeholder="Digite a senha">
+                <button type="submit">Enviar</button>
+            </form>';
+});
+Route::post('gerarsenha', function () {
+	return bcrypt($_POST['senha']);
+});
