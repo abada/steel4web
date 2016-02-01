@@ -23,23 +23,24 @@
                                 </tr>
                             </thead>
                             <tbody>
-                            <?php foreach ($obras as $obra) { ?>
+                            <?php foreach ($obras as $obra) {
+	?>
                             <?php
-                                if ($obra->status == 0) {
-                                    $status = 'Inativo';
-                                    $tipoStatus = 'danger';
-                                    $acaoStatus = 'ativar';
-                                }else{
-                                    $status = 'Ativo';
-                                    $tipoStatus = 'success';
-                                    $acaoStatus = 'inativar';
-                                }
-                                ?>
+if ($obra->status == 0) {
+		$status = 'Inativo';
+		$tipoStatus = 'danger';
+		$acaoStatus = 'ativar';
+	} else {
+		$status = 'Ativo';
+		$tipoStatus = 'success';
+		$acaoStatus = 'inativar';
+	}
+	?>
                                 <tr class="<?=$tipoStatus;?>" >
                                     <td><?=$obra->codigoObra;?></td>
                                     <td><a href="obra/{{$obra->id}}"><?=$obra->nomeObra;?></a></td>
                                     <td><?=$obra->fantasia;?></td>
-                                    <td class="text-center"><?php echo date("d/m/Y", strtotime($obra->created_at));?></td>
+                                    <td class="text-center"><?php echo date("d/m/Y", strtotime($obra->created_at)); ?></td>
                                     <td class="text-center">
                                         <span class="text-<?=$tipoStatus;?>">
                                             <?=$status;?>
@@ -56,14 +57,15 @@
                                         </div>
                                     </td>
                                 </tr>
-                                <?php } ?>
+                                <?php }
+?>
                             </tbody>
                         </table>
                     </div>
 
                 </div>
                 <!-- /.panel-body -->
-                @else 
+                @else
                 <div class="panel-heading">
                     <h4>Nada ainda cadastrado!</h4>
                 </div>
@@ -78,7 +80,7 @@
             <a href="javascript:history.back()" type="button" class="btn btn-primary"><< Voltar</a>
         </div>
         <div class="col-lg-6 col-md-6 text-right">
-           <a href="../obra/cadastro" type="button" class="btn btn-primary">Cadastrar Obra</a>
+           <a href="{{ url('obra/cadastro') }}" type="button" class="btn btn-primary">Cadastrar Obra</a>
         </div>
     </div>
 @endsection

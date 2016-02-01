@@ -1,7 +1,7 @@
 <?php
-
 namespace App;
 
+use App\LocatarioScope;
 use Illuminate\Database\Eloquent\Model;
 
 class Obra extends Model {
@@ -38,6 +38,12 @@ class Obra extends Model {
 		'user_id',
 		'locatario_id',
 	);
+
+	protected static function boot() {
+		parent::boot();
+
+		static::addGlobalScope(new LocatarioScope);
+	}
 
 	/**
 	 * Get the Cliente of the model

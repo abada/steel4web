@@ -28,23 +28,24 @@
                                 </tr>
                             </thead>
                             <tbody>
-                            <?php foreach ($obras as $obra) { ?>
+                            <?php foreach ($obras as $obra) {
+	?>
                             <?php
-                                if ($obra->status == 0) {
-                                    $status = 'Inativo';
-                                    $tipoStatus = 'danger';
-                                    $acaoStatus = 'ativar';
-                                }else{
-                                    $status = 'Ativo';
-                                    $tipoStatus = 'success';
-                                    $acaoStatus = 'inativar';
-                                }
-                                ?>
+if ($obra->status == 0) {
+		$status = 'Inativo';
+		$tipoStatus = 'danger';
+		$acaoStatus = 'ativar';
+	} else {
+		$status = 'Ativo';
+		$tipoStatus = 'success';
+		$acaoStatus = 'inativar';
+	}
+	?>
                                 <tr class="<?=$tipoStatus;?>" >
                                     <td><?=$obra->codigoObra;?></td>
                                     <td><a href="obra/{{$obra->id}}"><?=$obra->nomeObra;?></a></td>
                                     <td><?=$obra->fantasia;?></td>
-                                    <td class="text-center"><?php echo date("d/m/Y", strtotime($obra->created_at));?></td>
+                                    <td class="text-center"><?php echo date("d/m/Y", strtotime($obra->created_at)); ?></td>
                                     <td class="text-center">
                                         <span class="text-<?=$tipoStatus;?>">
                                             <?=$status;?>
@@ -61,14 +62,15 @@
                                         </div>
                                     </td>
                                 </tr>
-                                <?php } ?>
+                                <?php }
+?>
                             </tbody>
                         </table>
                     </div>
 
                 </div>
                 <!-- /.panel-body -->
-                @else 
+                @else
                 <div class="panel-heading">
                     <h4>Nada ainda cadastrado!</h4>
                 </div>
