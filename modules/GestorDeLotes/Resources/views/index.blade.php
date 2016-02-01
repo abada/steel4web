@@ -26,15 +26,24 @@
 		{{ Form::open(['url'=>url('/gestordelotes'),  'method'=>"POST", 'class'=>"form-inline", 'role'=>"form", "id" => "createLoteForm"]) }}
 		<div class="navbar-form navbar-left">
 			<div class="form-group">
-				<label class="" for="">Obra: </label>
+				<label class="" for="inputObra">Obra: </label>
 				{{ Form::select('obra', $obras, old('obra_id'), ['id'=>"inputObra", 'class'=>"form-control", 'required'=>"required"]) }}
 			</div>
 
 			<div class="form-group inputetapa hidden">
-				<label class="" for=""> Etapa: </label>
+				<label class="" for="inputEtapa"> Etapa: </label>
 				{{ Form::select('etapa', $etapas, old('etapa_id'), ['id'=>"inputEtapa", 'class'=>"form-control", 'required'=>"required"]) }}
-				<!-- <select name="etapa" id="inputEtapa" class="form-control" required="required"></select> -->
 			</div>
+			<div class="form-group inputsubetapa hidden">
+				<label class="" for="inputSubetapa"> Subetapa: </label>
+				{{ Form::select('subetapa', [""=>""], old('subetapa_id'), ['id'=>"inputSubetapa", 'class'=>"form-control", 'required'=>"required"]) }}
+			</div>
+
+			<div class="form-group inputimportacao hidden">
+				<label class="" for="inputImportacao"> Importação: </label>
+				{{ Form::select('importacao', [""=>""], old('importacao_id'), ['id'=>"inputImportacao", 'class'=>"form-control", 'required'=>"required"]) }}
+			</div>
+
 			<div class="form-group inputGrouped hidden">
 				<div class="checkbox">
 					<label>
@@ -162,39 +171,55 @@
 
 		});
 
-		if( etapa_id ){
-			$('.inputetapa.hidden, .inputGrouped.hidden, #getHandles.hidden').removeClass('hidden');
-		}else{
-			$('#inputObra').trigger('change');
-		}
+		$('#inputObra').trigger('change');
+
+		// if( etapa_id ){
+		// 	$('.inputetapa.hidden, .inputGrouped.hidden, #getHandles.hidden').removeClass('hidden');
+		// }else{
+		// 	$('#inputObra').trigger('change');
+		// }
+
+		// ON ETAPA CHANGE
+		$('#inputEtapa').change(function(event) {
+
+			// 	obter subetapas
+			$.ajax({
+				url: urlbase+'/api/obras/'+$('#inputObra').val()+'/etapas/'+$(this).val()+'/subetapas',
+				type: 'GET',
+				dataType: 'json',
+				beforeSend: function() {
+					$('.loading.hidden').removeClass('hidden');
+					$('.inputGrouped, #getHandles').addClass('hidden');
+				}
+			})
+			.done(function( data ) {
+				$('#inputSubetapa').html('');
+				$('.loading').addClass('hidden');
+				$('.inputsubetapa.hidden, .inputGrouped.hidden, #getHandles.hidden').removeClass('hidden');
+
+				$.each(data, function(index, val) {
+					$('#inputSubetapa').append('<option value="'+val.id+'">'+val.cod+'</option>');
+				});
+			})
+			.fail(function() {
+
+			});
+
+		});
 
 
+		// ON SUBETAPA CHANGE
+		$('#inputSubetapa').change(function(event) {
 
-		// ON CLICK AT ROW
-		$('#handlesGrid tbody').on( 'click', 'tr', function (e, dt, type, indexes) {
-			// SHOW/HIDE options
-			if( handlesGrid.rows('.selected').data().length ){
-				$('#createLoteForm').find('.loteOptions.hidden').removeClass('hidden');
-			}else{
-				$('#createLoteForm').find('.loteOptions').addClass('hidden');
-			};
+			// LOAD TABLE
+			var url = urlbase+'/api/obras/'+$('#inputObra').val()+'/etapas/'+$('#inputEtapa').val()+'/subetapas/'+$(this).val()+'/importacoes';
 
+			console.table(url);
 
-			var data = handlesGrid.rows( '.selected' ).data().pluck('id');
-			selected = $.makeArray(data);
-			selected = data;
+			handlesGrid.ajax.url( url ).load();
 
+		});
 
-	        // // var id = this.id;
-	        // var indx = $.inArray(data[0], selected);
-
-	        // if ( indx === -1 ) {
-	        //     selected.push( data[0] );
-	        // } else {
-	        //     selected.splice( indx, 1 );
-	        // }
-
-	    } );
 
 
 		/* GET HANDLES */
@@ -224,13 +249,43 @@
 
 			});
 
+			// LOAD TABLE
 			handlesGrid.ajax.url( url ).load();
 		});
 
+
+		// ON CLICK AT ROW
+		$('#handlesGrid tbody').on( 'click', 'tr', function (e, dt, type, indexes) {
+			// SHOW/HIDE options
+			if( handlesGrid.rows('.selected').data().length ){
+				$('#createLoteForm').find('.loteOptions.hidden').removeClass('hidden');
+			}else{
+				$('#createLoteForm').find('.loteOptions').addClass('hidden');
+			};
+
+
+			var data = handlesGrid.rows( '.selected' ).data().pluck('id');
+			selected = $.makeArray(data);
+			selected = data;
+
+
+	        // // var id = this.id;
+	        // var indx = $.inArray(data[0], selected);
+
+	        // if ( indx === -1 ) {
+	        //     selected.push( data[0] );
+	        // } else {
+	        //     selected.splice( indx, 1 );
+	        // }
+
+	    } );
+
+
+
 		/* On form change */
 		$('#createLoteForm').change(function() {
-			$(this).find('.loteOptions').addClass('hidden');
-			$('#getHandles').trigger('click');
+			// $(this).find('.loteOptions').addClass('hidden');
+			// $('#getHandles').trigger('click');
 		});
 
 		/* CRIAR LOTE */
@@ -272,13 +327,6 @@
 
 		});
 
-
-		// ON ETAPA CHANGE
-		$('#inputEtapa').change(function(event) {
-
-
-
-		});
 
 		var handlesGrid  = $('#handlesGrid').DataTable({
 			ajax: {
