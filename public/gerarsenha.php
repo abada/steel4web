@@ -1,1 +1,0 @@
-<?php echo bcrypt('1234');
