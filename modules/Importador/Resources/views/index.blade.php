@@ -18,17 +18,29 @@
                 </select>
             </div>
 
-            <div class="form-group inputetapa hidden">
+            <div class="form-group inputetapa <?php if(!isset($history)) echo 'hidden' ?>">
                 <label class="labelLine" for=""> Etapa: </label>
                 <select id="inputEtapa" class="form-control" required="required" name="etapa">
+                    @if (isset($history))
+                        <option value="0">Escolha uma Etapa...</option>
+                    @foreach($etapas as $etapa)
+                        <option value="{{$etapa->id}}" <?php if($etapa->id == $etapaID) echo 'selected'; ?>>{{$etapa->codigo}}</option>
+                    @endforeach
+                    @endif
                 </select>
             </div>
-            <div class="form-group inputsubetapa hidden">
+            <div class="form-group inputsubetapa <?php if(!isset($history)) echo 'hidden' ?>">
                 <label class="labelLine" for=""> Subetapa: </label>
                 <select id="inputsubetapa" class="form-control" required="required" name="inputsubetapa">
+                    @if (isset($history))
+                        <option value="0">Escolha uma Subetapa...</option>
+                    @foreach($subetapas as $subetapa)
+                        <option value="{{$subetapa->id}}" <?php if($subetapa->id == $subID) echo 'selected'; ?>>{{$subetapa->cod}}</option>
+                    @endforeach
+                    @endif
                 </select>
             </div>
-            <button type="button" id='inputSubmit' class="btn btn-primary hidden" data-toggle="modal" data-target="#impScreen">Nova Importação</button>
+            <button type="button" id='inputSubmit' class="btn btn-primary <?php if(!isset($history)) echo 'hidden' ?>" data-toggle="modal" data-target="#impScreen">Nova Importação</button>
 
             <div class="form-group">
              <div class="TypeLoading hidden"></div>
@@ -39,7 +51,7 @@
 		</div>
 		    <hr class='lessMargin'>
 		<div class="panel-body">
-			 <table class="table table-striped table-bordered  dt-responsive nowrap table-hover" cellspacing="0" width="100%" id="importTable">
+			 <table class="table table-striped table-bordered  dt-responsive nowrap table-hover" cellspacing="0" width="100%" id="noSort">
 			 	<thead>
 	                <tr>
 	                    <th class="text-center" width="5%"><i id='subToggle' title='Agrupar' class="fa fa-bars fa-fw"></i></th>
@@ -50,16 +62,71 @@
 	                </tr>
 	            </thead>
 	            <tbody>
-	            	<tr class='tableEtapa'>
-	            		<td></td>
-	            		<td>P000</td>
-	            		<td>5</td>
-	            		<td>Cmpleta</td>
-	            		<td>X  X</td>
-	            	</tr>
+                    @if (isset($history))
+                    @foreach($imps as $imp)
+                    <tr class='tableEtapa'>
+                        <td class='text-center' >
+                            <i id='{{$imp->id}}' title='Importacao {{$imp->importacaoNr}}' class='clickTable fa fa-plus fa-fw'></i>
+                        </td>
+                        <td>{{$imp->descricao}}</td>
+                        <td>{{$imp->importacaoNr}}</td>
+                        <td>{{$imp->observacoes}}</td>
+                        <td>
+                            <div class='text-center hoverActions'>
+                                <a style='color:#f5f5f5' href="{{ url('importador/editar/'.$imp->id)}}" title='Editar Importacao'>
+                                    <i class='fa fa-edit fa-fw'></i></a>&nbsp;&nbsp;
+                                    <a style='color:#f5f5f5' name='{{$imp->id}}' class='delImp' title='Excluir Importacao' href='' ><i class='fa fa-times'></i>
+                                </a>
+                            </div>
+                        </td>
+                        </tr>
+                        @if($imp->dbf2d != null)
+                           <tr class='toBeHidden {{$imp->id}}'>
+                                <td class='img-icon text-center'>
+                                    <img src="{{asset('img/dbf.png')}}">
+                                </td>
+                                <td >{{$imp->dbf2d}}</td>
+                                <td></td>
+                                <td></td>
+                                <td class='text-center'>
+                                    <a title='Download' href='' class='downloadFileImp' id='{{$imp->id}}&&&dbf'><i style='color:black' class='fa fa-download'></i></a>
+                                </td>
+                            </tr>
+                        @endif
+                         @if($imp->ifc_orig != null)
+                           <tr class='toBeHidden {{$imp->id}}'>
+                                <td class='img-icon text-center'>
+                                    <img src="{{asset('img/ifc.png')}}">
+                                </td>
+                                <td>{{$imp->ifc_orig}}</td>
+                                <td></td>
+                                <td></td>
+                                <td class='text-center'>
+                                    <a title='Download' href='' class='downloadFileImp' id='{{$imp->id}}&&&ifc_orig'><i style='color:black' class='fa fa-download'></i></a>
+                                </td>
+                            </tr>
+                        @endif
+                         @if($imp->fbx_orig != null)
+                           <tr class='toBeHidden {{$imp->id}}'>
+                                <td class='img-icon text-center'>
+                                    <img src="{{asset('img/fbx.png')}}">
+                                </td>
+                                <td>{{$imp->fbx_orig}}</td>
+                                <td></td>
+                                <td></td>
+                                <td class='text-center'>
+                                    <a title='Download' href='' class='downloadFileImp' id='{{$imp->id}}&&&fbx_orig'><i style='color:black' class='fa fa-download'></i></a>
+                                </td>
+                            </tr>
+                        @endif
+                    @endforeach
+                    @endif
 	            </tbody>
 			 </table>
-				
+				<div style='float:right;margin:15px'>
+                <i style='color:#42596D;display:block' class="fa fa-square">  <span style='color:#333333'> Importação</span></i>
+                    <i style='color:#333333' class="fa fa-square-o">  Arquivo</i>
+                </div>
 			</div>
 		</div>
 	</div>
@@ -89,12 +156,17 @@
                     </ul>
                     <!-- Tab panes -->
                     <div class="tab-content">
+                        <div class="loadingImp">
+                            {{ Html::image('img/200.gif', 'Importando...', array('class' => 'loadImg')) }}
+                            <h3 class="saving text-center">Importando<span>.</span><span>.</span><span>.</span></h3>
+                        </div>
                         <div class="tab-pane fade in active" id="tecnometal">
                             <br />
                             <h4>Importação de arquivos padrão Tecnometal</h4>
                             <br />
                             @if (Session::get('imp_danger'))
 							<div class="alert alert-danger">
+                                 <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
 						        @if(is_array(json_decode(Session::get('imp_danger'), true)))
 						            {!! implode('', Session::get('imp_danger')->all(':message<br/>')) !!}
 						        @else
@@ -104,7 +176,11 @@
 						    @endif
                             <div class="row">
                                 <div class="col-lg-12">
-                                    <form role="form" method="post" action="/importador/gravar" enctype="multipart/form-data" id='dbftogo'>
+                                    <form role="form" method="post" action="{{ url('importador/gravar') }}" enctype="multipart/form-data" id='dbftogo'>
+                                    	<div class="form-group">
+                                            <label>Nome</label>
+                                            <input type='text' name="descricao" class="form-control" >
+                                        </div>
                                         <div class="form-group">
                                             <label>Arquivo DBF</label>
                                             <input type="file" name="files[]" accept=".DBF,.dbf" id='dbfile'/>
@@ -122,8 +198,23 @@
                                             <textarea name="observacoes" class="form-control" rows="3"></textarea>
                                         </div>
 
+                                        <div class="form-group formSentido">
+                                            <label>Sentido</label> <br>
+                                            <input type="radio" name='sentido' value='1' id='sentido1'> X / Y &nbsp; &nbsp;
+                                            <input type="radio" name='sentido' value='2' id='sentido2'> -X / Y &nbsp; &nbsp;
+                                            <input type="radio" name='sentido' value='3' id='sentido3'> -X- / Y &nbsp; &nbsp;
+                                            <input type="radio" name='sentido' value='4' id='sentido4'> X / -Y &nbsp; &nbsp;
+                                        </div>
+
 										<input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                        <input type="hidden" name="subetapa_id" id='toReceiveSubId' value="">
+                                        <?php
+                                        if(Session::get('subID')){
+                                            $subID = Session::get('subID');
+                                        }else{
+                                            $subID = null;
+                                        }
+                                        ?>
+                                        <input type="hidden" name="subetapa_id" id='toReceiveSubId' value="{{$subID}}">
                                         <button type="submit" class="btn btn-primary btn-block" id="subImport"><i class="fa fa-cloud-upload"></i> Importar</button>
                                     </form>
                                 </div>
@@ -175,6 +266,7 @@
 @if (Session::get('imp_danger'))
 <script>
 $(document).ready(function () {
+    $('.loadingImp').hide();
     $('#impScreen').modal('show');
 });
 </script>

@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\LocatarioScope;
 use Illuminate\Database\Eloquent\Model;
 
 class Handle extends Model {
@@ -62,6 +63,7 @@ class Handle extends Model {
 		'CATE',
 		'importacao_id',
 		'medicao_id',
+		'subetapa_id',
 		'X',
 		'Y',
 		'Z',
@@ -70,6 +72,13 @@ class Handle extends Model {
 		'user_id',
 		'locatario_id',
 	];
+
+	protected static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope(new LocatarioScope);
+    }
 
 	/**
 	 * Get the Obra of the model

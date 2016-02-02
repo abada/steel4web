@@ -14,7 +14,7 @@
                 <!-- /.panel-heading -->
                 <div class="panel-body">
                     <div class="dataTable_wrapper">
-                        <table class="table table-striped table-bordered  dt-responsive nowrap table-hover" cellspacing="0" width="100%" id="noSort">
+                        <table class="table table-striped table-bordered  dt-responsive nowrap table-hover" cellspacing="0" width="100%" id="noSortObra">
                             <thead>
                                 <tr>
                                     <th class="text-center" width="5%"><i id='subToggle' title='Agrupar' class="fa fa-bars fa-fw"></i></th>
@@ -28,7 +28,8 @@
                             <tbody>
                             <?php foreach ($obra->etapas as $etapa) { ?>
                                 <tr class='tableEtapa'>
-                                    <td class="text-center" ><i id='<?=$etapa->codigo;?>' title='Subetapas de <?=$etapa->codigo;?>' class="clickTable fa fa-minus fa-fw"></i></td>
+
+                                    <td class="text-center" ><i id='<?=$etapa->id;?>' title='Subetapas de <?=$etapa->codigo;?>' class="clickTable fa fa-plus fa-fw"></i></td>
                                     <td class="text-center"><?=$etapa->codigo;?></td>
                                     <td class="text-center"><?=$etapa->peso;?> kg</td>
                                     <td><?=$etapa->observacao;?></td>
@@ -43,7 +44,7 @@
                                     </td>
                                 </tr>
                                 @foreach($etapa->subetapas as $subetapa)
-                                    <tr class='toBeHidden <?=$etapa->codigo;?>'>
+                                    <tr class='toBeHidden <?=$etapa->id;?>'>
                                         <td></td>
                                         <td class="text-center"><?=$subetapa->cod;?></td>
                                         <td class="text-center"><?=$subetapa->peso;?> kg</td>
@@ -51,7 +52,7 @@
                                         <td class="text-center">{{$subetapa->tipo->descricao}}</td>
                                         <td>
                                             <div class="text-center">
-                                                  <a href="{{ url('subetapa/editar/'.'$subetapa->id) }}" title='Editar Subetapa'> <i class="fa fa-edit fa-fw"></i></a>&nbsp;&nbsp;
+                                                  <a href="{{ url('subetapa/editar/'.$subetapa->id) }}" title='Editar Subetapa'> <i class="fa fa-edit fa-fw"></i></a>&nbsp;&nbsp;
                                                   <a title='Excluir Subetapa' href="#" name='{{$subetapa->id}}' class='delSubEtapa'  ><i class="fa fa-times"></i></a>
                                             </div>
                                         </td>
@@ -80,6 +81,6 @@
         </div>
         <!-- /.col-lg-12 -->
         <div class="col-lg-12 col-md-12 text-right">
-           <a href="{{ url('etapa/cadastro/'.'$obra->id) }}" type="button" class="btn btn-primary">Cadastrar etapa</a>
+           <a href="{{ url('etapa/cadastro/'.$obra->id) }}" type="button" class="btn btn-primary">Cadastrar etapa</a>
         </div>
     </div>
