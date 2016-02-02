@@ -22,6 +22,7 @@
 	<!-- Inject the custom styles from view -->
     @yield('styles')
 
+
   </head>
   <body class="hold-transition skin-{!! config('frontend.theme') !!}">
     <!-- Site wrapper -->

@@ -4,6 +4,8 @@
     {!! Html::script('js/bootstrap.min.js') !!}
     <!-- Datatables -->
     {!! Html::script('plugins/datatables/datatables.min.js') !!}
+    <!-- AdminLTE -->
+    {!! Html::script('js/app.min.js') !!}
     <!-- Dropdown Fix -->
     <script type="text/javascript"> $(document).ready(function () { $('.dropdown-toggle').dropdown(); }); </script>
     <!-- SlimScroll -->

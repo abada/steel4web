@@ -25,6 +25,25 @@ if(isset($disable)){
 ?>
 
 @section('content')
+@if(isset($contato))
+@if(!isset($edicao))
+{!! Breadcrumbs::render('Cadastros::contato.cadastro') !!}
+@elseif(!isset($disable))
+{!! Breadcrumbs::render('Cadastros::contato.editar', $cliente->id) !!}
+@endif
+@if(isset($disable))
+{!! Breadcrumbs::render('Cadastros::contato', $cliente->id) !!}
+@endif
+@else
+@if(!isset($edicao))
+{!! Breadcrumbs::render('Cadastros::cliente.cadastro') !!}
+@elseif(!isset($disable))
+{!! Breadcrumbs::render('Cadastros::cliente.editar', $cliente->id) !!}
+@endif
+@if(isset($disable))
+{!! Breadcrumbs::render('Cadastros::cliente', $cliente->id) !!}
+@endif
+@endif
     <div class="row">
         <div class="col-lg-8">
             <div class="panel panel-default">
@@ -130,7 +149,7 @@ if(isset($disable)){
                                 <input type="hidden" name="id" id="id" value="{{$cliente->id}}">
                                 <?php } ?>
                                 <?php if (isset($disable) && !isset($contato)) { ?>
-                                <a href="{{url ('editar/'.$cliente->id) }}" type="button" class="btn btn-primary btn-block">Editar</a>
+                                <a href="{{url ('cliente/editar/'.$cliente->id) }}" type="button" class="btn btn-primary btn-block">Editar</a>
                                 <?php } elseif(isset($disable) && isset($contato)) { ?>
                                 <a href="{{url ('contato/editar/'.$cliente->id) }}" type="button" class="btn btn-primary btn-block">Editar</a>
                                 <?php }else{ ?>

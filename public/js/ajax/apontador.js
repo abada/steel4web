@@ -1,26 +1,6 @@
 $(document).ready(function() {
-
-  $('.closePanel').click(function(e) {
-    e.preventDefault();
-    $(this).parent('.panel-heading').parent('.panel').fadeOut('fast');
-  });
-
-  $('#dataTables').DataTable({
-        responsive: true
-    });
-
-
-$('#noSort').DataTable({
-        responsive: true,
-        "ordering": false,
-        "bInfo" : false,
-        "bLengthChange": false,
-        bFilter: false,
-        "bPaginate": false,
-        "language": {
-          "emptyTable": "Navegue pelos campos acima para visualizar suas importações"
-        }
-    });
+//var livePath = 'steel4web.com.br/s4w_1/public';
+var livePath = '';
 
 $('#noSortObra').DataTable({
         responsive: true,
@@ -28,7 +8,6 @@ $('#noSortObra').DataTable({
         "bInfo" : false
     });
 
-//$('.toBeHidden').hide();
 
 var toBe2 = 0;
 $('.toBeHidden').hide();
@@ -49,14 +28,6 @@ $('#subToggle').click(function(e) {
       $(this).toggleClass('fa-minus fa-plus');
   });
 
-/*   $('.clickTable').click(function(e) {
-    alert('clickoe');
-      var id = event.target.id;
-      $('.'+id).toggle();
-      $(this).toggleClass('fa-minus fa-plus');
-   }); */
-
-  
 
     var table = $('#lotPointer').DataTable();
  
@@ -122,35 +93,41 @@ $('#subToggle').click(function(e) {
 
       	var dados = $('#inputChooseObra').val();
      	jQuery.ajax({
-                type: "POST",
-                data: {id:dados},
-               url: "/importador/etapas",
+                type: "GET",
+               url: livePath+"/api/obras/"+dados+"/etapas",
                 dataType: "html",
                 success: function(result){
-             var myArray = result.split('&x&');
-             var temp;
+                  var etapas = JSON.parse(result);
              $('#inputEtapa').find('option').remove().end();
-             $('#inputEtapa').append($('<option>', {
-          value: 0,
-          text: 'Escolha uma Etapa...'
-      }));
-           	for (var i = 0; i < myArray.length; ++i) {
-           		temp = myArray[i].split('&');
-           $('#inputEtapa').append($('<option>', {
-			    value: temp[0],
-			    text: temp[1]
-			}));
-           temp = null;
-           };
+             etapas.forEach( function (etapa){                  
+                   $('#inputEtapa').append($('<option>', {
+                  value: etapa.id,
+                  text: etapa.codigo
+              }));
+              });
             $('.TypeLoading').hide();
             $('.inputetapa').removeClass('hidden');
-       
+            $('#inputSubmit').removeClass('hidden');
                 }
             });
         
       });
 
-       $('#inputEtapa').change(function() {
+  $('#inputSubmit').click(function(e) {
+    e.preventDefault();
+     var etapaID = $('#inputEtapa').val();
+      jQuery.ajax({
+        type: "POST",
+        data: {id:etapaID},
+       url: livePath+"/apontador/setHistory",
+        dataType: "html",
+        success: function(r){
+            window.location.href = r;
+        }
+      });
+  });
+
+ /*      $('#inputEtapa').change(function() {
         $('.TypeLoading').show();
         var dadoos = $('#inputEtapa').val();
       jQuery.ajax({
@@ -228,7 +205,7 @@ $('#subToggle').click(function(e) {
 
             });
         
-       });
+       }); */
 
          $('#importTable').DataTable({
               responsive: true
@@ -258,11 +235,9 @@ $('#subToggle').click(function(e) {
             e.preventDefault();
           });
 
+
         
 
 
     
 } );
-
-
-// <a title='Download' href='"+ subed.download+"/"+subed.importacoes[imp].locatario_id+"/"+subed.importacoes[imp].cliente_id+"/"+subed.importacoes[imp].obra_id+"/"+subed.importacoes[imp].etapa_id+"/"+subed.importacoes[imp].subetapa_id+"/"+subed.importacoes[imp].importacaoNr+"/"+subed.importacoes[imp].dbf2d +"'><i style='color:black' class='fa fa-download'></i></a>

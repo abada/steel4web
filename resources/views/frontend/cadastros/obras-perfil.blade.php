@@ -1,6 +1,7 @@
 @extends('frontend.layouts.master')
 
 @section('content')
+{!! Breadcrumbs::render('Cadastros::obra',$obra->nome, $obra->id) !!}
     <h1>
        {{ $obra->nome }}
     </h1>

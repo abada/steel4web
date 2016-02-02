@@ -23,6 +23,7 @@ class Obra extends Model {
 		'locatario_id',
 	);
 	protected $visible = array(
+		'id',
 		'codigo',
 		'nome',
 		'descricao',

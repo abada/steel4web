@@ -1,6 +1,7 @@
 @extends('frontend.layouts.master')
 
 @section('content')
+{!! Breadcrumbs::render('Cadastros::obras') !!}
     <div class="row">
         <div class="col-lg-12">
             <div class="panel panel-default">

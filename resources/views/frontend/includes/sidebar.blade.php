@@ -33,6 +33,12 @@
                 <a href="{{ url('gestordelotes') }}"><i class="fa fa-th fa-fw"></i> Gestor de Lotes</a>
             </li>
             @endif
+
+            @if( Module::has('Apontador') )
+            <li class="{{ (Request::is(Module::find('Apontador')->getLowerName() . '*')) ? 'active' : ''}}">
+                <a href="{{ url('apontador') }}"><i class="fa fa-hand-pointer-o fa-fw"></i> Apontador</a>
+            </li>
+            @endif
             <li class="header">Cadastros</li>
             <li class="{{ Active::pattern('clientes') }} {{ Active::pattern('cliente/*') }}">
                 <a href="{!! route('clientes') !!}"><i class="fa fa-users fa-fw"></i><span> Clientes</span></a>

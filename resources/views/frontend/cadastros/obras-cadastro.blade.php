@@ -11,6 +11,11 @@ if (isset($edicao)) {
 ?>
 
 @section('content')
+@if(!isset($edicao))
+{!! Breadcrumbs::render('Cadastros::obra.cadastro') !!}
+@else
+{!! Breadcrumbs::render('Cadastros::obra.editar') !!}
+@endif
     <div class="row">
         <div class="col-lg-8">
             <div class="panel panel-default">

@@ -1,0 +1,15 @@
+{
+    "name": "Apontador",
+    "alias": "apontador",
+    "description": "",
+    "keywords": [],
+    "active": 1,
+    "order": 0,
+    "providers": [
+        "Modules\\Apontador\\Providers\\ApontadorServiceProvider"
+    ],
+    "aliases":{},
+    "files": [
+        "start.php"
+    ]
+}

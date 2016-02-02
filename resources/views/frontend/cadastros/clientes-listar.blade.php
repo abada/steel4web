@@ -12,7 +12,11 @@
  ?>
 
 @section('content')
-
+@if(isset($contato))
+{!! Breadcrumbs::render('Cadastros::contatos') !!}
+@else
+{!! Breadcrumbs::render('Cadastros::clientes') !!}
+@endif
     <div class="row">
         <div class="col-lg-12">
             <div class="panel panel-default">

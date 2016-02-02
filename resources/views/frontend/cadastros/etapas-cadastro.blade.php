@@ -9,6 +9,11 @@ if (isset($edicao)) {
 }
 ?>
 @section('content')
+@if(!isset($edicao))
+{!! Breadcrumbs::render('Cadastros::etapa.cadastro',$obra->nome, $obra->id) !!}
+@else
+{!! Breadcrumbs::render('Cadastros::etapa.editar', $etapa->id, $etapa->obra->nome, $etapa->obra_id) !!}
+@endif
     <div class="row">
         <div class="col-lg-4">
             <div class="panel panel-default">

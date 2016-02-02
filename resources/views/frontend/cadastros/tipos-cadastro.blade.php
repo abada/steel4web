@@ -24,6 +24,19 @@ if(isset($edicao)){
 ?>
 
 @section('content')
+@if(!isset($sub))
+@if(isset($edicao))
+{!! Breadcrumbs::render('Cadastros::contato.tipo.editar', $tipo->id) !!}
+@else
+{!! Breadcrumbs::render('Cadastros::contato.tipo.cadastro') !!}
+@endif
+@else
+@if(isset($edicao))
+{!! Breadcrumbs::render('Cadastros::subetapa.tipo.editar', $tipo->id) !!}
+@else
+{!! Breadcrumbs::render('Cadastros::subetapa.tipo.cadastro') !!}
+@endif
+@endif
     <div class="row">
         <div class="col-lg-4">
             <div class="panel panel-default">

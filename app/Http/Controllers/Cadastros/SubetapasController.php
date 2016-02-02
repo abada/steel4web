@@ -17,7 +17,7 @@ class SubetapasController extends Controller
         $etapa = etap::find($etapaID);
         $obraID = $etapa->obra->id;
         $tipos = tipo::all();
-        return view('frontend.cadastros.subetapas-cadastro',compact('etapaID', 'tipos','obraID'));
+        return view('frontend.cadastros.subetapas-cadastro',compact('etapaID','etapa', 'tipos','obraID'));
     }
 
     public function gravar(Request $request){

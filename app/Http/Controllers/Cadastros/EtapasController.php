@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\importer\etapa;
 use App\Etapa as etap;
 use App\Subetapa as sub;
+use App\Obra as obr;
 use App\importer\cliente;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -14,7 +15,8 @@ class EtapasController extends Controller
 {
     public function cadastrar($obraID)
     {
-        return view('frontend.cadastros.etapas-cadastro',compact('obraID'));
+        $obra = obr::find($obraID);
+        return view('frontend.cadastros.etapas-cadastro',compact('obraID', 'obra'));
     }
 
      public function editar($etapaID)

@@ -29,7 +29,7 @@ class ImportadorController extends Controller {
             $subetapas = sub::where('etapa_id',$dados->etapa_id)->get();
             $imps = imp::where('subetapa_id',$dados->id)->get();
             $history = true;
-            return view('importador::index',compact('obras', 'etapas', 'subetapas', 'imps','history','subID','etapaID' ));
+            return view('importador::index',compact('obras', 'etapas', 'subetapas', 'imps','history','subID','etapaID','dados' ));
         }
 		
 		return view('importador::index',compact('obras'));
@@ -88,7 +88,7 @@ class ImportadorController extends Controller {
             'importacoes'   =>  $subetapa->importacoes,
             'editar'        =>  url('importador/editar'),
             'excluir'       =>  url('importador/excluir'),
-            'download'      =>  storage_path().'/app',
+            'download'      =>  url('importador/download'),
             'image'         =>  asset('img/')
     	); 
         return json_encode($send);
@@ -333,8 +333,7 @@ class ImportadorController extends Controller {
            $tempCheck = $this->checkTemp($dados->id);
            if($tempCheck == 'ok'){
                 $this->insertTemp($importacaoID);
-                $tempDel = tempH::where('importacao_id',$importacaoID);
-                $tempDel = tempH::delete();
+                $tempDel = tempH::where('importacao_id',$importacaoID)->delete();
                 fclose($fdbf);
                 return 'ok';
             }else{
@@ -372,9 +371,69 @@ class ImportadorController extends Controller {
 
         $dados = tempH::where('importacao_id',$importacaoID)->get();
         foreach($dados as $dado){
-            dd($dado);
-            unset($dado->id);
-            $importID = handle::create($dado);
+            $data = array(
+                "HANDLE" => $dado->HANDLE,
+                "FLG_REC" => $dado->FLG_REC,
+                "NUM_COM" => $dado->NUM_COM,
+                "DES_COM" => $dado->DES_COM,
+                "LOT_COM" => $dado->LOT_COM,
+                "DLO_COM" => $dado->DLO_COM,
+                "CLI_COM" => $dado->CLI_COM,
+                "IND_COM" => $dado->IND_COM,
+                "DT1_COM" => $dado->DT1_COM,
+                "DT2_COM" => $dado->DT2_COM,
+                "NUM_DIS" => $dado->NUM_DIS,
+                "DES_DIS" => $dado->DES_DIS,
+                "NOM_DIS" => $dado->NOM_DIS,
+                "REV_DIS" => $dado->REV_DIS,
+                "DAT_DIS" => $dado->DAT_DIS,
+                "TRA_PEZ" => $dado->TRA_PEZ,
+                "SBA_PEZ" => $dado->SBA_PEZ,
+                "DES_SBA" => $dado->DES_SBA,
+                "TIP_PEZ" => $dado->TIP_PEZ,
+                "MAR_PEZ" => $dado->MAR_PEZ,
+                "MBU_PEZ" => $dado->MBU_PEZ,
+                "DES_PEZ" => $dado->DES_PEZ,
+                "POS_PEZ" => $dado->POS_PEZ,
+                "NOT_PEZ" => $dado->NOT_PEZ,
+                "ING_PEZ" => $dado->ING_PEZ,
+                "MAX_LEN" => $dado->MAX_LEN,
+                "QTA_PEZ" => $dado->QTA_PEZ,
+                "QT1_PEZ" => $dado->QT1_PEZ,
+                "MCL_PEZ" => $dado->MCL_PEZ,
+                "COD_PEZ" => $dado->COD_PEZ,
+                "COS_PEZ" => $dado->COS_PEZ,
+                "NOM_PRO" => $dado->NOM_PRO,
+                "LUN_PRO" => $dado->LUN_PRO,
+                "LAR_PRO" => $dado->LAR_PRO,
+                "SPE_PRO" => $dado->SPE_PRO,
+                "MAT_PRO" => $dado->MAT_PRO,
+                "TIP_BUL" => $dado->TIP_BUL,
+                "DIA_BUL" => $dado->DIA_BUL,
+                "LUN_BUL" => $dado->LUN_BUL,
+                "PRB_BUL" => $dado->PRB_BUL,
+                "PUN_LIS" => $dado->PUN_LIS,
+                "SUN_LIS" => $dado->SUN_LIS,
+                "PRE_LIS" => $dado->PRE_LIS,
+                "FLG_DWG" => $dado->FLG_DWG,
+                "obra_id" => $dado->obra_id,
+                "lote_id" => $dado->lote_id,
+                "estagio_id" => $dado->estagio_id,
+                "etapa_id" => $dado->etapa_id,
+                "subetapa_id" => $dado->subetapa_id,
+                "GROUP" => $dado->GROUP,
+                "CATE" => $dado->CATE,
+                "importacao_id" => $dado->importacao_id,
+                "medicao_id" => $dado->medicao_id,
+                "X" => $dado->X,
+                "Y" => $dado->Y,
+                "Z" => $dado->Z,
+                "A" => $dado->A,
+                "B" => $dado->B,
+                "user_id" => $dado->user_id,
+                "locatario_id" => $dado->locatario_id
+            );
+            $importID = handle::create($data);
         }
         if(!empty($importID)){
             return $importID;
@@ -440,19 +499,36 @@ class ImportadorController extends Controller {
         return false;
     } 
 
-    public function download(Request $request){
-        $dados = $request->all();
-        list($impId, $ext) = explode('&&&',$dados['data']);
-        $imp = imp::find($impId);
-        if($ext == 'dbf')
-            $file = $imp->dbf2d;
-        elseif($ext=='ifc_orig')
-            $file = $imp->ifc_orig;
-        else
-            $file = $imp->fbx_orig;
+    public function download($file){
+        $dados = str_replace('&', '\\', $file);
         
-        $path = storage_path('app').'/'.$imp->locatario_id.'/'.$imp->obra->cliente_id.'/'.$imp->obra_id.'/'.$imp->etapa_id.'/'.$imp->subetapa_id.'/'.$imp->importacaoNr.'/'.$file;
-        return response()->download($path);
+        
+        $path = storage_path('app').'\\'.$dados;
+
+       return response()->download($path);
+
+    }
+
+    public function excluir(Request $request){
+        $getRequest  = $request->all();
+        $id = str_replace('delete&','',$getRequest['id']);
+        $imp = imp::find($id);
+        \Session::flash('history', $imp->subetapa_id);
+        $thisHandles = handle::where('importacao_id',$id)->where('lote_id','!=','')->get();
+        if(!empty(count($thisHandles))){
+             \Session::flash('flash_danger', '<i class="fa fa-exclamation-triangle"></i>&nbsp;&nbsp;  Importação com lotes atribuidos, exclusão negada.');
+            return url('importador'); 
+        }else{
+            $check = $this->Wrath($id);
+            if(isset($check)){       
+                \Session::flash('flash_success', '<i class="fa fa-check"></i>&nbsp;&nbsp;  Importação excluida com sucesso!');
+                return url('importador'); 
+            }else{
+                \Session::flash('flash_danger', '<i class="fa fa-exclamation-triangle"></i>&nbsp;&nbsp;  Erro ao excluir importação.');
+                return url('importador'); 
+            }
+        }
+        
 
     }
 
@@ -461,17 +537,16 @@ class ImportadorController extends Controller {
 
     private function Wrath($Morgoth){
         $Angband = imp::find($Morgoth);
-        $Balrogs = tempH::where('importacao_id',$Morgoth);
-        $Finarfin = $Balrogs->get();
-        if(!empty($Finarfin))
+        $Finarfin = tempH::where('importacao_id',$Morgoth)->get();
+        if(!empty(count($Finarfin)))
              $Balrogs = tempH::where('importacao_id',$Morgoth)->delete();
-        $Ancalagon = handle::where('importacao_id',$Morgoth);
-        $Earendil  = $Ancalagon->get();
-        if(!empty($Earendil))
-             $Ancalagon = tempH::where('importacao_id',$Morgoth)->delete();
+        $Earendil  = handle::where('importacao_id',$Morgoth)->get();
+        if(!empty(count($Earendil)))
+             $Ancalagon = handle::where('importacao_id',$Morgoth)->delete();
         $IronHills = storage_path().'/app/'.$Angband->locatario_id . "/" . $Angband->obra->cliente_id . "/" . $Angband->obra_id . "/" . $Angband->etapa_id . "/" . $Angband->subetapa_id . "/" . $Angband->importacaoNr;
         $Ruin = File::deleteDirectory($IronHills);
         $Angband->delete();
+        return true;
     }
 
 

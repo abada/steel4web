@@ -1,6 +1,7 @@
 @extends('frontend.layouts.master')
 
 @section('content')
+{!! Breadcrumbs::render('Importador::index') !!}
 	<div class="panel panel-padrao">
 		<div class="panel-heading">
 			IMPORTADOR
@@ -8,16 +9,15 @@
 		<div class="navbar navbar-static-top navForm" role='navigation'>
 			<form accept-charset="UTF-8" class="form-inline" role="form" id="inputImporter">
         <div class="navbar-form navbar-left">
-            <div class="form-group">
+            <div class="form-group inputObr <?php if(!isset($history)) echo 'hidden' ?>" >
                 <label class="labelLine" for="">Obra: </label>
                 <select id="inputChooseObra" class="form-control" required="required" name="obra">
                     <option class='optPadrao' val='abc'>Escolha Uma Obra...</option>
                     <?php foreach ($obras as $obra) { ; ?>
-                    <option value="<?= $obra->id ?>"><?= $obra->nome ?></option>
+                    <option value="<?= $obra->id ?>" <?php if(isset($history)){if($obra->id == $etapas[0]->obra_id) echo 'selected';} ?>><?= $obra->nome ?></option>
                     <?php } ?>
                 </select>
             </div>
-
             <div class="form-group inputetapa <?php if(!isset($history)) echo 'hidden' ?>">
                 <label class="labelLine" for=""> Etapa: </label>
                 <select id="inputEtapa" class="form-control" required="required" name="etapa">
@@ -43,7 +43,7 @@
             <button type="button" id='inputSubmit' class="btn btn-primary <?php if(!isset($history)) echo 'hidden' ?>" data-toggle="modal" data-target="#impScreen">Nova Importação</button>
 
             <div class="form-group">
-             <div class="TypeLoading hidden"></div>
+             <div class="TypeLoading" style='margin-left:5px'></div>
             </div>
         </div>
     </form>
@@ -73,9 +73,7 @@
                         <td>{{$imp->observacoes}}</td>
                         <td>
                             <div class='text-center hoverActions'>
-                                <a style='color:#f5f5f5' href="{{ url('importador/editar/'.$imp->id)}}" title='Editar Importacao'>
-                                    <i class='fa fa-edit fa-fw'></i></a>&nbsp;&nbsp;
-                                    <a style='color:#f5f5f5' name='{{$imp->id}}' class='delImp' title='Excluir Importacao' href='' ><i class='fa fa-times'></i>
+                                    <a style='color:#f5f5f5' id='delete&{{$imp->id}}' class='delImp' title='Excluir Importacao' href='' ><i class='fa fa-times'></i>
                                 </a>
                             </div>
                         </td>
@@ -85,11 +83,11 @@
                                 <td class='img-icon text-center'>
                                     <img src="{{asset('img/dbf.png')}}">
                                 </td>
-                                <td >{{$imp->dbf2d}}</td>
+                                <td ><p>{{$imp->dbf2d}}</p></td>
                                 <td></td>
                                 <td></td>
                                 <td class='text-center'>
-                                    <a title='Download' href='' class='downloadFileImp' id='{{$imp->id}}&&&dbf'><i style='color:black' class='fa fa-download'></i></a>
+                                    <a class='btn btn-download btn-block' title='Download' target='_blank' href="{{url('importador/download')."/".$imp->locatario_id."&".$imp->obra->cliente_id."&".$imp->obra_id."&".$imp->etapa_id."&".$imp->subetapa_id."&".$imp->importacaoNr."&".$imp->dbf2d}}"><i class='fa fa-download'></i></a>
                                 </td>
                             </tr>
                         @endif
@@ -98,11 +96,11 @@
                                 <td class='img-icon text-center'>
                                     <img src="{{asset('img/ifc.png')}}">
                                 </td>
-                                <td>{{$imp->ifc_orig}}</td>
+                                <td><p>{{$imp->ifc_orig}}</p></td>
                                 <td></td>
                                 <td></td>
                                 <td class='text-center'>
-                                    <a title='Download' href='' class='downloadFileImp' id='{{$imp->id}}&&&ifc_orig'><i style='color:black' class='fa fa-download'></i></a>
+                                    <a class='btn btn-download btn-block' title='Download' target='_blank' href="{{url('importador/download')."/".$imp->locatario_id."&".$imp->obra->cliente_id."&".$imp->obra_id."&".$imp->etapa_id."&".$imp->subetapa_id."&".$imp->importacaoNr."&".$imp->ifc_orig}}"><i class='fa fa-download'></i></a>
                                 </td>
                             </tr>
                         @endif
@@ -111,11 +109,11 @@
                                 <td class='img-icon text-center'>
                                     <img src="{{asset('img/fbx.png')}}">
                                 </td>
-                                <td>{{$imp->fbx_orig}}</td>
+                                <td><p>{{$imp->fbx_orig}}</p></td>
                                 <td></td>
                                 <td></td>
                                 <td class='text-center'>
-                                    <a title='Download' href='' class='downloadFileImp' id='{{$imp->id}}&&&fbx_orig'><i style='color:black' class='fa fa-download'></i></a>
+                                    <a class='btn btn-download btn-block' title='Download' target='_blank' href="{{url('importador/download')."/".$imp->locatario_id."&".$imp->obra->cliente_id."&".$imp->obra_id."&".$imp->etapa_id."&".$imp->subetapa_id."&".$imp->importacaoNr."&".$imp->fbx_orig}}"><i class='fa fa-download'></i></a>
                                 </td>
                             </tr>
                         @endif
@@ -197,10 +195,17 @@
                                             <label>Observações</label>
                                             <textarea name="observacoes" class="form-control" rows="3"></textarea>
                                         </div>
-
-                                        <div class="form-group formSentido">
+                                        <?php 
+                                        $hhid = '';
+                                        if(isset($history)){
+                                            $impNr = count($dados->importacoes);
+                                            if($impNr > 0) $hhid = 'hidden';
+                                        }
+                                            
+                                         ?>
+                                        <div class="form-group formSentido {{$hhid}}">
                                             <label>Sentido</label> <br>
-                                            <input type="radio" name='sentido' value='1' id='sentido1'> X / Y &nbsp; &nbsp;
+                                            <input type="radio" name='sentido' value='1' id='sentido1' checked> X / Y &nbsp; &nbsp;
                                             <input type="radio" name='sentido' value='2' id='sentido2'> -X / Y &nbsp; &nbsp;
                                             <input type="radio" name='sentido' value='3' id='sentido3'> -X- / Y &nbsp; &nbsp;
                                             <input type="radio" name='sentido' value='4' id='sentido4'> X / -Y &nbsp; &nbsp;

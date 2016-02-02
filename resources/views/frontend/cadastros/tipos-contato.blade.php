@@ -11,7 +11,11 @@
     }
  ?>
 @section('content')
-
+@if(!isset($sub))
+{!! Breadcrumbs::render('Cadastros::contato.tipos') !!}
+@else
+{!! Breadcrumbs::render('Cadastros::subetapa.tipos') !!}
+@endif
     <div class="row">
         <div class="col-lg-12">
             <div class="panel panel-default">

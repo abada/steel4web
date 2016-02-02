@@ -16,6 +16,15 @@ class Etapa extends Model {
 		'user_id',
 		'locatario_id',
 	];
+	protected $visible = [
+		'id',
+		'codigo',
+		'peso',
+		'observacao',
+		'obra_id',
+		'user_id',
+		'locatario_id',
+	];
 
 	protected static function boot()
     {
