@@ -22,16 +22,36 @@ class GestorDeLotesController extends Controller {
 				$etapas = array();
 			}
 
+			$columns[] = ['data' => NULL, 'defaultContent' => '', 'className' => 'select-checkbox', 'orderable' => true];
+			$columns[] = ['data' => 'importacao_id'];
+			$columns[] = ['data' => 'lote'];
+			$columns[] = ['data' => 'MAR_PEZ'];
+			$columns[] = ['data' => 'FLG_DWG'];
+			$columns[] = ['data' => 'QTA_PEZ'];
+			$columns[] = ['data' => 'DES_PEZ'];
+			$columns[] = ['data' => 'TRA_PEZ'];
+			$columns[] = ['data' => 'estagio'];
+
+			$estagios = access()->user()->locatario->estagios->where('tipoestagio_id', 1)->sortBy('ordem');
+			foreach ($estagios as $estagio) {
+				$columns[] = ['data' => 'ESTAGIO_' . $estagio->id];
+			}
+
 			JavaScript::put([
 				'urlbase' => env("APP_URL") . env("APP_URLPREFIX", '/public'),
 				'obra_id' => $request->old('obra_id'),
 				'etapa_id' => $request->old('etapa_id'),
 				'etapas' => $etapas,
 				'selected' => $request->old('handles_ids'),
+				'columns' => $columns,
 			]);
 
-			return view('gestordelotes::index', compact('obras', 'lotes', 'etapas'));
+			return view('gestordelotes::index', compact('obras', 'lotes', 'etapas', 'estagios'));
 		}
+	}
+
+	public function lotes(Request $request) {
+		dd($request->all());
 	}
 
 }

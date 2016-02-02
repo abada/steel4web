@@ -8,7 +8,7 @@ class Estagio extends Model {
 	protected $table = 'estagios';
 
 	protected $fillable = [
-		'decricao',
+		'descricao',
 		'ordem',
 		'tipoestagio_id',
 		'user_id',
