@@ -17,23 +17,6 @@ class CreateSteel4webTables extends Migration {
 		//         $table->integer('estado');
 		//     });
 
-		Schema::create('locatarios', function (Blueprint $table) {
-			$table->increments('id');
-			$table->string('razao', 255)->nullable();
-			$table->string('fantasia', 255)->nullable();
-			$table->boolean('tipo')->nullable();
-			$table->string('documento', 255)->nullable();
-			$table->string('inscricao', 255)->nullable();
-			$table->string('fone', 255)->nullable();
-			$table->text('cidade')->nullable();
-			$table->string('endereco', 255)->nullable();
-			$table->string('cep', 255)->nullable();
-			$table->string('email', 255)->nullable();
-			$table->boolean('status')->nullable();
-
-			$table->timestamps();
-		});
-
 		Schema::create('clientes', function (Blueprint $table) {
 			$table->increments('id');
 			$table->integer('tipo')->nullable();
@@ -219,8 +202,8 @@ class CreateSteel4webTables extends Migration {
 		});
 		Schema::create('estagios', function (Blueprint $table) {
 			$table->increments('id');
-			$table->text('decricao');
-			$table->integer('ordem');
+			$table->text('descricao')->nullable();
+			$table->integer('ordem')->nullable();
 
 			$table->integer('tipoestagio_id')->nullable()->unsigned();
 			$table->foreign('tipoestagio_id')->references('id')->on('tiposestagios')->onDelete('set null');
@@ -1055,11 +1038,6 @@ class CreateSteel4webTables extends Migration {
 		//         $table->string('obras_permitidas', 255)->nullable();
 		//     });
 
-		/* FOREIGN KEYS USERS */
-		Schema::table('users', function (Blueprint $table) {
-			$table->foreign('locatario_id')->references('id')->on('locatarios')->onDelete('set null');
-		});
-
 	}
 
 	/**
@@ -1208,10 +1186,5 @@ class CreateSteel4webTables extends Migration {
 		});
 		Schema::drop('clientes');
 
-		Schema::table('users', function (Blueprint $table) {
-			$table->dropForeign('users_locatario_id_foreign');
-		});
-
-		Schema::drop('locatarios');
 	}
 }
