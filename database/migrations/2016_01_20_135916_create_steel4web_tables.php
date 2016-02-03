@@ -189,24 +189,12 @@ class CreateSteel4webTables extends Migration {
 			$table->timestamps();
 		});
 
-		Schema::create('tiposestagios', function (Blueprint $table) {
-			$table->increments('id');
-			$table->text('decricao');
-
-			$table->integer('user_id')->unsigned();
-			$table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-			$table->integer('locatario_id')->unsigned();
-			$table->foreign('locatario_id')->references('id')->on('locatarios')->onDelete('cascade');
-
-			$table->timestamps();
-		});
 		Schema::create('estagios', function (Blueprint $table) {
 			$table->increments('id');
 			$table->text('descricao')->nullable();
 			$table->integer('ordem')->nullable();
 
-			$table->integer('tipoestagio_id')->nullable()->unsigned();
-			$table->foreign('tipoestagio_id')->references('id')->on('tiposestagios')->onDelete('set null');
+			$table->integer('tipo')->default(2);
 
 			$table->integer('user_id')->unsigned();
 			$table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
@@ -1123,17 +1111,10 @@ class CreateSteel4webTables extends Migration {
 		Schema::drop('lotes');
 
 		Schema::table('estagios', function (Blueprint $table) {
-			$table->dropForeign('estagios_tipoestagio_id_foreign');
 			$table->dropForeign('estagios_user_id_foreign');
 			$table->dropForeign('estagios_locatario_id_foreign');
 		});
 		Schema::drop('estagios');
-
-		Schema::table('tiposestagios', function (Blueprint $table) {
-			$table->dropForeign('tiposestagios_user_id_foreign');
-			$table->dropForeign('tiposestagios_locatario_id_foreign');
-		});
-		Schema::drop('tiposestagios');
 
 		Schema::table('subetapas', function (Blueprint $table) {
 			$table->dropForeign('subetapas_tiposubetapa_id_foreign');

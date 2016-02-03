@@ -18,8 +18,8 @@
         <ul class="sidebar-menu">
             <li class="header"></li>
             <!-- <li class="header">MAIN NAVIGATION</li> -->
-            <li class="{{ Active::pattern('dashboard2') }}">
-                <a href="{{ url('dashboard2') }}"><i class="fa fa-dashboard fa-fw"></i><span> Painel de Controle</span></a>
+            <li class="{{ Active::pattern('/') }}">
+                <a href="{{ url('/') }}"><i class="fa fa-dashboard fa-fw"></i><span> Painel de Controle</span></a>
             </li>
             <li class="header">Módulos</li>
             @if( Module::has('Importador') )

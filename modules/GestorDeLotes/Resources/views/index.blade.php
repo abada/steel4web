@@ -51,6 +51,7 @@
 	</div>
 
 	<div class="panel-body">
+
 		<!-- Nav tabs -->
 		<ul class="nav nav-tabs">
 			<li class="active">
@@ -73,16 +74,11 @@
 
 			<div class="form-group inputetapa hidden">
 				<label class="" for="inputEtapa"> Etapa: </label>
-				{{ Form::select('etapa', $etapas, old('etapa_id'), ['id'=>"inputEtapa", 'class'=>"form-control", 'required'=>"required"]) }}
+				{{ Form::select('etapa',[""=>""], old('etapa_id'), ['id'=>"inputEtapa", 'class'=>"form-control", 'required'=>"required"]) }}
 			</div>
 			<div class="form-group inputsubetapa hidden">
 				<label class="" for="inputSubetapa"> Subetapa: </label>
 				{{ Form::select('subetapa', [""=>""], old('subetapa_id'), ['id'=>"inputSubetapa", 'class'=>"form-control", 'required'=>"required"]) }}
-			</div>
-
-			<div class="form-group inputimportacao hidden">
-				<label class="" for="inputImportacao"> Importação: </label>
-				{{ Form::select('importacao', [""=>""], old('importacao_id'), ['id'=>"inputImportacao", 'class'=>"form-control", 'required'=>"required"]) }}
 			</div>
 
 			<!-- <div class="form-group inputGrouped hidden">
@@ -128,12 +124,12 @@
 			<thead>
 				<tr>
 					<th></th>
-					<th>Cód.</th>
+					<th>Qtd.</th>
+					<th>Import.</th>
 					<th>Lote</th>
 					<th>Conjunto</th>
 					<th>Desenho</th>
-					<th>Qtd.</th>
-					<th>Descrição</th>
+					<th>Tipologia</th>
 					<th>Tratamento</th>
 					<th>Engenharia</th>
 
@@ -171,7 +167,7 @@
 {{-- Html::script('plugins/datatables/jquery.datatables.min.js') --}}
 <!-- DATATABLES BOOTSTRAP JS -->
 
-{{ Html::script('plugins/datatables.bkp/dataTables.select.min.js') }}
+{{ Html::script('plugins/datatables/dataTables.select.min.js') }}
 
 {{ Html::script('modules/'.Module::find('GestorDeLotes')->getLowerName().'/script.js') }}
 

@@ -155,7 +155,7 @@
                     <!-- Tab panes -->
                     <div class="tab-content">
                         <div class="loadingImp">
-                            {{ Html::image('img/200.gif', 'Importando...', array('class' => 'loadImg')) }}
+                            {{ Html::image('img/200.gif', 'Importando...', array('class' => 'loadImg', 'style' => 'margin-left:40%,width:20%')) }}
                             <h3 class="saving text-center">Importando<span>.</span><span>.</span><span>.</span></h3>
                         </div>
                         <div class="tab-pane fade in active" id="tecnometal">

@@ -11,9 +11,9 @@ class HandlesController extends Controller {
 	public function index(Request $request) {
 
 		$data = $request->all();
-		if (null == @$data['obra']) {return "Informe a obra";}
-		if (null == @$data['etapa']) {return "Informe a etapa";}
-		if (null == @$data['subetapa']) {return "Informe a subetapa";}
+		if (null == @$data['obra']) {return json_encode(['' => '']);}
+		if (null == @$data['etapa']) {return json_encode(['' => '']);}
+		if (null == @$data['subetapa']) {return json_encode(['' => '']);}
 		$obra_id = $data['obra'];
 		$etapa_id = $data['etapa'];
 		$subetapa_id = $data['subetapa'];
@@ -58,13 +58,10 @@ class HandlesController extends Controller {
 
 		$response = array();
 		$response['data'] = array();
-		$estagios = access()->user()->locatario->estagios->where('tipoestagio_id', 2)->sortBy('ordem');
+		$estagios = access()->user()->locatario->estagios->where('tipo', 2)->sortBy('ordem');
 
 		foreach ($handles as $handle) {
 
-			//dd($handle->importacao->created_at);
-
-			// dd($handle->estagio);
 			$responsedata = array(
 				'id' => $handle->id,
 				'PROJETO' => $handle->PROJETO,
@@ -89,7 +86,7 @@ class HandlesController extends Controller {
 				'TIP_PEZ' => $handle->TIP_PEZ,
 				'MAR_PEZ' => $handle->MAR_PEZ,
 				'MBU_PEZ' => $handle->MBU_PEZ,
-				'DES_PEZ' => $handle->DES_PEZ,
+				'DES_PEZ' => getIcon($handle->DES_PEZ),
 				'POS_PEZ' => $handle->POS_PEZ,
 				'NOT_PEZ' => $handle->NOT_PEZ,
 				'ING_PEZ' => $handle->ING_PEZ,
@@ -119,7 +116,7 @@ class HandlesController extends Controller {
 				'GROUP' => $handle->GROUP,
 				'etapa_id' => $handle->etapa_id,
 				'CATE' => $handle->CATE,
-				'importacao_id' => $handle->importacao_id,
+				'importacao_id' => 'IMP-0' . $handle->importacao_id,
 
 				// 'dataprojeto' => date('d/m/Y', strtotime($handle->importacao->data)),
 				// 'dataprev_pcp' => ($handle->conjuntoCronograma->dataprev_pcp) ? date('d/m/Y', strtotime($handle->conjuntoCronograma->dataprev_pcp)) : null,

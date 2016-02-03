@@ -3,6 +3,72 @@ $(document).ready(function($) {
     // var urlbase = '{!! env("APP_URL") !!}';
     // console.log(urlbase);
 
+    var colunas = [{
+        data: null,
+        defaultContent: "",
+        className: "select-checkbox",
+        orderable: true
+    }, {
+        data: "QTA_PEZ"
+    }, {
+        data: "importacao_id"
+    }, {
+        data: "lote"
+    }, {
+        data: "MAR_PEZ"
+    }, {
+        data: "FLG_DWG"
+    }, {
+        data: function(data, type, full) {
+            if (type === 'display') {
+                return '<img src="img/icons/' + data.DES_PEZ + '"/>';
+            }
+            return data.DES_PEZ;
+        }
+    }, {
+        data: "TRA_PEZ"
+    }, {
+        data: "estagio"
+    }];
+    var cols = $.merge(colunas, columns); //columns vem por js        
+
+    // console.table(cols);
+
+
+    var handlesGrid = $('#handlesGrid').DataTable({
+            ajax: {
+                url: urlbase + '/gestordelotes/handles',
+                data: function(d) {
+                    // d.grouped = $('#inputGrouped:checked').val();
+                    d.obra = $('#inputObra').val();
+                    d.etapa = $('#inputEtapa').val();
+                    d.subetapa = $('#inputSubetapa').val();
+                }
+            },
+            scrollX: true,
+            responsive: true,
+            columns: colunas,
+            select: {
+                style: 'multi',
+                selector: 'tr'
+            },
+            rowCallback: function(row, data) {
+
+                if ($.inArray(String(data.id), selected) !== -1) {
+                    $(row).addClass('selected');
+                }
+            }
+        })
+        .on('preXhr.dt', function(e, settings, data) {
+            $('.loading.hidden').removeClass('hidden');
+        })
+        .on('xhr.dt', function(e, settings, json, xhr) {
+            $('.loading').addClass('hidden');
+        })
+        .on('select', function(e, dt, type, indexes) {
+            handlesGrid[type](indexes).nodes().to$().addClass('selected');
+        });
+
     // OBRA CHANGE
     $('#inputObra').change(function(event) {
 
@@ -19,9 +85,9 @@ $(document).ready(function($) {
             .done(function(data) {
                 $('#inputEtapa').html('');
                 $('.loading').addClass('hidden');
-                $('.inputetapa.hidden, .inputGrouped.hidden, #getHandles.hidden').removeClass('hidden');
+                $('.inputetapa.hidden').removeClass('hidden');
 
-                $('#inputEtapa').append('<option>-- Selecione uma etapa --</option>');
+                $('#inputEtapa').append('<option>-- Selecione a etapa --</option>');
                 $.each(data, function(index, val) {
                     $('#inputEtapa').append('<option value="' + val.id + '">' + val.codigo + '</option>');
                 });
@@ -56,8 +122,9 @@ $(document).ready(function($) {
             .done(function(data) {
                 $('#inputSubetapa').html('');
                 $('.loading').addClass('hidden');
-                $('.inputsubetapa.hidden, .inputGrouped.hidden, #getHandles.hidden').removeClass('hidden');
+                $('.inputsubetapa.hidden').removeClass('hidden');
 
+                $('#inputSubetapa').append('<option>-- Selecione a subetapa --</option>');
                 $.each(data, function(index, val) {
                     $('#inputSubetapa').append('<option value="' + val.id + '">' + val.cod + '</option>');
                 });
@@ -71,13 +138,9 @@ $(document).ready(function($) {
 
     // ON SUBETAPA CHANGE
     $('#inputSubetapa').change(function(event) {
-
         // LOAD TABLE
         var url = urlbase + '/api/obras/' + $('#inputObra').val() + '/etapas/' + $('#inputEtapa').val() + '/subetapas/' + $(this).val() + '/importacoes';
-
-        console.log(url);
-
-        // handlesGrid.ajax.url( url ).load();
+        $('#getHandles.hidden').removeClass('hidden');
 
     });
 
@@ -132,7 +195,7 @@ $(document).ready(function($) {
         $('#inputHandleIds').val(handles_ids.join(","));
 
         $.ajax({
-                url: urlbase + '/gestordelotes/handles',
+                url: urlbase + '/gestordelotes/criar',
                 type: 'GET',
                 dataType: 'html',
                 data: {
@@ -158,44 +221,14 @@ $(document).ready(function($) {
 
     });
 
+
+
     /* GET HANDLES */
     $('#getHandles').click(function() {
         handlesGrid.ajax.url(urlbase + '/gestordelotes/handles').load();
     });
 
-    var handlesGrid = $('#handlesGrid').DataTable({
-        ajax: {
-            url: urlbase + '/gestordelotes/handles',
-            data: function(d) {
-                // d.grouped = $('#inputGrouped:checked').val();
-                d.obra = $('#inputObra').val();
-                d.etapa = $('#inputEtapa').val();
-                d.subetapa = $('#inputSubetapa').val();
-            }
-        },
-        scrollX: true,
-        responsive: true,
-        columns: columns, //columns vem por js        
-        select: {
-            style:    'multi',
-            selector: 'tr'
-        },
-        rowCallback: function( row, data ) {
-                
-            if ( $.inArray( String(data.id), selected) !== -1 ) {
-                $(row).addClass('selected');
-            }
-        }
-    })
-    .on('preXhr.dt', function ( e, settings, data ) {
-        $('.loading.hidden').removeClass('hidden');
-    })
-    .on('xhr.dt', function ( e, settings, json, xhr ) {
-        $('.loading').addClass('hidden');
-    })
-    .on( 'select', function ( e, dt, type, indexes ) {
-        handlesGrid[ type ]( indexes ).nodes().to$().addClass( 'selected' );
-    });
+
 
     // var handlesGrid = $('#handlesGrid').DataTable({
     //  ajax: {
