@@ -58,13 +58,10 @@ class HandlesController extends Controller {
 
 		$response = array();
 		$response['data'] = array();
-		$estagios = access()->user()->locatario->estagios->where('tipoestagio_id', 2)->sortBy('ordem');
+		$estagios = access()->user()->locatario->estagios->where('tipo', 2)->sortBy('ordem');
 
 		foreach ($handles as $handle) {
 
-			//dd($handle->importacao->created_at);
-
-			// dd($handle->estagio);
 			$responsedata = array(
 				'id' => $handle->id,
 				'PROJETO' => $handle->PROJETO,
@@ -89,7 +86,7 @@ class HandlesController extends Controller {
 				'TIP_PEZ' => $handle->TIP_PEZ,
 				'MAR_PEZ' => $handle->MAR_PEZ,
 				'MBU_PEZ' => $handle->MBU_PEZ,
-				'DES_PEZ' => $handle->DES_PEZ,
+				'DES_PEZ' => getIcon($handle->DES_PEZ),
 				'POS_PEZ' => $handle->POS_PEZ,
 				'NOT_PEZ' => $handle->NOT_PEZ,
 				'ING_PEZ' => $handle->ING_PEZ,

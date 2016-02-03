@@ -2,7 +2,39 @@ $(document).ready(function($) {
 
     // var urlbase = '{!! env("APP_URL") !!}';
     // console.log(urlbase);
-    
+
+    var colunas = [{
+        data: null,
+        defaultContent: "",
+        className: "select-checkbox",
+        orderable: true
+    }, {
+        data: "QTA_PEZ"
+    }, {
+        data: "importacao_id"
+    }, {
+        data: "lote"
+    }, {
+        data: "MAR_PEZ"
+    }, {
+        data: "FLG_DWG"
+    }, {
+        data: function(data, type, full) {
+            if (type === 'display') {
+                return '<img src="img/icons/' + data.DES_PEZ + '"/>';
+            }
+            return data.DES_PEZ;
+        }
+    }, {
+        data: "TRA_PEZ"
+    }, {
+        data: "estagio"
+    }];
+    var cols = $.merge(colunas, columns); //columns vem por js        
+
+    // console.table(cols);
+
+
     var handlesGrid = $('#handlesGrid').DataTable({
             ajax: {
                 url: urlbase + '/gestordelotes/handles',
@@ -15,7 +47,7 @@ $(document).ready(function($) {
             },
             scrollX: true,
             responsive: true,
-            columns: columns, //columns vem por js        
+            columns: colunas,
             select: {
                 style: 'multi',
                 selector: 'tr'
@@ -163,7 +195,7 @@ $(document).ready(function($) {
         $('#inputHandleIds').val(handles_ids.join(","));
 
         $.ajax({
-                url: urlbase + '/gestordelotes/handles',
+                url: urlbase + '/gestordelotes/criar',
                 type: 'GET',
                 dataType: 'html',
                 data: {
@@ -189,14 +221,14 @@ $(document).ready(function($) {
 
     });
 
-    
+
 
     /* GET HANDLES */
     $('#getHandles').click(function() {
-        handlesGrid.ajax.url(urlbase + '/gestordelotes/handles').load();        
+        handlesGrid.ajax.url(urlbase + '/gestordelotes/handles').load();
     });
 
-    
+
 
     // var handlesGrid = $('#handlesGrid').DataTable({
     //  ajax: {
@@ -233,4 +265,3 @@ $(document).ready(function($) {
     // });
 
 });
-

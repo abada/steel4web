@@ -126,12 +126,12 @@
 			<thead>
 				<tr>
 					<th></th>
+					<th>Qtd.</th>
 					<th>Import.</th>
 					<th>Lote</th>
 					<th>Conjunto</th>
 					<th>Desenho</th>
-					<th>Qtd.</th>
-					<th>Descrição</th>
+					<th>Tipologia</th>
 					<th>Tratamento</th>
 					<th>Engenharia</th>
 
