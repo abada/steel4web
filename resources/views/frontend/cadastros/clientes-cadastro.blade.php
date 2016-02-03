@@ -77,8 +77,8 @@ if(isset($disable)){
                                  <div class="form-group">
                                     <label>Tipo de Cliente <i style='color:red'>*</i> :</label>
                                     <select class="form-control" name="tipo" id="tipo" <?php if (isset($disable)) echo 'disabled'; ?>>
-                                        <option value="0" <?php if (isset($edicao) && $tipo == 0) echo 'selected'; ?>>Físico</option>
-                                        <option value="1" <?php if (isset($edicao) && $tipo == 1) echo 'selected'; ?>>Jurídico</option>
+                                        <option value="0" <?php if (isset($edicao) && $cliente->tipo == 0) echo 'selected'; ?>>Físico</option>
+                                        <option value="1" <?php if (isset($edicao) && $cliente->tipo == 1) echo 'selected'; ?>>Jurídico</option>
                                     </select>
                                 </div>
                                 @else
@@ -86,7 +86,7 @@ if(isset($disable)){
                                     <label>Tipo de Contato <i style='color:red'>*</i> :</label>
                                     <select class="form-control" name="tipo_id" id="tipo_id" <?php if (isset($disable)) echo 'disabled'; ?>>
                                         @foreach($tipos as $Type)
-                                        <option value="{{$Type->id}}" <?php if (isset($edicao) && $tipo == $Type->id) echo 'selected'; ?>>{{$Type->descricao}}</option>
+                                        <option value="{{$Type->id}}" <?php if (isset($edicao) && $cliente->tipo_id == $Type->id) echo 'selected'; ?>>{{$Type->descricao}}</option>
                                         @endforeach
                                     </select>
                                 </div>

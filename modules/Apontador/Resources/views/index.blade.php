@@ -34,7 +34,10 @@
                     @endif
                 </select>
             </div>
-            <button type="button" id='inputSubmit' class="btn btn-primary <?php if(!isset($history)) echo 'hidden' ?>" data-toggle="modal" data-target="#impScreen">Carregar</button>
+            <?php 
+            	$btnText = isset($history) ? 'Recarregar' : 'Carregar';
+             ?>
+            <button type="button" id='inputSubmit' class="btn btn-primary <?php if(!isset($history)) echo 'hidden' ?>" data-toggle="modal" data-target="#impScreen">{{$btnText}}</button>
 
 	            <div class="form-group">
 	             <div class="TypeLoading" style='margin-left:5px'></div>
@@ -56,6 +59,10 @@
 	                    <th>Qtd.</th>
 	                    <th>Descricao</th>
 	                    <th>Tratamento</th>
+	                    @foreach($estagios as $estagio)
+	                    <th>{{$estagio->decricao}} Qtd</th>
+	                    <th>Data Real {{$estagio->descricao}}</th>
+	                    @endforeach
                     </tr>
 			 	</thead>
 			 	<tbody>
@@ -65,9 +72,13 @@
 			 			<td>{{$lote}}</td>
 			 		<td>{{$conjunto->MAR_PEZ}}</td>
 			 		<td>{{$conjunto->NUM_COM}}</td>
-			 		<td>{{$conjunto->QTA_PEZ}}</td>
+			 		<td>{{$conjunto->qtd}}</td>
 			 		<td>{{$conjunto->DES_PEZ}}</td>
 			 		<td>{{$conjunto->TRA_PEZ}}</td>
+			 		@foreach($estagios as $estagio)
+	                    <td>5</td>
+	                    <td>25/15/2150</td> <!-- We will have 18 months in 2150. -->
+                    @endforeach
 			 		</tr>
 			 		@endforeach
 			 	</tbody>

@@ -1,35 +1,15 @@
 $(document).ready(function() {
-//var livePath = 'steel4web.com.br/s4w_1/public';
-var livePath = '';
+var livePath = urlbaseGeral;
 
-$('#noSortObra').DataTable({
-        responsive: true,
-        "ordering": false,
-        "bInfo" : false
+
+    var table = $('#lotPointer').DataTable({
+        responsive: false,
+        "scrollX": true,
+        "iDisplayLength": 25,
+        "language": {
+          "emptyTable": "Nenhum Conjunto Disponivel."
+        }
     });
-
-
-var toBe2 = 0;
-$('.toBeHidden').hide();
-$('#subToggle').click(function(e) {
-   if(toBe2%2 == 0){
-    $('.toBeHidden').show();
-    $('.clickTable').removeClass('fa-plus').addClass('fa-minus');
-  }else{
-    $('.toBeHidden').hide();
-    $('.clickTable').removeClass('fa-minus').addClass('fa-plus');
-  }
-  toBe2++;
-});
-  
-  $(document).on('click', '.clickTable', function(){ 
-    var id = event.target.id;
-      $('.'+id).toggle();
-      $(this).toggleClass('fa-minus fa-plus');
-  });
-
-
-    var table = $('#lotPointer').DataTable();
  
     $('#formButton').click( function() {
         var data = table.$('input, select').serialize();
@@ -115,6 +95,7 @@ $('#subToggle').click(function(e) {
 
   $('#inputSubmit').click(function(e) {
     e.preventDefault();
+    $('.TypeLoading').show();
      var etapaID = $('#inputEtapa').val();
       jQuery.ajax({
         type: "POST",
@@ -226,7 +207,7 @@ $('#subToggle').click(function(e) {
             jQuery.ajax({
                 type: "POST",
                 data: {id:data},
-               url: "/importador/excluir",
+               url: livePath+"/importador/excluir",
                 dataType: "html",
                 success: function(r){
                      window.location.href = r;

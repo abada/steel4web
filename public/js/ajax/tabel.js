@@ -25,6 +25,7 @@ $('#noSort').DataTable({
 $('#noSortObra').DataTable({
         responsive: true,
         "ordering": false,
+        "iDisplayLength": 50,
         "bInfo" : false
     });
 
@@ -49,70 +50,6 @@ $('#subToggle').click(function(e) {
       $(this).toggleClass('fa-minus fa-plus');
   });
 
-/*   $('.clickTable').click(function(e) {
-    alert('clickoe');
-      var id = event.target.id;
-      $('.'+id).toggle();
-      $(this).toggleClass('fa-minus fa-plus');
-   }); */
-
-  
-
-    var table = $('#lotPointer').DataTable();
- 
-    $('#formButton').click( function() {
-        var data = table.$('input, select').serialize();
-         jQuery.ajax({
-                type: "POST",
-                data: {dados:data},
-               url: "http://localhost/new_s4w/saas/estagio/teste",
-                dataType: "html",
-                success: function(e){
-                    $('#herehtml').html(result);
-                }
-            });
-        return false;
-    } );
-
- //  $.fn.editable.defaults.mode = 'inline';
-
-            $('.username').editable({
-           url: 'http://localhost/new_s4w/saas/estagio/teste',
-           type: 'html',
-            mode: 'inline',
-           pk: 1,
-           title: 'Enter username',
-           success: function(result){
-           	alert(result);
-           	var myArray = result.split('&');
-           	for (var i = 0; i < myArray.length; ++i) {
-           			
-           	
-           $('#inputEtapa').append($('<option>', {
-			    value: 1,
-			    text: myArray[i]
-			}));
-           };
-        }
-    });
-
-      $('.dob').editable({
-      	 url: 'http://localhost/new_s4w/saas/estagio/teste',
-           type: 'html',
-           name: 'data',
-        format: 'YYYY-MM-DD',    
-        viewformat: 'DD.MM.YYYY',    
-        template: 'D / MMMM / YYYY',    
-        combodate: {
-                minYear: 2000,
-                maxYear: 2016,
-                minuteStep: 1
-        },
-        success: function(d){
-                    $('#herehtml').html(result);
-                }
-    });
-
       $('.loadingImp').hide();
       $('.TypeLoading').hide();
       $('.inputObr').removeClass('hidden');
@@ -124,7 +61,7 @@ $('#subToggle').click(function(e) {
      	jQuery.ajax({
                 type: "POST",
                 data: {id:dados},
-               url: "/importador/etapas",
+               url: urlbaseGeral+"/importador/etapas",
                 dataType: "html",
                 success: function(result){
              var myArray = result.split('&x&');
@@ -156,7 +93,7 @@ $('#subToggle').click(function(e) {
       jQuery.ajax({
                 type: "POST",
                 data: {id:dadoos},
-               url: "/importador/subetapas",
+               url: urlbaseGeral+"/importador/subetapas",
                 dataType: "html",
                 success: function(result2){
              var myArrayy = result2.split('&x&');
@@ -189,7 +126,7 @@ $('#subToggle').click(function(e) {
            jQuery.ajax({
                 type: "POST",
                 data: {id:sube},
-               url: "/importador/importar",
+               url: urlbaseGeral+"/importador/importar",
                 dataType: "html",
                 success: function(r){
                   var subed = JSON.parse(r);
@@ -249,20 +186,12 @@ $('#subToggle').click(function(e) {
             jQuery.ajax({
                 type: "POST",
                 data: {id:data},
-               url: "/importador/excluir",
+               url: urlbaseGeral+"/importador/excluir",
                 dataType: "html",
                 success: function(r){
                      window.location.href = r;
                 }
             });
             e.preventDefault();
-          });
-
-        
-
-
-    
+          });   
 } );
-
-
-// <a title='Download' href='"+ subed.download+"/"+subed.importacoes[imp].locatario_id+"/"+subed.importacoes[imp].cliente_id+"/"+subed.importacoes[imp].obra_id+"/"+subed.importacoes[imp].etapa_id+"/"+subed.importacoes[imp].subetapa_id+"/"+subed.importacoes[imp].importacaoNr+"/"+subed.importacoes[imp].dbf2d +"'><i style='color:black' class='fa fa-download'></i></a>

@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use JavaScript;
 
 /**
  * Class LocaleMiddleware
@@ -30,6 +31,9 @@ class LocaleMiddleware
         if (session()->has('locale') && in_array(session()->get('locale'), $this->languages)) {
             app()->setLocale(session()->get('locale'));
         }
+        JavaScript::put([
+        'urlbaseGeral' => env("APP_URL")
+    ]);
 
         return $next($request);
     }

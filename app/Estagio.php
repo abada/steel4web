@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\LocatarioScope;
 
 class Estagio extends Model {
 	protected $table = 'estagios';
@@ -14,6 +15,13 @@ class Estagio extends Model {
 		'user_id',
 		'locatario_id',
 	];
+
+	protected static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope(new LocatarioScope);
+    }
 
 	/**
 	 * Get the User (owner) of the model
