@@ -10,7 +10,6 @@ use App\Locatario;
 use App\Obra;
 use App\Subetapa;
 use App\TipoContato;
-use App\TipoEstagio;
 use App\TipoSubetapa;
 use Faker\Factory as Faker;
 use Illuminate\Database\Seeder;
@@ -35,7 +34,6 @@ class Steel4webTablesSeeder extends Seeder {
 			DB::table('tipossubetapas')->truncate();
 			DB::table('subetapas')->truncate();
 			DB::table('estagios')->truncate();
-			DB::table('tiposestagios')->truncate();
 			DB::table('handles')->truncate();
 			DB::table('importacoes')->truncate();
 		}
@@ -186,26 +184,12 @@ class Steel4webTablesSeeder extends Seeder {
 			$subetapas = Subetapa::insert($subetapas);
 			echo "2 Subbetapas adicionadas com sucesso!\n";
 
-			$tiposestagio_data = array(
-				'decricao' => 'TESTE',
-				'user_id' => $user->id,
-				'locatario_id' => $locatario->id,
-			);
-			$tiposestagio = TipoEstagio::create($tiposestagio_data);
-			$tiposestagio_data = array(
-				'decricao' => 'Fabricação',
-				'user_id' => $user->id,
-				'locatario_id' => $locatario->id,
-			);
-			$tiposestagio = TipoEstagio::create($tiposestagio_data);
-			echo "1 TipoEstagio adicionado!\n";
-
 			$estagios = array(
 
 				array(
 					'descricao' => 'Engenharia',
 					'ordem' => 0,
-					'tipoestagio_id' => TipoEstagio::first()->id,
+					'tipo' => 1,
 					'user_id' => $user->id,
 					'locatario_id' => $locatario->id,
 				),
@@ -213,7 +197,7 @@ class Steel4webTablesSeeder extends Seeder {
 				array(
 					'descricao' => 'PCP',
 					'ordem' => 1,
-					'tipoestagio_id' => $tiposestagio->id,
+					'tipo' => 2,
 					'user_id' => $user->id,
 					'locatario_id' => $locatario->id,
 				),
@@ -221,7 +205,7 @@ class Steel4webTablesSeeder extends Seeder {
 				array(
 					'descricao' => 'Preparação',
 					'ordem' => 2,
-					'tipoestagio_id' => $tiposestagio->id,
+					'tipo' => 2,
 					'user_id' => $user->id,
 					'locatario_id' => $locatario->id,
 				),
@@ -229,7 +213,7 @@ class Steel4webTablesSeeder extends Seeder {
 				array(
 					'descricao' => 'Gabarito',
 					'ordem' => 3,
-					'tipoestagio_id' => $tiposestagio->id,
+					'tipo' => 2,
 					'user_id' => $user->id,
 					'locatario_id' => $locatario->id,
 				),
@@ -237,7 +221,7 @@ class Steel4webTablesSeeder extends Seeder {
 				array(
 					'descricao' => 'Solda',
 					'ordem' => 4,
-					'tipoestagio_id' => $tiposestagio->id,
+					'tipo' => 2,
 					'user_id' => $user->id,
 					'locatario_id' => $locatario->id,
 				),
@@ -245,7 +229,7 @@ class Steel4webTablesSeeder extends Seeder {
 				array(
 					'descricao' => 'Pintura',
 					'ordem' => 5,
-					'tipoestagio_id' => $tiposestagio->id,
+					'tipo' => 2,
 					'user_id' => $user->id,
 					'locatario_id' => $locatario->id,
 				),
@@ -253,7 +237,7 @@ class Steel4webTablesSeeder extends Seeder {
 				array(
 					'descricao' => 'Expedição',
 					'ordem' => 6,
-					'tipoestagio_id' => $tiposestagio->id,
+					'tipo' => 2,
 					'user_id' => $user->id,
 					'locatario_id' => $locatario->id,
 				),
@@ -261,7 +245,7 @@ class Steel4webTablesSeeder extends Seeder {
 				array(
 					'descricao' => 'Montagem',
 					'ordem' => 7,
-					'tipoestagio_id' => $tiposestagio->id,
+					'tipo' => 2,
 					'user_id' => $user->id,
 					'locatario_id' => $locatario->id,
 				),
@@ -269,7 +253,7 @@ class Steel4webTablesSeeder extends Seeder {
 				array(
 					'descricao' => 'Entrega Final',
 					'ordem' => 8,
-					'tipoestagio_id' => $tiposestagio->id,
+					'tipo' => 2,
 					'user_id' => $user->id,
 					'locatario_id' => $locatario->id,
 				),
@@ -2574,6 +2558,7 @@ class Steel4webTablesSeeder extends Seeder {
 			);
 			foreach ($handles as $handle) {
 				Handle::create($handle);
+				echo "    - Handle inserido!\n";
 			}
 
 			echo count($handles) . " Handles inseridos!\n";

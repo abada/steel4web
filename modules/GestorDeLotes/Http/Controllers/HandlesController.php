@@ -11,9 +11,9 @@ class HandlesController extends Controller {
 	public function index(Request $request) {
 
 		$data = $request->all();
-		if (null == @$data['obra']) {return "Informe a obra";}
-		if (null == @$data['etapa']) {return "Informe a etapa";}
-		if (null == @$data['subetapa']) {return "Informe a subetapa";}
+		if (null == @$data['obra']) {return json_encode(['' => '']);}
+		if (null == @$data['etapa']) {return json_encode(['' => '']);}
+		if (null == @$data['subetapa']) {return json_encode(['' => '']);}
 		$obra_id = $data['obra'];
 		$etapa_id = $data['etapa'];
 		$subetapa_id = $data['subetapa'];

@@ -26,29 +26,43 @@ class UserTableSeeder extends Seeder {
 		$locatarios = Locatario::all();
 
 		foreach ($locatarios as $locatario) {
-			//Add the master administrator, user id of 1
-			$users = [
-				[
-					'name' => 'Admin',
-					'email' => 'admin@locatario' . $locatario->id . '.com',
+			if ($locatario->fantasia == 'Metalfoort') {
+				$users = [
+					'name' => 'MetalFoort',
+					'email' => 'projeto@metalfoort.com.br',
 					'password' => bcrypt('1234'),
 					'confirmation_code' => md5(uniqid(mt_rand(), true)),
 					'confirmed' => true,
 					'locatario_id' => $locatario->id,
 					'created_at' => Carbon::now(),
 					'updated_at' => Carbon::now(),
-				],
-				[
-					'name' => 'User',
-					'email' => 'user@locatario' . $locatario->id . '.com',
-					'password' => bcrypt('1234'),
-					'confirmation_code' => md5(uniqid(mt_rand(), true)),
-					'confirmed' => true,
-					'locatario_id' => $locatario->id,
-					'created_at' => Carbon::now(),
-					'updated_at' => Carbon::now(),
-				],
-			];
+				];
+			} else {
+				$users = [
+					[
+						'name' => 'Admin',
+						'email' => 'admin@locatario' . $locatario->id . '.com',
+						'password' => bcrypt('1234'),
+						'confirmation_code' => md5(uniqid(mt_rand(), true)),
+						'confirmed' => true,
+						'locatario_id' => $locatario->id,
+						'created_at' => Carbon::now(),
+						'updated_at' => Carbon::now(),
+					],
+					[
+						'name' => 'User',
+						'email' => 'user@locatario' . $locatario->id . '.com',
+						'password' => bcrypt('1234'),
+						'confirmation_code' => md5(uniqid(mt_rand(), true)),
+						'confirmed' => true,
+						'locatario_id' => $locatario->id,
+						'created_at' => Carbon::now(),
+						'updated_at' => Carbon::now(),
+					],
+
+				];
+
+			}
 
 			DB::table(config('access.users_table'))->insert($users);
 		}

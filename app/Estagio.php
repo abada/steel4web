@@ -31,14 +31,6 @@ class Estagio extends Model {
 		return $this->belongsTo('App\Locatario');
 	}
 
-	/**
-	 * Get the TipoEstagio of the model
-	 * @return Relationship belongsTo
-	 */
-	public function tipo() {
-		return $this->belongsTo('App\TipoEstagio', 'tipoestagio_id');
-	}
-
 	// REVERSE RELATIONSHIPS...
 
 	/**

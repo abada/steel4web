@@ -51,6 +51,9 @@
 	</div>
 
 	<div class="panel-body">
+
+		<pre><?php print_r(access()->user()->email)?><br><?php print_r(access()->user()->locatario->id)?></pre>
+
 		<!-- Nav tabs -->
 		<ul class="nav nav-tabs">
 			<li class="active">
