@@ -55,7 +55,7 @@ class ClientesController extends Controller
             $dados['fone'] = $dados['telefone'];
             unset($dados['telefone']);
 
-            if(isset($dados['razao']) && isset($dados['fantasia']) && isset($dados['tipo']) && isset($dados['cep']) && isset($dados['inscricao']) && isset($dados['documento']) && isset($dados['fone']) && isset($dados['endereco']) && isset($dados['cidade'])) {
+            if(isset($dados['razao']) && isset($dados['tipo'])) {
 
 
                 $clienteID = cliente::create($dados);

@@ -1,6 +1,6 @@
 @inject('roles', 'App\Repositories\Backend\Role\RoleRepositoryContract')
 
-@extends ('backend.layouts.master')
+@extends ('frontend.layouts.master')
 
 @section ('title', trans('labels.backend.access.permissions.management'))
 

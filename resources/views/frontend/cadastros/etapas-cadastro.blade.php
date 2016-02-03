@@ -62,7 +62,7 @@ if (isset($edicao)) {
         </div>
         <!-- /.col-lg-4 -->
         <div class="col-lg-4 hidden" id="tipoLoading" style="margin-top:20px;background:rgba(0,0,0,0)">
-              <img style="width:10%;margin-left:45%"src="/img/ajax-loader.gif">
+              {{ Html::image('img/ajax-loader.gif', 'Loading...', array('class' => 'lodImg')) }}
         </div>
         <div class="col-lg-4 hidden" id="tipoSuccess">
             <div class="panel panel-green">

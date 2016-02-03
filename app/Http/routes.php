@@ -42,7 +42,7 @@ Route::group(['namespace' => 'Backend', 'prefix' => 'admin', 'middleware' => 'ad
  *Prefixes: obra(s), cliente(s), contato(s), usuario(s), etapa(s), subetapa(s).
  */
 /* DASHBOARD */
-Route::get('dashboard2', array('middleware' => 'admin', 'as' => 'dashboard2', 'uses' => 'Cadastros\DashboardController@index'));
+Route::get('/', array('middleware' => 'admin', 'as' => '/', 'uses' => 'Cadastros\DashboardController@index'));
 /*
  * OBRAS
  */

@@ -51,7 +51,7 @@ class Obra extends Model {
 	 * @return Relationship belongsTo
 	 */
 	public function user() {
-		return $this->belongsTo('App\Model\Access\User\User');
+		return $this->belongsTo('App\Models\Access\User\User');
 	}
 
 	/**
@@ -101,5 +101,13 @@ class Obra extends Model {
 	 */
 	public function contatos() {
 		return $this->belongsToMany('App\Contato', 'contato_obra');
+	}
+
+	/**
+	 * Get the Users of the Obras
+	 * @return Relationship belongsTo
+	 */
+	public function users() {
+		return $this->belongsToMany('App\Models\Access\User\User', 'obra_user');
 	}
 }

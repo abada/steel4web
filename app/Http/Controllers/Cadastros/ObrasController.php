@@ -99,6 +99,7 @@ class ObrasController extends Controller
         $dadinho['user_id']   =access()->user()->id;
         $dadinho['status'] = 1;
         $obraID = obr::create($dadinho);
+        $obra_user = $obraID->users()->attach(1, array('obra_id' => $obraID->id, 'user_id' => $dadinho['user_id']));
         if(isset($obraID)){
             foreach($contes as $cano){
                 if($cano != 'Selecione...'){

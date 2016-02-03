@@ -62,28 +62,24 @@ if(isset($disable)){
                                     <input class="form-control" name="razao" id="razao" <?php if (isset($edicao)) echo 'value="' . $cliente->razao . '"' ?> <?php if (isset($disable)) echo 'disabled'; ?>>
                                 </div>
                                 <div class="form-group">
-                                    <label>Nome Fantasia
-                                      @if(!isset($contato))
-                                        <i style='color:red'>*</i>
-                                      @endif
-                                      :</label>
+                                    <label>Nome Fantasia:</label>
                                     <input class="form-control" name="fantasia" id="fantasia" <?php if (isset($edicao)) echo 'value="' . $cliente->fantasia . '"' ?> <?php if (isset($disable)) echo 'disabled'; ?>>
                                 </div>
                                 <div class="form-group">
-                                    <label>Email <i style='color:red'>*</i> :</label>
+                                    <label>Email:</label>
                                     <input class="form-control" name="email" id="email" <?php if (isset($edicao)) echo 'value="' . $cliente->email . '"' ?> <?php if (isset($disable)) echo 'disabled'; ?>>
                                 </div>
                                 @if(!isset($contato))
                                  <div class="form-group">
-                                    <label>Tipo de Cliente <i style='color:red'>*</i> :</label>
+                                    <label>Tipo de Cliente:</label>
                                     <select class="form-control" name="tipo" id="tipo" <?php if (isset($disable)) echo 'disabled'; ?>>
-                                        <option value="0" <?php if (isset($edicao) && $cliente->tipo == 0) echo 'selected'; ?>>Físico</option>
-                                        <option value="1" <?php if (isset($edicao) && $cliente->tipo == 1) echo 'selected'; ?>>Jurídico</option>
+                                        <option value="0" <?php if (isset($edicao) && $cliente->tipo == 0) echo 'selected'; ?>>Jurídico</option>
+                                        <option value="1" <?php if (isset($edicao) && $cliente->tipo == 1) echo 'selected'; ?>>Físico</option>
                                     </select>
                                 </div>
                                 @else
                                     <div class="form-group">
-                                    <label>Tipo de Contato <i style='color:red'>*</i> :</label>
+                                    <label>Tipo de Contato:</label>
                                     <select class="form-control" name="tipo_id" id="tipo_id" <?php if (isset($disable)) echo 'disabled'; ?>>
                                         @foreach($tipos as $Type)
                                         <option value="{{$Type->id}}" <?php if (isset($edicao) && $cliente->tipo_id == $Type->id) echo 'selected'; ?>>{{$Type->descricao}}</option>
@@ -92,22 +88,15 @@ if(isset($disable)){
                                 </div>
                                 @endif
                                  <div class="form-group">
-                                    <label>Documento 
-                                        @if(!isset($contato))
-                                        <i style='color:red'>*</i>
-                                        @endif
-                                         :</label>
+                                    <label>Documento :</label>
                                     <input class="form-control documento" name="documento" id="documento"  <?php if (isset($edicao)) echo 'value="' . $cliente->documento . '"' ?> <?php if (isset($disable)) echo 'disabled'; ?>>
                                 </div>
                                 <div class="form-group">
-                                    <label>Inscrição Estadual 
-                                        @if(!isset($contato))
-                                        <i style='color:red'>*</i>
-                                        @endif :</label>
+                                    <label>Inscrição Estadual:</label>
                                     <input class="form-control" name="inscricao" id="inscricao"  <?php if (isset($edicao)) echo 'value="' . $cliente->inscricao . '"' ?> <?php if (isset($disable)) echo 'disabled'; ?>>
                                 </div>
                                  <div class="form-group">
-                                    <label>Telefone <i style='color:red'>*</i> :</label>
+                                    <label>Telefone:</label>
                                     <input class="form-control telefone" name="telefone" id="telefone" <?php if (isset($edicao)) echo 'value="' . $cliente->fone . '"' ?> <?php if (isset($disable)) echo 'disabled'; ?>>
                                 </div>
                              
@@ -116,17 +105,17 @@ if(isset($disable)){
                             <div class="col-lg-6">
                                 
                                 <div class="form-group">
-                                    <label>Cidade <i style='color:red'>*</i> :</label>
+                                    <label>Cidade:</label>
                                     <input class="form-control" name="cidade" id="cidade" <?php if (isset($edicao)) echo 'value="' . $cliente->cidade . '"' ?> <?php if (isset($disable)) echo 'disabled'; ?>>
                                 </div>
 
                                 <div class="form-group">
-                                    <label>Endereço <i style='color:red'>*</i> :</label>
+                                    <label>Endereço:</label>
                                     <input class="form-control" name="endereco" id="endereco" <?php if (isset($edicao)) echo 'value="' . $cliente->endereco . '"' ?> <?php if (isset($disable)) echo 'disabled'; ?>>
                                 </div>
 
                                 <div class="form-group">
-                                    <label>CEP <i style='color:red'>*</i> :</label>
+                                    <label>CEP:</label>
                                     <input class="form-control cep" name="cep" id="cep" <?php if (isset($edicao)) echo 'value="' . $cliente->cep . '"' ?> <?php if (isset($disable)) echo 'disabled'; ?>>
                                 </div>
 
@@ -168,7 +157,7 @@ if(isset($disable)){
         </div>
         <!-- /.col-lg-4 -->
         <div class="col-lg-4 hidden" id="tipoLoading" style="margin-top:20px;background:rgba(0,0,0,0)">
-              <img style="width:10%;margin-left:45%" src="/img/ajax-loader.gif">
+            {{ Html::image('img/ajax-loader.gif', 'Loading...', array('class' => 'lodImg')) }}
         </div>
         <div class="col-lg-4 hidden" id="tipoSuccess">
             <div class="panel panel-green">
@@ -176,7 +165,7 @@ if(isset($disable)){
                     Gravado com sucesso!
                 </div>
                 <div class="panel-body">
-                    <p>O cliente foi gravado com sucesso e já pode ser utilizado!</p>
+                    <p>O {{$name2}} foi gravado com sucesso e já pode ser utilizado!</p>
                 </div>
              </div>
             <!-- /.panel -->
@@ -187,7 +176,7 @@ if(isset($disable)){
                     Erro ao gravar!
                 </div>
                 <div class="panel-body">
-                    <p>O cliente não pôde ser gravado, tente novamente mais tarde!</p>
+                    <p>O {{$name2}} não pôde ser gravado, tente novamente mais tarde!</p>
                 </div>
             </div>
             <!-- /.col-lg-4 -->
@@ -198,7 +187,7 @@ if(isset($disable)){
                     Erro ao gravar!
                 </div>
                 <div class="panel-body">
-                    <p>O cliente não pôde ser gravado, possivelmente já existe!</p>
+                    <p>O {{$name2}} não pôde ser gravado, possivelmente já existe!</p>
                 </div>
             </div>
             <!-- /.col-lg-4 -->

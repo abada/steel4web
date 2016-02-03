@@ -1,4 +1,4 @@
-@extends ('backend.layouts.master')
+@extends ('frontend.layouts.master')
 
 @section ('title', trans('labels.backend.access.roles.management'))
 

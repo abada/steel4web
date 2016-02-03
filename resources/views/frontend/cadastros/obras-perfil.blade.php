@@ -32,18 +32,24 @@
                     </div>
                 </div>
                 <!-- /.panel-body -->
+                 <div class="row">
+        <div class="col-lg-6 col-md-6">
+            <a style='float:left;margin:15px' href="javascript:history.back()" type="button" class="btn btn-primary"><< Voltar</a>
+        </div>
+        <div class="col-lg-6 col-md-6">
+            <a href="{{ url('obra/editar/'.$obra->id) }}" alt="Editar obra" style='float:right;margin:15px' title="Editar obra" type="button" class="btn btn-primary">Editar</a>
+        </div>
+    </div>
             </div>
             <!-- /.panel -->
+
         </div>
         <!-- /.col-lg-6 -->
+
     </div>
 
 
-    <div class="row">
-        <div class="col-lg-6 col-md-6">
-            <a href="javascript:history.back()" type="button" class="btn btn-primary"><< Voltar</a>
-        </div>
-    </div>
+   
 @endsection
 
 @section('scripts')

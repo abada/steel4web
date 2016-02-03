@@ -4,7 +4,10 @@
     margin-bottom: 5px !important;
 }
 
-
+.lodImg{
+    width:10%;
+    margin-left:45%;
+}
 .emptyTable{
 border: 1px solid whitesmoke !important;
 background-color: #f9f9f9 !important;

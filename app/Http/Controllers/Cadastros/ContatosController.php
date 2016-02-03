@@ -126,7 +126,7 @@ class ContatosController extends Controller
             $dados['fone'] = $dados['telefone'];
             unset($dados['telefone']);
 
-           if(isset($dados['razao']) && isset($dados['tipo_id']) && isset($dados['email']) && isset($dados['fone']) && isset($dados['endereco']) && isset($dados['cep']) && isset($dados['cidade'])) {
+           if(isset($dados['razao']) && isset($dados['tipo_id'])) {
 
 
                $clienteID = cont::create($dados);

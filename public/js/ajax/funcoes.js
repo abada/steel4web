@@ -384,7 +384,7 @@ $(document).ready(function(){
 
 
 
-        if ( razao != '' && fantasia != '' && email != '' && tipo != '' && documento != '' && inscricao != '' && telefone != '' && endereco != '' && cep != '') {
+        if ( razao != '' && tipo != '') {
             $('#tipoError2').addClass('hidden');
             $('#tipoError').addClass('hidden');
             $('#tipoSuccess').addClass('hidden');
@@ -423,7 +423,7 @@ $(document).ready(function(){
                 },
             });
          } else {
-            alert('Todos os campos são obrigatórios!');
+            alert('Preenncha os campos obrigatórios!');
          }
        
     });
@@ -444,7 +444,7 @@ $(document).ready(function(){
         var cidade       = $("#cidade").val();
         var id       = $("#id").val();
 
-        if ( razao != '' && fantasia != '' && email != '' && tipo != '' && documento != '' && inscricao != '' && telefone != '' && endereco != '' && cep != '') {
+        if ( razao != '' && tipo != '') {
             $('#tipoError2').addClass('hidden');
             $('#tipoError').addClass('hidden');
             $('#tipoSuccess').addClass('hidden');
@@ -483,7 +483,7 @@ $(document).ready(function(){
                 },
             });
          } else {
-            alert('Todos os campos são obrigatórios!');
+            alert('Preencha obrigatórios!');
          }
     });
     // FIM das regras de gravação de clientes
@@ -506,7 +506,7 @@ $(document).ready(function(){
         var crea       = $("#crea").val();
 
 
-        if (razao != '' && email != '' && tipo != ''  && cidade != '' && telefone != '' && endereco != '' && cep != '') {
+        if (razao != '') {
             $('#tipoError2').addClass('hidden');
             $('#tipoError').addClass('hidden');
             $('#tipoSuccess').addClass('hidden');
@@ -545,7 +545,7 @@ $(document).ready(function(){
                 },
             });
          } else {
-            alert('Todos os campos são obrigatórios!');
+            alert('Preencha os campos obrigatórios!');
          }
        
     });
@@ -567,7 +567,7 @@ $(document).ready(function(){
         var crea       = $("#crea").val();
         var id       = $("#id").val();
 
-       if (razao != '' && email != '' && tipo != ''  && cidade != '' && telefone != '' && endereco != '' && cep != '') {
+       if (razao != '') {
             $('#tipoError2').addClass('hidden');
             $('#tipoError').addClass('hidden');
             $('#tipoSuccess').addClass('hidden');
@@ -606,7 +606,7 @@ $(document).ready(function(){
                 },
             });
          } else {
-            alert('Todos os campos são obrigatórios!');
+            alert('Preencha os campos obrigatórios!');
          }
     });
     // FIM das regras de gravação de Contatos

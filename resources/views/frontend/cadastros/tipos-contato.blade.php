@@ -5,8 +5,8 @@
         $name_s = 'Tipo de Subetapa';
         $type = 'subetapa';
     }else{
-        $name = 'Categorias de Contatos';
-        $name_s = 'Categoria de Contato';
+        $name = 'Tipos de Contatos';
+        $name_s = 'Tipo de Contato';
         $type = 'contato';
     }
  ?>

@@ -14,7 +14,7 @@ if (isset($edicao)) {
 @if(!isset($edicao))
 {!! Breadcrumbs::render('Cadastros::obra.cadastro') !!}
 @else
-{!! Breadcrumbs::render('Cadastros::obra.editar') !!}
+{!! Breadcrumbs::render('Cadastros::obra.editar', $obra->id) !!}
 @endif
     <div class="row">
         <div class="col-lg-8">
@@ -82,22 +82,22 @@ if (isset($edicao)) {
                                 </div>
 
                                 <div class="form-group">
-                                    <label>Descrição <i style='color:red'>*</i> :</label>
+                                    <label>Descrição:</label>
                                     <input class="form-control" name="descricao" id="descricao" <?php if (isset($edicao)) echo 'value="' . $obra->descricao . '"' ?>>
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="cidade">Cidade <i style='color:red'>*</i> :</label>
+                                    <label for="cidade">Cidade:</label>
                                      <input class="form-control" id="cidade" name="cidade" <?php if (isset($edicao)) echo 'value="' . $obra->cidade . '"' ?>>
                                 </div>
 
                                 <div class="form-group">
-                                    <label>Endereço <i style='color:red'>*</i> :</label>
+                                    <label>Endereço:</label>
                                     <input class="form-control" name="endereco" id="endereco" <?php if (isset($edicao)) echo 'value="' . $obra->endereco . '"' ?>>
                                 </div>
 
                                 <div class="form-group">
-                                    <label>CEP <i style='color:red'>*</i> :</label>
+                                    <label>CEP:</label>
                                     <input class="form-control cep" name="cep" id="cep" <?php if (isset($edicao)) echo 'value="' . $obra->cep . '"' ?>>
                                 </div>
                                 @if(isset($edicao))
@@ -116,7 +116,7 @@ if (isset($edicao)) {
         </div>
         <!-- /.col-lg-4 -->
         <div class="col-lg-4 hidden" id="tipoLoading" style="margin-top:20px;background:rgba(0,0,0,0)">
-              <img style="width:10%;margin-left:45%" src="/img/ajax-loader.gif">
+              {{ Html::image('img/ajax-loader.gif', 'Loading...', array('class' => 'lodImg')) }}
         </div>
         <div class="col-lg-4 hidden" id="tipoSuccess">
             <div class="panel panel-green">

@@ -41,7 +41,7 @@
                             <tbody>
                             <?php foreach ($clientes as $cliente) {
                                 if(!isset($contato)){
-                                    if ($cliente->tipo == 0) {
+                                    if ($cliente->tipo == 1) {
                                         $tip = 'Física';
                                     } else {
                                         $tip = 'Jurídico';
@@ -66,12 +66,12 @@
                                     @if(isset($contato) && empty($cliente->razao))
                                     <a href="{{ url($type.'/'.$cliente->id) }}">
                                     @endif
-                                        <?=$cliente->fantasia;?>
+                                        <?php if(isset($cliente->fantasia)) echo $cliente->fantasia; ?>
                                     @if(isset($contato))
                                     </a>
                                     @endif
                                     </td>
-                                    <td class="telefone"><?=$cliente->fone;?></td>
+                                    <td class="telefone"><?php if(isset($cliente->fone)) echo $cliente->fone;?></td>
                                     <td class="text-center"><?=$tip;?></td>
                                      <td>
                                         <div class="text-center">
