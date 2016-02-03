@@ -9,6 +9,7 @@ use Pingpong\Modules\Routing\Controller;
 class GestorDeLotesController extends Controller {
 
 	public function index(Request $request) {
+
 		$lotes = Lote::all();
 		$obras = Obra::all()->lists('nome', 'id');
 
