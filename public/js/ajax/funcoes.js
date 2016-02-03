@@ -22,7 +22,7 @@ $(document).ready(function(){
             jQuery.ajax({
                 type: "POST",
                 data: {codigo:codigoEtapa, peso:peso,  obra_id:obraID, observacao:observacao},
-                url: "/etapa/gravar",
+                url: urlbaseGeral+"/etapa/gravar",
                 dataType: "html",
                 success: function(result){
                     if (result.substring(0,7) == 'sucesso') {
@@ -66,7 +66,7 @@ $(document).ready(function(){
             jQuery.ajax({
                 type: "POST",
                 data: {codigo:codigoEtapa, peso:peso,  obra_id:obraID, observacao:observacao, etapaID:etapaID},
-                url: "/etapa/update",
+                url: urlbaseGeral+"/etapa/update",
                 dataType: "html",
                 success: function(result){
                     if (result.substring(0,7) == 'sucesso') {
@@ -111,7 +111,7 @@ $(document).ready(function(){
             jQuery.ajax({
                 type: "POST",
                 data: {cod:cod, peso:peso,  etapa_id:etapa_id, observacao:observacao, tiposubetapa_id:tipo},
-                url: "/subetapa/gravar",
+                url: urlbaseGeral+"/subetapa/gravar",
                 dataType: "html",
                 success: function(result){
                     if (result.substring(0,7) == 'sucesso') {
@@ -156,7 +156,7 @@ $(document).ready(function(){
             jQuery.ajax({
                 type: "POST",
                 data: {cod:cod, peso:peso,  etapa_id:etapa_id, observacao:observacao, tiposubetapa_id:tipo,id:id},
-                url: "/subetapa/update",
+                url: urlbaseGeral+"/subetapa/update",
                 dataType: "html",
                 success: function(result){
                     if (result.substring(0,7) == 'sucesso') {
@@ -202,7 +202,7 @@ $(document).ready(function(){
             jQuery.ajax({
                 type: "POST",
                 data: {dados:data}, 
-                url: "/obra/gravar",
+                url: urlbaseGeral+"/obra/gravar",
                 dataType: "html",
                 success: function(result){
                     if (result.substring(0,7) == 'sucesso') {
@@ -249,7 +249,7 @@ $(document).ready(function(){
             jQuery.ajax({
                 type: "POST",
                 data: {dados:data}, 
-                url: "/obra/update",
+                url: urlbaseGeral+"/obra/update",
                 dataType: "html",
                 success: function(result){
                     if (result.substring(0,7) == 'sucesso') {
@@ -392,7 +392,7 @@ $(document).ready(function(){
             jQuery.ajax({
                 type: "POST",
                 data: {razao:razao,cidade:cidade, fantasia:fantasia, email:email, tipo:tipo, documento:documento, inscricao:inscricao, telefone:telefone, site:site, responsavel:responsavel, endereco:endereco, cep:cep},
-                url: "/cliente/gravar",
+                url: urlbaseGeral+"/cliente/gravar",
                 dataType: "html",
                 success: function(result){
                     if (result.substring(0,7) == 'sucesso') {
@@ -452,7 +452,7 @@ $(document).ready(function(){
             jQuery.ajax({
                 type: "POST",
                 data: {id:id, razao:razao, cidade:cidade, fantasia:fantasia, email:email, tipo:tipo, documento:documento, inscricao:inscricao, telefone:telefone, site:site, responsavel:responsavel, endereco:endereco, cep:cep},
-                url: "/cliente/update",
+                url: urlbaseGeral+"/cliente/update",
                 dataType: "html",
                 success: function(result){
                     if (result.substring(0,7) == 'sucesso') {
@@ -514,7 +514,7 @@ $(document).ready(function(){
             jQuery.ajax({
                 type: "POST",
                 data: {razao:razao, fantasia:fantasia, tipo_id:tipo, cidade:cidade, crea:crea, email:email, documento:documento, inscricao:inscricao, telefone:telefone, site:site, responsavel:responsavel, endereco:endereco, cep:cep},
-                url: "/contato/gravar",
+                url: urlbaseGeral+"/contato/gravar",
                 dataType: "html",
                 success: function(result){
                     if (result.substring(0,7) == 'sucesso') {
@@ -567,7 +567,7 @@ $(document).ready(function(){
         var crea       = $("#crea").val();
         var id       = $("#id").val();
 
-       if (fantasia != '' && email != '' && tipo != ''  && cidade != '' && telefone != '' && endereco != '' && cep != '') {
+       if (razao != '' && email != '' && tipo != ''  && cidade != '' && telefone != '' && endereco != '' && cep != '') {
             $('#tipoError2').addClass('hidden');
             $('#tipoError').addClass('hidden');
             $('#tipoSuccess').addClass('hidden');
@@ -575,7 +575,7 @@ $(document).ready(function(){
             jQuery.ajax({
                 type: "POST",
                 data: {id:id, razao:razao, cidade:cidade, crea:crea, fantasia:fantasia, email:email, tipo_id:tipo, documento:documento, inscricao:inscricao, telefone:telefone, site:site, responsavel:responsavel, endereco:endereco, cep:cep},
-                url: "/contato/update",
+                url: urlbaseGeral+"/contato/update",
                 dataType: "html",
                 success: function(result){
                     if (result.substring(0,7) == 'sucesso') {
@@ -626,7 +626,7 @@ $(document).ready(function(){
             jQuery.ajax({
                 type: "POST",
                 data: {descricao:descricao},
-                url: "/contato/tipo/gravar",
+                url: urlbaseGeral+"/contato/tipo/gravar",
                 dataType: "html",
                 success: function(result){
                     if (result.substring(0,7) == 'sucesso') {
@@ -665,7 +665,7 @@ $(document).ready(function(){
             jQuery.ajax({
                 type: "POST",
                 data: {descricao:descricao, id:id},
-                url: "/contato/tipo/update",
+                url: urlbaseGeral+"/contato/tipo/update",
                 dataType: "html",
                 success: function(result){
                     if (result.substring(0,7) == 'sucesso') {
@@ -707,7 +707,7 @@ $(document).ready(function(){
             jQuery.ajax({
                 type: "POST",
                 data: {descricao:descricao},
-                url: "/subetapa/tipo/gravar",
+                url: urlbaseGeral+"/subetapa/tipo/gravar",
                 dataType: "html",
                 success: function(result){
                     if (result.substring(0,7) == 'sucesso') {
@@ -746,7 +746,7 @@ $(document).ready(function(){
             jQuery.ajax({
                 type: "POST",
                 data: {descricao:descricao, id:id},
-                url: "/subetapa/tipo/update",
+                url: urlbaseGeral+"/subetapa/tipo/update",
                 dataType: "html",
                 success: function(result){
                     if (result.substring(0,7) == 'sucesso') {
@@ -1316,7 +1316,7 @@ $(document).ready(function(){
         $('#tipoLoading').removeClass('hidden');
         var idEtapa          = $(this).attr('name');
         $.ajax({
-          url: "/etapa/excluir",
+          url: urlbaseGeral+"/etapa/excluir",
           type: "POST",
           data: {id: idEtapa},
           dataType: "html",
@@ -1347,7 +1347,7 @@ $(document).ready(function(){
         $('#tipoLoading').removeClass('hidden');
         var idEtapa          = $(this).attr('name');
         $.ajax({
-          url: "/subetapa/excluir",
+          url: urlbaseGeral+"/subetapa/excluir",
           type: "POST",
           data: {id: idEtapa},
           dataType: "html",

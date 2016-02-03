@@ -2,7 +2,6 @@
 namespace Modules\Importador\Http\Controllers;
 
 
-use App\FileEntry;
 use Illuminate\Support\Facades\Storage;
 use Pingpong\Modules\Routing\Controller;
 use Illuminate\Http\Request;

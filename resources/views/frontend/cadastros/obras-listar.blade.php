@@ -49,7 +49,7 @@ if ($obra->status == 0) {
                                     </td>
                                     <td>
                                         <div class="text-center">
-                                             <a href="#" alt="Mudar Status" title="Mudar Status" style="text-decoration:none">
+                                             <a href="{{url('obra/status/'.$obra->id)}}" alt="Mudar Status" title="Mudar Status" style="text-decoration:none">
                                                 <i class="fa fa-refresh fa-fw"></i>
                                             </a>
                                             <a href="{{ url('obra/editar/'.$obra->id) }}" alt="Editar obra" title="Editar obra">

@@ -101,8 +101,10 @@ class ObrasController extends Controller
         $obraID = obr::create($dadinho);
         if(isset($obraID)){
             foreach($contes as $cano){
+                if($cano != 'Selecione...'){
                 $mario = array('obra_id' => $obraID->id, 'contato_id' => $cano);
                 $obra_contato = $obraID->contatos()->attach(1, $mario);
+            }
             }
             die('sucesso');
         }
@@ -153,6 +155,28 @@ class ObrasController extends Controller
         }
 
         die('erro');
+    }
+
+    public function editarStatus($id)
+    {
+        
+
+        $mudancaStatus = obr::find($id);
+        $status = $mudancaStatus->status;
+
+        if ($status == 0) {
+            $codStatus = 1;
+        } else {
+            $codStatus = 0;
+        }
+
+        $attributes = array(
+            'status'  => $codStatus
+        );
+
+        $change = obr::find($id)->update($attributes);
+
+       return redirect('obras');
     }
 
    

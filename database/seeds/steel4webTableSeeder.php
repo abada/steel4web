@@ -1,5 +1,4 @@
 <?php
-
 use App\Cliente;
 use App\Contato;
 use App\Estagio;
@@ -24,7 +23,6 @@ class Steel4webTablesSeeder extends Seeder {
 		if (env('DB_CONNECTION') == 'mysql') {
 			DB::statement('SET FOREIGN_KEY_CHECKS=0;');
 		}
-
 		if (env('DB_CONNECTION') == 'mysql') {
 			DB::table('clientes')->truncate();
 			DB::table('obras')->truncate();
@@ -37,7 +35,6 @@ class Steel4webTablesSeeder extends Seeder {
 			DB::table('handles')->truncate();
 			DB::table('importacoes')->truncate();
 		}
-
 		$faker = Faker::create('pt_BR');
 		$faker->addProvider(new \Faker\Provider\pt_BR\Person($faker));
 		$faker->addProvider(new \Faker\Provider\pt_BR\Address($faker));
@@ -46,12 +43,9 @@ class Steel4webTablesSeeder extends Seeder {
 		$faker->addProvider(new \Faker\Provider\pt_BR\Company($faker));
 		$faker->addProvider(new \Faker\Provider\Lorem($faker));
 		$faker->addProvider(new \Faker\Provider\Internet($faker));
-
 		$locatarios = Locatario::all();
 		foreach ($locatarios as $locatario) {
-
 			$user = $locatario->users->first();
-
 			// CLIENTE
 			$cliente_data = [
 				'razao' => $faker->company(),
@@ -68,9 +62,7 @@ class Steel4webTablesSeeder extends Seeder {
 				'locatario_id' => $locatario->id,
 			];
 			$cliente = Cliente::create($cliente_data);
-
 			echo "Cliente  '" . $cliente->fantasia . "'' criado com sucesso!\n";
-
 			$obra_data = array(
 				'codigo' => 001,
 				'nome' => 'TransVilmar',
@@ -83,11 +75,8 @@ class Steel4webTablesSeeder extends Seeder {
 				'user_id' => $user->id,
 				'locatario_id' => $locatario->id,
 			);
-
 			$obra = Obra::create($obra_data);
-
 			echo "Obra  '" . $obra->nome . "' criada com sucesso!\n";
-
 			// TiposContatos
 			$tipocontatos = array(
 				'descricao' => 'Construtora',
@@ -96,7 +85,6 @@ class Steel4webTablesSeeder extends Seeder {
 			);
 			$tipocontatos = TipoContato::create($tipocontatos);
 			echo "1 Tipos de Contatos adicionados com sucesso!\n";
-
 			$contato_data = [
 				'razao' => $faker->company(),
 				'fantasia' => $faker->company(),
@@ -117,7 +105,6 @@ class Steel4webTablesSeeder extends Seeder {
 			$contato = Contato::create($contato_data);
 			$contato->obras()->attach($obra->id);
 			echo "Contato  '" . $contato->fantasia . "'' vinculado a obra '" . $obra->nome . "'' com sucesso!\n";
-
 			$contato_data = [
 				'razao' => $faker->company(),
 				'fantasia' => $faker->company(),
@@ -138,7 +125,6 @@ class Steel4webTablesSeeder extends Seeder {
 			$contato = Contato::create($contato_data);
 			$contato->obras()->attach($obra->id);
 			echo "Contato  '" . $contato->fantasia . "'' vinculado a obra '" . $obra->nome . "'' com sucesso!\n";
-
 			$etapa_data = [
 				'codigo' => $faker->phoneNumber(),
 				'peso' => 10234,
@@ -148,9 +134,7 @@ class Steel4webTablesSeeder extends Seeder {
 				'locatario_id' => $locatario->id,
 			];
 			$etapa = Etapa::create($etapa_data);
-
 			echo "Etapa  " . $etapa->nome . " criada com sucesso!\n";
-
 			// TIPOSSUBETAPAS
 			$tiposubetapas = array(
 				'descricao' => 'Estrutura',
@@ -159,7 +143,6 @@ class Steel4webTablesSeeder extends Seeder {
 			);
 			$tiposubetapas = TipoSubetapa::create($tiposubetapas);
 			echo "1 Tipos de Subetapas adicionadas com sucesso!\n";
-
 			// SUBETAPAS
 			$subetapas = array(
 				array(
@@ -185,7 +168,6 @@ class Steel4webTablesSeeder extends Seeder {
 			echo "2 Subbetapas adicionadas com sucesso!\n";
 
 			$estagios = array(
-
 				array(
 					'descricao' => 'Engenharia',
 					'ordem' => 0,
@@ -193,7 +175,6 @@ class Steel4webTablesSeeder extends Seeder {
 					'user_id' => $user->id,
 					'locatario_id' => $locatario->id,
 				),
-
 				array(
 					'descricao' => 'PCP',
 					'ordem' => 1,
@@ -201,7 +182,6 @@ class Steel4webTablesSeeder extends Seeder {
 					'user_id' => $user->id,
 					'locatario_id' => $locatario->id,
 				),
-
 				array(
 					'descricao' => 'Preparação',
 					'ordem' => 2,
@@ -209,7 +189,6 @@ class Steel4webTablesSeeder extends Seeder {
 					'user_id' => $user->id,
 					'locatario_id' => $locatario->id,
 				),
-
 				array(
 					'descricao' => 'Gabarito',
 					'ordem' => 3,
@@ -217,7 +196,6 @@ class Steel4webTablesSeeder extends Seeder {
 					'user_id' => $user->id,
 					'locatario_id' => $locatario->id,
 				),
-
 				array(
 					'descricao' => 'Solda',
 					'ordem' => 4,
@@ -225,7 +203,6 @@ class Steel4webTablesSeeder extends Seeder {
 					'user_id' => $user->id,
 					'locatario_id' => $locatario->id,
 				),
-
 				array(
 					'descricao' => 'Pintura',
 					'ordem' => 5,
@@ -233,7 +210,6 @@ class Steel4webTablesSeeder extends Seeder {
 					'user_id' => $user->id,
 					'locatario_id' => $locatario->id,
 				),
-
 				array(
 					'descricao' => 'Expedição',
 					'ordem' => 6,
@@ -241,7 +217,6 @@ class Steel4webTablesSeeder extends Seeder {
 					'user_id' => $user->id,
 					'locatario_id' => $locatario->id,
 				),
-
 				array(
 					'descricao' => 'Montagem',
 					'ordem' => 7,
@@ -249,7 +224,6 @@ class Steel4webTablesSeeder extends Seeder {
 					'user_id' => $user->id,
 					'locatario_id' => $locatario->id,
 				),
-
 				array(
 					'descricao' => 'Entrega Final',
 					'ordem' => 8,
@@ -257,11 +231,9 @@ class Steel4webTablesSeeder extends Seeder {
 					'user_id' => $user->id,
 					'locatario_id' => $locatario->id,
 				),
-
 			);
 			$estagios = Estagio::insert($estagios);
 			echo count($estagios) . " Estágios adicionados!\n";
-
 			$importacao = array(
 				'descricao' => 'Mesa',
 				'cliente_id' => 1,
@@ -280,13 +252,10 @@ class Steel4webTablesSeeder extends Seeder {
 				'user_id' => $user->id,
 				'locatario_id' => $locatario->id,
 			);
-
 			$importacao = Importacao::create($importacao);
 			echo "1 Importacao inserida!\n";
-
 			/**/
 			$handles = array(
-
 				array(
 					'HANDLE' => 'D5',
 					'FLG_REC' => 3,
@@ -349,7 +318,6 @@ class Steel4webTablesSeeder extends Seeder {
 					'user_id' => $user->id,
 					'locatario_id' => $locatario->id,
 				),
-
 				array(
 					'HANDLE' => 110,
 					'FLG_REC' => 3,
@@ -412,7 +380,6 @@ class Steel4webTablesSeeder extends Seeder {
 					'user_id' => $user->id,
 					'locatario_id' => $locatario->id,
 				),
-
 				array(
 					'HANDLE' => '11A',
 					'FLG_REC' => 3,
@@ -475,7 +442,6 @@ class Steel4webTablesSeeder extends Seeder {
 					'user_id' => $user->id,
 					'locatario_id' => $locatario->id,
 				),
-
 				array(
 					'HANDLE' => 'CF',
 					'FLG_REC' => 3,
@@ -538,7 +504,6 @@ class Steel4webTablesSeeder extends Seeder {
 					'user_id' => $user->id,
 					'locatario_id' => $locatario->id,
 				),
-
 				array(
 					'HANDLE' => 'D5',
 					'FLG_REC' => 4,
@@ -601,7 +566,6 @@ class Steel4webTablesSeeder extends Seeder {
 					'user_id' => $user->id,
 					'locatario_id' => $locatario->id,
 				),
-
 				array(
 					'HANDLE' => 'D4',
 					'FLG_REC' => 4,
@@ -664,7 +628,6 @@ class Steel4webTablesSeeder extends Seeder {
 					'user_id' => $user->id,
 					'locatario_id' => $locatario->id,
 				),
-
 				array(
 					'HANDLE' => 110,
 					'FLG_REC' => 4,
@@ -727,7 +690,6 @@ class Steel4webTablesSeeder extends Seeder {
 					'user_id' => $user->id,
 					'locatario_id' => $locatario->id,
 				),
-
 				array(
 					'HANDLE' => '10F',
 					'FLG_REC' => 4,
@@ -790,7 +752,6 @@ class Steel4webTablesSeeder extends Seeder {
 					'user_id' => $user->id,
 					'locatario_id' => $locatario->id,
 				),
-
 				array(
 					'HANDLE' => 'EA',
 					'FLG_REC' => 4,
@@ -853,7 +814,6 @@ class Steel4webTablesSeeder extends Seeder {
 					'user_id' => $user->id,
 					'locatario_id' => $locatario->id,
 				),
-
 				array(
 					'HANDLE' => 'DC',
 					'FLG_REC' => 4,
@@ -916,7 +876,6 @@ class Steel4webTablesSeeder extends Seeder {
 					'user_id' => $user->id,
 					'locatario_id' => $locatario->id,
 				),
-
 				array(
 					'HANDLE' => 113,
 					'FLG_REC' => 4,
@@ -979,7 +938,6 @@ class Steel4webTablesSeeder extends Seeder {
 					'user_id' => $user->id,
 					'locatario_id' => $locatario->id,
 				),
-
 				array(
 					'HANDLE' => 112,
 					'FLG_REC' => 4,
@@ -1042,7 +1000,6 @@ class Steel4webTablesSeeder extends Seeder {
 					'user_id' => $user->id,
 					'locatario_id' => $locatario->id,
 				),
-
 				array(
 					'HANDLE' => 'D6',
 					'FLG_REC' => 4,
@@ -1105,7 +1062,6 @@ class Steel4webTablesSeeder extends Seeder {
 					'user_id' => $user->id,
 					'locatario_id' => $locatario->id,
 				),
-
 				array(
 					'HANDLE' => 111,
 					'FLG_REC' => 4,
@@ -1168,7 +1124,6 @@ class Steel4webTablesSeeder extends Seeder {
 					'user_id' => $user->id,
 					'locatario_id' => $locatario->id,
 				),
-
 				array(
 					'HANDLE' => '11A',
 					'FLG_REC' => 4,
@@ -1231,7 +1186,6 @@ class Steel4webTablesSeeder extends Seeder {
 					'user_id' => $user->id,
 					'locatario_id' => $locatario->id,
 				),
-
 				array(
 					'HANDLE' => 'CF',
 					'FLG_REC' => 4,
@@ -1294,7 +1248,6 @@ class Steel4webTablesSeeder extends Seeder {
 					'user_id' => $user->id,
 					'locatario_id' => $locatario->id,
 				),
-
 				array(
 					'HANDLE' => '11C',
 					'FLG_REC' => 4,
@@ -1357,7 +1310,6 @@ class Steel4webTablesSeeder extends Seeder {
 					'user_id' => $user->id,
 					'locatario_id' => $locatario->id,
 				),
-
 				array(
 					'HANDLE' => '11B',
 					'FLG_REC' => 4,
@@ -1420,7 +1372,6 @@ class Steel4webTablesSeeder extends Seeder {
 					'user_id' => $user->id,
 					'locatario_id' => $locatario->id,
 				),
-
 				array(
 					'HANDLE' => 115,
 					'FLG_REC' => 4,
@@ -1483,7 +1434,6 @@ class Steel4webTablesSeeder extends Seeder {
 					'user_id' => $user->id,
 					'locatario_id' => $locatario->id,
 				),
-
 				array(
 					'HANDLE' => 'F4',
 					'FLG_REC' => 4,
@@ -1546,7 +1496,6 @@ class Steel4webTablesSeeder extends Seeder {
 					'user_id' => $user->id,
 					'locatario_id' => $locatario->id,
 				),
-
 				array(
 					'HANDLE' => 119,
 					'FLG_REC' => 6,
@@ -1609,7 +1558,6 @@ class Steel4webTablesSeeder extends Seeder {
 					'user_id' => $user->id,
 					'locatario_id' => $locatario->id,
 				),
-
 				array(
 					'HANDLE' => NULL,
 					'FLG_REC' => 6,
@@ -1672,7 +1620,6 @@ class Steel4webTablesSeeder extends Seeder {
 					'user_id' => $user->id,
 					'locatario_id' => $locatario->id,
 				),
-
 				array(
 					'HANDLE' => NULL,
 					'FLG_REC' => 6,
@@ -1735,7 +1682,6 @@ class Steel4webTablesSeeder extends Seeder {
 					'user_id' => $user->id,
 					'locatario_id' => $locatario->id,
 				),
-
 				array(
 					'HANDLE' => NULL,
 					'FLG_REC' => 6,
@@ -1798,7 +1744,6 @@ class Steel4webTablesSeeder extends Seeder {
 					'user_id' => $user->id,
 					'locatario_id' => $locatario->id,
 				),
-
 				array(
 					'HANDLE' => NULL,
 					'FLG_REC' => 6,
@@ -1861,7 +1806,6 @@ class Steel4webTablesSeeder extends Seeder {
 					'user_id' => $user->id,
 					'locatario_id' => $locatario->id,
 				),
-
 				array(
 					'HANDLE' => NULL,
 					'FLG_REC' => 6,
@@ -1924,7 +1868,6 @@ class Steel4webTablesSeeder extends Seeder {
 					'user_id' => $user->id,
 					'locatario_id' => $locatario->id,
 				),
-
 				array(
 					'HANDLE' => NULL,
 					'FLG_REC' => 6,
@@ -1987,7 +1930,6 @@ class Steel4webTablesSeeder extends Seeder {
 					'user_id' => $user->id,
 					'locatario_id' => $locatario->id,
 				),
-
 				array(
 					'HANDLE' => NULL,
 					'FLG_REC' => 6,
@@ -2050,7 +1992,6 @@ class Steel4webTablesSeeder extends Seeder {
 					'user_id' => $user->id,
 					'locatario_id' => $locatario->id,
 				),
-
 				array(
 					'HANDLE' => NULL,
 					'FLG_REC' => 6,
@@ -2113,7 +2054,6 @@ class Steel4webTablesSeeder extends Seeder {
 					'user_id' => $user->id,
 					'locatario_id' => $locatario->id,
 				),
-
 				array(
 					'HANDLE' => NULL,
 					'FLG_REC' => 6,
@@ -2176,7 +2116,6 @@ class Steel4webTablesSeeder extends Seeder {
 					'user_id' => $user->id,
 					'locatario_id' => $locatario->id,
 				),
-
 				array(
 					'HANDLE' => NULL,
 					'FLG_REC' => 6,
@@ -2239,7 +2178,6 @@ class Steel4webTablesSeeder extends Seeder {
 					'user_id' => $user->id,
 					'locatario_id' => $locatario->id,
 				),
-
 				array(
 					'HANDLE' => NULL,
 					'FLG_REC' => 6,
@@ -2302,7 +2240,6 @@ class Steel4webTablesSeeder extends Seeder {
 					'user_id' => $user->id,
 					'locatario_id' => $locatario->id,
 				),
-
 				array(
 					'HANDLE' => NULL,
 					'FLG_REC' => 6,
@@ -2365,7 +2302,6 @@ class Steel4webTablesSeeder extends Seeder {
 					'user_id' => $user->id,
 					'locatario_id' => $locatario->id,
 				),
-
 				array(
 					'HANDLE' => NULL,
 					'FLG_REC' => 6,
@@ -2428,7 +2364,6 @@ class Steel4webTablesSeeder extends Seeder {
 					'user_id' => $user->id,
 					'locatario_id' => $locatario->id,
 				),
-
 				array(
 					'HANDLE' => NULL,
 					'FLG_REC' => 6,
@@ -2491,7 +2426,6 @@ class Steel4webTablesSeeder extends Seeder {
 					'user_id' => $user->id,
 					'locatario_id' => $locatario->id,
 				),
-
 				array(
 					'HANDLE' => NULL,
 					'FLG_REC' => 6,
@@ -2554,17 +2488,13 @@ class Steel4webTablesSeeder extends Seeder {
 					'user_id' => $user->id,
 					'locatario_id' => $locatario->id,
 				),
-
 			);
 			foreach ($handles as $handle) {
 				Handle::create($handle);
 				echo "    - Handle inserido!\n";
 			}
-
 			echo count($handles) . " Handles inseridos!\n";
-
 		}
-
 		if (env('DB_CONNECTION') == 'mysql') {
 			DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 		}

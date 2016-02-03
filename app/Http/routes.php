@@ -58,6 +58,8 @@ Route::post('obra/update', array('middleware' => 'admin', 'as' => 'obra/update',
 Route::get('obras', array('middleware' => 'admin', 'as' => 'obras', 'uses' => 'Cadastros\ObrasController@index'));
 //Perfil da Obra
 Route::get('obra/{id}', array('middleware' => 'admin', 'as' => 'obra', 'uses' => 'Cadastros\ObrasController@ver'));
+//Mudar Status
+Route::get('obra/status/{id}', array('middleware' => 'admin', 'as' => 'obra/status', 'uses' => 'Cadastros\ObrasController@editarStatus'));
 
 //END OBRAS
 

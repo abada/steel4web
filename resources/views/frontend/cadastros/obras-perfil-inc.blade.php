@@ -49,7 +49,7 @@
         <!-- /.panel -->
     </div>
     <?php } ?>
-
+    @if(isset($contatos))
    @foreach($contatos as $contato)
     <div class="col-lg-4">
         <div class="panel panel-padrao">
@@ -80,6 +80,7 @@
         <!-- /.panel -->
     </div>
    @endforeach
+   @endif
 
 </div>
 </div>

@@ -31,7 +31,7 @@ if (isset($edicao)) {
                                 <div class="form-group">
                                     <label>{{$tipo->descricao}}:</label>
                                     <select class="form-control" name="{{$tipo->id}}X95c55e5759335f81907e08fe999ed1f8X" id="{{$tipo->id}}">
-                                        <option>Selecione...</option>
+                                        <option value='Selecione...'>Selecione...</option>
                                         @foreach($contatos as $contato)
                                             @if(isset($contato->tipo->id))
                                                 @if($contato->tipo->id == $tipo->id)

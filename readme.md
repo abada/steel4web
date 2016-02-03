@@ -40,4 +40,4 @@ php artisan db:seed
         Locatário 2
             admin@locatario2.com    (Administrator)     senha 1234
             user@locatario2.com     (User)              senha 1234
-        ```  
+        ``` 
