@@ -54,18 +54,18 @@ class HandlesController extends Controller {
 		// 	$handles = $handles->get();
 		// }
 
-		$estagios = access()->user()->locatario->estagios->sortBy('ordem');
-
 		// if ($request->ajax()) {
 
 		$response = array();
 		$response['data'] = array();
+		$estagios = access()->user()->locatario->estagios->where('tipoestagio_id', 2)->sortBy('ordem');
 
 		foreach ($handles as $handle) {
 
-			// dd($handle->estagio);
+			//dd($handle->importacao->created_at);
 
-			$response['data'][] = [
+			// dd($handle->estagio);
+			$responsedata = array(
 				'id' => $handle->id,
 				'PROJETO' => $handle->PROJETO,
 				'HANDLE' => $handle->HANDLE,
@@ -115,12 +115,11 @@ class HandlesController extends Controller {
 				'obra_id' => $handle->obra_id,
 				'lote_id' => $handle->lote_id,
 				'lote' => ($handle->lote_id) ? $handle->lote->descricao : '',
-				'estagio' => $handle->estagio->descricao,
+				'estagio' => date('d/m/Y', strtotime($handle->importacao->created_at)), //$handle->estagio->descricao,
 				'GROUP' => $handle->GROUP,
 				'etapa_id' => $handle->etapa_id,
 				'CATE' => $handle->CATE,
 				'importacao_id' => $handle->importacao_id,
-				'medicao_id' => $handle->medicao_id,
 
 				// 'dataprojeto' => date('d/m/Y', strtotime($handle->importacao->data)),
 				// 'dataprev_pcp' => ($handle->conjuntoCronograma->dataprev_pcp) ? date('d/m/Y', strtotime($handle->conjuntoCronograma->dataprev_pcp)) : null,
@@ -133,7 +132,12 @@ class HandlesController extends Controller {
 				// 'dataprev_entrega' => ($handle->conjuntoCronograma->dataprev_entrega) ? date('d/m/Y', strtotime($handle->conjuntoCronograma->dataprev_entrega)) : null,
 
 				// 'status' => null,
-			];
+			);
+			foreach ($estagios as $estagio) {
+				$responsedata = array_merge($responsedata, ['ESTAGIO_' . $estagio->id => '(XXX)']);
+			}
+
+			$response['data'][] = $responsedata;
 		}
 
 		$response['current'] = $request->input('current', 1);

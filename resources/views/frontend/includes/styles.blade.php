@@ -4,7 +4,8 @@
 	<!-- Style of the extra panels and a bit of stuff -->
 	{{Html::style('css/panels.css')}}
 	<!-- Datatable with Bootstrap 3 -->
-	{{Html::style('css/datatables.min.css')}}
+	{{Html::style('plugins/datatables/datatables.min.css')}}
+
 	<!-- Editable with Bootstrap 3 -->
 	{{Html::style('plugins/editable/bootstrap-editable.css')}}
 	<!-- Font Awesome -->
