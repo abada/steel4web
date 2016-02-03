@@ -9,7 +9,9 @@ use App\Importacao;
 use App\Locatario;
 use App\Obra;
 use App\Subetapa;
+use App\TipoContato;
 use App\TipoEstagio;
+use App\TipoSubetapa;
 use Faker\Factory as Faker;
 use Illuminate\Database\Seeder;
 
@@ -27,8 +29,10 @@ class Steel4webTablesSeeder extends Seeder {
 		if (env('DB_CONNECTION') == 'mysql') {
 			DB::table('clientes')->truncate();
 			DB::table('obras')->truncate();
+			DB::table('tiposcontatos')->truncate();
 			DB::table('contatos')->truncate();
 			DB::table('etapas')->truncate();
+			DB::table('tipossubetapas')->truncate();
 			DB::table('subetapas')->truncate();
 			DB::table('estagios')->truncate();
 			DB::table('tiposestagios')->truncate();
@@ -86,10 +90,19 @@ class Steel4webTablesSeeder extends Seeder {
 
 			echo "Obra  '" . $obra->nome . "' criada com sucesso!\n";
 
+			// TiposContatos
+			$tipocontatos = array(
+				'descricao' => 'Construtora',
+				'user_id' => $user->id,
+				'locatario_id' => $locatario->id,
+			);
+			$tipocontatos = TipoContato::create($tipocontatos);
+			echo "1 Tipos de Contatos adicionados com sucesso!\n";
+
 			$contato_data = [
 				'razao' => $faker->company(),
 				'fantasia' => $faker->company(),
-				'tipo_id' => NULL,
+				'tipo_id' => $tipocontatos->id,
 				'documento' => NULL,
 				'inscricao' => NULL,
 				'fone' => $faker->phoneNumber(),
@@ -140,12 +153,21 @@ class Steel4webTablesSeeder extends Seeder {
 
 			echo "Etapa  " . $etapa->nome . " criada com sucesso!\n";
 
+			// TIPOSSUBETAPAS
+			$tiposubetapas = array(
+				'descricao' => 'Estrutura',
+				'user_id' => $user->id,
+				'locatario_id' => $locatario->id,
+			);
+			$tiposubetapas = TipoSubetapa::create($tiposubetapas);
+			echo "1 Tipos de Subetapas adicionadas com sucesso!\n";
+
 			// SUBETAPAS
 			$subetapas = array(
 				array(
 					'cod' => 'SUB-001',
 					'peso' => '5500',
-					'tiposubetapa_id' => NULL,
+					'tiposubetapa_id' => $tiposubetapas->id,
 					'observacao' => 'Nada',
 					'etapa_id' => $etapa->id,
 					'user_id' => $user->id,
@@ -2550,7 +2572,9 @@ class Steel4webTablesSeeder extends Seeder {
 				),
 
 			);
-			Handle::insert($handles);
+			foreach ($handles as $handle) {
+				Handle::create($handle);
+			}
 
 			echo count($handles) . " Handles inseridos!\n";
 
