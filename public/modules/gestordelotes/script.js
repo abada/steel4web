@@ -175,7 +175,26 @@ $(document).ready(function($) {
         },
         scrollX: true,
         responsive: true,
-        columns: columns,
+        columns: columns, //columns vem por js        
+        select: {
+            style:    'multi',
+            selector: 'tr'
+        },
+        rowCallback: function( row, data ) {
+                
+            if ( $.inArray( String(data.id), selected) !== -1 ) {
+                $(row).addClass('selected');
+            }
+        }
+    })
+    .on('preXhr.dt', function ( e, settings, data ) {
+        $('.loading.hidden').removeClass('hidden');
+    })
+    .on('xhr.dt', function ( e, settings, json, xhr ) {
+        $('.loading').addClass('hidden');
+    })
+    .on( 'select', function ( e, dt, type, indexes ) {
+        handlesGrid[ type ]( indexes ).nodes().to$().addClass( 'selected' );
     });
 
     // var handlesGrid = $('#handlesGrid').DataTable({

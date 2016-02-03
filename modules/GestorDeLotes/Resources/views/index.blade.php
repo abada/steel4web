@@ -1,11 +1,52 @@
 @extends('frontend.layouts.master')
+@section('styles')
+
+	<!-- DATATABLES BOOTSTRAP CSS-->
+	{{Html::style('css/datatables/dataTables.bootstrap.min.css')}}
+	{{Html::style('css/datatables/select.dataTables.min.css')}}
+	<style>
+		div.dataTables_wrapper {
+			width: 100%;
+			margin: 0 auto;
+		}
+		/* Loading */
+		.loading {
+			width: 32px;
+			height: 32px;
+			clear: both;
+			margin: auto;
+			border: 4px rgba(51,51,51,0.25) solid;
+			border-top: 4px rgba(51,51,51,1) solid;
+			border-radius: 50%;
+			-webkit-animation: loadingAnimation .6s infinite linear;
+			animation: loadingAnimation .6s infinite linear;
+		}
+		@-webkit-keyframes loadingAnimation {
+			from { -webkit-transform: rotate(0deg); }
+			to { -webkit-transform: rotate(359deg); }
+		}
+		@keyframes loadingAnimation {
+			from { transform: rotate(0deg); }
+			to { transform: rotate(359deg); }
+		}
+
+
+		/*.sidebar ul li {
+		    border-bottom: 1px solid #e7e7e7;
+		}
+		.sidebar ul li a.active {
+		    background-color: #eee;
+		}*/
+	</style>
+
+@stop
 @section('content')
 
 {!! Breadcrumbs::render('GestorDeLotes::conjuntos') !!}
 
-<div class="panel panel-default">
+<div class="panel panel-padrao">
 	<!-- Default panel contents -->
-	<div class="panel-heading">
+	<div class="panel-heading text-uppercase">
 		Gestor de Lotes
 	</div>
 
@@ -44,13 +85,13 @@
 				{{ Form::select('importacao', [""=>""], old('importacao_id'), ['id'=>"inputImportacao", 'class'=>"form-control", 'required'=>"required"]) }}
 			</div>
 
-			<div class="form-group inputGrouped hidden">
+			<!-- <div class="form-group inputGrouped hidden">
 				<div class="checkbox">
 					<label>
 						<input type="checkbox" id="inputGrouped" value="true" name="grouped" checked> Agrupado
 					</label>
 				</div>
-			</div>
+			</div> -->
 			<a id="getHandles" class="btn btn-default hidden">Carregar</a>
 			<div class="form-group">
 				<div class="loading hidden"></div>
@@ -100,17 +141,6 @@
 						<th>{{ $estagio->descricao }}</th>
 					@endforeach
 
-					<!-- <th>Estágio</th> -->
-					<!-- <th>PCP</th>
-					<th>Preparação</th>
-					<th>Gabarito</th>
-					<th>Solda</th>
-					<th>Pintura</th>
-					<th>Expedição</th>
-					<th>Montagem</th>
-					<th>Entrega</th>
-					<th>Status</th>
-					<th>#</th> -->
 				</tr>
 			</thead>
 			<tbody>
@@ -136,39 +166,13 @@
 @stop
 
 @section('scripts')
-<script src="{{ asset('modules/'.Module::find('GestorDeLotes')->getLowerName().'/script.js') }}"></script>
-<style>
-	div.dataTables_wrapper {
-		width: 100%;
-		margin: 0 auto;
-	}
-	/* Loading */
-	.loading {
-		width: 32px;
-		height: 32px;
-		clear: both;
-		margin: auto;
-		border: 4px rgba(51,51,51,0.25) solid;
-		border-top: 4px rgba(51,51,51,1) solid;
-		border-radius: 50%;
-		-webkit-animation: loadingAnimation .6s infinite linear;
-		animation: loadingAnimation .6s infinite linear;
-	}
-	@-webkit-keyframes loadingAnimation {
-		from { -webkit-transform: rotate(0deg); }
-		to { -webkit-transform: rotate(359deg); }
-	}
-	@keyframes loadingAnimation {
-		from { transform: rotate(0deg); }
-		to { transform: rotate(359deg); }
-	}
 
+<!-- DATATABLES JS -->
+{{-- Html::script('plugins/datatables/jquery.datatables.min.js') --}}
+<!-- DATATABLES BOOTSTRAP JS -->
 
-	/*.sidebar ul li {
-	    border-bottom: 1px solid #e7e7e7;
-	}
-	.sidebar ul li a.active {
-	    background-color: #eee;
-	}*/
-</style>
+{{ Html::script('plugins/datatables.bkp/dataTables.select.min.js') }}
+
+{{ Html::script('modules/'.Module::find('GestorDeLotes')->getLowerName().'/script.js') }}
+
 @stop
