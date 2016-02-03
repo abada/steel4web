@@ -52,8 +52,6 @@
 
 	<div class="panel-body">
 
-		<pre><?php print_r(access()->user()->email)?><br><?php print_r(access()->user()->locatario->id)?></pre>
-
 		<!-- Nav tabs -->
 		<ul class="nav nav-tabs">
 			<li class="active">
@@ -169,7 +167,7 @@
 {{-- Html::script('plugins/datatables/jquery.datatables.min.js') --}}
 <!-- DATATABLES BOOTSTRAP JS -->
 
-{{ Html::script('plugins/datatables.bkp/dataTables.select.min.js') }}
+{{ Html::script('plugins/datatables/dataTables.select.min.js') }}
 
 {{ Html::script('modules/'.Module::find('GestorDeLotes')->getLowerName().'/script.js') }}
 
