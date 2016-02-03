@@ -53,9 +53,9 @@ $(document).ready(function($) {
             .done(function(data) {
                 $('#inputEtapa').html('');
                 $('.loading').addClass('hidden');
-                $('.inputetapa.hidden, .inputGrouped.hidden, #getHandles.hidden').removeClass('hidden');
+                $('.inputetapa.hidden').removeClass('hidden');
 
-                $('#inputEtapa').append('<option>-- Selecione uma etapa --</option>');
+                $('#inputEtapa').append('<option>-- Selecione a etapa --</option>');
                 $.each(data, function(index, val) {
                     $('#inputEtapa').append('<option value="' + val.id + '">' + val.codigo + '</option>');
                 });
@@ -90,8 +90,9 @@ $(document).ready(function($) {
             .done(function(data) {
                 $('#inputSubetapa').html('');
                 $('.loading').addClass('hidden');
-                $('.inputsubetapa.hidden, .inputGrouped.hidden, #getHandles.hidden').removeClass('hidden');
+                $('.inputsubetapa.hidden').removeClass('hidden');
 
+                $('#inputSubetapa').append('<option>-- Selecione a subetapa --</option>');
                 $.each(data, function(index, val) {
                     $('#inputSubetapa').append('<option value="' + val.id + '">' + val.cod + '</option>');
                 });
@@ -107,6 +108,7 @@ $(document).ready(function($) {
     $('#inputSubetapa').change(function(event) {
         // LOAD TABLE
         var url = urlbase + '/api/obras/' + $('#inputObra').val() + '/etapas/' + $('#inputEtapa').val() + '/subetapas/' + $(this).val() + '/importacoes';
+        $('#getHandles.hidden').removeClass('hidden');
 
     });
 
