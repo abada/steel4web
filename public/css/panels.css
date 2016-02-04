@@ -3,6 +3,16 @@
     margin-left: 10px !important;
     margin-bottom: 5px !important;
 }
+.navbar-nav>.user-menu>.dropdown-menu>.user-footer{
+    background-color:#222222 !important;
+}
+.navbar-nav>.user-menu>.dropdown-menu>.user-footer .btn-default{
+    background-color: #FFFFFF;
+}
+.navbar-nav>.user-menu>.dropdown-menu>.user-body{
+    border: 1px solid #222 !important;
+    border-radius: 0 !important;
+}
 
 .lodImg{
     width:10%;

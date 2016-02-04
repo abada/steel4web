@@ -122,17 +122,17 @@
                     </p>
                   </li>
                   <!-- Menu Body -->
-                  	@permission('view-backend')
+            <!--       	@permission('view-backend')
 						<li class="user-body text-center"><a href="{!! route('admin.dashboard') !!}"><i class="fa fa-lock"></i> Administração</a></li>
-					@endauth
+					@endauth -->
 
                   <li class="user-body">
                     <div class="col-xs-4 text-center">
-                      @if(access()->user())
+                     @if(access()->user())
                       	@if (access()->user()->canChangePassword())
             							<a href="{!! route('auth.password.change') !!}"><i class="fa fa-key fa-fw"></i> Aterar senha</a>
             						@endif
-                      @endif
+                      @endif 
                     </div>
                     <div class="col-xs-4 text-center">
                       <a href="#">???</a>

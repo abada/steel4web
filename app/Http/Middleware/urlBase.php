@@ -15,8 +15,9 @@ class UrlBase
   public function handle($request, Closure $next)
     {
         JavaScript::put([
-        'urlbase' => env("APP_URL")
-    ]);
+        'urlbaseGeral' => env("APP_URL")
+   		 ]);
+        return $next($request);
 
     }
 }
