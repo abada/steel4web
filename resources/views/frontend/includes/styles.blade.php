@@ -5,6 +5,7 @@
 	{{Html::style('css/panels.css')}}
 	<!-- Datatable with Bootstrap 3 -->
 	{{Html::style('plugins/datatables/datatables.min.css')}}
+	{{Html::style('css/datatables/dataTables.bootstrap.min.css')}}
 
 	<!-- Editable with Bootstrap 3 -->
 	{{Html::style('plugins/editable/bootstrap-editable.css')}}
@@ -18,7 +19,10 @@
      folder instead of downloading all of them to reduce the load. -->
 	{{Html::style('css/skins/_all-skins.min.css')}}
 
+	<!-- Bootstrap Select -->
+	{{Html::style('css/bootstrap-select.min.css')}}
 
+	<!-- Main Styles -->
 	{{Html::style('css/style.css')}}
 
 
