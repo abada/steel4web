@@ -27,8 +27,7 @@ class HandlesController extends Controller {
 
 		$handles = $handle->where('obra_id', $obra_id)
 			->where('etapa_id', $etapa_id)
-			->where('subetapa_id', $subetapa_id)
-			->where('FLG_REC', $flg_rec);
+			->where('subetapa_id', $subetapa_id);
 
 		// $handles = $handle->join($cronograma->getTable() . ' as cronograma', 'cronograma.fkpeca', '=', $handle->getTable() . '.id')
 		// 	->where($handle->getTable() . '.obra', $obra_id)
@@ -38,26 +37,27 @@ class HandlesController extends Controller {
 		// 	->select($handle->getTable() . '.*') // just to avoid fetching anything from joined table
 		// 	->with('lote'); // if you need options data anyway
 
-		// if ($request->input('grouped')) {
-
-		if ($flg_rec == 3) {
-			// Grouped ...
-			$handles = $handles->groupBy('MAR_PEZ')
-				->select($handle->getTable() . '.*', DB::raw('SUM(QTA_PEZ) as QTA_PEZ'))
-				->get();
-		} else {
+		if ($request->input('ungrouped')) {
 			$handles = $handles->get();
-			// Grouped ...
-			// $handles = $handles->groupBy('POS_PEZ')
-			// 	->select($handle->getTable() . '.*', DB::raw('SUM(QTA_PEZ) as QTA_PEZ'))
-			// 	->get();
+		} else {
+			if ($flg_rec == 3) {
+				// Grouped ...
+				$handles = $handles->where('FLG_REC', 3)
+					->groupBy('MAR_PEZ')
+					->select($handle->getTable() . '.*', DB::raw('SUM(QTA_PEZ) as QTA_PEZ'))
+					->get();
+			} else {
+				// Grouped ...
+				$handles = $handles->where('FLG_REC', 4)
+					->groupBy('POS_PEZ')
+					->select($handle->getTable() . '.*', DB::raw('SUM(QTA_PEZ) as QTA_PEZ'))
+					->get();
+			}
 		}
 
-		// } else {
-		// 	$handles = $handles->get();
-		// }
-
 		// if ($request->ajax()) {
+
+		// dd($handles);
 
 		$response = array();
 		$response['data'] = array();
@@ -99,7 +99,7 @@ class HandlesController extends Controller {
 				'MCL_PEZ' => $handle->MCL_PEZ,
 				'COD_PEZ' => $handle->COD_PEZ,
 				'COS_PEZ' => $handle->COS_PEZ,
-				'NOM_PRO' => $handle->NOM_PRO,
+				'NOM_PRO' => (null !== $handle->NOM_PRO) ? $handle->NOM_PRO : '',
 				'LUN_PRO' => $handle->LUN_PRO,
 				'LAR_PRO' => $handle->LAR_PRO,
 				'SPE_PRO' => $handle->SPE_PRO,

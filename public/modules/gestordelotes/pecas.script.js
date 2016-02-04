@@ -9,6 +9,7 @@ $(document).ready(function($) {
                     d.obra = $('#inputObra').val();
                     d.etapa = $('#inputEtapa').val();
                     d.subetapa = $('#inputSubetapa').val();
+                    d.flg_rec = $('#inputFlg_rec').val();
                 }
             },
             scrollX: true,

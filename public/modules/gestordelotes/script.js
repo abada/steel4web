@@ -8,6 +8,13 @@ $(document).ready(function($) {
         defaultContent: "",
         className: "select-checkbox",
         orderable: true
+    },{
+        data: function(data, type, full) {
+            if (type === 'display') {
+                return '<input type="number" name="qtd" class="form-control input-sm" value="" min="0" max="'+data.QTA_PEZ+'" step="1" title="">';
+            }
+            return null;
+        }
     }, {
         data: "QTA_PEZ"
     }, {
@@ -50,7 +57,7 @@ $(document).ready(function($) {
             columns: colunas,
             select: {
                 style: 'multi',
-                selector: 'tr'
+                selector: 'tr td.select-checkbox'
             },
             rowCallback: function(row, data) {
 
@@ -90,7 +97,8 @@ $(document).ready(function($) {
                 $('#inputEtapa').append('<option>-- Selecione a etapa --</option>');
                 $.each(data, function(index, val) {
                     $('#inputEtapa').append('<option value="' + val.id + '">' + val.codigo + '</option>');
-                });
+                });                
+
             })
             .fail(function() {
 
@@ -127,7 +135,7 @@ $(document).ready(function($) {
                 $('#inputSubetapa').append('<option>-- Selecione a subetapa --</option>');
                 $.each(data, function(index, val) {
                     $('#inputSubetapa').append('<option value="' + val.id + '">' + val.cod + '</option>');
-                });
+                });                
             })
             .fail(function() {
 
@@ -140,7 +148,7 @@ $(document).ready(function($) {
     $('#inputSubetapa').change(function(event) {
         // LOAD TABLE
         var url = urlbase + '/api/obras/' + $('#inputObra').val() + '/etapas/' + $('#inputEtapa').val() + '/subetapas/' + $(this).val() + '/importacoes';
-        $('#getHandles.hidden').removeClass('hidden');
+        $('#getHandles.hidden').removeClass('hidden');        
 
     });
 
