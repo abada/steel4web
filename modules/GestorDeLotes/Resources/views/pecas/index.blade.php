@@ -93,7 +93,7 @@
 		<table class="table table-hover stripe" id="handlesGrid" cellspacing="0" width="100%">
 			<thead>
 				<tr>
-					<th>Import.</th>
+					<th width="70">Importação</th>
 					<th>Peça</th>
 					<th>Qtd.</th>
 					<th width="150">Categoria</th>

@@ -50,10 +50,35 @@
 		Gestor de Lotes
 	</div>
 
+	{{ Form::open(['url'=>url('/gestordelotes'),  'method'=>"POST", 'class'=>"form-inline", 'role'=>"form", "id" => "createLoteForm"]) }}
 	<div class="panel-body">
 
 		<!-- Nav tabs -->
 		<ul class="nav nav-tabs">
+
+			<div class="form-group pull-right loteOptions hidden">
+				<label>Operações de Lote: </label>
+
+				<a id="criarlote" class="btn btn-primary" data-toggle="modal" data-target="#modal">Criar Lote</a>
+
+				<!-- Single dropdown -->
+				<div class="btn-group">
+					<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						Associar ao Lote <span class="caret"></span>
+					</button>
+					<ul class="dropdown-menu" id="lotes">
+						@foreach ($lotes as $lote)
+						<li><a href="#">{{ $lote->descricao }}</a></li>
+						@endforeach
+					</ul>
+				</div>
+
+				<a id="removerlote" class="btn btn-primary">Remover do Lote</a>
+				<a id="removerpeca" class="btn btn-primary">Remover Peça do Lote</a>
+				<a id="enviarlote" class="btn btn-success">Enviar para Produção <i class="fa fa-arrow-circle-right"></i></a>
+
+			</div>
+
 			<li class="active">
 				<a>Conjuntos</a>
 			</li>
@@ -65,11 +90,10 @@
 
 	<nav class="navbar navbar-static-top" role="navigation">
 
-		{{ Form::open(['url'=>url('/gestordelotes'),  'method'=>"POST", 'class'=>"form-inline", 'role'=>"form", "id" => "createLoteForm"]) }}
 		<div class="navbar-form navbar-left">
 			<div class="form-group">
 				<label class="" for="inputObra">Obra: </label>
-				{{ Form::select('obra', $obras, old('obra_id'), ['id'=>"inputObra", 'class'=>"form-control", 'required'=>"required"]) }}
+				{{ Form::select('obra', $obras, old('obra_id', NULL), ['id'=>"inputObra", 'class'=>"form-control", 'required'=>"required"] ) }}
 			</div>
 
 			<div class="form-group inputetapa hidden">
@@ -93,36 +117,14 @@
 				<div class="loading hidden"></div>
 			</div>
 		</div>
-		<div class="navbar-form navbar-left loteOptions hidden">
-			<div class="form-group">
-				<label>Operações de Lote: </label>
 
-				<a id="criarlote" class="btn btn-primary" data-toggle="modal" data-target="#modal">Criar Lote</a>
-
-				<!-- Single dropdown -->
-				<div class="btn-group">
-					<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						Associar ao Lote <span class="caret"></span>
-					</button>
-					<ul class="dropdown-menu" id="lotes">
-						@foreach ($lotes as $lote)
-						<li><a href="#">{{ $lote->descricao }}</a></li>
-						@endforeach
-					</ul>
-				</div>
-
-				<a id="removerlote" class="btn btn-primary">Remover do Lote</a>
-				<a id="removerpeca" class="btn btn-primary">Remover Peça do Lote</a>
-				<a id="enviarlote" class="btn btn-success">Enviar para Produção <i class="fa fa-arrow-circle-right"></i></a>
-
-			</div>
-		</div>
-		{{ Form::close() }}
 	</nav>
+	{{ Form::close() }}
 	<div class="panel-body">
 		<table class="table table-hover stripe" id="handlesGrid" cellspacing="0" width="100%">
 			<thead>
 				<tr>
+					<th></th>
 					<th></th>
 					<th>Qtd.</th>
 					<th>Import.</th>
@@ -141,6 +143,7 @@
 			</thead>
 			<tbody>
 				<tr>
+					<td></td>
 					<td></td>
 					<td></td>
 					<td></td>
