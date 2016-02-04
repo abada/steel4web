@@ -2,18 +2,14 @@
 
 @section ('title', trans('labels.backend.access.users.management') . ' | ' . trans('labels.backend.access.users.create'))
 
-@section('page-header')
-    <h1>
-        {{ trans('labels.backend.access.users.management') }}
-        <small>{{ trans('labels.backend.access.users.create') }}</small>
-    </h1>
-@endsection
+
 
 @section('content')
+{!! Breadcrumbs::render('Users::create') !!}
     {!! Form::open(['route' => 'admin.access.users.store', 'class' => 'form-horizontal', 'role' => 'form', 'method' => 'post']) !!}
 
-        <div class="box box-success">
-            <div class="box-header with-border">
+        <div class="box">
+            <div class="box-header with-border bg-padrao">
                 <h3 class="box-title">{{ trans('labels.backend.access.users.create') }}</h3>
 
                 <div class="box-tools pull-right">
@@ -103,10 +99,11 @@
                 </div><!--form control-->
 
                 <div class="form-group">
+                    <input type="hidden" name='locatario_id' value='{{access()->user()->locatario_id}}'>
                     <label class="col-lg-2 control-label">{{ trans('validation.attributes.backend.access.users.other_permissions') }}</label>
                     <div class="col-lg-10">
                         <div class="alert alert-info">
-                            <i class="fa fa-info-circle"></i> {{ trans('labels.backend.access.users.permission_check') }}
+                            <i class="fa fa-info-circle"></i> {{ '&nbsp;Permissões adicionais serão somadas as previamentes conferidas pelos Papéis Associados ao Usuário.' }}
                         </div><!--alert-->
 
                         @if (count($permissions))
@@ -150,26 +147,22 @@
                         @endif
                     </div><!--col 3-->
                 </div><!--form control-->
-            </div><!-- /.box-body -->
-        </div><!--box-->
-
-        <div class="box box-info">
-            <div class="box-body">
-                <div class="pull-left">
-                    <a href="{{route('admin.access.users.index')}}" class="btn btn-danger btn-xs">{{ trans('buttons.general.cancel') }}</a>
+                 <div class="pull-left">
+                    <a href="{{route('admin.access.users.index')}}" style='margin-left:10px' class="btn btn-primary"><< Voltar</a>
                 </div>
 
                 <div class="pull-right">
-                    <input type="submit" class="btn btn-success btn-xs" value="{{ trans('buttons.general.crud.create') }}" />
+                    <input type="submit" class="btn btn-primary" style='margin-right:10px' value="Criar Usuário" />
                 </div>
-                <div class="clearfix"></div>
             </div><!-- /.box-body -->
         </div><!--box-->
 
-    {!! Form::close() !!}
-@stop
+               
+                <div class="clearfix"></div>
 
-@section('after-scripts-end')
-    {!! Html::script('js/backend/access/permissions/script.js') !!}
-    {!! Html::script('js/backend/access/users/script.js') !!}
+    {!! Form::close() !!}
+@endsection
+
+@section('scripts')
+    {!! Html::script('js/user/script.js') !!}
 @stop

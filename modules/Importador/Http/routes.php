@@ -1,6 +1,6 @@
 <?php
 
-Route::group(['middleware' => 'admin', 'prefix' => 'importador', 'namespace' => 'Modules\Importador\Http\Controllers'], function()
+Route::group(['middleware' => 'importador', 'prefix' => 'importador', 'namespace' => 'Modules\Importador\Http\Controllers'], function()
 {
 	Route::get('/', 'ImportadorController@index')->name('importador');
 	Route::post('etapas', 'ImportadorController@getEtapas')->name('importador.etapas');

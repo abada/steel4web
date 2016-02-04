@@ -3,67 +3,62 @@
 @section('content')
     <div class="row">
 
-        <div class="col-md-10 col-md-offset-1">
+        <div class="col-md-12">
 
-            <div class="panel panel-padrao">
-                <div class="panel-heading">{{ trans('navs.frontend.dashboard') }}</div>
+           <div class="box box-widget widget-user">
+                <!-- Add the bg color to the header using any of the bg-* classes -->
+                <div class="widget-user-header bg-black" style="background: url({{ asset('img/capa.jpg')}}) center no-repeat;background-size: cover">
+                  <h3 class="widget-user-username"><span  style=' background-color:rgba(0,0,0,0.6);padding:10px'>{{access()->user()->locatario->razao}}</span></h3>
+                  <h5 class="widget-user-desc" style='margin-top:19.5px'>
+                    @if(!empty(access()->user()->locatario->fantasia))
+                    <span  style=' background-color:rgba(0,0,0,0.4);padding:5px'>{{access()->user()->locatario->fantasia}}</span>
+                    @endif
+                </h5>
+                </div>
+                <div class="widget-user-image">
+                  <img class="img-circle" src="{{ asset('img/1234.jpg') }}" alt="User Avatar">
+                </div>
+                <div class="box-footer">
+                  <div class="row">
+                    <div class="col-sm-4 border-right">
+                      <div class="description-block">
+                        <h5 class="description-header">Membro Desde</h5>
+                        <span class="description-text">{!! date('d/m/Y',strtotime($user->created_at)) !!}</span>
+                      </div><!-- /.description-block -->
+                    </div><!-- /.col -->
+                    <div class="col-sm-4 border-right">
+                      <div class="description-block">
+                        <h5 class="description-header" style='font-size:18px !important;padding-bottom:5px'>{!! $user->name !!}</h5>
+                        <span class="description-text">{{access()->user()->roles->first()->name}}</span>
+                      </div><!-- /.description-block -->
+                    </div><!-- /.col -->
+                    <div class="col-sm-4">
+                      <div class="description-block">
+                        <h5 class="description-header">Email</h5>
+                    <span>{!! $user->email !!}</span>
+                      </div><!-- /.description-block -->
+                    </div><!-- /.col -->
+                  </div><!-- /.row -->
+                </div>
+                <hr>
+                <div class="box-body">
 
-                <div class="panel-body">
-                    <div role="tabpanel">
+                    <a href="{!! route('frontend.user.perfil.editar') !!}" class="btn btn-primary">{{ trans('labels.frontend.user.profile.edit_information') }}</a>
 
-                        <!-- Nav tabs -->
-                        <ul class="nav nav-tabs" role="tablist">
-                            <li role="presentation" class="active">
-                                <a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">{{ trans('navs.frontend.user.my_information') }}</a>
-                            </li>
-                        </ul>
+                    @if ($user->canChangePassword())
+                        <a href="{!! route('auth.password.change') !!}" style='float:right' class="btn btn-primary">{{ trans('navs.frontend.user.change_password') }}</a>
+                    @endif
 
-                        <div class="tab-content">
-
-                            <div role="tabpanel" class="tab-pane active" id="profile">
-                                <table class="table table-striped table-hover table-bordered dashboard-table">
-                                    <tr>
-                                        <th>{{ trans('labels.frontend.user.profile.avatar') }}</th>
-                                        <td><img src="{{ asset('img/avatar.png') }}" class="user-profile-image" /></td>
-                                    </tr>
-                                    <tr>
-                                        <th>{{ trans('labels.frontend.user.profile.name') }}</th>
-                                        <td>{!! $user->name !!}</td>
-                                    </tr>
-                                    <tr>
-                                        <th>{{ trans('labels.frontend.user.profile.email') }}</th>
-                                        <td>{!! $user->email !!}</td>
-                                    </tr>
-                                    <tr>
-                                        <th>{{ trans('labels.frontend.user.profile.created_at') }}</th>
-                                        <td>{!! $user->created_at !!} ({!! $user->created_at->diffForHumans() !!})</td>
-                                    </tr>
-                                    <tr>
-                                        <th>{{ trans('labels.frontend.user.profile.last_updated') }}</th>
-                                        <td>{!! $user->updated_at !!} ({!! $user->updated_at->diffForHumans() !!})</td>
-                                    </tr>
-                                    <tr>
-                                        <th>{{ trans('labels.general.actions') }}</th>
-                                        <td>
-                                            <a href="{!! route('frontend.user.profile.edit') !!}" class="btn btn-primary btn-xs">{{ trans('labels.frontend.user.profile.edit_information') }}</a>
-
-                                            @if ($user->canChangePassword())
-                                                <a href="{!! route('auth.password.change') !!}" class="btn btn-warning btn-xs">{{ trans('navs.frontend.user.change_password') }}</a>
-                                            @endif
-                                        </td>
-                                    </tr>
-                                </table>
-                            </div><!--tab panel profile-->
-
-                        </div><!--tab content-->
-
-                    </div><!--tab panel-->
-
-                </div><!--panel body-->
-
-            </div><!-- panel -->
+                </div>
+              </div><!-- /.widget-user -->
 
         </div><!-- col-md-10 -->
-
+    <div class="pull-left">
+                <a href="javascript:history.back()" style='margin-left:10px' class="btn btn-primary"><< Voltar</a>
+            </div>
     </div><!-- row -->
 @endsection
+
+
+
+

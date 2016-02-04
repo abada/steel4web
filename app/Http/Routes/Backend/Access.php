@@ -3,7 +3,6 @@
 Route::group([
     'prefix'     => 'access',
     'namespace'  => 'Access',
-    'middleware' => 'access.routeNeedsPermission:view-access-management',
 ], function() {
     /**
      * User Management
@@ -11,6 +10,7 @@ Route::group([
     Route::group(['namespace' => 'User'], function() {
         Route::resource('users', 'UserController', ['except' => ['show']]);
 
+        Route::get('users/excluir/{id}', 'UserController@excluir')->name('admin.access.users.excluir.{id}');
         Route::get('users/deactivated', 'UserController@deactivated')->name('admin.access.users.deactivated');
         Route::get('users/deleted', 'UserController@deleted')->name('admin.access.users.deleted');
         Route::get('account/confirm/resend/{user_id}', 'UserController@resendConfirmationEmail')->name('admin.account.confirm.resend');

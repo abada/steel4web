@@ -46,6 +46,14 @@ trait UserRelationship {
 		return $this->belongsTo('App\Locatario');
 	}
 
+	/**
+	 * Get the Image (avatar) of the model
+	 * @return Relationship belongsTo
+	 */
+	public function image() {
+		return $this->hasOne('App\Images');
+	}
+
 	// REVERSE RELATIONSHIPS...
 
 	/**

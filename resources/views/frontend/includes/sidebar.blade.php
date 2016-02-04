@@ -10,7 +10,9 @@
                 <p> @if(access()->user())
                       {{access()->user()->name}}
                       @endif</p>
-                <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+                      
+                <a href="#"><i class="fa fa-circle text-success"></i> {{access()->user()->roles->first()->name}}</a>
+
             </div>
         </div>
 
@@ -23,22 +25,29 @@
             </li>
             <li class="header">Módulos</li>
             @if( Module::has('Importador') )
+            @permission('visualizar-importador','criar-importacao','deletar-importacao')
             <li class="{{ (Request::is(Module::find('Importador')->getLowerName() . '*')) ? 'active' : ''}}">
                 <a href="{{ url('importador') }}"><i class="fa fa-upload fa-fw"></i> Importador</a>
             </li>
+            @endauth
             @endif
 
             @if( Module::has('GestorDeLotes') )
+            @permission('visualizar-apontador', 'criar-apontacao')
             <li class="{{ (Request::is(Module::find('GestorDeLotes')->getLowerName() . '*')) ? 'active' : ''}}">
                 <a href="{{ url('gestordelotes') }}"><i class="fa fa-th fa-fw"></i> Gestor de Lotes</a>
             </li>
+            @endauth
             @endif
 
             @if( Module::has('Apontador') )
+           @permission('visualizar-gestor', 'criar-lotes', 'editar-lotes')
             <li class="{{ (Request::is(Module::find('Apontador')->getLowerName() . '*')) ? 'active' : ''}}">
                 <a href="{{ url('apontador') }}"><i class="fa fa-hand-pointer-o fa-fw"></i> Apontador</a>
             </li>
+            @endauth
             @endif
+           @permission('ver-cadastro', 'criar-cadastro', 'deletar-cadastro', 'editar-cadastro')
             <li class="header">Cadastros</li>
             <li class="{{ Active::pattern('clientes') }} {{ Active::pattern('cliente/*') }}">
                 <a href="{!! route('clientes') !!}"><i class="fa fa-users fa-fw"></i><span> Clientes</span></a>
@@ -49,9 +58,12 @@
             <li class="{{ Active::pattern('contatos') }} {{ Active::pattern('contato/*') }} {{ Active::pattern('tipo/*') }}">
                 <a href="{!! route('contatos') !!}"><i class="fa fa-phone fa-fw"></i><span> Contatos</span></a>
             </li>
+            @endauth
+            @if (access()->hasRole(1))
             <li class="{{ Active::pattern('admin/access/*') }}">
                 <a href="{!!url('admin/access/users')!!}"><i class="fa fa-user fa-fw"></i><span> Usuários</span></a>
             </li> 
+            @endif
 
              </ul>
     </section>

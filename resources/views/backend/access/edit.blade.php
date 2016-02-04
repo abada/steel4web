@@ -2,18 +2,12 @@
 
 @section ('title', trans('labels.backend.access.users.management') . ' | ' . trans('labels.backend.access.users.edit'))
 
-@section('page-header')
-    <h1>
-        {{ trans('labels.backend.access.users.management') }}
-        <small>{{ trans('labels.backend.access.users.edit') }}</small>
-    </h1>
-@endsection
-
 @section('content')
+{!! Breadcrumbs::render('Users::edit') !!}
     {!! Form::model($user, ['route' => ['admin.access.users.update', $user->id], 'class' => 'form-horizontal', 'role' => 'form', 'method' => 'PATCH']) !!}
 
-        <div class="box box-success">
-            <div class="box-header with-border">
+        <div class="box">
+            <div class="box-header with-border bg-padrao">
                 <h3 class="box-title">{{ trans('labels.backend.access.users.edit') }}</h3>
 
                 <div class="box-tools pull-right">
@@ -56,6 +50,7 @@
                         <div class="col-lg-3">
                             @if (count($roles) > 0)
                                 @foreach($roles as $role)
+
                                     <input type="checkbox" value="{{$role->id}}" name="assignees_roles[]" {{in_array($role->id, $user_roles) ? 'checked' : ''}} id="role-{{$role->id}}" /> <label for="role-{{$role->id}}">{!! $role->name !!}</label> <a href="#" data-role="role_{{$role->id}}" class="show-permissions small">(<span class="show-hide">{{ trans('labels.general.show') }}</span> {{ trans('labels.backend.access.users.permissions') }})</a><br/>
 
                                     <div class="permission-list hidden" data-role="role_{{$role->id}}">
@@ -84,7 +79,7 @@
                         <label class="col-lg-2 control-label">{{ trans('validation.attributes.backend.access.users.other_permissions') }}</label>
                         <div class="col-lg-10">
                             <div class="alert alert-info">
-                                <i class="fa fa-info-circle"></i> {{ trans('labels.backend.access.users.permission_check') }}
+                                <i class="fa fa-info-circle"></i> {{ '&nbsp;Permissões adicionais serão somadas as previamentes conferidas pelos Papéis Associados ao Usuário.' }}
                             </div><!--alert-->
 
                             @if (count($permissions))
@@ -128,21 +123,18 @@
                         </div><!--col 3-->
                     </div><!--form control-->
                 @endif
-            </div><!-- /.box-body -->
-        </div><!--box-->
-
-        <div class="box box-success">
-            <div class="box-body">
                 <div class="pull-left">
-                    <a href="{{route('admin.access.users.index')}}" class="btn btn-danger btn-xs">{{ trans('buttons.general.cancel') }}</a>
+                    <a href="{{route('admin.access.users.index')}}" style='margin-left:10px' class="btn btn-primary"><< Voltar</a>
                 </div>
 
                 <div class="pull-right">
-                    <input type="submit" class="btn btn-success btn-xs" value="{{ trans('buttons.general.crud.update') }}" />
+                    <input type="submit" class="btn btn-primary" style='margin-right:10px' value="Atualizar" />
                 </div>
-                <div class="clearfix"></div>
             </div><!-- /.box-body -->
         </div><!--box-->
+
+                <div class="clearfix"></div>
+
 
         @if ($user->id == 1)
             {!! Form::hidden('status', 1) !!}
@@ -151,9 +143,8 @@
         @endif
 
     {!! Form::close() !!}
-@stop
+@endsection
 
-@section('after-scripts-end')
-    {!! Html::script('js/backend/access/permissions/script.js') !!}
-    {!! Html::script('js/backend/access/users/script.js') !!}
+@section('scripts')
+    {!! Html::script('js/user/script.js') !!}
 @stop

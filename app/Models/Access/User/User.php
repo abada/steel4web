@@ -17,6 +17,8 @@ class User extends Authenticatable
 
     use SoftDeletes, UserAccess, UserAttribute, UserRelationship;
 
+
+
     /**
      * The attributes that are not mass assignable.
      *

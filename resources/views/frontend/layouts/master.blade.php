@@ -68,7 +68,7 @@
         <div class="pull-right hidden-xs">
           <b>Versão</b> 1.0
         </div>
-        <strong>Copyright &copy; {{ date('Y') }} <a href="http://stee4web.com.br">@yield('title', app_name())</a>.</strong> Todos os direitos reservados.
+        <strong>Copyright &copy; {{ date('Y') }} <a href="http://stee4web.com.br">Web3D</a>.</strong> Todos os direitos reservados.
       </footer>
 
     </div><!-- ./wrapper -->

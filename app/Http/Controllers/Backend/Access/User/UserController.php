@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backend\Access\User;
 
 use App\Http\Controllers\Controller;
+use App\Models\Access\User\User as userr;
 use App\Repositories\Backend\User\UserContract;
 use App\Repositories\Backend\Role\RoleRepositoryContract;
 use App\Http\Requests\Backend\Access\User\CreateUserRequest;
@@ -18,6 +19,7 @@ use App\Repositories\Backend\Permission\PermissionRepositoryContract;
 use App\Http\Requests\Backend\Access\User\PermanentlyDeleteUserRequest;
 use App\Repositories\Frontend\User\UserContract as FrontendUserContract;
 use App\Http\Requests\Backend\Access\User\ResendConfirmationEmailRequest;
+use App\Images as img;
 
 /**
  * Class UserController
@@ -61,7 +63,7 @@ class UserController extends Controller
     public function index()
     {
         return view('backend.access.index')
-            ->withUsers($this->users->getUsersPaginated(config('access.users.default_per_page'), 1));
+            ->withUsers($this->users->getUsersPaginated(config('access.users.default_per_page')));
     }
 
     /**
@@ -70,6 +72,7 @@ class UserController extends Controller
      */
     public function create(CreateUserRequest $request)
     {
+
         return view('backend.access.create')
             ->withRoles($this->roles->getAllRoles('sort', 'asc', true))
             ->withPermissions($this->permissions->getAllPermissions());
@@ -80,12 +83,16 @@ class UserController extends Controller
      * @return mixed
      */
     public function store(StoreUserRequest $request)
-    {
-        $this->users->create(
+    {    $email =$request->email;
+       $this->users->create(
             $request->except('assignees_roles', 'permission_user'),
             $request->only('assignees_roles'),
             $request->only('permission_user')
-        );
+        ); 
+        $updat = userr::where('email',$email)->update(array('locatario_id' => access()->user()->locatario_id));
+     /*   $thi = userr::where('email',$email)->first();
+        dd($thi->image);
+        $thi->image->attach(array('user_id' => $id, 'image' => 'avatar.png')); */
         return redirect()->route('admin.access.users.index')->withFlashSuccess(trans('alerts.backend.users.created'));
     }
 
@@ -140,6 +147,11 @@ class UserController extends Controller
     {
         $this->users->delete($id);
         return redirect()->back()->withFlashSuccess(trans('alerts.backend.users.deleted_permanently'));
+    }
+
+    public function excluir($id){
+        $user = userr::find($id)->delete();
+        return redirect()->back()->withFlashSuccess(trans('Usuário removido com sucesso.'));
     }
 
     /**

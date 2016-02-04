@@ -1,5 +1,20 @@
 <?php
 
+Breadcrumbs::register('Users::index', function ($breadcrumbs) {
+    $breadcrumbs->parent('GestorDeLotes::dashboard');
+    $breadcrumbs->push(trans('Usuários'), url('admin/access/users'));
+});
+
+Breadcrumbs::register('Users::create', function ($breadcrumbs) {
+    $breadcrumbs->parent('Users::index');
+    $breadcrumbs->push(trans('Criar Usuário'), url('admin/access/users/create'));
+});
+
+Breadcrumbs::register('Users::edit', function ($breadcrumbs) {
+    $breadcrumbs->parent('Users::index');
+    $breadcrumbs->push(trans('Editar Usuário'), url('admin/access/users/create'));
+});
+
 Breadcrumbs::register('Cadastros::clientes', function ($breadcrumbs) {
 	$breadcrumbs->parent('GestorDeLotes::dashboard');
 	$breadcrumbs->push('Clientes', url('clientes'));

@@ -57,7 +57,7 @@
                   <!-- Menu Footer-->
                   <li class="user-footer">
                     <div class="pull-left">
-                      <a href="{!! route('frontend.user.dashboard') !!}" class="btn btn-default btn-flat"><i class="fa fa-user fa-fw"></i> Perfil</a>
+                      <a href="{!! route('frontend.user.perfil') !!}" class="btn btn-default btn-flat"><i class="fa fa-user fa-fw"></i> Perfil</a>
                     </div>
                     <div class="pull-right">
                       <a href="{!! route('auth.logout') !!}" class="btn btn-default btn-flat"><i class="fa fa-sign-out fa-fw"></i> Sair</a>

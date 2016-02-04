@@ -39,8 +39,66 @@ class Kernel extends HttpKernel
 
         'admin' => [
             'web',
+            'auth'
+        ],'ver-cadastro' => [
+            'web',
             'auth',
-            'access.routeNeedsPermission:view-backend',
+            'access.routeNeedsPermission:ver-cadastro',
+        ],'criar-cadastro' => [
+            'web',
+            'auth',
+            'access.routeNeedsPermission:criar-cadastro',
+        ],'editar-cadastro' => [
+            'web',
+            'auth',
+            'access.routeNeedsPermission:editar-cadastro',
+        ],'deletar-cadastro' => [
+            'web',
+            'auth',
+            'access.routeNeedsPermission:deletar-cadastro',
+        ],'visualizar-importador' => [
+            'web',
+            'auth',
+            'access.routeNeedsPermission:visualizar-importador',
+        ],'criar-importacao' => [
+            'web',
+            'auth',
+            'access.routeNeedsPermission:criar-importacao',
+        ],'deletar-importacao' => [
+            'web',
+            'auth',
+            'access.routeNeedsPermission:deletar-importacao',
+        ],'visualizar-apontador' => [
+            'web',
+            'auth',
+            'access.routeNeedsPermission:visualizar-apontador',
+        ],'criar-apontacao' => [
+            'web',
+            'auth',
+            'access.routeNeedsPermission:criar-apontacao',
+        ],'visualizar-gestor' => [
+            'web',
+            'auth',
+            'access.routeNeedsPermission:visualizar-gestor',
+        ],'criar-lotes' => [
+            'web',
+            'auth',
+            'access.routeNeedsPermission:criar-lotes',
+        ],'editar-lotes' => [
+            'web',
+            'auth',
+            'access.routeNeedsPermission:editar-lotes',
+        ],'apontador' => [
+            'web',
+            'auth',
+            'access.routeNeedsPermission:visualizar-apontador',
+            'access.routeNeedsPermission:criar-apontacao',
+        ],'importador' => [
+            'web',
+            'auth',
+            'access.routeNeedsPermission:visualizar-importador',
+            'access.routeNeedsPermission:criar-importacao',
+            'access.routeNeedsPermission:deletar-importacao',
         ],
 
         'api' => [

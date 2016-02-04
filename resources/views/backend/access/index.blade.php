@@ -2,21 +2,17 @@
 
 @section ('title', trans('labels.backend.access.users.management'))
 
-@section('page-header')
-    <h1>
-        {{ trans('labels.backend.access.users.management') }}
-        <small>{{ trans('labels.backend.access.users.active') }}</small>
-    </h1>
-@endsection
+
 
 @section('content')
+{!! Breadcrumbs::render('Users::index') !!}
     <div class="box">
         <div class="box-header with-border bg-padrao">
-            <h3 class="box-title">{{ trans('labels.backend.access.users.active') }}</h3>
+            <h3 class="box-title">Usuários</h3>
 
-            <div class="box-tools pull-right">
+           <div class="box-tools pull-right">
                 @include('backend.access.includes.partials.header-buttons')
-            </div>
+            </div> 
         </div><!-- /.box-header -->
 
         <div class="box-body">
@@ -68,9 +64,10 @@
                     </tbody>
                 </table>
             </div>
+            <a class='btn btn-primary' style='float:right;margin-right:10px' href="{{ route('admin.access.users.create') }}">{{ trans('menus.backend.access.users.create') }}</a>
 
             <div class="pull-left">
-                {!! $users->total() !!} {{ trans_choice('labels.backend.access.users.table.total', $users->total()) }}
+                <a href="javascript:history.back()" style='margin-left:10px' class="btn btn-primary"><< Voltar</a>
             </div>
 
             <div class="pull-right">
@@ -80,4 +77,4 @@
             <div class="clearfix"></div>
         </div><!-- /.box-body -->
     </div><!--box-->
-@stop
+@endsection
