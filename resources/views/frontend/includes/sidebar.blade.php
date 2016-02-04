@@ -4,7 +4,7 @@
         <!-- Sidebar user panel -->
         <div class="user-panel">
             <div class="pull-left image">
-                {{ Html::image('img/1234.jpg', 'User Image', array('class' => 'img-circle')) }}
+                {{ Html::image('img/avatar.png', 'User Image', array('class' => 'img-circle')) }}
             </div>
             <div class="pull-left info">
                 <p> @if(access()->user())
@@ -49,11 +49,11 @@
             <li class="{{ Active::pattern('contatos') }} {{ Active::pattern('contato/*') }} {{ Active::pattern('tipo/*') }}">
                 <a href="{!! route('contatos') !!}"><i class="fa fa-phone fa-fw"></i><span> Contatos</span></a>
             </li>
-            <li class="{{ Active::pattern('admin/access/*') }}">
+            <!-- <li class="{{ Active::pattern('admin/access/*') }}">
                 <a href="{!!url('admin/access/users')!!}"><i class="fa fa-user fa-fw"></i><span> Usuários</span></a>
-            </li>
+            </li> -->
 
-             </ul> 
+             </ul>
     </section>
     <!-- /.sidebar -->
 </aside>
@@ -181,4 +181,3 @@
             <li><a href="#"><i class="fa fa-circle-o text-red"></i> <span>Important</span></a></li>
             <li><a href="#"><i class="fa fa-circle-o text-yellow"></i> <span>Warning</span></a></li>
             <li><a href="#"><i class="fa fa-circle-o text-aqua"></i> <span>Information</span></a></li> -->
-       

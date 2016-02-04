@@ -7,7 +7,7 @@ Route::group(['middleware' => 'admin', 'prefix' => 'gestordelotes', 'namespace' 
 	Route::get('/lotes', 'GestorDeLotesController@lotes');
 	Route::get('/handles', 'HandlesController@index');
 
-	Route::resource('/lotes/pecas', 'PecasController');
+	Route::resource('/pecas', 'PecasController');
 
 	Route::resource('/obras', 'ObrasController');
 	Route::resource('/obras/{obra_id}/etapas', 'EtapasController');

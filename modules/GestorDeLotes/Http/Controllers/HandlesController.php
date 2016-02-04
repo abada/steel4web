@@ -41,13 +41,16 @@ class HandlesController extends Controller {
 		// if ($request->input('grouped')) {
 
 		if ($flg_rec == 3) {
+			// Grouped ...
 			$handles = $handles->groupBy('MAR_PEZ')
 				->select($handle->getTable() . '.*', DB::raw('SUM(QTA_PEZ) as QTA_PEZ'))
 				->get();
 		} else {
-			$handles = $handles->groupBy('POS_PEZ')
-				->select($handle->getTable() . '.*', DB::raw('SUM(QTA_PEZ) as QTA_PEZ'))
-				->get();
+			$handles = $handles->get();
+			// Grouped ...
+			// $handles = $handles->groupBy('POS_PEZ')
+			// 	->select($handle->getTable() . '.*', DB::raw('SUM(QTA_PEZ) as QTA_PEZ'))
+			// 	->get();
 		}
 
 		// } else {
