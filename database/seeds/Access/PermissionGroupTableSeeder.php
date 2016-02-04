@@ -57,7 +57,39 @@ class PermissionGroupTableSeeder extends Seeder
         $permission             = new $group_model;
         $permission->name       = 'Permission';
         $permission->sort       = 3;
+        $permission->created_at = Carbon::now();
+        $permission->updated_at = Carbon::now();
+        $permission->save();
+
+        $group_model            = config('access.group');
+        $permission             = new $group_model;
+        $permission->name       = 'Cadastros';
+        $permission->sort       = 4;
         $permission->parent_id  = $access->id;
+        $permission->created_at = Carbon::now();
+        $permission->updated_at = Carbon::now();
+        $permission->save();
+
+        $group_model            = config('access.group');
+        $permission             = new $group_model;
+        $permission->name       = 'Importador';
+        $permission->sort       = 5;
+        $permission->created_at = Carbon::now();
+        $permission->updated_at = Carbon::now();
+        $permission->save();
+
+        $group_model            = config('access.group');
+        $permission             = new $group_model;
+        $permission->name       = 'Apontador';
+        $permission->sort       = 6;
+        $permission->created_at = Carbon::now();
+        $permission->updated_at = Carbon::now();
+        $permission->save();
+
+        $group_model            = config('access.group');
+        $permission             = new $group_model;
+        $permission->name       = 'Gestor de Lotes';
+        $permission->sort       = 7;
         $permission->created_at = Carbon::now();
         $permission->updated_at = Carbon::now();
         $permission->save();

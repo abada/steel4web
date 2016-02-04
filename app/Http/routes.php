@@ -4,9 +4,9 @@ Route::group(['middleware' => 'web'], function () {
 	/**
 	 * Switch between the included languages
 	 */
-	Route::group(['namespace' => 'Language'], function () {
-		require (__DIR__ . '/Routes/Language/Language.php');
-	});
+//	Route::group(['namespace' => 'Language'], function () {
+//		require (__DIR__ . '/Routes/Language/Language.php');
+//	});
 
 	/**
 	 * Frontend Routes
@@ -23,7 +23,7 @@ Route::group(['middleware' => 'web'], function () {
  * Namespaces indicate folder structure
  * Admin middleware groups web, auth, and routeNeedsPermission
  */
-Route::group(['namespace' => 'Backend', 'prefix' => 'admin', 'middleware' => 'admin'], function () {
+ Route::group(['namespace' => 'Backend', 'prefix' => 'admin', 'middleware' => 'admin'], function () {
 	/**
 	 * These routes need view-backend permission
 	 * (good if you want to allow more than one group in the backend,
@@ -43,9 +43,11 @@ Route::group(['namespace' => 'Backend', 'prefix' => 'admin', 'middleware' => 'ad
  */
 /* DASHBOARD */
 Route::get('/', array('middleware' => 'admin', 'as' => '/', 'uses' => 'Cadastros\DashboardController@index'));
+
 /*
  * OBRAS
  */
+
 //Pagina de Cadastro
 Route::get('obra/cadastro', array('middleware' => 'admin', 'as' => 'obra/cadastro', 'uses' => 'Cadastros\ObrasController@cadastro'));
 //Pagina de Edicao

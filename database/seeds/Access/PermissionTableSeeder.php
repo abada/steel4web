@@ -285,6 +285,148 @@ class PermissionTableSeeder extends Seeder
         $deletePermissions->updated_at   = Carbon::now();
         $deletePermissions->save();
 
+        /**
+         * Cadastros
+         */
+        $permission_model                = config('access.permission');
+        $deletePermissions               = new $permission_model;
+        $deletePermissions->name         = 'ver-cadastro';
+        $deletePermissions->display_name = 'Ver Cadastros';
+        $deletePermissions->system       = true;
+        $deletePermissions->group_id     = 5;
+        $deletePermissions->sort         = 1;
+        $deletePermissions->created_at   = Carbon::now();
+        $deletePermissions->updated_at   = Carbon::now();
+        $deletePermissions->save();
+
+        $permission_model                = config('access.permission');
+        $deletePermissions               = new $permission_model;
+        $deletePermissions->name         = 'criar-cadastro';
+        $deletePermissions->display_name = 'Criar Cadastros';
+        $deletePermissions->system       = true;
+        $deletePermissions->group_id     = 5;
+        $deletePermissions->sort         = 2;
+        $deletePermissions->created_at   = Carbon::now();
+        $deletePermissions->updated_at   = Carbon::now();
+        $deletePermissions->save();
+
+        $permission_model                = config('access.permission');
+        $deletePermissions               = new $permission_model;
+        $deletePermissions->name         = 'editar-cadastro';
+        $deletePermissions->display_name = 'Editar Cadastros';
+        $deletePermissions->system       = true;
+        $deletePermissions->group_id     = 5;
+        $deletePermissions->sort         = 3;
+        $deletePermissions->created_at   = Carbon::now();
+        $deletePermissions->updated_at   = Carbon::now();
+        $deletePermissions->save();
+
+        $permission_model                = config('access.permission');
+        $deletePermissions               = new $permission_model;
+        $deletePermissions->name         = 'deletar-cadastro';
+        $deletePermissions->display_name = 'Deletar Cadastros';
+        $deletePermissions->system       = true;
+        $deletePermissions->group_id     = 5;
+        $deletePermissions->sort         = 4;
+        $deletePermissions->created_at   = Carbon::now();
+        $deletePermissions->updated_at   = Carbon::now();
+        $deletePermissions->save();
+        /**
+         * Importador
+         */
+        $permission_model                = config('access.permission');
+        $deletePermissions               = new $permission_model;
+        $deletePermissions->name         = 'visualizar-importador';
+        $deletePermissions->display_name = 'Visualizar Importador';
+        $deletePermissions->system       = true;
+        $deletePermissions->group_id     = 6;
+        $deletePermissions->sort         = 1;
+        $deletePermissions->created_at   = Carbon::now();
+        $deletePermissions->updated_at   = Carbon::now();
+        $deletePermissions->save();
+
+        $permission_model                = config('access.permission');
+        $deletePermissions               = new $permission_model;
+        $deletePermissions->name         = 'criar-importacao';
+        $deletePermissions->display_name = 'Criar Importador';
+        $deletePermissions->system       = true;
+        $deletePermissions->group_id     = 6;
+        $deletePermissions->sort         = 2;
+        $deletePermissions->created_at   = Carbon::now();
+        $deletePermissions->updated_at   = Carbon::now();
+        $deletePermissions->save();
+
+        $permission_model                = config('access.permission');
+        $deletePermissions               = new $permission_model;
+        $deletePermissions->name         = 'deletar-importacao';
+        $deletePermissions->display_name = 'Deletar Importação';
+        $deletePermissions->system       = true;
+        $deletePermissions->group_id     = 6;
+        $deletePermissions->sort         = 3;
+        $deletePermissions->created_at   = Carbon::now();
+        $deletePermissions->updated_at   = Carbon::now();
+        $deletePermissions->save();
+        /**
+         * Apontador
+         */
+        $permission_model                = config('access.permission');
+        $deletePermissions               = new $permission_model;
+        $deletePermissions->name         = 'visualizar-apontador';
+        $deletePermissions->display_name = 'Visualizar Apontador';
+        $deletePermissions->system       = true;
+        $deletePermissions->group_id     = 7;
+        $deletePermissions->sort         = 1;
+        $deletePermissions->created_at   = Carbon::now();
+        $deletePermissions->updated_at   = Carbon::now();
+        $deletePermissions->save();
+
+        $permission_model                = config('access.permission');
+        $deletePermissions               = new $permission_model;
+        $deletePermissions->name         = 'criar-apontacao';
+        $deletePermissions->display_name = 'Criar Apontação';
+        $deletePermissions->system       = true;
+        $deletePermissions->group_id     = 7;
+        $deletePermissions->sort         = 2;
+        $deletePermissions->created_at   = Carbon::now();
+        $deletePermissions->updated_at   = Carbon::now();
+        $deletePermissions->save();
+        /**
+         * Gestor de Lotes
+         */
+        $permission_model                = config('access.permission');
+        $deletePermissions               = new $permission_model;
+        $deletePermissions->name         = 'visualizar-gestor';
+        $deletePermissions->display_name = 'Visualizar Gestor de Lotes';
+        $deletePermissions->system       = true;
+        $deletePermissions->group_id     = 8;
+        $deletePermissions->sort         = 1;
+        $deletePermissions->created_at   = Carbon::now();
+        $deletePermissions->updated_at   = Carbon::now();
+        $deletePermissions->save();
+        
+        $permission_model                = config('access.permission');
+        $deletePermissions               = new $permission_model;
+        $deletePermissions->name         = 'criar-lotes';
+        $deletePermissions->display_name = 'Criar Lotes';
+        $deletePermissions->system       = true;
+        $deletePermissions->group_id     = 8;
+        $deletePermissions->sort         = 2;
+        $deletePermissions->created_at   = Carbon::now();
+        $deletePermissions->updated_at   = Carbon::now();
+        $deletePermissions->save();
+
+        $permission_model                = config('access.permission');
+        $deletePermissions               = new $permission_model;
+        $deletePermissions->name         = 'editar-lotes';
+        $deletePermissions->display_name = 'Editar Lotes';
+        $deletePermissions->system       = true;
+        $deletePermissions->group_id     = 8;
+        $deletePermissions->sort         = 3;
+        $deletePermissions->created_at   = Carbon::now();
+        $deletePermissions->updated_at   = Carbon::now();
+        $deletePermissions->save();
+       
+
         if (env('DB_CONNECTION') == 'mysql') {
             DB::statement('SET FOREIGN_KEY_CHECKS=1;');
         }

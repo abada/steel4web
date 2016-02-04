@@ -39,7 +39,8 @@
                       @if(access()->user())
                       {{access()->user()->name}}
                       @endif
-                      <small>Member since Nov. 2012</small>
+
+                      <small>{{access()->user()->locatario->razao}}</small>
                     </p>
                   </li>
                   <!-- Menu Body -->

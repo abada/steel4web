@@ -49,9 +49,9 @@
             <li class="{{ Active::pattern('contatos') }} {{ Active::pattern('contato/*') }} {{ Active::pattern('tipo/*') }}">
                 <a href="{!! route('contatos') !!}"><i class="fa fa-phone fa-fw"></i><span> Contatos</span></a>
             </li>
-            <!-- <li class="{{ Active::pattern('admin/access/*') }}">
+            <li class="{{ Active::pattern('admin/access/*') }}">
                 <a href="{!!url('admin/access/users')!!}"><i class="fa fa-user fa-fw"></i><span> Usuários</span></a>
-            </li> -->
+            </li> 
 
              </ul>
     </section>

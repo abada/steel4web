@@ -24,7 +24,7 @@ class RoleTableSeeder extends Seeder
             DB::statement('TRUNCATE TABLE ' . config('access.roles_table') . ' CASCADE');
         }
 
-        //Create admin role, id of 1
+        //Administrador, id 1
         $role_model        = config('access.role');
         $admin             = new $role_model;
         $admin->name       = 'Administrator';
@@ -34,11 +34,101 @@ class RoleTableSeeder extends Seeder
         $admin->updated_at = Carbon::now();
         $admin->save();
 
-        //id = 2
+        //Planejamento, id 2
         $role_model       = config('access.role');
         $user             = new $role_model;
-        $user->name       = 'User';
+        $user->name       = 'Planejamento';
         $user->sort       = 2;
+        $user->created_at = Carbon::now();
+        $user->updated_at = Carbon::now();
+        $user->save();
+
+        //Engenharia, id 3
+        $role_model       = config('access.role');
+        $user             = new $role_model;
+        $user->name       = 'Engenharia';
+        $user->sort       = 3;
+        $user->created_at = Carbon::now();
+        $user->updated_at = Carbon::now();
+        $user->save();
+
+        //PCP, id 4
+        $role_model       = config('access.role');
+        $user             = new $role_model;
+        $user->name       = 'PCP';
+        $user->sort       = 4;
+        $user->created_at = Carbon::now();
+        $user->updated_at = Carbon::now();
+        $user->save();
+
+        //Apontador, id 5
+        $role_model       = config('access.role');
+        $user             = new $role_model;
+        $user->name       = 'Apontador';
+        $user->sort       = 5;
+        $user->created_at = Carbon::now();
+        $user->updated_at = Carbon::now();
+        $user->save();
+
+        //Lider de Produção, id 6
+        $role_model       = config('access.role');
+        $user             = new $role_model;
+        $user->name       = 'Lider de Produção';
+        $user->sort       = 6;
+        $user->created_at = Carbon::now();
+        $user->updated_at = Carbon::now();
+        $user->save();
+
+        //Gerencia Industrial, id 7
+        $role_model       = config('access.role');
+        $user             = new $role_model;
+        $user->name       = 'Gerencia Industrial';
+        $user->sort       = 7;
+        $user->created_at = Carbon::now();
+        $user->updated_at = Carbon::now();
+        $user->save();
+
+        //Expedição, id 8
+        $role_model       = config('access.role');
+        $user             = new $role_model;
+        $user->name       = 'Expedição';
+        $user->sort       = 8;
+        $user->created_at = Carbon::now();
+        $user->updated_at = Carbon::now();
+        $user->save();
+
+        //Almoxerifado, id 9
+        $role_model       = config('access.role');
+        $user             = new $role_model;
+        $user->name       = 'Almoxerifado';
+        $user->sort       = 9;
+        $user->created_at = Carbon::now();
+        $user->updated_at = Carbon::now();
+        $user->save();
+
+        //Qualidade, id 10
+        $role_model       = config('access.role');
+        $user             = new $role_model;
+        $user->name       = 'Qualidade';
+        $user->sort       = 10;
+        $user->created_at = Carbon::now();
+        $user->updated_at = Carbon::now();
+        $user->save();
+
+        //Montagem, id 11
+        $role_model       = config('access.role');
+        $user             = new $role_model;
+        $user->name       = 'Montagem';
+        $user->sort       = 11;
+        $user->created_at = Carbon::now();
+        $user->updated_at = Carbon::now();
+        $user->save();
+
+        //Gestão, id 12
+        $role_model       = config('access.role');
+        $user             = new $role_model;
+        $user->name       = 'Gestão';
+        $user->sort       = 12;
         $user->created_at = Carbon::now();
         $user->updated_at = Carbon::now();
         $user->save();
