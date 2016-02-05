@@ -10,7 +10,7 @@
 
                 <div class="panel-body">
                     <div class="col-md-6">
-                        {!! Form::model($user, ['route' => 'frontend.user.profile.update', 'class' => 'form-horizontal', 'method' => 'PATCH']) !!}
+                        {!! Form::model($user, ['route' => 'frontend.user.profile.update', 'class' => 'form-horizontal', 'method' => 'PATCH', 'files' => true]) !!}
                             
                             <div class="form-group">
 

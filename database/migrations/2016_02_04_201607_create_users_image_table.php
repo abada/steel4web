@@ -18,7 +18,7 @@ class CreateUsersImageTable extends Migration
             $table->integer('user_id')->nullable()->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 
-            $table->integer('image')->nullable()->unsigned();
+            $table->string('image');
 
         });
     }

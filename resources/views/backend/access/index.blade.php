@@ -40,18 +40,28 @@
                                 <td>{!! $user->confirmed_label !!}</td>
                                 <td>
                                     @if ($user->roles()->count() > 0)
-                                        @foreach ($user->roles as $role)
-                                            {!! $role->name !!}<br/>
-                                        @endforeach
+                                        @if($user->roles()->count() == 1)
+                                            @foreach ($user->roles as $role)
+                                                {!! $role->name !!}<br/>
+                                            @endforeach
+                                        @else
+                                        <span class='tooltipo' data-toggle="tooltip" data-html="true" title='
+                                           @foreach ($user->roles as $role)
+                                                {!! $role->name !!}<br/>
+                                            @endforeach'
+                                             >{{$user->roles()->first()->name}}...</span>
+                                        @endif
                                     @else
                                         {{ trans('labels.general.none') }}
                                     @endif
                                 </td>
                                 <td>
                                     @if ($user->permissions()->count() > 0)
+                                        <span class='tooltipo' data-toggle="tooltip" data-html="true" title='
                                         @foreach ($user->permissions as $perm)
                                             {!! $perm->display_name !!}<br/>
-                                        @endforeach
+                                        @endforeach'
+                                        >Permissões</span>
                                     @else
                                         {{ trans('labels.general.none') }}
                                     @endif

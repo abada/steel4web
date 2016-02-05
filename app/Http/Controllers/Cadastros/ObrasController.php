@@ -9,6 +9,7 @@ use App\Contato as cont;
 use App\TipoContato as tipo;
 use App\Cliente as client;
 use App\Etapa as etap;
+use App\Models\Access\User\User as users;
 use App\importer\cliente;
 use App\importer\contato;
 use App\importer\etapa;
@@ -99,7 +100,24 @@ class ObrasController extends Controller
         $dadinho['user_id']   =access()->user()->id;
         $dadinho['status'] = 1;
         $obraID = obr::create($dadinho);
-        $obra_user = $obraID->users()->attach(1, array('obra_id' => $obraID->id, 'user_id' => $dadinho['user_id']));
+        $users = users::where('locatario_id', access()->user()->locatario_id)->get();
+
+        /* Array of Roles that automatically gain permission to see the 3D */
+        $alloweds = config('obra_users');
+
+        foreach($users as $user){
+            
+            $y = 0;
+            if($user->roles){
+                foreach($user->roles as $role){
+                    if(in_array($role->name, $alloweds)  && $y == 0){
+                        $user->obrasPermitidas()->attach($obraID->id);
+                        $y = 1;
+                    }
+                }
+            }    
+        }
+
         if(isset($obraID)){
             foreach($contes as $cano){
                 if($cano != 'Selecione...'){

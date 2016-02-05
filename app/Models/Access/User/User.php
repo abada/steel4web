@@ -14,6 +14,9 @@ use App\Models\Access\User\Traits\Relationship\UserRelationship;
  */
 class User extends Authenticatable
 {
+    use \Venturecraft\Revisionable\RevisionableTrait;
+    protected $revisionCreationsEnabled = true;
+    protected $revisionEnabled = true;
 
     use SoftDeletes, UserAccess, UserAttribute, UserRelationship;
 

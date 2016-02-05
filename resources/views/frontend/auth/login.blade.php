@@ -7,6 +7,7 @@
        {{ Html::image('img/logo-Steel4web.png', 'Steel4Web', array('class' => 'loginIMG')) }}
       </div><!-- /.login-logo -->
       <div class="login-box-body">
+        @include('includes.partials.messages')
         <p class="login-box-msg">Faça login para inicar sua sessão</p>
         {!! Form::open(['url' => 'login']) !!}
 

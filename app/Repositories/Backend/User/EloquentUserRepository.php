@@ -89,7 +89,7 @@ class EloquentUserRepository implements UserContract
      */
     public function getAllUsers($order_by = 'id', $sort = 'asc')
     {
-        return User::orderBy($order_by, $sort)
+        return User::where('locatario_id',access()->user()->locatario_id )->orderBy($order_by, $sort)
             ->get();
     }
 

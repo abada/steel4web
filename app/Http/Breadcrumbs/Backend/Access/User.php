@@ -25,6 +25,11 @@ Breadcrumbs::register('admin.access.users.edit', function ($breadcrumbs, $id) {
     $breadcrumbs->push(trans('menus.backend.access.users.edit'), route('admin.access.users.edit', $id));
 });
 
+Breadcrumbs::register('Users::obras', function ($breadcrumbs) {
+    $breadcrumbs->parent('admin.access.users.index');
+    $breadcrumbs->push('Atribuir Obras', route('admin.access.users.create'));
+});
+
 Breadcrumbs::register('admin.access.user.change-password', function ($breadcrumbs, $id) {
     $breadcrumbs->parent('admin.access.users.index');
     $breadcrumbs->push(trans('menus.backend.access.users.change-password'), route('admin.access.user.change-password', $id));

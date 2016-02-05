@@ -24,7 +24,11 @@
               <!-- User Account: style can be found in dropdown.less -->
               <li class="dropdown user user-menu">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                  @if(!empty(access()->user()->image->image))
+                  <img src="{{route('file_preview', access()->user()->image->id)}}" class='user-image' alt='Imagem de Usuario'>
+                  @else
                   {{ Html::image('img/avatar.png', 'User Image', array('class' => 'user-image')) }}
+                  @endif
                   <span class="hidden-xs">
                      @if(access()->user())
                       {{access()->user()->name}}
@@ -34,7 +38,11 @@
                 <ul class="dropdown-menu">
                   <!-- User image -->
                   <li class="user-header">
-                    {{ Html::image('img/avatar.png', 'User Image', array('class' => 'img-circle')) }}
+                     @if(!empty(access()->user()->image->image))
+                  <img src="{{route('file_preview', access()->user()->image->id)}}" class='img-circle' alt='Imagem de Usuario'>
+                  @else
+                  {{ Html::image('img/avatar.png', 'User Image', array('class' => 'img-circle')) }}
+                  @endif
                     <p>
                       @if(access()->user())
                       {{access()->user()->name}}

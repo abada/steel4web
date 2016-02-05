@@ -48,6 +48,14 @@ Route::get('/', array('middleware' => 'admin', 'as' => '/', 'uses' => 'Cadastros
  * OBRAS
  */
 
+/**
+ * The application's global HTTP middleware stack.
+ *
+ * These middleware are run during every request to your application.
+ *
+ * The Midleware asigned to each routes are groups defined in the app/http/kernel, which include the permissions for the route.
+ */
+
 //Pagina de Cadastro
 Route::get('obra/cadastro', array('middleware' => 'criar-cadastro', 'as' => 'obra/cadastro', 'uses' => 'Cadastros\ObrasController@cadastro'));
 //Pagina de Edicao
@@ -160,6 +168,9 @@ Route::post('contato/tipo/update', array('middleware' => 'editar-cadastro', 'as'
 /*
  * END Cadastros
  */
+
+
+
 
 // GERAR SENHA CRIPTOGRAFADA
 Route::get('gerarsenha', function () {

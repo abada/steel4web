@@ -6,7 +6,8 @@ use App\LocatarioScope;
 use Illuminate\Database\Eloquent\Model;
 
 class Importacao extends Model {
-
+	use \Venturecraft\Revisionable\RevisionableTrait;
+	
 	protected $table = 'importacoes';
 	protected $fillable = array(
 		'descricao',

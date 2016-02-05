@@ -8,6 +8,7 @@ use App\Http\Requests;
 use App\importer\cliente;
 use App\Cliente as client;
 use App\Http\Controllers\Controller;
+use Log;
 
 class ClientesController extends Controller
 {
@@ -62,6 +63,8 @@ class ClientesController extends Controller
 
 
                 if($clienteID){
+                    $msg = 'Cadastro de Cliente: '.$dados['razao'].'. realizada por '. access()->user()->name .'.';
+                    Log::info($msg);
                     die('sucesso');
                 }
             }
@@ -82,6 +85,8 @@ class ClientesController extends Controller
 
 
                 if($clienteID){
+                    $msg = 'Edição de Cliente: '.$dados['razao'].'. realizada por '. access()->user()->name .'.';
+                    Log::info($msg);
                     die('sucesso');
                 }
             die('erro'); 

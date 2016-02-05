@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class images extends Model
 {
 	protected $table = 'user_image';
-	public $timestamps = true;
+	public $timestamps = false;
 	protected $fillable = [
 		'user_id',
 		'image'

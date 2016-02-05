@@ -1,3 +1,8 @@
+.tooltipo:hover{
+    cursor:pointer;
+    color:#044378;
+}
+
 .navForm{
     margin-top: 10px !important;
     margin-left: 10px !important;

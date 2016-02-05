@@ -152,6 +152,15 @@ trait UserAttribute
         return '';
     }
 
+    public function getObrasButtonAttribute()
+    {
+        if (access()->allow('edit-users')) {
+            return '<a style="margin-left:3px" href="' . route('admin.access.user.obras', $this->id) . '"  class="btn btn-xs bg-purple"><i class="fa fa-building" data-toggle="tooltip" data-placement="top" title="Atribuir Obras"></i></a>';
+        }
+
+        return '';
+    }
+
     /**
      * @return string
      */
@@ -161,6 +170,7 @@ trait UserAttribute
         $this->getChangePasswordButtonAttribute() . ' ' .
         $this->getStatusButtonAttribute() .
         $this->getConfirmedButtonAttribute() .
-        $this->getDeleteButtonAttribute();
+        $this->getDeleteButtonAttribute() . 
+        $this->getObrasButtonAttribute();
     }
 }

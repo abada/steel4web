@@ -2,6 +2,6 @@
 
 return [
 
-    'view' => 'backend.includes.partials.breadcrumbs',
+	'view' => 'breadcrumbs::bootstrap3',
 
 ];

@@ -19,7 +19,10 @@ use App\Repositories\Backend\Permission\PermissionRepositoryContract;
 use App\Http\Requests\Backend\Access\User\PermanentlyDeleteUserRequest;
 use App\Repositories\Frontend\User\UserContract as FrontendUserContract;
 use App\Http\Requests\Backend\Access\User\ResendConfirmationEmailRequest;
+use Illuminate\Http\Request;
 use App\Images as img;
+use App\Obra as obr;
+use Log;
 
 /**
  * Class UserController
@@ -66,6 +69,27 @@ class UserController extends Controller
             ->withUsers($this->users->getUsersPaginated(config('access.users.default_per_page')));
     }
 
+     /**
+     * @return obras list
+     */
+    public function obras($id)
+    {   
+        $obras = obr::where('status',1)->get();
+        $user = userr::find($id);
+        return view('backend.access.obras', compact('obras', 'user'));
+    }
+
+    public function storeObras(Request $request){
+        $id = $request['id'];
+        $assignees = $request['assignees_obras'];
+        $user = userr::find($id);
+        $user->obrasPermitidas()->sync( (array) $assignees);
+        $msg = 'Atualização em permissão de Obras do usuario '.$user->name.'. realizada por '. access()->user()->name .'.';
+        Log::info($msg);
+        return redirect()->back()->withFlashSuccess('Obras Atribuidas com Sucesso!');
+        
+    }
+
     /**
      * @param  CreateUserRequest $request
      * @return mixed
@@ -90,9 +114,8 @@ class UserController extends Controller
             $request->only('permission_user')
         ); 
         $updat = userr::where('email',$email)->update(array('locatario_id' => access()->user()->locatario_id));
-     /*   $thi = userr::where('email',$email)->first();
-        dd($thi->image);
-        $thi->image->attach(array('user_id' => $id, 'image' => 'avatar.png')); */
+        $msg = 'Criação de usuario: '.$request['name'].'. realizada por '. access()->user()->name .'.';
+        Log::info($msg);
         return redirect()->route('admin.access.users.index')->withFlashSuccess(trans('alerts.backend.users.created'));
     }
 
@@ -124,6 +147,8 @@ class UserController extends Controller
             $request->only('assignees_roles'),
             $request->only('permission_user')
         );
+        $msg = 'Edição de usuario: '.$request['name'].'. realizada por '. access()->user()->name .'.';
+        Log::info($msg);
         return redirect()->route('admin.access.users.index')->withFlashSuccess(trans('alerts.backend.users.updated'));
     }
 
@@ -150,7 +175,12 @@ class UserController extends Controller
     }
 
     public function excluir($id){
-        $user = userr::find($id)->delete();
+       
+        $user = userr::find($id);
+         $nome = $user->name;
+        $user->delete();
+        $msg = 'Exclusão de usuario: '.$nome.'. realizada por '. access()->user()->name .'.';
+        Log::info($msg);
         return redirect()->back()->withFlashSuccess(trans('Usuário removido com sucesso.'));
     }
 

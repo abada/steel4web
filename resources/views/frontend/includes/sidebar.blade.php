@@ -4,7 +4,11 @@
         <!-- Sidebar user panel -->
         <div class="user-panel">
             <div class="pull-left image">
-                {{ Html::image('img/avatar.png', 'User Image', array('class' => 'img-circle')) }}
+                @if(!empty(access()->user()->image->image))
+                  <img src="{{route('file_preview', access()->user()->image->id)}}" class='img-circle' alt='Imagem de Usuario'>
+                  @else
+                  {{ Html::image('img/avatar.png', 'User Image', array('class' => 'img-circle')) }}
+                  @endif
             </div>
             <div class="pull-left info">
                 <p> @if(access()->user())
