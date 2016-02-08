@@ -31,7 +31,7 @@
 		<input type="hidden" name="grouped" value="{{ $grouped }}">
 
 		@foreach ($conjuntos as $conjunto => $qtd)
-			{{$conjunto}} = <input type="text" name="conjuntos[{{$conjunto}}]" class="form-control" value="{{ $qtd }}">
+			<input type="hidden" name="conjuntos[{{$conjunto}}]" class="form-control" value="{{ $qtd }}">
 		@endforeach
 
 	</div>
