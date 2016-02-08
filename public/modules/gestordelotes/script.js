@@ -1,20 +1,18 @@
 $(document).ready(function($) {
 
-    // var urlbase = '{!! env("APP_URL") !!}';
-    // console.log(urlbase);
-
     var colunas = [{
         data: null,
         defaultContent: "",
         className: "select-checkbox",
         orderable: true
-    },{
+    }, {
         data: function(data, type, full) {
             if (type === 'display') {
-                return '<input type="number" name="qtd" class="form-control input-sm" value="" min="0" max="'+data.QTA_PEZ+'" step="1" title="">';
+                return '<input type="number" name="qtd['+data.MAR_PEZ+']" class="form-control input-sm" value="" min="0" max="' + data.QTA_PEZ + '" step="1" title="">';
             }
             return null;
-        }
+        },
+        className: "input-qtd",
     }, {
         data: "QTA_PEZ"
     }, {
@@ -39,9 +37,6 @@ $(document).ready(function($) {
     }];
     var cols = $.merge(colunas, columns); //columns vem por js        
 
-    // console.table(cols);
-
-
     var handlesGrid = $('#handlesGrid').DataTable({
             ajax: {
                 url: urlbase + '/gestordelotes/handles',
@@ -62,7 +57,7 @@ $(document).ready(function($) {
             rowCallback: function(row, data) {
 
                 if ($.inArray(String(data.id), selected) !== -1) {
-                    $(row).addClass('selected');
+                    $(row).addClass('selected');                    
                 }
             }
         })
@@ -97,7 +92,7 @@ $(document).ready(function($) {
                 $('#inputEtapa').append('<option>-- Selecione a etapa --</option>');
                 $.each(data, function(index, val) {
                     $('#inputEtapa').append('<option value="' + val.id + '">' + val.codigo + '</option>');
-                });                
+                });
 
             })
             .fail(function() {
@@ -135,7 +130,7 @@ $(document).ready(function($) {
                 $('#inputSubetapa').append('<option>-- Selecione a subetapa --</option>');
                 $.each(data, function(index, val) {
                     $('#inputSubetapa').append('<option value="' + val.id + '">' + val.cod + '</option>');
-                });                
+                });
             })
             .fail(function() {
 
@@ -148,7 +143,7 @@ $(document).ready(function($) {
     $('#inputSubetapa').change(function(event) {
         // LOAD TABLE
         var url = urlbase + '/api/obras/' + $('#inputObra').val() + '/etapas/' + $('#inputEtapa').val() + '/subetapas/' + $(this).val() + '/importacoes';
-        $('#getHandles.hidden').removeClass('hidden');        
+        $('#getHandles.hidden').removeClass('hidden');
 
     });
 
@@ -194,13 +189,15 @@ $(document).ready(function($) {
     $('#criarlote').click(function(e) {
         e.preventDefault();
 
-        var selectedIds = handlesGrid.rows('.selected').data();
-        var handles_ids = Array();
+    
+        var selectedItems = handlesGrid.rows('.selected').data();
+        var selectedQtd = handlesGrid.$('.selected').find('input');
+        var handles_ids = {};        
 
-        for (var i = 0; i < selectedIds.length; i++) {
-            handles_ids.push(selectedIds[i].id);
-        };
-        $('#inputHandleIds').val(handles_ids.join(","));
+        for (var i = 0; i < selectedItems.length; i++) {        
+            // handles_ids[selectedItems[i].id] = selectedQtd[i].value;          
+            handles_ids[selectedItems[i].MAR_PEZ] = selectedQtd[i].value;
+        };        
 
         $.ajax({
                 url: urlbase + '/gestordelotes/criar',
@@ -210,8 +207,8 @@ $(document).ready(function($) {
                     obra_id: $('#inputObra').val(),
                     etapa_id: $('#inputEtapa').val(),
                     // handles_ids: $('#inputHandleIds').val(),
-                    handles_ids: handles_ids,
                     grouped: $('#inputGrouped:checked').val(),
+                    handles_ids: handles_ids,
                 }
             })
             .done(function(data) {
@@ -236,40 +233,5 @@ $(document).ready(function($) {
         handlesGrid.ajax.url(urlbase + '/gestordelotes/handles').load();
     });
 
-
-
-    // var handlesGrid = $('#handlesGrid').DataTable({
-    //  ajax: {
-    //      url:    'http://steel4web.dev/steel4web/public/gestordelotes/handles',
-    //      data:   function ( d ) {
-    //          // d.grouped = $('#inputGrouped:checked').val();
-    //          // d.obra = $('#inputObra').val();
-    //          // d.etapa = $('#inputEtapa').val();
-    //          // d.subetapa = $('#inputSubetapa').val();
-    //      }
-    //  },
-    //  scrollX: true,
-    //  responsive: true,
-    //  columns: [
-    //      {
-    //          data:           null,
-    //          defaultContent: '',
-    //          className:      'select-checkbox',
-    //          orderable:      true,
-    //      },
-    //      { data: 'importacao_id' },
-    //      { data: 'lote' },
-    //      { data: 'MAR_PEZ' },
-    //      { data: 'FLG_DWG' },
-    //      { data: 'QTA_PEZ' },
-    //      { data: 'DES_PEZ' },
-    //      { data: 'TRA_PEZ' },
-    //      { data: 'id' }
-    //  ],
-    //  select: {
-    //      style:    'multi',
-    //      selector: 'tr'
-    //  }
-    // });
 
 });

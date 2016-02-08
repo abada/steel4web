@@ -1,5 +1,6 @@
 <?php namespace Modules\Gestordelotes\Http\Controllers;
 
+use App\Handle;
 use App\Lote;
 use App\Obra;
 use Illuminate\Http\Request;
@@ -51,6 +52,106 @@ class GestorDeLotesController extends Controller {
 
 		return view('gestordelotes::index', compact('obras', 'lotes', 'etapas', 'estagios'));
 		// }
+	}
+
+	public function create(Request $request) {
+		$data = $request->all();
+
+		$obra_id = $data['obra_id'];
+		$etapa_id = $data['etapa_id'];
+		$grouped = @$data['grouped'];
+		$conjuntos = @$data['handles_ids'];
+
+		$estagios = access()->user()->locatario->estagios->where('tipo', 2)->sortBy('ordem');
+
+		if ($request->ajax()) {
+			// sleep(2);
+			return view('gestordelotes::lotes.create-modal', compact('obra_id', 'etapa_id', 'grouped', 'conjuntos', 'estagios'));
+		} else {
+			return view('gestordelotes::lotes.create');
+		}
+	}
+
+	public function store(Request $request) {
+		$data = $request->all();
+
+		// Salva o lote
+		$lote = Lote::create([
+			'descricao' => @$data['descricao'],
+			'obra_id' => @$data['obra_id'],
+			'etapa_id' => @$data['etapa_id'],
+			'subetapa_id' => @$data['subetapa_id'],
+			'producao' => 0,
+			'user_id' => access()->user()->id,
+			'locatario_id' => access()->user()->locatario_id,
+		]);
+
+		if ($lote) {
+			$sys_notifications[] = array('type' => 'success', 'message' => 'Lote criado com sucesso!');
+		} else {
+			$sys_notifications[] = array('type' => 'danger', 'message' => 'Não foi possível criar o lote');
+			$request->session()->flash('sys_notifications', $sys_notifications);
+			return back()->withInput($request->all());
+		}
+
+		// Salva o Cronograma do Conjunto
+		$data['obra_id'] = $data['obra_id'];
+		$data['etapa_id'] = $data['etapa_id'];
+		$conjuntos = array();
+
+		foreach (@$data['conjuntos'] as $conjunto => $qtd) {
+			if ($request->has('grouped')) {
+
+				$handles_conjunto = Handle::find($conjunto)->group();
+
+				foreach ($handles_conjunto as $handle) {
+					// Atualiza HANDLE [lote]
+					$handle->lote_id = $lote->id;
+					$handle->save();
+
+					$conjuntos[] = $handle->id;
+				}
+
+			} else {
+
+				$handl = Handle::find($conjunto);
+				// Atualiza HANDLE [lote]
+				$handl->lote_id = $lote->id;
+				$handl->save();
+
+				$conjuntos[] = $handl->id;
+			}
+		}
+
+		foreach ($data as $key => $value) {
+			if (empty($value)) {
+				unset($data[$key]);
+			}
+		}
+
+		$cronosaved = 0;
+		foreach ($conjuntos as $conjunto) {
+
+			$data['peca_id'] = $conjunto;
+			$data['lote_id'] = $lote->id;
+
+			$cjtcrono = CjtCrono::create($data);
+
+			if ($cjtcrono) {
+				$cronosaved++;
+			}
+		}
+
+		if ($cronosaved > 0) {
+			$sys_notifications[] = array('type' => 'success', 'message' => 'Novo Conograma criado com  ' . $cronosaved . ' itens!');
+		} else {
+			$sys_notifications[] = array('type' => 'danger', 'message' => 'Não foi possível criar o CRONOGRAMA!');
+			$request->session()->flash('sys_notifications', $sys_notifications);
+			return back()->withInput($request->all());
+		}
+
+		$request->session()->flash('sys_notifications', $sys_notifications);
+		return back()->withInput($request->all());
 	}
 
 	public function lotes(Request $request) {

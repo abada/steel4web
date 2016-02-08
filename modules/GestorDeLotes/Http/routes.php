@@ -5,6 +5,8 @@ Route::group(['middleware' => 'admin', 'prefix' => 'gestordelotes', 'namespace' 
 	Route::get('/', 'GestorDeLotesController@index');
 
 	Route::get('/lotes', 'GestorDeLotesController@lotes');
+	Route::get('/criar', 'GestorDeLotesController@create');
+	Route::post('/', 'GestorDeLotesController@store');
 	Route::get('/handles', 'HandlesController@index');
 
 	Route::resource('/pecas', 'PecasController');

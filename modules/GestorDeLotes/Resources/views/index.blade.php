@@ -44,14 +44,14 @@
 
 {!! Breadcrumbs::render('GestorDeLotes::conjuntos') !!}
 
-<div class="panel panel-padrao">
-	<!-- Default panel contents -->
-	<div class="panel-heading text-uppercase">
-		Gestor de Lotes
+<div class="box">
+	<!-- Default box contents -->
+	<div class="box-header with-border bg-padrao text-uppercase">
+		<h3 class="box-title">Gestor de Lotes</h3>
 	</div>
 
 	{{ Form::open(['url'=>url('/gestordelotes'),  'method'=>"POST", 'class'=>"form-inline", 'role'=>"form", "id" => "createLoteForm"]) }}
-	<div class="panel-body">
+	<div class="box-body">
 
 		<!-- Nav tabs -->
 		<ul class="nav nav-tabs">
@@ -120,7 +120,7 @@
 
 	</nav>
 	{{ Form::close() }}
-	<div class="panel-body">
+	<div class="box-body">
 		<table class="table table-hover stripe" id="handlesGrid" cellspacing="0" width="100%">
 			<thead>
 				<tr>

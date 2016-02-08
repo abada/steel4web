@@ -79,7 +79,7 @@ if (!function_exists('getLanguageBlock')) {
 if (!function_exists('getIcon')) {
 
 	/**
-	 * Get the language block with a fallback
+	 * Get the Icon of an String
 	 *
 	 * @param $view
 	 * @param array $data
@@ -87,6 +87,7 @@ if (!function_exists('getIcon')) {
 	 */
 	function getIcon($string = NULL) {
 
+		$icons['default'] = 'diversos.png';
 		$icons['viga-trelicada'] = 'trelica.png';
 		$icons['viga-soldada'] = 'soldada.png';
 		$icons['viga-caixao'] = 'caixao.png';
@@ -186,8 +187,20 @@ if (!function_exists('getIcon')) {
 		if (array_key_exists($string, $icons)) {
 			return $icons[$string];
 		} else {
-			return $icons['diversos'];
+			return $icons['default'];
 		}
 
+	}
+}
+
+if (!function_exists('slug')) {
+	/**
+	 * Transform as String into SLUG
+	 *
+	 * @return String
+	 */
+	function slug($string = NULL) {
+		$string = strtolower(trim(preg_replace('~[^0-9a-z]+~i', '-', html_entity_decode(preg_replace('~&([a-z]{1,2})(?:acute|cedil|circ|grave|lig|orn|ring|slash|th|tilde|uml);~i', '$1', htmlentities($string, ENT_QUOTES, 'UTF-8')), ENT_QUOTES, 'UTF-8')), '-'));
+		return $string;
 	}
 }

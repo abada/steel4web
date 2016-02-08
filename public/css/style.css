@@ -30,7 +30,6 @@
     padding: 2px;
 }
 
-
 /* DATATABLES */
 table.dataTable tr.selected td.select-checkbox:after {
     content: &#xf096 !important;
@@ -38,4 +37,9 @@ table.dataTable tr.selected td.select-checkbox:after {
     margin-left: -4px;
     text-align: center;
     text-shadow: 1px 1px #B0BED9, -1px -1px #B0BED9, 1px -1px #B0BED9, -1px 1px #B0BED9;
+}
+
+/* FORMS */
+.form-control {
+    border-radius: 3px;
 }
