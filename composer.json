@@ -13,7 +13,6 @@
         "davejamesmiller/laravel-breadcrumbs": "^3.0",
         "hieu-le/active": "~2.0",
         "arcanedev/log-viewer": "~3.0",
-        "venturecraft/revisionable": "^1.26",
         "fzaninotto/faker": "^1.5",
         "nesbot/carbon": "^1.21",
         "pingpong/modules": "^2.2"

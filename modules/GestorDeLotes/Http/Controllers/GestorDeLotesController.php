@@ -1,5 +1,6 @@
 <?php namespace Modules\Gestordelotes\Http\Controllers;
 
+use App\CjtoFabr;
 use App\Handle;
 use App\Lote;
 use App\Obra;
@@ -100,26 +101,15 @@ class GestorDeLotesController extends Controller {
 		$conjuntos = array();
 
 		foreach (@$data['conjuntos'] as $conjunto => $qtd) {
-			if ($request->has('grouped')) {
 
-				$handles_conjunto = Handle::find($conjunto)->group();
+			$handles_conjunto = Handle::where('MAR_PEZ', $conjunto)->get();
 
-				foreach ($handles_conjunto as $handle) {
-					// Atualiza HANDLE [lote]
-					$handle->lote_id = $lote->id;
-					$handle->save();
-
-					$conjuntos[] = $handle->id;
-				}
-
-			} else {
-
-				$handl = Handle::find($conjunto);
+			foreach ($handles_conjunto as $handle) {
 				// Atualiza HANDLE [lote]
-				$handl->lote_id = $lote->id;
-				$handl->save();
+				$handle->lote_id = $lote->id;
+				$handle->save();
 
-				$conjuntos[] = $handl->id;
+				$conjuntos[] = $handle->id;
 			}
 		}
 
@@ -130,17 +120,24 @@ class GestorDeLotesController extends Controller {
 		}
 
 		$cronosaved = 0;
+		$cjtcrono = array();
 		foreach ($conjuntos as $conjunto) {
 
-			$data['peca_id'] = $conjunto;
+			// $data['peca_id'] = $conjunto;
 			$data['lote_id'] = $lote->id;
+			$data['handle_id'] = $handle->id;
+			$data['user_id'] = access()->user()->id;
+			$data['locatario_id'] = access()->user()->locatario->id;
 
-			$cjtcrono = CjtCrono::create($data);
+			$cjt = CjtoFabr::create($data);
 
-			if ($cjtcrono) {
+			if ($cjt) {
 				$cronosaved++;
+				$cjtcrono[] = $cjt;
 			}
 		}
+
+		dd($cjtcrono);
 
 		if ($cronosaved > 0) {
 			$sys_notifications[] = array('type' => 'success', 'message' => 'Novo Conograma criado com  ' . $cronosaved . ' itens!');

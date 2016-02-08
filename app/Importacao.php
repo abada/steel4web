@@ -6,8 +6,7 @@ use App\LocatarioScope;
 use Illuminate\Database\Eloquent\Model;
 
 class Importacao extends Model {
-	use \Venturecraft\Revisionable\RevisionableTrait;
-	
+
 	protected $table = 'importacoes';
 	protected $fillable = array(
 		'descricao',
@@ -28,12 +27,11 @@ class Importacao extends Model {
 		'locatario_id',
 	);
 
-	protected static function boot()
-    {
-        parent::boot();
+	protected static function boot() {
+		parent::boot();
 
-        static::addGlobalScope(new LocatarioScope);
-    }
+		static::addGlobalScope(new LocatarioScope);
+	}
 
 	/**
 	 * Get the Cliente of the model
