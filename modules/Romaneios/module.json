@@ -1,0 +1,15 @@
+{
+    "name": "Romaneios",
+    "alias": "romaneios",
+    "description": "",
+    "keywords": [],
+    "active": 1,
+    "order": 0,
+    "providers": [
+        "Modules\\Romaneios\\Providers\\RomaneiosServiceProvider"
+    ],
+    "aliases":{},
+    "files": [
+        "start.php"
+    ]
+}

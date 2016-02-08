@@ -11,58 +11,39 @@ $(document).ready(function() {
         }
     });
  
-    $('#formButton').click( function() {
-        var data = table.$('input, select').serialize();
+    $('#pointButton').click( function() {
+      $.fn.serializeAndEncode = function() {
+    return $.map(this.serializeArray(), function(val) {
+        return [val.name, encodeURIComponent(val.value)].join('=');
+    }).join('&xXx&');
+};
+
+        var data = table.$('input, select').serializeAndEncode();
          jQuery.ajax({
                 type: "POST",
                 data: {dados:data},
-               url: "http://localhost/new_s4w/saas/estagio/teste",
+               url: urlbaseGeral+"/apontador/apontar",
                 dataType: "html",
                 success: function(e){
-                    $('#herehtml').html(result);
+                //   $('.TypeLoading').show();
+                   var eID = $('#inputEtapa').val();
+                   var sID = $('#inputSubetapa').val();
+                   var lID = $('#inputLote').val();
+                    // jQuery.ajax({
+                    //   type: "POST",
+                    //   data: {eID:eID, sID:sID, lID:lID},
+                    //  url: urlbaseGeral+"/apontador/setHistory",
+                    //   dataType: "html",
+                    //   success: function(r){
+                    //       window.location.href = r;
+                    //   }
+                    // });
                 }
             });
         return false;
     } );
 
- //  $.fn.editable.defaults.mode = 'inline';
-
-            $('.username').editable({
-           url: 'http://localhost/new_s4w/saas/estagio/teste',
-           type: 'html',
-            mode: 'inline',
-           pk: 1,
-           title: 'Enter username',
-           success: function(result){
-           	alert(result);
-           	var myArray = result.split('&');
-           	for (var i = 0; i < myArray.length; ++i) {
-           			
-           	
-           $('#inputEtapa').append($('<option>', {
-			    value: 1,
-			    text: myArray[i]
-			}));
-           };
-        }
-    });
-
-      $('.dob').editable({
-      	 url: 'http://localhost/new_s4w/saas/estagio/teste',
-           type: 'html',
-           name: 'data',
-        format: 'YYYY-MM-DD',    
-        viewformat: 'DD.MM.YYYY',    
-        template: 'D / MMMM / YYYY',    
-        combodate: {
-                minYear: 2000,
-                maxYear: 2016,
-                minuteStep: 1
-        },
-        success: function(d){
-                    $('#herehtml').html(result);
-                }
-    });
+ 
 
       $('.loadingImp').hide();
       $('.TypeLoading').hide();
@@ -72,6 +53,9 @@ $(document).ready(function() {
       	$('.TypeLoading').show();
 
       	var dados = $('#inputChooseObra').val();
+        console.log(dados);
+        if(dados != 0){
+
      	jQuery.ajax({
                 type: "GET",
                url: urlbaseGeral+"/api/obras/"+dados+"/etapas",
@@ -93,6 +77,10 @@ $(document).ready(function() {
             $('.inputetapa').removeClass('hidden');
                 }
             });
+
+        }else{
+          $('.TypeLoading').hide();
+        }
         
       });
 
@@ -100,10 +88,10 @@ $(document).ready(function() {
         $('.TypeLoading').show();
 
         var dados = $('#inputEtapa').val();
-        var obra = $('#inputChooseObra').val();
+         if(dados != 0){
       jQuery.ajax({
                 type: "GET",
-               url: urlbaseGeral+"/api/obras/"+obra+"/etapas/"+dados+"/subetapas",
+               url: urlbaseGeral+"/api/etapas/"+dados+"/subetapas",
                 dataType: "html",
                 success: function(result){
                   var etapas = JSON.parse(result);
@@ -122,6 +110,10 @@ $(document).ready(function() {
             $('.inputsubetapa').removeClass('hidden');
                 }
             });
+
+        }else{
+            $('.TypeLoading').hide();
+        }
         
       });
 
@@ -129,11 +121,10 @@ $(document).ready(function() {
         $('.TypeLoading').show();
 
         var sub = $('#inputSubetapa').val();
-        var etapa = $('#inputEtapa').val();
-        var obra = $('#inputChooseObra').val();
+        if(sub != 0){
       jQuery.ajax({
                 type: "GET",
-               url: urlbaseGeral+"/api/obras/"+obra+"/etapas/"+etapa+"/subetapas/"+sub+"/lotes",
+               url: urlbaseGeral+"/api/subetapas/"+sub+"/lotes",
                 dataType: "html",
                 success: function(result){
                   var etapas = JSON.parse(result);
@@ -153,6 +144,10 @@ $(document).ready(function() {
             $('#inputSubmit').removeClass('hidden');
                 }
             });
+
+      }else{
+            $('.TypeLoading').hide();
+        }
         
       });
 

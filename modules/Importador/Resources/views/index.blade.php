@@ -83,7 +83,7 @@
                                 <td class='img-icon text-center'>
                                     <img src="{{asset('img/dbf.png')}}">
                                 </td>
-                                <td ><p>{{$imp->dbf2d}}</p></td>
+                                <td ><p>{{$imp->dbf2d}} &nbsp;-&nbsp; {{$sizes[$imp->id]['dbf2d']}}</p></td>
                                 <td></td>
                                 <td></td>
                                 <td class='text-center'>
@@ -96,7 +96,7 @@
                                 <td class='img-icon text-center'>
                                     <img src="{{asset('img/ifc.png')}}">
                                 </td>
-                                <td><p>{{$imp->ifc_orig}}</p></td>
+                                <td><p>{{$imp->ifc_orig}} &nbsp;-&nbsp; {{$sizes[$imp->id]['ifc_orig']}}</p></td>
                                 <td></td>
                                 <td></td>
                                 <td class='text-center'>
@@ -109,7 +109,7 @@
                                 <td class='img-icon text-center'>
                                     <img src="{{asset('img/fbx.png')}}">
                                 </td>
-                                <td><p>{{$imp->fbx_orig}}</p></td>
+                                <td><p>{{$imp->fbx_orig}} &nbsp;-&nbsp; {{$sizes[$imp->id]['fbx_orig']}}</p></td>
                                 <td></td>
                                 <td></td>
                                 <td class='text-center'>

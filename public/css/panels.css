@@ -1,3 +1,19 @@
+.snoLote{
+  background-color: #283744 !important;
+}
+
+#lotPointer.dataTable tr td:not(:first-child):empty {
+    background: rgba(51,51,51,0.1);
+
+}
+
+tfoot input {
+        width: 100%;
+        padding: 3px;
+        box-sizing: border-box;
+        display: table-header-group;
+    }
+
 .navForm{
     margin-top: 10px !important;
     margin-left: 10px !important;
