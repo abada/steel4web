@@ -24,11 +24,15 @@ class Kernel extends HttpKernel
 
     /**
      * The application's route middleware groups.
+     * How this goes: There are several permissions that are created by seed, whose you can asign to a group of middlewares, then you can use this group on the routes
+     * to apply the permissions to that expessific route. You can create as many groups as you want and the groups can have as many permissions as wanted too, just don`t
+     * repeat the name of the group for satan`s sake.
      *
      * @var array
      */
     protected $middlewareGroups = [
         'web' => [
+            \App\Http\Middleware\UrlBase::class,
             \App\Http\Middleware\EncryptCookies::class,
             \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
             \Illuminate\Session\Middleware\StartSession::class,

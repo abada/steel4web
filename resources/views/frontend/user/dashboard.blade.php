@@ -16,7 +16,11 @@
                 </h5>
                 </div>
                 <div class="widget-user-image">
-                  <img class="img-circle" src="{{ asset('img/1234.jpg') }}" alt="User Avatar">
+                  @if(!empty(access()->user()->image->image))
+                  <img src="{{route('file_preview', access()->user()->image->id)}}" class='img-circle' alt='Imagem de Usuario'>
+                  @else
+                  {{ Html::image('img/avatar.png', 'User Image', array('class' => 'img-circle')) }}
+                  @endif
                 </div>
                 <div class="box-footer">
                   <div class="row">

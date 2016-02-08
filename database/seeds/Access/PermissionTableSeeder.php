@@ -33,6 +33,9 @@ class PermissionTableSeeder extends Seeder
         /**
          * Don't need to assign any permissions to administrator because the all flag is set to true
          * in RoleTableSeeder.php
+         *
+         * The database in the live server skip even numbers(goes like 1,3,5...) so the ids will be the first one in each comment for localhost, the second for live.
+         * 
          */
 
         /**

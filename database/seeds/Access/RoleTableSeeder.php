@@ -23,6 +23,10 @@ class RoleTableSeeder extends Seeder
             //For PostgreSQL or anything else
             DB::statement('TRUNCATE TABLE ' . config('access.roles_table') . ' CASCADE');
         }
+        /*
+        * The live database skip even numbers, so if you are in localhost(no DB_PASSWORD) it`ll assign the normal id progression for the roles, in live it`ll skip the evens.
+        *
+        */
 
         if(empty(env("DB_PASSWORD"))){
             $planejamento = array(1,2,3);

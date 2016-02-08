@@ -133,6 +133,10 @@ trait UserRelationship {
 		return $this->hasMany('App\Obra');
 	}
 
+	public function obrasPermitidas() {
+		return $this->belongsToMany('App\Obra', 'obra_user');
+	}
+
 	/**
 	 * Get the related Models
 	 * @return Relationship hasMany
