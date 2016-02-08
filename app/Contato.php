@@ -2,15 +2,10 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
 use App\LocatarioScope;
-
+use Illuminate\Database\Eloquent\Model;
 
 class Contato extends Model {
-
-	use \Venturecraft\Revisionable\RevisionableTrait;
-    protected $revisionCreationsEnabled = true;
-    protected $revisionEnabled = true;
 
 	protected $table = 'contatos';
 	protected $fillable = [
@@ -33,14 +28,11 @@ class Contato extends Model {
 		'locatario_id',
 	];
 
-	public static function boot()
-    {
-        parent::boot();
+	public static function boot() {
+		parent::boot();
 
-        static::addGlobalScope(new LocatarioScope);
-    }
-
-
+		static::addGlobalScope(new LocatarioScope);
+	}
 
 	/**
 	 * Get the Cliente of the model

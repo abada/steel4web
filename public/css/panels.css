@@ -1,26 +1,9 @@
-.tooltipo:hover{
-    cursor:pointer;
-    color:#044378;
-}
-
 .navForm{
     margin-top: 10px !important;
     margin-left: 10px !important;
     margin-bottom: 5px !important;
 }
-.navbar-nav>.user-menu>.dropdown-menu>.user-footer{
-    background-color:#222222 !important;
-}
-.navbar-nav>.user-menu>.dropdown-menu>.user-footer .btn-default{
-    background-color: #FFFFFF;
-}
-.navbar-nav>.user-menu>.dropdown-menu>.user-body{
-    border: 1px solid #222 !important;
-    border-radius: 0 !important;
-}
-.dataTables_scroll{
-    margin-bottom:15px !important;
-}
+
 .lodImg{
     width:10%;
     margin-left:45%;
@@ -98,6 +81,19 @@ z-index: 999;
 html{
     position: relative;
     background-color: #ecf0f5;
+}
+
+.TypeLoadingb{
+    width: 35px;
+    height: 35px;
+    clear: both;
+    margin: auto;
+margin-top:15px;
+    border: 4px rgba(51,51,51,0.25) solid;
+    border-top: 4px rgba(51,51,51,1) solid;
+    border-radius: 50%;
+    -webkit-animation: TypeLoadinganimation .6s infinite linear;
+    animation: TypeLoadinganimation .6s infinite linear;
 }
 
 .TypeLoading{

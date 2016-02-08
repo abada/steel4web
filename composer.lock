@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "54d668fe6937433824717a6d541d0a23",
-    "content-hash": "508382f4f581c21a14d2287dbe873376",
+    "hash": "cbdc45eb0d88a9d30149145bf7ee2ec6",
+    "content-hash": "f357290ac37b5abbc337dc7e6adbb713",
     "packages": [
         {
             "name": "arcanedev/log-viewer",
@@ -72,16 +72,16 @@
         },
         {
             "name": "arcanedev/support",
-            "version": "3.7.4",
+            "version": "3.7.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ARCANEDEV/Support.git",
-                "reference": "a67416f2dbeb767400d6971ea400a921800584fe"
+                "reference": "e431142e975e8990ee324ae958e6f195bff5d808"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ARCANEDEV/Support/zipball/a67416f2dbeb767400d6971ea400a921800584fe",
-                "reference": "a67416f2dbeb767400d6971ea400a921800584fe",
+                "url": "https://api.github.com/repos/ARCANEDEV/Support/zipball/e431142e975e8990ee324ae958e6f195bff5d808",
+                "reference": "e431142e975e8990ee324ae958e6f195bff5d808",
                 "shasum": ""
             },
             "require": {
@@ -127,7 +127,7 @@
                 "laravel",
                 "support"
             ],
-            "time": "2016-02-04 19:45:54"
+            "time": "2016-02-06 10:30:25"
         },
         {
             "name": "classpreloader/classpreloader",
@@ -1640,16 +1640,16 @@
         },
         {
             "name": "paragonie/random_compat",
-            "version": "1.1.6",
+            "version": "v1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/paragonie/random_compat.git",
-                "reference": "e6f80ab77885151908d0ec743689ca700886e8b0"
+                "reference": "b0e69d10852716b2ccbdff69c75c477637220790"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/paragonie/random_compat/zipball/e6f80ab77885151908d0ec743689ca700886e8b0",
-                "reference": "e6f80ab77885151908d0ec743689ca700886e8b0",
+                "url": "https://api.github.com/repos/paragonie/random_compat/zipball/b0e69d10852716b2ccbdff69c75c477637220790",
+                "reference": "b0e69d10852716b2ccbdff69c75c477637220790",
                 "shasum": ""
             },
             "require": {
@@ -1684,7 +1684,7 @@
                 "pseudorandom",
                 "random"
             ],
-            "time": "2016-01-29 16:19:52"
+            "time": "2016-02-06 03:52:05"
         },
         {
             "name": "pingpong/generators",
@@ -1937,64 +1937,6 @@
                 "shell"
             ],
             "time": "2015-11-12 16:18:56"
-        },
-        {
-            "name": "sofa/revisionable",
-            "version": "1.0.x-dev",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/jarektkaczyk/revisionable.git",
-                "reference": "2530c717140c32e18dd1c2299285356633ae3d1f"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/jarektkaczyk/revisionable/zipball/2530c717140c32e18dd1c2299285356633ae3d1f",
-                "reference": "2530c717140c32e18dd1c2299285356633ae3d1f",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.4"
-            },
-            "require-dev": {
-                "cartalyst/sentry": "~2.0",
-                "illuminate/auth": "~5.0",
-                "illuminate/database": "~5.0",
-                "mockery/mockery": "*",
-                "phpspec/phpspec": "~2.0@dev",
-                "phpunit/phpunit": "~4.0",
-                "squizlabs/php_codesniffer": "~2.0",
-                "tymon/jwt-auth": "^0.5.3"
-            },
-            "type": "library",
-            "autoload": {
-                "classmap": [
-                    "src/migrations"
-                ],
-                "psr-4": {
-                    "Sofa\\Revisionable\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Jarek Tkaczyk",
-                    "email": "jarek@softonsofa.com",
-                    "homepage": "http://softonsofa.com/",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Nice and easy way to handle revisions of your db.",
-            "keywords": [
-                "eloquent",
-                "history",
-                "laravel",
-                "revision",
-                "revisionable"
-            ],
-            "time": "2015-06-04 21:00:16"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -2825,54 +2767,6 @@
                 "dump"
             ],
             "time": "2016-01-07 13:38:51"
-        },
-        {
-            "name": "venturecraft/revisionable",
-            "version": "1.26.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/VentureCraft/revisionable.git",
-                "reference": "7a3d5304de6c10d43cfb0d9ebe0bbdbb6e5b82ee"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/VentureCraft/revisionable/zipball/7a3d5304de6c10d43cfb0d9ebe0bbdbb6e5b82ee",
-                "reference": "7a3d5304de6c10d43cfb0d9ebe0bbdbb6e5b82ee",
-                "shasum": ""
-            },
-            "require": {
-                "illuminate/support": "~4.0|~5.0|~5.1",
-                "php": ">=5.3.0"
-            },
-            "type": "library",
-            "autoload": {
-                "classmap": [
-                    "src/migrations"
-                ],
-                "psr-0": {
-                    "Venturecraft\\Revisionable": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Chris Duell",
-                    "email": "me@chrisduell.com"
-                }
-            ],
-            "description": "Keep a revision history for your models without thinking, created as a package for use with Laravel",
-            "homepage": "http://github.com/venturecraft/revisionable",
-            "keywords": [
-                "ardent",
-                "history",
-                "laravel",
-                "model",
-                "revision"
-            ],
-            "time": "2016-01-13 12:14:05"
         },
         {
             "name": "vlucas/phpdotenv",
@@ -4263,7 +4157,6 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "sofa/revisionable": 20,
         "nwidart/db-exporter": 20
     },
     "prefer-stable": false,
