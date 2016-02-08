@@ -1,6 +1,7 @@
 <?php namespace Modules\Gestordelotes\Http\Controllers;
 
 use App\CjtoFabr;
+use App\Cronograma;
 use App\Handle;
 use App\Lote;
 use App\Obra;
@@ -76,6 +77,8 @@ class GestorDeLotesController extends Controller {
 	public function store(Request $request) {
 		$data = $request->all();
 
+		// dd($data);
+
 		// Salva o lote
 		$lote = Lote::create([
 			'descricao' => @$data['descricao'],
@@ -88,11 +91,10 @@ class GestorDeLotesController extends Controller {
 		]);
 
 		if ($lote) {
-			$sys_notifications[] = array('type' => 'success', 'message' => 'Lote criado com sucesso!');
+			$request->session()->flash('flash_success', 'Lote criado com sucesso!');
+			// $flash_success[] = 'Lote criado com sucesso!';
 		} else {
-			$sys_notifications[] = array('type' => 'danger', 'message' => 'Não foi possível criar o lote');
-			$request->session()->flash('sys_notifications', $sys_notifications);
-			return back()->withInput($request->all());
+			return back()->withFlashDanger('Erro! Não foi possível criar o lote.');
 		}
 
 		// Salva o Cronograma do Conjunto
@@ -119,36 +121,46 @@ class GestorDeLotesController extends Controller {
 			}
 		}
 
+		// CRIA CONJUNTO FABR
+		$data['lote_id'] = $lote->id;
+		$data['handle_id'] = $handle->id;
+		$data['user_id'] = access()->user()->id;
+		$data['locatario_id'] = access()->user()->locatario->id;
+
+		$cjt = CjtoFabr::create($data);
+		if (!$cjt) {
+			return back()->withFlashDanger('Erro! Não foi possível criar "CjtoFab"!');
+		}
+
+		// CRIA CRONOGRAMA POR ESTÁGIOS
+		$estagios = access()->user()->locatario->estagios->where('tipo', 2)->sortBy('ordem');
 		$cronosaved = 0;
-		$cjtcrono = array();
-		foreach ($conjuntos as $conjunto) {
+		foreach ($estagios as $estagio) {
 
-			// $data['peca_id'] = $conjunto;
-			$data['lote_id'] = $lote->id;
-			$data['handle_id'] = $handle->id;
-			$data['user_id'] = access()->user()->id;
-			$data['locatario_id'] = access()->user()->locatario->id;
+			$crono = new Cronograma;
 
-			$cjt = CjtoFabr::create($data);
+			$crono->estagio_id = $estagio->id;
+			$crono->cjtofab_id = $cjt->id;
+			$crono->data_prev = $data['data_prev'][$estagio->id];
+			$crono->data_real = null;
+			$crono->version = 1;
+			$crono->user_id = access()->user()->id;
+			$crono->locatario_id = access()->user()->locatario->id;
 
-			if ($cjt) {
+			// SALVA CRONOGRAMA
+			if ($crono->save()) {
 				$cronosaved++;
-				$cjtcrono[] = $cjt;
 			}
 		}
-
-		dd($cjtcrono);
+		// dd($crono);
 
 		if ($cronosaved > 0) {
-			$sys_notifications[] = array('type' => 'success', 'message' => 'Novo Conograma criado com  ' . $cronosaved . ' itens!');
+			$request->session()->flash('flash_success', 'Lote criado com sucesso!<br/>Conograma montado com sucesso!');
+			// $flash_success[] = 'Conograma montado com sucesso!';
 		} else {
-			$sys_notifications[] = array('type' => 'danger', 'message' => 'Não foi possível criar o CRONOGRAMA!');
-			$request->session()->flash('sys_notifications', $sys_notifications);
-			return back()->withInput($request->all());
+			$request->session()->flash('flash_danger', 'Erro! Não foi possível montar o cronograma!');
 		}
-
-		$request->session()->flash('sys_notifications', $sys_notifications);
-		return back()->withInput($request->all());
+		return back();
 	}
 
 	public function lotes(Request $request) {

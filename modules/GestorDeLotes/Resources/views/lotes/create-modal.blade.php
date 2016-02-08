@@ -19,7 +19,8 @@
 			<div class="form-group">
 				<label for="inputdataprev[{{ slug($estagio->descricao) }}]" class="col-sm-3 control-label">{{ $estagio->descricao }}</label>
 				<div class="col-sm-9">
-					<input type="date" name="dataprev[{{ slug($estagio->descricao) }}]" id="inputdataprev[{{ slug($estagio->descricao) }}]" class="form-control" value="{{ date('Y-m-d') }}" tabindex="{{ $estagio->ordem }}" required="required">
+					<!-- <input type="date" name="dataprev[{{ slug($estagio->descricao) }}]" id="inputdataprev[{{ slug($estagio->descricao) }}]" class="form-control" value="{{ date('Y-m-d') }}" tabindex="{{ $estagio->ordem }}" required="required"> -->
+					<input type="date" name="data_prev[{{ $estagio->id }}]" value="{{ date('Y-m-d') }}" id="inputdataprev[{{ slug($estagio->descricao) }}]" class="form-control"  tabindex="{{ $estagio->ordem }}" required="required">
 				</div>
 			</div>
 		@endforeach
