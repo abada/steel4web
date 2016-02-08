@@ -89,7 +89,7 @@ class Locatario extends Model {
 	 * @return Relationship hasMany
 	 */
 	public function etapas() {
-		return $this->hasMany('App\Etapas');
+		return $this->hasMany('App\Etapa');
 	}
 
 	/**

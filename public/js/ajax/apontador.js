@@ -1,5 +1,5 @@
 $(document).ready(function() {
-var livePath = urlbaseGeral;
+
 
 
     var table = $('#lotPointer').DataTable({
@@ -74,11 +74,15 @@ var livePath = urlbaseGeral;
       	var dados = $('#inputChooseObra').val();
      	jQuery.ajax({
                 type: "GET",
-               url: livePath+"/api/obras/"+dados+"/etapas",
+               url: urlbaseGeral+"/api/obras/"+dados+"/etapas",
                 dataType: "html",
                 success: function(result){
                   var etapas = JSON.parse(result);
              $('#inputEtapa').find('option').remove().end();
+             $('#inputEtapa').append($('<option>', {
+                value: 0,
+                text: 'Escolha uma Etapa...'
+            }));
              etapas.forEach( function (etapa){                  
                    $('#inputEtapa').append($('<option>', {
                   value: etapa.id,
@@ -87,6 +91,65 @@ var livePath = urlbaseGeral;
               });
             $('.TypeLoading').hide();
             $('.inputetapa').removeClass('hidden');
+                }
+            });
+        
+      });
+
+      $('#inputEtapa').change(function() {
+        $('.TypeLoading').show();
+
+        var dados = $('#inputEtapa').val();
+        var obra = $('#inputChooseObra').val();
+      jQuery.ajax({
+                type: "GET",
+               url: urlbaseGeral+"/api/obras/"+obra+"/etapas/"+dados+"/subetapas",
+                dataType: "html",
+                success: function(result){
+                  var etapas = JSON.parse(result);
+             $('#inputSubetapa').find('option').remove().end();
+             $('#inputSubetapa').append($('<option>', {
+                value: 0,
+                text: 'Escolha uma Subetapa...'
+            }));
+             etapas.forEach( function (etapa){                  
+                   $('#inputSubetapa').append($('<option>', {
+                  value: etapa.id,
+                  text: etapa.cod
+              }));
+              });
+            $('.TypeLoading').hide();
+            $('.inputsubetapa').removeClass('hidden');
+                }
+            });
+        
+      });
+
+      $('#inputSubetapa').change(function() {
+        $('.TypeLoading').show();
+
+        var sub = $('#inputSubetapa').val();
+        var etapa = $('#inputEtapa').val();
+        var obra = $('#inputChooseObra').val();
+      jQuery.ajax({
+                type: "GET",
+               url: urlbaseGeral+"/api/obras/"+obra+"/etapas/"+etapa+"/subetapas/"+sub+"/lotes",
+                dataType: "html",
+                success: function(result){
+                  var etapas = JSON.parse(result);
+             $('#inputLote').find('option').remove().end();
+             $('#inputLote').append($('<option>', {
+                value: 0,
+                text: 'Todos'
+            }));
+             etapas.forEach( function (etapa){                  
+                   $('#inputLote').append($('<option>', {
+                  value: etapa.id,
+                  text: etapa.descricao
+              }));
+              });
+            $('.TypeLoading').hide();
+            $('.inputlote').removeClass('hidden');
             $('#inputSubmit').removeClass('hidden');
                 }
             });
@@ -96,11 +159,13 @@ var livePath = urlbaseGeral;
   $('#inputSubmit').click(function(e) {
     e.preventDefault();
     $('.TypeLoading').show();
-     var etapaID = $('#inputEtapa').val();
+     var eID = $('#inputEtapa').val();
+     var sID = $('#inputSubetapa').val();
+     var lID = $('#inputLote').val();
       jQuery.ajax({
         type: "POST",
-        data: {id:etapaID},
-       url: livePath+"/apontador/setHistory",
+        data: {eID:eID, sID:sID, lID:lID},
+       url: urlbaseGeral+"/apontador/setHistory",
         dataType: "html",
         success: function(r){
             window.location.href = r;
@@ -108,117 +173,12 @@ var livePath = urlbaseGeral;
       });
   });
 
- /*      $('#inputEtapa').change(function() {
-        $('.TypeLoading').show();
-        var dadoos = $('#inputEtapa').val();
-      jQuery.ajax({
-                type: "POST",
-                data: {id:dadoos},
-               url: "/importador/subetapas",
-                dataType: "html",
-                success: function(result2){
-             var myArrayy = result2.split('&x&');
-             var temp;
-             $('#inputsubetapa').find('option').remove().end();
-             $('#inputsubetapa').append($('<option>', {
-          value: 0,
-          text: 'Escolha uma Subetapa...'
-      }));
-            for (var i = 0; i < myArrayy.length; ++i) {
-              temp = myArrayy[i].split('&');
-           $('#inputsubetapa').append($('<option>', {
-          value: temp[0],
-          text: temp[1]
-      }));
-           temp = null;
-           };
-            $('.TypeLoading').hide();
-            $('.inputsubetapa').removeClass('hidden');
-                }
-            });
-        
-        
-      });
-
-       $('#inputsubetapa').change(function() {
-        $('.TypeLoading').show();
-         
-           var sube = $('#inputsubetapa').val();
-           jQuery.ajax({
-                type: "POST",
-                data: {id:sube},
-               url: "/importador/importar",
-                dataType: "html",
-                success: function(r){
-                  var subed = JSON.parse(r);
-                  var disables = [1,2,3,4];
-                  if(subed.importacaoNr != 0){
-                      $('.formSentido').hide();
-                  }else{
-                    $('.formSentido').removeClass('hidden');
-                  }
-                  $('#sentido'+subed.sentido).attr('checked', true);
-                  $('#toReceiveSubId').val(subed.subetapa_id);
-                  
-                   $('#noSort').find('td').remove().end();
-                  if(subed.importacoes.length > 0){
-                    for(var imp in subed.importacoes){
-                    //  console.log(subed.importacoes[imp]);
-                      $('#noSort tr:last').after("<tr class='tableEtapa'><td class='text-center' ><i id='"+ subed.importacoes[imp].id +"' title='Importacao "+ subed.importacoes[imp].importacaoNr +"' class='clickTable fa fa-plus fa-fw'></i></td><td>"+ subed.importacoes[imp].descricao +"</td><td>"+ subed.importacoes[imp].importacaoNr +"</td><td>"+ subed.importacoes[imp].observacoes +"</td><td><div class='text-center hoverActions'><a style='color:#f5f5f5' id='delete&"+ subed.importacoes[imp].id +"' class='delImp' title='Excluir Importacao' href='' ><i class='fa fa-times'></i></a></div></td></tr>"); 
-                      if(subed.importacoes[imp].dbf2d != null){
-                          $('#noSort tr:last').after("<tr class='toBeHidden "+ subed.importacoes[imp].id +"'><td class='img-icon text-center'><img src='"+ subed.image+"/dbf.png" +"'></td><td colspan='3'><p>"+ subed.importacoes[imp].dbf2d +"</p></td><td class='text-center'><a class='btn btn-download btn-block' title='Download' target='_blank' href='"+ subed.download +"/"+ subed.importacoes[imp].locatario_id+"&"+subed.importacoes[imp].cliente_id+"&"+subed.importacoes[imp].obra_id+"&"+subed.importacoes[imp].etapa_id+"&"+subed.importacoes[imp].subetapa_id+"&"+subed.importacoes[imp].importacaoNr+"&"+subed.importacoes[imp].dbf2d +"'><i class='fa fa-download'></i></a></td></tr>");
-                      }
-                      if(subed.importacoes[imp].ifc_orig != null){
-                          $('#noSort tr:last').after("<tr class='toBeHidden "+ subed.importacoes[imp].id +"'><td class='img-icon text-center'><img src='"+ subed.image+"/ifc.png" +"'></td><td colspan='3'><p>"+ subed.importacoes[imp].ifc_orig +"</p></td><td class='text-center'><a class='btn btn-download btn-block' title='Download' target='_blank' href='"+ subed.download +"/"+ subed.importacoes[imp].locatario_id+"&"+subed.importacoes[imp].cliente_id+"&"+subed.importacoes[imp].obra_id+"&"+subed.importacoes[imp].etapa_id+"&"+subed.importacoes[imp].subetapa_id+"&"+subed.importacoes[imp].importacaoNr+"&"+subed.importacoes[imp].ifc_orig +"'><i class='fa fa-download'></i></a></td></tr>");
-                      }
-                      if(subed.importacoes[imp].fbx_orig != null){
-                          $('#noSort tr:last').after("<tr class='toBeHidden "+ subed.importacoes[imp].id +"'><td class='img-icon text-center'><img src='"+ subed.image+"/fbx.png" +"'></td><td colspan='3'><p>"+ subed.importacoes[imp].fbx_orig +"</p></td><td class='text-center'><a class='btn btn-download btn-block' title='Download' target='_blank' href='"+ subed.download +"/"+ subed.importacoes[imp].locatario_id+"&"+subed.importacoes[imp].cliente_id+"&"+subed.importacoes[imp].obra_id+"&"+subed.importacoes[imp].etapa_id+"&"+subed.importacoes[imp].subetapa_id+"&"+subed.importacoes[imp].importacaoNr+"&"+subed.importacoes[imp].fbx_orig +"'><i class='fa fa-download'></i></a></td></tr>");
-                      }
-                      $('.toBeHidden').hide();
-                    }
-                  }else{
-                    $('#noSort tr:last').after("<tr><td class='text-center emptyTable' colspan='5'>Nenhuma Importação para esta Subetapa</td></tr>"); 
-                  }
-                  
-                  $('.TypeLoading').hide();
-                  $('#inputSubmit').removeClass('hidden');
-                }
-
-            });
-        
-       }); */
+ 
 
          $('#importTable').DataTable({
               responsive: true
           });
 
          $('.toBeHidden').hide();
-
-
-
-         $('#dbftogo').submit(function(event) {
-           $('#tecnometal').hide();
-           $('.loadingImp').show();
-         });
-
-         
-           $(document).on('click', '.delImp', function(e){
-            var data = $(this).attr('id');
-            jQuery.ajax({
-                type: "POST",
-                data: {id:data},
-               url: livePath+"/importador/excluir",
-                dataType: "html",
-                success: function(r){
-                     window.location.href = r;
-                }
-            });
-            e.preventDefault();
-          });
-
-
-        
-
-
     
 } );

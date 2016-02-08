@@ -7,7 +7,7 @@
 	<div class="panel panel-padrao">
 
 		<div class="panel-heading">
-			APONTADOR
+			APONTADOR DO CARALHO
 		</div>
 
 	<div class="navbar navbar-static-top navForm" role='navigation'>
@@ -28,6 +28,23 @@
                 <select id="inputEtapa" class="form-control" required="required" name="etapa">
                     @if (isset($history))
                         <option value="0">Escolha uma Etapa...</option>
+                    @foreach($etapas as $etape)
+                        <option value="{{$etape->id}}" <?php if($etape->id == $etapa->id) echo 'selected'; ?>>{{$etape->codigo}}</option>
+                    @endforeach
+                    @endif
+                </select>
+            </div>
+            <div class="form-group inputsubetapa ">
+                <label class="labelLine" for=""> Subetapa: </label>
+                <select id="inputSubetapa" class="form-control" required="required" name="subetapa">
+                    <option value="1">Ola</option>
+                </select>
+            </div>
+            <div class="form-group inputlotes <?php if(!isset($history)) echo 'hidden' ?>">
+                <label class="labelLine" for=""> Lote: </label>
+                <select id="inputLote" class="form-control" required="required" name="lote">
+                    @if (isset($history))
+                        <option value="0">Todos</option>
                     @foreach($etapas as $etape)
                         <option value="{{$etape->id}}" <?php if($etape->id == $etapa->id) echo 'selected'; ?>>{{$etape->codigo}}</option>
                     @endforeach

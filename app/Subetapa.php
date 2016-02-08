@@ -65,4 +65,12 @@ class Subetapa extends Model {
 		return $this->hasMany('App\Importacao');
 	}
 
+	/**
+	 * Get the lotes for the blog post.
+	 */
+	public function lotes() {
+		return $this->hasMany('App\Lote');
+	}
+
+
 }

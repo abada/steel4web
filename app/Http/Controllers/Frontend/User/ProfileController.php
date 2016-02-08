@@ -43,7 +43,7 @@ class ProfileController extends Controller
             if(!in_array($extension, $exts)){
                 return back()->withFlashDanger('Formato de Imagem invalido (aceitos: jpg, png e gif)');
             }
-        $name = $ThisUser->name.'x'.date('yxmxdxhxixs').'.'.$extension;
+        $name = $this->toAscii($ThisUser->name.'x'.date('yxmxdxhxixs')).'.'.$extension;
         $path = 'avatar/'.access()->user()->locatario_id.'/'.access()->id().'/';
         $deleteAll = File::deleteDirectory(storage_path().'/app/'.$path);
         $checking = Storage::put( $path.$name, File::get($image));
@@ -56,7 +56,8 @@ class ProfileController extends Controller
         }
        
         $user->updateProfile(access()->id(), $dados);
-        return redirect()->route('frontend.user.perfil')->withFlashSuccess('Perfil Editado com Sucesso!');
+        \Session::flash('flash_success', '<i class="fa fa-check"></i>&nbsp;&nbsp;  Perfil Editado com Sucesso!');
+        return redirect()->route('frontend.user.perfil');
     }
 
     public function preview($id){
@@ -100,5 +101,16 @@ class ProfileController extends Controller
 
 
     }
+
+    
+    private function toAscii($str) {
+        setlocale(LC_ALL, 'pt_BR.UTF8');
+        $clean = iconv('UTF-8', 'ASCII//TRANSLIT', $str);
+        $clean = preg_replace("/[^a-zA-Z0-9\/_| -]/", '', $clean);
+        $clean = strtolower(trim($clean, '-'));
+        $clean = preg_replace("/[\/_| -]+/", '-', $clean);
+
+    return $clean;
+}
 
 }

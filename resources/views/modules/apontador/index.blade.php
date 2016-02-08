@@ -34,6 +34,33 @@
                     @endif
                 </select>
             </div>
+            <div class="form-group inputsubetapa <?php if(!isset($history)) echo 'hidden' ?>">
+                <label class="labelLine" for=""> Subetapa: </label>
+                <select id="inputSubetapa" class="form-control" required="required" name="subetapa">
+					@if (isset($history))
+                        <option value="0">Escolha uma Subetapa...</option>
+                    @foreach($subetapas as $subetapa)
+                        <option value="{{$subetapa->id}}" <?php if($subetapa->id == $thisSubetapa->id) echo 'selected'; ?>>{{$subetapa->cod}}</option>
+                    @endforeach
+                    @endif
+                </select>
+            </div>
+            <div class="form-group inputlote <?php if(!isset($history)) echo 'hidden' ?>">
+                <label class="labelLine" for=""> Lote: </label>
+                <select id="inputLote" class="form-control" required="required" name="lote">
+					@if (isset($history))
+                        <option value="0">Todos</option>
+                    @if(!empty($lotes->first()->descricao))
+                    <?php 
+                    	$thisLoteId = !empty($thisLote->id) ? $thisLote->id : 0;
+                     ?>
+                    @foreach($lotes as $lote)
+                        <option value="{{$lote->id}}" <?php if($lote->id == $thisLoteId) echo 'selected'; ?>>{{$lote->descricao}}</option>
+                    @endforeach
+                    @endif
+                    @endif
+                </select>
+            </div>
             <?php 
             	$btnText = isset($history) ? 'Recarregar' : 'Carregar';
              ?>
@@ -95,6 +122,15 @@
 @endsection
 
 @section('scripts')
+
 {!! Html::script('js/ajax/apontador.js') !!}
+<script>
+	$(document).ready(function() {
+    if(urlbaseGeral == null)
+    	urlbaseGeral = '<?php echo env("APP_URL") ?>' ;
+	} );
+</script>
 {!! Html::script('js/ajax/funcoes.js') !!}
 @endsection
+
+
