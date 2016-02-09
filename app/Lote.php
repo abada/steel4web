@@ -10,6 +10,17 @@ class Lote extends Model {
 
 	protected $fillable = ['descricao', 'obra_id', 'etapa_id', 'subetapa_id', 'producao', 'user_id', 'locatario_id'];
 
+	// this is a recommended way to declare event handlers
+	protected static function boot() {
+		parent::boot();
+
+		static::deleting(function ($lote) {
+			// before delete() method call this
+			$lote->cjtofabr()->delete();
+			// do the rest of the cleanup...
+		});
+	}
+
 	/**
 	 * Get the Obra of the model
 	 * @return Relationship belongsTo

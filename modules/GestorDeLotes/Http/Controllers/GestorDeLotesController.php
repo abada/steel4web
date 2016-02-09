@@ -139,19 +139,22 @@ class GestorDeLotesController extends Controller {
 		$cronosaved = 0;
 		foreach ($estagios as $estagio) {
 
-			$crono = new Cronograma;
+			if (!empty($data['data_prev'][$estagio->id])) {
 
-			$crono->estagio_id = $estagio->id;
-			$crono->cjtofab_id = $cjt->id;
-			$crono->data_prev = (empty($data['data_prev'][$estagio->id])) ? null : $data['data_prev'][$estagio->id];
-			$crono->data_real = null;
-			$crono->version = 1;
-			$crono->user_id = access()->user()->id;
-			$crono->locatario_id = access()->user()->locatario->id;
+				$crono = new Cronograma;
 
-			// SALVA CRONOGRAMA
-			if ($crono->save()) {
-				$cronosaved++;
+				$crono->estagio_id = $estagio->id;
+				$crono->cjtofab_id = $cjt->id;
+				$crono->data_prev = $data['data_prev'][$estagio->id];
+				$crono->data_real = null;
+				$crono->version = 1;
+				$crono->user_id = access()->user()->id;
+				$crono->locatario_id = access()->user()->locatario->id;
+
+				// SALVA CRONOGRAMA
+				if ($crono->save()) {
+					$cronosaved++;
+				}
 			}
 		}
 		// dd($crono);

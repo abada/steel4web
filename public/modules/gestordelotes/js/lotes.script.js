@@ -160,8 +160,8 @@ $(document).ready(function($) {
         handlesGrid.ajax.url(urlbase + '/gestordelotes/lotes/handles').load();    
     });
 
-    /* REMOVE LOTE */
-    $('#removerlote').click(function(e) {    
+    /* REMOVE CONJUNTOS */
+    $('#removerconjuntos').click(function(e) {    
 
         e.preventDefault();
     
@@ -201,6 +201,158 @@ $(document).ready(function($) {
 
     });
 
+    /* REMOVE LOTE */
+    $('#removerlote').click(function(e) {    
+
+        e.preventDefault();
+    
+        var selectedItems = handlesGrid.rows('.selected').data();
+        var selectedQtd = handlesGrid.$('.selected').find('input');
+        var lotes = [];            
+
+        for (var i = 0; i < selectedItems.length; i++) {
+            if( $.inArray( selectedItems[i].lote_id, lotes) == -1 ){
+                lotes.push(selectedItems[i].lote_id);
+            };
+        };        
+
+        if( confirm('Isto irá remover o Lote inteiro incluindo seu cronograma. Deseja mesmo continuar?') ){
+            $.ajax({
+                url: urlbase + '/gestordelotes/lotes/removerlote',
+                type: 'GET',
+                dataType: 'json',
+                data: {                    
+                    lotes: lotes,
+                }
+            })
+            .done(function(data) {
+
+                console.log(data);
+                if( data.length > 1 ){
+                    alert( data.length + " Lotes removidos!" );                        
+                }else{
+                    alert( data.length + " Lote removido!" );                        
+                }
+                handlesGrid.ajax.url(urlbase + '/gestordelotes/lotes/handles').load();
+
+            });
+        }
+
+    });
+
+    /* ENVIAR LOTEs */
+    $('#enviarlotes').click(function(e) {    
+
+        e.preventDefault();
+
+        alert('Função indisponível');
+    
+        // var selectedItems = handlesGrid.rows('.selected').data();
+        // var selectedQtd = handlesGrid.$('.selected').find('input');
+        // var lotes = [];            
+
+        // for (var i = 0; i < selectedItems.length; i++) {
+        //     if( $.inArray( selectedItems[i].lote_id, lotes) == -1 ){
+        //         lotes.push(selectedItems[i].lote_id);
+        //     };
+        // };        
+
+        // if( confirm('Isto irá remover o Lote inteiro incluindo seu cronograma. Deseja mesmo continuar?') ){
+        //     $.ajax({
+        //         url: urlbase + '/gestordelotes/lotes/removerlote',
+        //         type: 'GET',
+        //         dataType: 'json',
+        //         data: {                    
+        //             lotes: lotes,
+        //         }
+        //     })
+        //     .done(function(data) {
+
+        //         console.log(data);
+        //         if( data.length > 1 ){
+        //             alert( data.length + " Lotes removidos!" );                        
+        //         }else{
+        //             alert( data.length + " Lote removido!" );                        
+        //         }
+        //         handlesGrid.ajax.url(urlbase + '/gestordelotes/lotes/handles').load();
+
+        //     });
+        // }
+
+    });
+
+
+    /* ASSOCIAR AO LOTE */
+    function changelote(e) {   
+    
+        var selectedItems = handlesGrid.rows('.selected').data();
+        var selectedQtd = handlesGrid.$('.selected').find('input');
+        var handles_ids = {};        
+
+        for (var i = 0; i < selectedItems.length; i++) {             
+            if( undefined !== handles_ids[selectedItems[i].MAR_PEZ] ){
+                handles_ids[selectedItems[i].MAR_PEZ] += parseInt(selectedQtd[i].value, 10);
+            }else{
+                handles_ids[selectedItems[i].MAR_PEZ] = parseInt(selectedQtd[i].value, 10);
+            }
+        };                
+
+        $.ajax({
+                url: e.attr('href'),
+                type: 'GET',
+                dataType: 'json',
+                data: {                    
+                    handles_ids: handles_ids,
+                }
+            })
+            .done(function(data) {                
+
+                $.ajax({
+                    url: urlbase + '/api/lotes',
+                    type: 'GET',
+                    dataType: 'json',
+                    beforeSend: function() {
+                        $('.loading.hidden').removeClass('hidden');
+                        $('#lotes').parent().addClass('hidden');
+                    }
+                })
+                .done(function(lotes) {
+                    $('#lotes').html('');
+                    $('.loading').addClass('hidden');
+                    
+                    $.each(lotes, function(index, val) {
+                        $('#lotes').append('<li><a href="' + urlbase + '/gestordelotes/lotes/' + val.id + '/associar">' + val.descricao + '</a></li>');
+                    });
+                    $('#lotes').parent().removeClass('hidden');
+
+
+                    $('#lotes li a').click(function (e) {
+                        e.preventDefault();
+                        changelote($(this));
+                    });
+
+                })
+                .fail(function() {
+
+                });
+                
+                $('.loading.hidden').removeClass('hidden');
+                handlesGrid.ajax.url(urlbase + '/gestordelotes/lotes/handles').load();
+                $('.loading').addClass('hidden');
+                $('#createLoteForm').find('.loteOptions').addClass('hidden');             
+
+            });
+
+    };
+    $('#lotes li a').click(function (e) {
+        e.preventDefault();        
+        changelote( $(this) );
+    });
+
+
+
+
+
 
     /**
      * DATATABLES
@@ -213,7 +365,7 @@ $(document).ready(function($) {
     }, {
         data: function(data, type, full) {
             if (type === 'display') {
-                return '<input type="number" name="qtd['+data.MAR_PEZ+']" class="form-control input-sm" value="" min="0" max="' + data.QTA_PEZ + '" step="1" title="">';
+                return '<input type="number" name="qtd['+data.MAR_PEZ+']" class="form-control input-sm" value="' + data.QTA_PEZ + '" min="1" max="' + data.QTA_PEZ + '" step="1" title="">';
             }
             return null;
         },
@@ -274,6 +426,6 @@ $(document).ready(function($) {
             $('.loading').addClass('hidden');
         })
         .on('select', function(e, dt, type, indexes) {
-            handlesGrid[type](indexes).nodes().to$().addClass('selected');
+            handlesGrid[type](indexes).nodes().to$().addClass('selected');            
         });
 });

@@ -67,14 +67,14 @@
 					</button>
 					<ul class="dropdown-menu" id="lotes">
 						@foreach ($lotes as $lote)
-						<li><a href="#">{{ $lote->descricao }}</a></li>
+						<li><a href="{{ url('gestordelotes/lotes/'.$lote->id.'/associar') }}">{{ $lote->descricao }}</a></li>
 						@endforeach
 					</ul>
 				</div>
 
-				<a id="removerlote" class="btn btn-primary">Remover do Lote</a>
-				<a id="removerpeca" class="btn btn-primary">Remover Peça do Lote</a>
-				<a id="enviarlote" class="btn btn-success">Enviar para Produção <i class="fa fa-arrow-circle-right"></i></a>
+				<a id="removerconjuntos" class="btn btn-primary">Remover conjunto do Lote</a>
+				<a id="removerlote" class="btn btn-primary">Remover Lote inteiro</a>
+				<a id="enviarlotes" class="btn btn-success">Enviar para Produção <i class="fa fa-arrow-circle-right"></i></a>
 
 			</div>
 

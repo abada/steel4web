@@ -29,7 +29,7 @@ class LotesController extends Controller {
 		}
 
 		JavaScript::put([
-			'urlbase' => url('/'),
+			'urlbase' => env('APP_URL') . env('APP_URLPREFIX'),
 			'obra_id' => $request->old('obra_id'),
 			'etapa_id' => $request->old('etapa_id'),
 			'etapas' => $etapas,
@@ -159,7 +159,7 @@ class LotesController extends Controller {
 		return json_encode($response);
 	}
 
-	public function removerdolote(Request $request) {
+	public function removerconjuntos(Request $request) {
 
 		$data = $request->all();
 
@@ -180,6 +180,63 @@ class LotesController extends Controller {
 				} else {
 					// Atualiza HANDLE [lote]
 					$handle->lote_id = null;
+					$handle->save();
+				}
+
+				$conjuntos[] = $handle->id;
+
+			}
+		}
+
+		return json_encode($conjuntos);
+	}
+
+	/**
+	 * [removerlote description]
+	 * @param  Request $request [description]
+	 * @return [type]           [description]
+	 */
+	public function removerlote(Request $request) {
+
+		$data = $request->all();
+
+		$destroyed = array();
+
+		foreach (@$data['lotes'] as $lote) {
+
+			if (Lote::destroy($lote)) {
+				$destroyed[] = $lote;
+			}
+
+		}
+
+		return json_encode($destroyed);
+	}
+
+	/**
+	 * [associar description]
+	 * @param  Request $request [description]
+	 * @return [type]           [description]
+	 */
+	public function associar(Request $request, $id = null) {
+
+		$data = $request->all();
+		$data['id'] = $id;
+
+		$conjuntos = array();
+
+		foreach (@$data['handles_ids'] as $conjunto => $qtd) {
+
+			$handles_conjunto = Handle::where('MAR_PEZ', $conjunto)->whereNotNull('lote_id')->where('FLG_REC', 3)->orderBy('X', 'desc')->orderBy('Y', 'desc')->orderBy('Z', 'desc')->take($qtd)->get();
+
+			foreach ($handles_conjunto as $handle) {
+
+				//Remove lotes vazios
+				if ($handle->lote->handles->count() == 1) {
+					Lote::destroy($handle->lote->id);
+				} else {
+					// Atualiza HANDLE [lote]
+					$handle->lote_id = $id;
 					$handle->save();
 				}
 

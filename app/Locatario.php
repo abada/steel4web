@@ -128,4 +128,12 @@ class Locatario extends Model {
 	public function subetapas() {
 		return $this->hasMany('App\Subetapa');
 	}
+
+	/**
+	 * Get the related Models
+	 * @return Relationship hasMany
+	 */
+	public function lotes() {
+		return $this->hasMany('App\Lote');
+	}
 }

@@ -8,6 +8,17 @@ class CjtoFabr extends Model {
 	protected $table = 'cjtofabr';
 	protected $fillable = ['lote_id', 'handle_id', 'user_id', 'locatario_id'];
 
+	// this is a recommended way to declare event handlers
+	protected static function boot() {
+		parent::boot();
+
+		static::deleting(function ($cjtofabr) {
+			// before delete() method call this
+			$cjtofabr->cronogramas()->delete();
+			// do the rest of the cleanup...
+		});
+	}
+
 	/**
 	 * Get the LOTE of the model
 	 * @return Relationship belongsTo

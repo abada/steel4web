@@ -62,26 +62,6 @@
 
 				<a id="criarlote" class="btn btn-primary" data-toggle="modal" data-target="#modal">Criar Lote</a>
 
-				@if (count($lotes) > 0)
-					<!-- Single dropdown -->
-					<div class="btn-group">
-						<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-							Associar ao Lote <span class="caret"></span>
-						</button>
-						<ul class="dropdown-menu" id="lotes">
-							@foreach ($lotes as $lote)
-							<li><a href="#">{{ $lote->descricao }}</a></li>
-							@endforeach
-						</ul>
-					</div>
-				@endif
-
-				@if (count($lotes) > 0)
-					<a id="removerpeca" class="btn btn-primary">Remover Peça do Lote</a>
-				@endif
-
-				<a id="enviarlote" class="btn btn-success">Enviar para Produção <i class="fa fa-arrow-circle-right"></i></a>
-
 			</div>
 
 			<li class="active">

@@ -12,7 +12,9 @@ Route::group(['middleware' => 'admin', 'prefix' => 'gestordelotes', 'namespace' 
 	Route::resource('/pecas', 'PecasController');
 
 	Route::get('/lotes/handles', 'LotesController@getHandles');
-	Route::get('/lotes/remover', 'LotesController@removerdolote');
+	Route::get('/lotes/remover', 'LotesController@removerconjuntos');
+	Route::get('/lotes/removerlote', 'LotesController@removerlote');
+	Route::get('/lotes/{id}/associar', 'LotesController@associar');
 	Route::resource('/lotes', 'LotesController');
 
 	Route::resource('/obras', 'ObrasController');

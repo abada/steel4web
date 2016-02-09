@@ -175,7 +175,7 @@ $(document).ready(function($) {
     }, {
         data: function(data, type, full) {
             if (type === 'display') {
-                return '<input type="number" name="qtd['+data.MAR_PEZ+']" class="form-control input-sm" value="" min="0" max="' + data.QTA_PEZ + '" step="1" title="">';
+                return '<input type="number" name="qtd['+data.MAR_PEZ+']" class="form-control input-sm" value="' + data.QTA_PEZ + '" min="1" max="' + data.QTA_PEZ + '" step="1" title="">';
             }
             return null;
         },
