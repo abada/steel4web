@@ -41,5 +41,19 @@ class ApontadorController extends Controller {
 		\Session::flash('history', $dados);
 		return route('apontador');
 	}
+
+	public function apontar(Request $request){
+		$dados = $request->all();
+		$dados = explode('&xXx&', $dados['dados']);
+		$data = array();
+		foreach($dados as $newDados){
+			$haveStuff = substr($newDados, -1);
+			if($haveStuff != '='){
+				$data[] = $newDados;
+			}
+		}
+		
+		dd($data);
+	}
 	
 }

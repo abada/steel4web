@@ -14,5 +14,10 @@ Breadcrumbs::register('Apontador::index', function ($breadcrumbs) {
     $breadcrumbs->push(trans('Apontador'), route('apontador'));
 });
 
+Breadcrumbs::register('Romaneios::index', function ($breadcrumbs) {
+    $breadcrumbs->parent('GestorDeLotes::dashboard');
+    $breadcrumbs->push(trans('Romaneios'), url('romaneios'));
+});
+
 require __DIR__ . '/GestorDeLotes.php';
 require __DIR__ . '/Cadastros.php';

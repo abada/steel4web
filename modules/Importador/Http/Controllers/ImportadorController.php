@@ -27,8 +27,34 @@ class ImportadorController extends Controller {
             $etapas = etap::where('obra_id',$dados->etapa->obra_id)->get();
             $subetapas = sub::where('etapa_id',$dados->etapa_id)->get();
             $imps = imp::where('subetapa_id',$dados->id)->get();
+            $sizes = array();
+           foreach($imps as $imp){
+                
+                if(!empty($imp['dbf2d'])){
+                    $file =  $imp->locatario_id . "/" . $imp->cliente_id . "/" . $imp->obra_id . "/" 
+                    . $imp->etapa_id . "/" . $imp->subetapa_id . "/" . $imp->importacaoNr . "/" . $imp->dbf2d;
+                    $size = Storage::size($file);
+                    $size = $this->formatBytes($size);
+                    $sizes[$imp->id]['dbf2d'] = $size;
+                }
+                if(!empty($imp['ifc_orig'])){
+                    $file =  $imp->locatario_id . "/" . $imp->cliente_id . "/" . $imp->obra_id . "/" 
+                    . $imp->etapa_id . "/" . $imp->subetapa_id . "/" . $imp->importacaoNr . "/" . $imp->ifc_orig;
+                    $size = Storage::size($file);
+                    $size = $this->formatBytes($size);
+                    $sizes[$imp->id]['ifc_orig'] = $size;
+                }
+                if(!empty($imp['fbx_orig'])){
+                    $file =  $imp->locatario_id . "/" . $imp->cliente_id . "/" . $imp->obra_id . "/" 
+                    . $imp->etapa_id . "/" . $imp->subetapa_id . "/" . $imp->importacaoNr . "/" . $imp->fbx_orig;
+                    $size = Storage::size($file);
+                    $size = $this->formatBytes($size);
+                    $sizes[$imp->id]['fbx_orig'] = $size;
+                }
+            }
+
             $history = true;
-            return view('importador::index',compact('obras', 'etapas', 'subetapas', 'imps','history','subID','etapaID','dados' ));
+            return view('importador::index',compact('obras', 'etapas', 'subetapas', 'imps','history','subID','etapaID','dados','sizes' ));
         }
 		
 		return view('importador::index',compact('obras'));
@@ -80,6 +106,33 @@ class ImportadorController extends Controller {
         }else{
             $sentido = 1;
         }
+        $imps = $subetapa->importacoes;
+         $sizes = array();
+            foreach($imps as $imp){
+                
+                if(!empty($imp['dbf2d'])){
+                    $file =  $imp->locatario_id . "/" . $imp->cliente_id . "/" . $imp->obra_id . "/" 
+                    . $imp->etapa_id . "/" . $imp->subetapa_id . "/" . $imp->importacaoNr . "/" . $imp->dbf2d;
+                    $size = Storage::size($file);
+                    $size = $this->formatBytes($size);
+                    $sizes[$imp->id]['dbf2d'] = $size;
+                }
+                if(!empty($imp['ifc_orig'])){
+                    $file =  $imp->locatario_id . "/" . $imp->cliente_id . "/" . $imp->obra_id . "/" 
+                    . $imp->etapa_id . "/" . $imp->subetapa_id . "/" . $imp->importacaoNr . "/" . $imp->ifc_orig;
+                    $size = Storage::size($file);
+                    $size = $this->formatBytes($size);
+                    $sizes[$imp->id]['ifc_orig'] = $size;
+                }
+                if(!empty($imp['fbx_orig'])){
+                    $file =  $imp->locatario_id . "/" . $imp->cliente_id . "/" . $imp->obra_id . "/" 
+                    . $imp->etapa_id . "/" . $imp->subetapa_id . "/" . $imp->importacaoNr . "/" . $imp->fbx_orig;
+                    $size = Storage::size($file);
+                    $size = $this->formatBytes($size);
+                    $sizes[$imp->id]['fbx_orig'] = $size;
+                }
+            }
+
     	$send = array(
     		'subetapa_id'   =>  $subetapa->id,
             'importacaoNr'  =>  $impsNr,
@@ -88,7 +141,8 @@ class ImportadorController extends Controller {
             'editar'        =>  url('importador/editar'),
             'excluir'       =>  url('importador/excluir'),
             'download'      =>  url('importador/download'),
-            'image'         =>  asset('img/')
+            'image'         =>  asset('img/'),
+            'sizes'         =>  $sizes
     	); 
         return json_encode($send);
     }
@@ -530,6 +584,20 @@ class ImportadorController extends Controller {
         
 
     }
+
+    private function formatBytes($bytes, $precision = 2) { 
+    $units = array('B', 'KB', 'MB', 'GB', 'TB'); 
+
+    $bytes = max($bytes, 0); 
+    $pow = floor(($bytes ? log($bytes) : 0) / log(1024)); 
+    $pow = min($pow, count($units) - 1); 
+
+    // Uncomment one of the following alternatives
+     $bytes /= pow(1024, $pow);
+    // $bytes /= (1 << (10 * $pow)); 
+
+    return round($bytes, $precision) . ' ' . $units[$pow]; 
+} 
 
     
  

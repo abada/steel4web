@@ -51,6 +51,15 @@
             </li>
             @endauth
             @endif
+
+            @if( Module::has('Romaneios') )
+           @permission('visualizar-gestor', 'criar-lotes', 'editar-lotes')
+            <li class="{{ (Request::is(Module::find('Romaneios')->getLowerName() . '*')) ? 'active' : ''}}">
+                <a href="{{ url('romaneios') }}"><i class="fa fa-truck fa-fw"></i> Romaneios</a>
+            </li>
+            @endauth
+            @endif
+
            @permission('ver-cadastro', 'criar-cadastro', 'deletar-cadastro', 'editar-cadastro')
             <li class="header">Cadastros</li>
             <li class="{{ Active::pattern('clientes') }} {{ Active::pattern('cliente/*') }}">
