@@ -18,8 +18,7 @@
 			<div class="form-group">
 				<label for="inputdataprev[{{ slug($estagio->descricao) }}]" class="col-sm-3 control-label">{{ $estagio->descricao }}</label>
 				<div class="col-sm-9">
-					<!-- <input type="date" name="dataprev[{{ slug($estagio->descricao) }}]" id="inputdataprev[{{ slug($estagio->descricao) }}]" class="form-control" value="{{ date('Y-m-d') }}" tabindex="{{ $estagio->ordem }}" required="required"> -->
-					<input type="date" placeholder="" name="data_prev[{{ $estagio->id }}]" value="{{ ($estagio->descricao == 'PCP')? date('Y-m-d') : '' }}" id="inputdataprev[{{ slug($estagio->descricao) }}]" class="form-control" tabindex="{{ $estagio->ordem }}" >
+					<input type="date" placeholder="Informe a data prevista" name="data_prev[{{ $estagio->id }}]" value="{{ ($estagio->descricao == 'PCP')? date('Y-m-d') : '' }}" id="inputdataprev[{{ slug($estagio->descricao) }}]" class="form-control {{ ($estagio->descricao == 'PCP')? '' : 'disabled' }}" tabindex="{{ $estagio->ordem }}" {{ ($estagio->descricao == 'PCP')? 'required="required"' : '' }}>
 				</div>
 			</div>
 		@endforeach
@@ -40,3 +39,23 @@
 		<button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Salvar</button>
 	</div>
 {{ Form::close() }}
+
+<script>
+	$(function() {
+		$('#modal input[type="date"]').each(function(index, item) {
+			$(this).change(function(event) {
+				if(  $(this).val() != '' ){
+					$(this).removeClass('disabled');
+				}else{
+					$(this).addClass('disabled');
+				}
+			});
+
+		});
+	});
+</script>
+<style>
+	#modal .disabled{
+		background-color: #eee;
+	}
+</style>
