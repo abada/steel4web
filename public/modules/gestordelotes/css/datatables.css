@@ -1,0 +1,47 @@
+/* DATATABLES */
+table.dataTable thead .sorting:after {
+    opacity: 0;
+    content: "\e150";
+    top: 5px;
+}
+table.dataTable thead .sorting:hover:after {
+    opacity: 0.2;
+    content: "\e150";
+}
+table.dataTable thead .sorting_asc:after {
+    content: "\e155";
+    top: 5px;
+}
+table.dataTable thead .sorting_desc:after {
+    content: "\e156";
+    top: 5px;
+}
+table.dataTable thead .sorting_asc,
+table.dataTable thead .sorting_desc {
+    color: #4697CE;
+}
+table.dataTable tbody>tr.selected, table.dataTable tbody>tr>.selected {
+    background-color: rgba(176, 190, 217, 0.25);
+    color: #1A2226;
+}
+table.dataTable.stripe tbody>tr.odd.selected, table.dataTable.stripe tbody>tr.odd>.selected, table.dataTable.display tbody>tr.odd.selected, table.dataTable.display tbody>tr.odd>.selected {
+    background-color: rgba(172, 186, 212, 0.25);
+    color: #222D32;
+}
+table.dataTable tr.selected td.select-checkbox:after {
+    content: '\2714';        
+    text-shadow: none;
+}
+table.dataTable tr td:not(:first-child):empty {
+    background: rgba(26,34,38,0.1);
+}
+
+table.dataTable tr td input.input-sm {
+    padding: 2px 4px;
+    font-size: 12px;
+    line-height: 1.5;
+    border-radius: 3px;
+    height: 23px;
+    width: 60px;
+    margin: -2px;
+}

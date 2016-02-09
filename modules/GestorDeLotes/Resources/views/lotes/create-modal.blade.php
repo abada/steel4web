@@ -12,7 +12,6 @@
 			</div>
 		</div>
 
-
 		<hr>
 
 		@foreach ($estagios as $estagio)
@@ -20,7 +19,7 @@
 				<label for="inputdataprev[{{ slug($estagio->descricao) }}]" class="col-sm-3 control-label">{{ $estagio->descricao }}</label>
 				<div class="col-sm-9">
 					<!-- <input type="date" name="dataprev[{{ slug($estagio->descricao) }}]" id="inputdataprev[{{ slug($estagio->descricao) }}]" class="form-control" value="{{ date('Y-m-d') }}" tabindex="{{ $estagio->ordem }}" required="required"> -->
-					<input type="date" name="data_prev[{{ $estagio->id }}]" value="{{ date('Y-m-d') }}" id="inputdataprev[{{ slug($estagio->descricao) }}]" class="form-control"  tabindex="{{ $estagio->ordem }}" >
+					<input type="date" placeholder="" name="data_prev[{{ $estagio->id }}]" value="{{ ($estagio->descricao == 'PCP')? date('Y-m-d') : '' }}" id="inputdataprev[{{ slug($estagio->descricao) }}]" class="form-control" tabindex="{{ $estagio->ordem }}" >
 				</div>
 			</div>
 		@endforeach
@@ -28,6 +27,7 @@
 		<!-- HIDDEN IDs -->
 		<input type="hidden" name="obra_id" value="{{ $obra_id }}">
 		<input type="hidden" name="etapa_id" value="{{ $etapa_id }}">
+		<input type="hidden" name="subetapa_id" value="{{ $subetapa_id }}">
 		<input type="hidden" name="grouped" value="{{ $grouped }}">
 
 		@foreach ($conjuntos as $conjunto => $qtd)

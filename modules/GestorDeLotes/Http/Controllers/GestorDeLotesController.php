@@ -47,12 +47,13 @@ class GestorDeLotesController extends Controller {
 			'urlbase' => url('/'),
 			'obra_id' => $request->old('obra_id'),
 			'etapa_id' => $request->old('etapa_id'),
+			'subetapa_id' => $request->old('subetapa_id'),
 			'etapas' => $etapas,
 			'selected' => $request->old('handles_ids'),
 			'columns' => $columns,
 		]);
 
-		return view('gestordelotes::index', compact('obras', 'lotes', 'etapas', 'estagios'));
+		return view('gestordelotes::conjuntos.index', compact('obras', 'lotes', 'etapas', 'estagios'));
 		// }
 	}
 
@@ -61,6 +62,7 @@ class GestorDeLotesController extends Controller {
 
 		$obra_id = $data['obra_id'];
 		$etapa_id = $data['etapa_id'];
+		$subetapa_id = @$data['subetapa_id'];
 		$grouped = @$data['grouped'];
 		$conjuntos = @$data['handles_ids'];
 
@@ -68,7 +70,7 @@ class GestorDeLotesController extends Controller {
 
 		if ($request->ajax()) {
 			// sleep(2);
-			return view('gestordelotes::lotes.create-modal', compact('obra_id', 'etapa_id', 'grouped', 'conjuntos', 'estagios'));
+			return view('gestordelotes::lotes.create-modal', compact('obra_id', 'etapa_id', 'subetapa_id', 'grouped', 'conjuntos', 'estagios'));
 		} else {
 			return view('gestordelotes::lotes.create');
 		}
@@ -104,7 +106,7 @@ class GestorDeLotesController extends Controller {
 
 		foreach (@$data['conjuntos'] as $conjunto => $qtd) {
 
-			$handles_conjunto = Handle::where('MAR_PEZ', $conjunto)->get();
+			$handles_conjunto = Handle::where('MAR_PEZ', $conjunto)->where('lote_id', null)->where('FLG_REC', 3)->orderBy('X')->orderBy('Y')->orderBy('Z')->take($qtd)->get();
 
 			foreach ($handles_conjunto as $handle) {
 				// Atualiza HANDLE [lote]
@@ -141,7 +143,7 @@ class GestorDeLotesController extends Controller {
 
 			$crono->estagio_id = $estagio->id;
 			$crono->cjtofab_id = $cjt->id;
-			$crono->data_prev = $data['data_prev'][$estagio->id];
+			$crono->data_prev = (empty($data['data_prev'][$estagio->id])) ? null : $data['data_prev'][$estagio->id];
 			$crono->data_real = null;
 			$crono->version = 1;
 			$crono->user_id = access()->user()->id;

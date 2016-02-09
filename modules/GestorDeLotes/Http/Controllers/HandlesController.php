@@ -12,6 +12,7 @@ class HandlesController extends Controller {
 	public function index(Request $request) {
 
 		$data = $request->all();
+
 		if (null == @$data['obra']) {return json_encode(['' => '']);}
 		if (null == @$data['etapa']) {return json_encode(['' => '']);}
 		if (null == @$data['subetapa']) {return json_encode(['' => '']);}
@@ -38,21 +39,27 @@ class HandlesController extends Controller {
 		// 	->select($handle->getTable() . '.*') // just to avoid fetching anything from joined table
 		// 	->with('lote'); // if you need options data anyway
 
+		if (isset($data['haslote'])) {
+			$handles = $handles->where('lote_id', '>', 0);
+		} else {
+			$handles = $handles->where('lote_id', '=', null);
+		}
+
 		if ($request->input('ungrouped')) {
 			$handles = $handles->get();
 		} else {
 			if ($flg_rec == 3) {
 				// Grouped ...
-				$handles = $handles->where('FLG_REC', 3)
-					->groupBy('MAR_PEZ')
-					->select($handle->getTable() . '.*', DB::raw('SUM(QTA_PEZ) as QTA_PEZ'))
-					->get();
+				$handles = $handles->where('FLG_REC', 3);
+				$handles = $handles->groupBy('MAR_PEZ');
+				$handles = $handles->select($handle->getTable() . '.*', DB::raw('SUM(QTA_PEZ) as QTA_PEZ'));
+				$handles = $handles->get();
 			} else {
 				// Grouped ...
-				$handles = $handles->where('FLG_REC', 4)
-					->groupBy('POS_PEZ')
-					->select($handle->getTable() . '.*', DB::raw('SUM(QTA_PEZ) as QTA_PEZ'))
-					->get();
+				$handles = $handles->where('FLG_REC', 4);
+				$handles = $handles->groupBy('POS_PEZ');
+				$handles = $handles->select($handle->getTable() . '.*', DB::raw('SUM(QTA_PEZ) as QTA_PEZ'));
+				$handles = $handles->get();
 			}
 		}
 
@@ -141,9 +148,10 @@ class HandlesController extends Controller {
 					$cronograma = Cronograma::where('estagio_id', $estagio->id)->where('cjtofab_id', @$cjtofab->id)->first();
 				}
 				if (null !== @$cronograma) {
-					$data_prev = ['ESTAGIO_' . $estagio->id => null];
-				} else {
 					$data_prev = ['ESTAGIO_' . $estagio->id => $cronograma->data_prev];
+				} else {
+					$data_prev = ['ESTAGIO_' . $estagio->id => null];
+
 				}
 
 				$responsedata = array_merge($responsedata, $data_prev);

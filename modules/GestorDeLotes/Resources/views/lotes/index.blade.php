@@ -43,38 +43,61 @@
 @stop
 @section('content')
 
-{!! Breadcrumbs::render('GestorDeLotes::pecas') !!}
+{!! Breadcrumbs::render('GestorDeLotes::conjuntos') !!}
 
-<div class="panel panel-padrao">
-	<!-- Default panel contents -->
-	<div class="panel-heading text-uppercase">
-		Gestor de Lotes
+<div class="box">
+	<!-- Default box contents -->
+	<div class="box-header with-border bg-padrao text-uppercase">
+		<h3 class="box-title">Gestor de Lotes</h3>
 	</div>
 
-	<div class="panel-body">
+	{{ Form::open(['url'=>url('/gestordelotes'),  'method'=>"POST", 'class'=>"form-inline", 'role'=>"form", "id" => "createLoteForm"]) }}
+	<div class="box-body">
 
 		<!-- Nav tabs -->
 		<ul class="nav nav-tabs">
+
+			<div class="form-group pull-right loteOptions hidden">
+				<label>Operações de Lote: </label>
+
+				<!-- Single dropdown -->
+				<div class="btn-group">
+					<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						Associar ao Lote <span class="caret"></span>
+					</button>
+					<ul class="dropdown-menu" id="lotes">
+						@foreach ($lotes as $lote)
+						<li><a href="#">{{ $lote->descricao }}</a></li>
+						@endforeach
+					</ul>
+				</div>
+
+				<a id="removerlote" class="btn btn-primary">Remover do Lote</a>
+				<a id="removerpeca" class="btn btn-primary">Remover Peça do Lote</a>
+				<a id="enviarlote" class="btn btn-success">Enviar para Produção <i class="fa fa-arrow-circle-right"></i></a>
+
+			</div>
+
 			<li>
 				<a href="{{ url('gestordelotes') }}">Conjuntos</a>
 			</li>
-			<li>
-				<a href="{{ url('gestordelotes/lotes') }}">Lotes</a>
-			</li>
 			<li class="active">
-				<a>Peças</a>
+				<a>Lotes</a>
 			</li>
+			<li>
+				<a href="{{ url('gestordelotes/pecas') }}">Peças</a>
+			</li>
+
+
 		</ul>
 	</div>
 
 	<nav class="navbar" role="navigation">
 
-		{{ Form::open(['url'=>url('/gestordelotes'),  'method'=>"POST", 'class'=>"form-inline", 'role'=>"form", "id" => "createLoteForm"]) }}
-			<input type="hidden" name="flg_rec" id="inputFlg_rec" value="4">
 		<div class="navbar-form navbar-left">
 			<div class="form-group">
 				<label class="" for="inputObra">Obra: </label>
-				{{ Form::select('obra', $obras, old('obra_id'), ['id'=>"inputObra", 'class'=>"form-control", 'required'=>"required"]) }}
+				{{ Form::select('obra', $obras, old('obra_id', NULL), ['id'=>"inputObra", 'class'=>"form-control", 'required'=>"required"] ) }}
 			</div>
 
 			<div class="form-group inputetapa hidden">
@@ -85,22 +108,41 @@
 				<label class="" for="inputSubetapa"> Subetapa: </label>
 				{{ Form::select('subetapa', [""=>""], old('subetapa_id'), ['id'=>"inputSubetapa", 'class'=>"form-control", 'required'=>"required"]) }}
 			</div>
+
+			<!-- <div class="form-group inputGrouped hidden">
+				<div class="checkbox">
+					<label>
+						<input type="checkbox" id="inputGrouped" value="true" name="grouped" checked> Agrupado
+					</label>
+				</div>
+			</div> -->
 			<a id="getHandles" class="btn btn-default hidden">Carregar</a>
 			<div class="form-group">
 				<div class="loading hidden"></div>
 			</div>
 		</div>
 
-		{{ Form::close() }}
 	</nav>
-	<div class="panel-body">
+	{{ Form::close() }}
+	<div class="box-body">
 		<table class="table table-hover stripe" id="handlesGrid" cellspacing="0" width="100%">
 			<thead>
 				<tr>
-					<th width="70">Importação</th>
-					<th>Peça</th>
+					<th width="50"></th>
+					<th></th>
 					<th>Qtd.</th>
-					<th width="150">Categoria</th>
+					<th>Import.</th>
+					<th>Lote</th>
+					<th>Conjunto</th>
+					<th>Desenho</th>
+					<th>Tipologia</th>
+					<th>Tratamento</th>
+					<th>Engenharia</th>
+
+					@foreach ($estagios as $estagio)
+						<th>{{ $estagio->descricao }}</th>
+					@endforeach
+
 				</tr>
 			</thead>
 			<tbody>
@@ -109,6 +151,15 @@
 					<td></td>
 					<td></td>
 					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					@foreach ($estagios as $estagio)
+						<td></td>
+					@endforeach
 				</tr>
 			</tbody>
 		</table>
@@ -125,6 +176,6 @@
 
 {{ Html::script('plugins/datatables/dataTables.select.min.js') }}
 
-{{ Html::script('modules/'.Module::find('GestorDeLotes')->getLowerName().'/js/pecas.script.js') }}
+{{ Html::script('modules/'.Module::find('GestorDeLotes')->getLowerName().'/js/lotes.script.js') }}
 
 @stop

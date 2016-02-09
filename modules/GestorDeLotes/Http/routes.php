@@ -4,12 +4,16 @@ Route::group(['middleware' => 'admin', 'prefix' => 'gestordelotes', 'namespace' 
 
 	Route::get('/', 'GestorDeLotesController@index');
 
-	Route::get('/lotes', 'GestorDeLotesController@lotes');
+	// Route::get('/lotes', 'GestorDeLotesController@lotes');
 	Route::get('/criar', 'GestorDeLotesController@create');
 	Route::post('/', 'GestorDeLotesController@store');
 	Route::get('/handles', 'HandlesController@index');
 
 	Route::resource('/pecas', 'PecasController');
+
+	Route::get('/lotes/handles', 'LotesController@getHandles');
+	Route::get('/lotes/remover', 'LotesController@removerdolote');
+	Route::resource('/lotes', 'LotesController');
 
 	Route::resource('/obras', 'ObrasController');
 	Route::resource('/obras/{obra_id}/etapas', 'EtapasController');
