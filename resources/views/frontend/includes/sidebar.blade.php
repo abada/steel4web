@@ -14,7 +14,7 @@
                 <p> @if(access()->user())
                       {{access()->user()->name}}
                       @endif</p>
-                      
+
                 <a href="#"><i class="fa fa-circle text-success"></i> {{access()->user()->roles->first()->name}}</a>
 
             </div>
@@ -60,6 +60,10 @@
             @endauth
             @endif
 
+            <li class="">
+                <a href="http://www.steel4web.com.br/s4w_1/server/S4W_WebGL/" target="_blank"><i class="fa fa-codepen fa-fw"></i> 3D Viewer</a>
+            </li>
+
            @permission('ver-cadastro', 'criar-cadastro', 'deletar-cadastro', 'editar-cadastro')
             <li class="header">Cadastros</li>
             <li class="{{ Active::pattern('clientes') }} {{ Active::pattern('cliente/*') }}">
@@ -75,7 +79,7 @@
             @if (access()->hasRole(1))
             <li class="{{ Active::pattern('admin/access/*') }}">
                 <a href="{!!url('admin/access/users')!!}"><i class="fa fa-user fa-fw"></i><span> Usuários</span></a>
-            </li> 
+            </li>
             @endif
 
              </ul>
