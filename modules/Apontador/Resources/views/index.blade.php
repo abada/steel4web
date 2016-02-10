@@ -77,7 +77,7 @@
 	<div class="panel-body">
 	@if(isset($history))
 
-			 <table class="table table-striped dt-responsive nowrap table-hover" cellspacing="0" width="100%" id="lotPointer">
+			 <table class="table table-striped table-bordered dt-responsive nowrap table-hover" cellspacing="0" width="100%" id="lotPointer">
 			 	<thead>
 			 		<tr>
 	                    <th>Lote</th>
@@ -108,22 +108,9 @@
 			 		<td>{{$conjunto->qtd}}</td>
 			 		<td>{{$conjunto->DES_PEZ}}</td>
 			 		<td>{{$conjunto->TRA_PEZ}}</td>
-			 		@foreach($estagios as $estagio)
-			 		@if(isset($conjunto->lote->descricao))
-			 		<?php dd($conjunto->cronos->estagio_id) ?>
-			 		@if($conjunto->cronos->has($estagio->id))
-	                    <td><input type="number" class="row-qtd" name="qtd&&{{$estagio->id}}&{{$conjunto->id}}" value="" min='0' max='10' placeholder='2' style='line-height:15px'></td>
-	                    <td><input type="date" class="row-date" name="date&&{{$estagio->id}}&{{$conjunto->id}}" style='line-height:15px' value=''></td>
-                    @else
-	                	<td></td>
-	                	<td></td>
-                    @endif
-
-                    @else
-	                	<td></td>
-	                	<td></td>
-                    @endif
-                    @endforeach
+			 		 <?php 
+			 		 	App::make('Modules\Apontador\Http\Controllers\ApontadorController')->printInputs($conjunto->id);
+			 		  ?>
 			 		</tr>
 			 		@endforeach
 			 	</tbody>
