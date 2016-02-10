@@ -25,19 +25,20 @@ $(document).ready(function() {
                url: urlbaseGeral+"/apontador/apontar",
                 dataType: "html",
                 success: function(e){
-                //   $('.TypeLoading').show();
+                  var erro = e;
+                   $('.TypeLoading').show();
                    var eID = $('#inputEtapa').val();
                    var sID = $('#inputSubetapa').val();
                    var lID = $('#inputLote').val();
-                    // jQuery.ajax({
-                    //   type: "POST",
-                    //   data: {eID:eID, sID:sID, lID:lID},
-                    //  url: urlbaseGeral+"/apontador/setHistory",
-                    //   dataType: "html",
-                    //   success: function(r){
-                    //       window.location.href = r;
-                    //   }
-                    // });
+                    jQuery.ajax({
+                      type: "POST",
+                      data: {eID:eID, sID:sID, lID:lID, erro:erro},
+                     url: urlbaseGeral+"/apontador/setHistory",
+                      dataType: "html",
+                      success: function(r){
+                          window.location.href = r;
+                      }
+                    });
                 }
             });
         return false;
@@ -51,6 +52,9 @@ $(document).ready(function() {
 
       $('#inputChooseObra').change(function() {
       	$('.TypeLoading').show();
+        $('#inputSubmit').addClass('hidden');
+        $('.inputlote').addClass('hidden');
+        $('.inputsubetapa').addClass('hidden');
 
       	var dados = $('#inputChooseObra').val();
         console.log(dados);
@@ -63,6 +67,8 @@ $(document).ready(function() {
                 success: function(result){
                   var etapas = JSON.parse(result);
              $('#inputEtapa').find('option').remove().end();
+             $('#inputSubetapa').find('option').remove().end();
+             $('#inputLote').find('option').remove().end();
              $('#inputEtapa').append($('<option>', {
                 value: 0,
                 text: 'Escolha uma Etapa...'
@@ -86,6 +92,8 @@ $(document).ready(function() {
 
       $('#inputEtapa').change(function() {
         $('.TypeLoading').show();
+        $('#inputSubmit').addClass('hidden');
+        $('.inputlote').addClass('hidden');
 
         var dados = $('#inputEtapa').val();
          if(dados != 0){
@@ -96,6 +104,7 @@ $(document).ready(function() {
                 success: function(result){
                   var etapas = JSON.parse(result);
              $('#inputSubetapa').find('option').remove().end();
+             $('#inputLote').find('option').remove().end();
              $('#inputSubetapa').append($('<option>', {
                 value: 0,
                 text: 'Escolha uma Subetapa...'

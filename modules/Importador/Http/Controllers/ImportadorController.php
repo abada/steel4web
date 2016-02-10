@@ -368,6 +368,11 @@ class ImportadorController extends Controller {
               
          }
 
+            $record['X'] = floatval($record['X']);
+            $record['Y'] = floatval($record['Y']);
+            $record['Z'] = floatval($record['Z']);
+            $record['A'] = floatval($record['A']);
+            $record['B'] = floatval($record['B']);
             $record['obra_id']         = $dados->obra_id;
             $record['etapa_id']      = $dados->etapa_id;
             $record['importacao_id'] = $dados->id;

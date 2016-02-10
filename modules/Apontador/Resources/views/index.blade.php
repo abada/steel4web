@@ -15,7 +15,7 @@
 	        <div class="navbar-form navbar-left">
 	           <div class="navbar-form navbar-left">
             <div class="form-group inputObr <?php if(!isset($history)) echo 'hidden' ?>" >
-                <label class="labelLine" for="obra">Obra: </label>
+                <label for="obra">Obra: </label>
                 <select id="inputChooseObra" class="form-control" required="required" name="obra">
                     <option class='optPadrao' value='0'>Escolha Uma Obra...</option>
                     <?php foreach ($obras as $obra) { ; ?>
@@ -24,7 +24,7 @@
                 </select>
             </div>
             <div class="form-group inputetapa <?php if(!isset($history)) echo 'hidden' ?>">
-                <label class="labelLine" for="etapa"> Etapa: </label>
+                <label for="etapa"> Etapa: </label>
                 <select id="inputEtapa" class="form-control" required="required" name="etapa">
                     @if (isset($history))
                         <option value="0">Escolha uma Etapa...</option>
@@ -35,7 +35,7 @@
                 </select>
             </div>
             <div class="form-group inputsubetapa <?php if(!isset($history)) echo 'hidden' ?>">
-                <label class="labelLine" for="subetapa"> Subetapa: </label>
+                <label for="subetapa"> Subetapa: </label>
                 <select id="inputSubetapa" class="form-control" required="required" name="subetapa">
 					@if (isset($history))
                         <option value="0">Escolha uma Subetapa...</option>
@@ -46,7 +46,7 @@
                 </select>
             </div>
             <div class="form-group inputlote <?php if(!isset($history)) echo 'hidden' ?>">
-                <label class="labelLine" for="lote"> Lote: </label>
+                <label for="lote"> Lote: </label>
                 <select id="inputLote" class="form-control" required="required" name="lote">
 					@if (isset($history))
                         <option value="0">Todos</option>
@@ -115,10 +115,13 @@
 			 		@endforeach
 			 	</tbody>
 			 </table>
-			 <button id="pointButton">Enviar</button>
+
+			 		<button id="pointButton" class='btn btn-primary' style='margin-top:15px;'>Enviar</button>
+
+			 
 
 	@else
-		<div class="panel-body">Aqui voce aponta os apontamentos apontadamente apontados (<i class="fa fa-hand-o-right"></i>)</div>
+		<div class="panel-body">Apontador</div>
 	@endif
 	</div>
 	</div> <!-- panel-padrao -->

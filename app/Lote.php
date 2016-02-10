@@ -71,6 +71,7 @@ class Lote extends Model {
 		return $this->hasMany('App\Cronograma');
 	}
 
+
 	/**
 	 * Get the related Model
 	 * @return Relationship hasMany
