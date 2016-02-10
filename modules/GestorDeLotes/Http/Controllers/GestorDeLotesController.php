@@ -99,15 +99,31 @@ class GestorDeLotesController extends Controller {
 		}
 
 		// Salva o Cronograma do Conjunto
-		$data['obra_id'] = $data['obra_id'];
-		$data['etapa_id'] = $data['etapa_id'];
 		$conjuntos = array();
 
 		foreach (@$data['conjuntos'] as $conjunto => $qtd) {
 
-			$handles_conjunto = Handle::where('MAR_PEZ', $conjunto)->where('lote_id', null)->where('FLG_REC', 3)->orderBy('X')->orderBy('Y')->orderBy('Z')->take($qtd)->get();
+			$handle = Handle::where('MAR_PEZ', $conjunto)->where('FLG_REC', 3)->where('subetapa_id', $lote->subetapa_id)->first();
+
+			if ($handle->importacao->sentido == 1) {
+				$x = 'ASC';
+				$y = 'ASC';
+			} elseif ($handle->importacao->sentido == 2) {
+				$x = 'DESC';
+				$y = 'ASC';
+			} elseif ($handle->importacao->sentido == 3) {
+				$x = 'DESC';
+				$y = 'DESC';
+			} elseif ($handle->importacao->sentido == 4) {
+				$x = 'ASC';
+				$y = 'DESC';
+			} else {
+				return 'Falha ao Procurar Sentido de Construção.&ApDanger';
+			}
+			$handles_conjunto = Handle::where('MAR_PEZ', $conjunto)->where('lote_id', null)->where('FLG_REC', 3)->where('subetapa_id', $lote->subetapa_id)->orderBy('X', $x)->orderBy('Y', $y)->take($qtd)->get();
 
 			foreach ($handles_conjunto as $handle) {
+
 				// Atualiza HANDLE [lote]
 				$handle->lote_id = $lote->id;
 				$handle->save();
