@@ -55,15 +55,7 @@
 
 		<!-- Nav tabs -->
 		<ul class="nav nav-tabs">
-			<li>
-				<a href="{{ url('gestordelotes') }}">Conjuntos</a>
-			</li>
-			<li>
-				<a href="{{ url('gestordelotes/lotes') }}">Lotes</a>
-			</li>
-			<li class="active">
-				<a>Peças</a>
-			</li>
+			@include('gestordelotes::_partials.menu')
 		</ul>
 	</div>
 

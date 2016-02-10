@@ -32,12 +32,6 @@ $(document).ready(function($) {
 
     $('#inputObra').trigger('change');
 
-    // if( etapa_id ){
-    //  $('.inputetapa.hidden, .inputGrouped.hidden, #getHandles.hidden').removeClass('hidden');
-    // }else{
-    //  $('#inputObra').trigger('change');
-    // }
-
     // ON ETAPA CHANGE
     $('#inputEtapa').change(function(event) {
 
@@ -243,41 +237,41 @@ $(document).ready(function($) {
     /* ENVIAR LOTEs */
     $('#enviarlotes').click(function(e) {    
 
-        e.preventDefault(); 
+        e.preventDefault();
 
-        var selectedItems = handlesGrid.rows('.selected').data();
-        var selectedQtd = handlesGrid.$('.selected').find('input');
-        var lotes = [];            
+        alert('Função indisponível');
+    
+        // var selectedItems = handlesGrid.rows('.selected').data();
+        // var selectedQtd = handlesGrid.$('.selected').find('input');
+        // var lotes = [];            
 
-        for (var i = 0; i < selectedItems.length; i++) {
-            if( $.inArray( selectedItems[i].lote_id, lotes) == -1 ){
-                lotes.push(selectedItems[i].lote_id);
-            };
-        };        
+        // for (var i = 0; i < selectedItems.length; i++) {
+        //     if( $.inArray( selectedItems[i].lote_id, lotes) == -1 ){
+        //         lotes.push(selectedItems[i].lote_id);
+        //     };
+        // };        
 
-        if( confirm('Após enviar para a Produção você não poderá mais alterar os lotes. Deseja mesmo continuar?') ){
-            $.ajax({
-                url: urlbase + '/gestordelotes/producao',
-                type: 'POST',
-                dataType: 'json',
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
-                },
-                beforeSend: function () {
-                    console.log(lotes);
-                },
-                data: {                    
-                    lotes: lotes,
-                }
-            })
-            .done(function(data) {
+        // if( confirm('Isto irá remover o Lote inteiro incluindo seu cronograma. Deseja mesmo continuar?') ){
+        //     $.ajax({
+        //         url: urlbase + '/gestordelotes/lotes/removerlote',
+        //         type: 'GET',
+        //         dataType: 'json',
+        //         data: {                    
+        //             lotes: lotes,
+        //         }
+        //     })
+        //     .done(function(data) {
 
-                console.log(data);
-                
-                handlesGrid.ajax.url(urlbase + '/gestordelotes/producao/handles').load();
+        //         console.log(data);
+        //         if( data.length > 1 ){
+        //             alert( data.length + " Lotes removidos!" );                        
+        //         }else{
+        //             alert( data.length + " Lote removido!" );                        
+        //         }
+        //         handlesGrid.ajax.url(urlbase + '/gestordelotes/lotes/handles').load();
 
-            });
-        }
+        //     });
+        // }
 
     });
 

@@ -1,6 +1,5 @@
 <?php namespace Modules\Gestordelotes\Http\Controllers;
 
-use App\CjtoFabr;
 use App\Cronograma;
 use App\Handle;
 use App\Lote;
@@ -124,15 +123,15 @@ class GestorDeLotesController extends Controller {
 		}
 
 		// CRIA CONJUNTO FABR
-		$data['lote_id'] = $lote->id;
-		$data['handle_id'] = $handle->id;
-		$data['user_id'] = access()->user()->id;
-		$data['locatario_id'] = access()->user()->locatario->id;
+		// $data['lote_id'] = $lote->id;
+		// $data['handle_id'] = $handle->id;
+		// $data['user_id'] = access()->user()->id;
+		// $data['locatario_id'] = access()->user()->locatario->id;
 
-		$cjt = CjtoFabr::create($data);
-		if (!$cjt) {
-			return back()->withFlashDanger('Erro! Não foi possível criar "CjtoFab"!');
-		}
+		// $cjt = CjtoFabr::create($data);
+		// if (!$cjt) {
+		// 	return back()->withFlashDanger('Erro! Não foi possível criar "CjtoFab"!');
+		// }
 
 		// CRIA CRONOGRAMA POR ESTÁGIOS
 		$estagios = access()->user()->locatario->estagios->where('tipo', 2)->sortBy('ordem');
@@ -144,7 +143,7 @@ class GestorDeLotesController extends Controller {
 				$crono = new Cronograma;
 
 				$crono->estagio_id = $estagio->id;
-				$crono->cjtofab_id = $cjt->id;
+				$crono->lote_id = $lote->id;
 				$crono->data_prev = $data['data_prev'][$estagio->id];
 				$crono->data_real = null;
 				$crono->version = 1;
