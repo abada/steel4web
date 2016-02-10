@@ -55,7 +55,7 @@ class CjtoFabr extends Model {
 	 * Get the related Models
 	 * @return Relationship hasMany
 	 */
-	public function cronogramas() {
-		return $this->hasMany('App\Cronograma');
-	}
+	// public function cronogramas() {
+	// 	return $this->hasMany('App\Cronograma');
+	// }
 }

@@ -170,4 +170,5 @@ class Handle extends Model {
 		return $this->hasMany('App\CjtoMontagem');
 	}
 
+
 }

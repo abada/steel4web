@@ -109,8 +109,20 @@
 			 		<td>{{$conjunto->DES_PEZ}}</td>
 			 		<td>{{$conjunto->TRA_PEZ}}</td>
 			 		@foreach($estagios as $estagio)
-	                    <td><input type="number" class="row-qtd" name="qtd&&{{$estagio->id}}&{{$conjunto->id}}" value="" min='0' max='10' placeholder='2' style='line-height:19px'></td>
+			 		@if(isset($conjunto->lote->descricao))
+			 		<?php dd($conjunto->cronos->estagio_id) ?>
+			 		@if($conjunto->cronos->has($estagio->id))
+	                    <td><input type="number" class="row-qtd" name="qtd&&{{$estagio->id}}&{{$conjunto->id}}" value="" min='0' max='10' placeholder='2' style='line-height:15px'></td>
 	                    <td><input type="date" class="row-date" name="date&&{{$estagio->id}}&{{$conjunto->id}}" style='line-height:15px' value=''></td>
+                    @else
+	                	<td></td>
+	                	<td></td>
+                    @endif
+
+                    @else
+	                	<td></td>
+	                	<td></td>
+                    @endif
                     @endforeach
 			 		</tr>
 			 		@endforeach

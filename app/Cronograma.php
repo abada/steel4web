@@ -26,8 +26,8 @@ class Cronograma extends Model {
 	/**
 	 * Get the Estagio for the model.
 	 */
-	public function cjtofabr() {
-		return $this->belongsTo('App\CjtoFabr', 'cjtofab_id');
+	public function lote() {
+		return $this->belongsTo('App\Lote', 'lote_id');
 	}
 
 	/**

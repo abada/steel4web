@@ -67,8 +67,8 @@ class Lote extends Model {
 	 * Get the related Model
 	 * @return Relationship hasMany
 	 */
-	public function cjtofabr() {
-		return $this->hasMany('App\CjtoFabr');
+	public function cronogramas() {
+		return $this->hasMany('App\Cronograma');
 	}
 
 	/**

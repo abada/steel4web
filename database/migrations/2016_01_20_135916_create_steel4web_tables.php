@@ -983,8 +983,8 @@ class CreateSteel4webTables extends Migration {
 			$table->integer('estagio_id')->nullable()->unsigned();
 			$table->foreign('estagio_id')->references('id')->on('estagios')->onDelete('cascade');
 
-			$table->integer('cjtofab_id')->nullable()->unsigned();
-			$table->foreign('cjtofab_id')->references('id')->on('cjtofabr')->onDelete('cascade');
+			$table->integer('lote_id')->nullable()->unsigned();
+			$table->foreign('lote_id')->references('id')->on('lotes')->onDelete('cascade');
 
 			$table->date('data_prev')->nullable();
 			$table->date('data_real')->nullable();
@@ -1037,7 +1037,7 @@ class CreateSteel4webTables extends Migration {
 
 		Schema::table('cronos', function (Blueprint $table) {
 			$table->dropForeign('cronos_estagio_id_foreign');
-			$table->dropForeign('cronos_cjtofab_id_foreign');
+			$table->dropForeign('cronos_lote_id_foreign');
 			$table->dropForeign('cronos_user_id_foreign');
 			$table->dropForeign('cronos_locatario_id_foreign');
 		});
