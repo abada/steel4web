@@ -16,9 +16,22 @@ class Lote extends Model {
 
 		static::deleting(function ($lote) {
 			// before delete() method call this
-			$lote->cjtofabr()->delete();
+			$lote->cronogramas()->delete();
 			// do the rest of the cleanup...
 		});
+	}
+
+	/**
+	 * Estágios do lote
+	 * @return Collection 	(Estagio)
+	 */
+	public function estagios() {
+		$estagios = array();
+		foreach ($this->cronogramas as $cronograma) {
+			$estagios[] = $cronograma->estagio;
+		}
+		$estagios = collect($estagios)->sortBy('ordem');
+		return $estagios;
 	}
 
 	/**

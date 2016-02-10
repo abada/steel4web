@@ -1,5 +1,4 @@
 <?php namespace Modules\Gestordelotes\Http\Controllers;
-use App\CjtoFabr;
 use App\Cronograma;
 use App\Handle;
 use App\Lote;
@@ -135,8 +134,7 @@ class LotesController extends Controller {
 				foreach ($estagios as $estagio) {
 
 					if ($handle->lote_id) {
-						$cjtofab = CjtoFabr::where('lote_id', $handle->lote_id)->first();
-						$cronograma = Cronograma::where('estagio_id', $estagio->id)->where('cjtofab_id', @$cjtofab->id)->first();
+						$cronograma = Cronograma::where('estagio_id', $estagio->id)->where('lote_id', $handle->lote_id)->first();
 					}
 					if (null !== @$cronograma && null !== $cronograma->data_prev) {
 						$data_prev = ['ESTAGIO_' . $estagio->id => date('d/m/Y', strtotime($cronograma->data_prev))];

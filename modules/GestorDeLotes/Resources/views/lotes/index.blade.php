@@ -78,16 +78,7 @@
 
 			</div>
 
-			<li>
-				<a href="{{ url('gestordelotes') }}">Conjuntos</a>
-			</li>
-			<li class="active">
-				<a>Lotes</a>
-			</li>
-			<li>
-				<a href="{{ url('gestordelotes/pecas') }}">Peças</a>
-			</li>
-
+			@include('gestordelotes::_partials.menu')
 
 		</ul>
 	</div>

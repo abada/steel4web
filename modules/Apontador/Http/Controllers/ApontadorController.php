@@ -58,9 +58,9 @@ class ApontadorController extends Controller {
 
 					$ended = false;
 
-					// if(!empty($crono->first()->data_real)){
+					if(!empty($crono->first()->data_real)){
 
-					// 	$ended = true;
+						$ended = true;
 
 					// 	// if(!empty($estg->first()->lote_id)){
 					// 	// 	foreach($estg as $ets){
@@ -72,7 +72,7 @@ class ApontadorController extends Controller {
 					// 	// 	}
 					// 	// }
 							
-					// }
+					}
 					if($ended == true){
 						echo " <td><input min='0' max='0' style='line-height:15px' type='number' disabled value='0' style='line-height:15px'></td>
 	                    <td><input style='line-height:15px' type='text' disabled style='line-height:15px' value='".date('d/m/Y',strtotime($crono->first()->data_real))."'></td> ";
@@ -130,7 +130,9 @@ class ApontadorController extends Controller {
 			return 'Nenhum Dado Informado.&ApDanger';
 		}
 		$dates = array();
-		$qtdds;
+		$qtdds = array();
+		$qtdds['value'] = array();
+		$qtdds['indice'] = array();
 		foreach($data as $dat){
 			list($tip, $inf) = explode('&&', $dat);
 			if($tip == 'date'){
@@ -143,7 +145,7 @@ class ApontadorController extends Controller {
 				$qtdds['value'][] = $checko[1];
 			}
 		}
-		
+
 		for($cco = 0;$cco < count($qtdds);$cco++){
 			if($qtdds['value'][$cco] == 0 ){
 				foreach(array_keys($qtdds) as $key) {
