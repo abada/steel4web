@@ -151,7 +151,7 @@ $(document).ready(function($) {
 
     /* GET HANDLES */
     $('#getHandles').click(function() {        
-        handlesGrid.ajax.url(urlbase + '/gestordelotes/lotes/handles').load();    
+        handlesGrid.ajax.url(urlbase + '/gestordelotes/producao/handles').load();    
     });
 
     /* REMOVE CONJUNTOS */
@@ -183,7 +183,7 @@ $(document).ready(function($) {
 
                 console.log(data);
                 alert( "Itens removidos do lote!" );
-                handlesGrid.ajax.url(urlbase + '/gestordelotes/lotes/handles').load();
+                handlesGrid.ajax.url(urlbase + '/gestordelotes/producao/handles').load();
 
             })
             .fail(function() {
@@ -227,7 +227,7 @@ $(document).ready(function($) {
                 }else{
                     alert( data.length + " Lote removido!" );                        
                 }
-                handlesGrid.ajax.url(urlbase + '/gestordelotes/lotes/handles').load();
+                handlesGrid.ajax.url(urlbase + '/gestordelotes/producao/handles').load();
 
             });
         }
@@ -331,7 +331,7 @@ $(document).ready(function($) {
                 });
                 
                 $('.loading.hidden').removeClass('hidden');
-                handlesGrid.ajax.url(urlbase + '/gestordelotes/lotes/handles').load();
+                handlesGrid.ajax.url(urlbase + '/gestordelotes/producao/handles').load();
                 $('.loading').addClass('hidden');
                 $('#createLoteForm').find('.loteOptions').addClass('hidden');             
 
@@ -391,7 +391,7 @@ $(document).ready(function($) {
 
     var handlesGrid = $('#handlesGrid').DataTable({
             ajax: {
-                url: urlbase + '/gestordelotes/handles',
+                url: urlbase + '/gestordelotes/producao/handles',
                 data: function(d) {
                     // d.grouped = $('#inputGrouped:checked').val();
                     d.obra = $('#inputObra').val();

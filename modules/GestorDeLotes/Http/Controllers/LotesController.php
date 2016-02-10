@@ -59,7 +59,7 @@ class LotesController extends Controller {
 
 		$handlesOfLote = array();
 		foreach ($lotes as $lote) {
-			$handlesOfLote[] = Handle::where('lote_id', $lote->id)->selectRaw('*, SUM(QTA_PEZ) as QTA_PEZ')->groupBy('MAR_PEZ')->get();
+			$handlesOfLote[] = Handle::where('lote_id', $lote->id)->where('estagio_id', null)->selectRaw('*, SUM(QTA_PEZ) as QTA_PEZ')->groupBy('MAR_PEZ')->get();
 		}
 
 		// CONTINUAR AQUI...
