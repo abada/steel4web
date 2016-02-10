@@ -131,8 +131,7 @@ class ApontadorController extends Controller {
 		}
 		$dates = array();
 		$qtdds = array();
-		$qtdds['value'] = array();
-		$qtdds['indice'] = array();
+		$qtdKey = array();
 		foreach($data as $dat){
 			list($tip, $inf) = explode('&&', $dat);
 			if($tip == 'date'){
@@ -141,20 +140,18 @@ class ApontadorController extends Controller {
 			}
 			if($tip == 'qtd'){
 				$checko = explode('=', $inf);
-				$qtdds['indice'][] = $checko[0];
-				$qtdds['value'][] = $checko[1];
+				$qtdKey[] = $checko[0];
+				$qtdds[] = $checko[1];
 			}
 		}
 
 		for($cco = 0;$cco < count($qtdds);$cco++){
-			if($qtdds['value'][$cco] == 0 ){
-				foreach(array_keys($qtdds) as $key) {
-				   unset($qtdds[$key][$cco]);
-				}
+			if($qtdds[$cco] == 0 ){
+				unset($qtdds[$cco]);
 			}
 		}
 
-		if(count($qtdds['value']) < 1){
+		if(count($qtdds) < 1){
 			return 'Nenhum Dado Informado.&ApDanger';
 		}
 
