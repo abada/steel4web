@@ -358,11 +358,11 @@ class CreateSteel4webTables extends Migration {
 			$table->integer('medicao_id')->nullable()->unsigned();
 			$table->foreign('medicao_id')->references('id')->on('medicoes')->onDelete('set null'); // $table->integer('fkmedicao')->nullable();
 
-			$table->string('X', 255)->nullable();
-			$table->string('Y', 255)->nullable();
-			$table->string('Z', 255)->nullable();
-			$table->string('A', 255)->nullable();
-			$table->string('B', 255)->nullable();
+			$table->float('X', 255)->nullable();
+			$table->float('Y', 255)->nullable();
+			$table->float('Z', 255)->nullable();
+			$table->float('A', 255)->nullable();
+			$table->float('B', 255)->nullable();
 
 			$table->integer('user_id')->unsigned();
 			$table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

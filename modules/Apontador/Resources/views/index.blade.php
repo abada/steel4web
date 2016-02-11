@@ -15,7 +15,7 @@
 	        <div class="navbar-form navbar-left">
 	           <div class="navbar-form navbar-left">
             <div class="form-group inputObr <?php if(!isset($history)) echo 'hidden' ?>" >
-                <label class="labelLine" for="obra">Obra: </label>
+                <label for="obra">Obra: </label>
                 <select id="inputChooseObra" class="form-control" required="required" name="obra">
                     <option class='optPadrao' value='0'>Escolha Uma Obra...</option>
                     <?php foreach ($obras as $obra) { ; ?>
@@ -24,7 +24,7 @@
                 </select>
             </div>
             <div class="form-group inputetapa <?php if(!isset($history)) echo 'hidden' ?>">
-                <label class="labelLine" for="etapa"> Etapa: </label>
+                <label for="etapa"> Etapa: </label>
                 <select id="inputEtapa" class="form-control" required="required" name="etapa">
                     @if (isset($history))
                         <option value="0">Escolha uma Etapa...</option>
@@ -35,7 +35,7 @@
                 </select>
             </div>
             <div class="form-group inputsubetapa <?php if(!isset($history)) echo 'hidden' ?>">
-                <label class="labelLine" for="subetapa"> Subetapa: </label>
+                <label for="subetapa"> Subetapa: </label>
                 <select id="inputSubetapa" class="form-control" required="required" name="subetapa">
 					@if (isset($history))
                         <option value="0">Escolha uma Subetapa...</option>
@@ -46,7 +46,7 @@
                 </select>
             </div>
             <div class="form-group inputlote <?php if(!isset($history)) echo 'hidden' ?>">
-                <label class="labelLine" for="lote"> Lote: </label>
+                <label for="lote"> Lote: </label>
                 <select id="inputLote" class="form-control" required="required" name="lote">
 					@if (isset($history))
                         <option value="0">Todos</option>
@@ -77,7 +77,7 @@
 	<div class="panel-body">
 	@if(isset($history))
 
-			 <table class="table table-striped dt-responsive nowrap table-hover" cellspacing="0" width="100%" id="lotPointer">
+			 <table class="table table-striped table-bordered dt-responsive nowrap table-hover" cellspacing="0" width="100%" id="lotPointer">
 			 	<thead>
 			 		<tr>
 	                    <th>Lote</th>
@@ -108,30 +108,20 @@
 			 		<td>{{$conjunto->qtd}}</td>
 			 		<td>{{$conjunto->DES_PEZ}}</td>
 			 		<td>{{$conjunto->TRA_PEZ}}</td>
-			 		@foreach($estagios as $estagio)
-			 		@if(isset($conjunto->lote->descricao))
-			 		<?php dd($conjunto->cronos->estagio_id) ?>
-			 		@if($conjunto->cronos->has($estagio->id))
-	                    <td><input type="number" class="row-qtd" name="qtd&&{{$estagio->id}}&{{$conjunto->id}}" value="" min='0' max='10' placeholder='2' style='line-height:15px'></td>
-	                    <td><input type="date" class="row-date" name="date&&{{$estagio->id}}&{{$conjunto->id}}" style='line-height:15px' value=''></td>
-                    @else
-	                	<td></td>
-	                	<td></td>
-                    @endif
-
-                    @else
-	                	<td></td>
-	                	<td></td>
-                    @endif
-                    @endforeach
+			 		 <?php 
+			 		 	App::make('Modules\Apontador\Http\Controllers\ApontadorController')->printInputs($conjunto->id);
+			 		  ?>
 			 		</tr>
 			 		@endforeach
 			 	</tbody>
 			 </table>
-			 <button id="pointButton">Enviar</button>
+
+			 		<button id="pointButton" class='btn btn-primary' style='margin-top:15px;'>Enviar</button>
+
+			 
 
 	@else
-		<div class="panel-body">Aqui voce aponta os apontamentos apontadamente apontados (<i class="fa fa-hand-o-right"></i>)</div>
+		<div class="panel-body">Apontador</div>
 	@endif
 	</div>
 	</div> <!-- panel-padrao -->
