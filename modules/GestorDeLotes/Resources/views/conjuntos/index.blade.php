@@ -62,6 +62,20 @@
 
 				<a id="criarlote" class="btn btn-primary" data-toggle="modal" data-target="#modal">Criar Lote</a>
 
+				@if( $lotes )
+				<!-- Single dropdown -->
+				<div class="btn-group">
+					<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						Associar ao Lote <span class="caret"></span>
+					</button>
+					<ul class="dropdown-menu" id="lotes">
+						@foreach ($lotes as $lote)
+						<li><a href="{{ url('gestordelotes/associaraolote/'.$lote->id) }}">{{ $lote->descricao }}</a></li>
+						@endforeach
+					</ul>
+				</div>
+				@endif
+
 			</div>
 
 			@include('gestordelotes::_partials.menu')

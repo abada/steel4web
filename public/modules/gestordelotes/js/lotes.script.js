@@ -337,6 +337,7 @@ $(document).ready(function($) {
                 });
                 
                 $('.loading.hidden').removeClass('hidden');
+                alert( 'Conjuntos alterados de lote com sucesso!' );
                 handlesGrid.ajax.url(urlbase + '/gestordelotes/lotes/handles').load();
                 $('.loading').addClass('hidden');
                 $('#createLoteForm').find('.loteOptions').addClass('hidden');             

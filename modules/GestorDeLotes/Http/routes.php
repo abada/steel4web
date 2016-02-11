@@ -3,6 +3,7 @@
 Route::group(['middleware' => 'admin', 'prefix' => 'gestordelotes', 'namespace' => 'Modules\GestorDeLotes\Http\Controllers'], function () {
 
 	Route::get('/', 'GestorDeLotesController@index');
+	Route::get('/associaraolote/{id}', 'GestorDeLotesController@associaraolote');
 
 	Route::get('/criar', 'GestorDeLotesController@create');
 	Route::post('/', 'GestorDeLotesController@store');

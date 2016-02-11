@@ -164,6 +164,75 @@ $(document).ready(function($) {
     });
 
 
+    /* ASSOCIAR AO LOTE */
+    function changelote(e) {   
+    
+        var selectedItems = handlesGrid.rows('.selected').data();
+        var selectedQtd = handlesGrid.$('.selected').find('input');
+        var handles_ids = {};        
+
+        for (var i = 0; i < selectedItems.length; i++) {             
+            if( undefined !== handles_ids[selectedItems[i].MAR_PEZ] ){
+                handles_ids[selectedItems[i].MAR_PEZ] += parseInt(selectedQtd[i].value, 10);
+            }else{
+                handles_ids[selectedItems[i].MAR_PEZ] = parseInt(selectedQtd[i].value, 10);
+            }
+        };                
+
+        $.ajax({
+                url: e.attr('href'),
+                type: 'GET',
+                dataType: 'json',
+                data: {                    
+                    handles_ids: handles_ids,
+                }
+            })
+            .done(function(data) {                
+
+                $.ajax({
+                    url: urlbase + '/api/lotes',
+                    type: 'GET',
+                    dataType: 'json',
+                    beforeSend: function() {
+                        $('.loading.hidden').removeClass('hidden');
+                        $('#lotes').parent().addClass('hidden');
+                    }
+                })
+                .done(function(lotes) {
+                    $('#lotes').html('');
+                    $('.loading').addClass('hidden');
+                    
+                    $.each(lotes, function(index, val) {
+                        $('#lotes').append('<li><a href="' + urlbase + '/gestordelotes/associaraolote/' + val.id + '">' + val.descricao + '</a></li>');
+                    });
+                    $('#lotes').parent().removeClass('hidden');
+
+
+                    $('#lotes li a').click(function (e) {
+                        e.preventDefault();
+                        changelote($(this));
+                    });
+
+                })
+                .fail(function() {
+
+                });
+                
+                $('.loading.hidden').removeClass('hidden');
+                alert( 'Conjuntos alterados de lote com sucesso!' );
+                handlesGrid.ajax.url(urlbase + '/gestordelotes/handles').load();
+                $('.loading').addClass('hidden');
+                $('#createLoteForm').find('.loteOptions').addClass('hidden');             
+
+            });
+
+    };
+    $('#lotes li a').click(function (e) {
+        e.preventDefault();        
+        changelote( $(this) );
+    });
+
+
     /**
      * DATABLES     
      */
