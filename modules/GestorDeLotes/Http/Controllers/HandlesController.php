@@ -126,7 +126,7 @@ class HandlesController extends Controller {
 				'GROUP' => $handle->GROUP,
 				'etapa_id' => $handle->etapa_id,
 				'CATE' => $handle->CATE,
-				'importacao_id' => 'IMP-0' . $handle->importacao_id,
+				'importacao_id' => 'IMP-' . str_pad($handle->importacao->importacaoNr, 3, "0", STR_PAD_LEFT),
 
 				// 'dataprojeto' => date('d/m/Y', strtotime($handle->importacao->data)),
 				// 'dataprev_pcp' => ($handle->conjuntoCronograma->dataprev_pcp) ? date('d/m/Y', strtotime($handle->conjuntoCronograma->dataprev_pcp)) : null,

@@ -126,7 +126,7 @@ class LotesController extends Controller {
 					'GROUP' => $handle->GROUP,
 					'etapa_id' => $handle->etapa_id,
 					'CATE' => $handle->CATE,
-					'importacao_id' => 'IMP-0' . $handle->importacao_id,
+					'importacao_id' => 'IMP-' . str_pad($handle->importacao->importacaoNr, 3, "0", STR_PAD_LEFT),
 
 					// 'status' => null,
 				);
