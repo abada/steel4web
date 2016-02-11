@@ -2,6 +2,20 @@
   background-color: #283744 !important;
 }
 
+.selectedInput{
+  background-color: #F0FFF0 !important;
+  border:1px solid #AFAFAF !important;
+
+}
+
+.pointInputs{
+  height:30px !important;
+  padding: 3px 6px !important;
+}
+.row-qtd{
+  padding-left:3px !important;
+}
+
 #lotPointer.dataTable tr td:not(:first-child):empty {
     background: rgba(51,51,51,0.1);
 
@@ -99,6 +113,22 @@ html{
     background-color: #ecf0f5;
 }
 
+.TypeLoadingC{
+  width: 20px;
+    height: 20px;
+    clear: both;
+    margin: auto;
+    border: 4px rgba(255,255,255,1) solid;
+    border-top: 4px #A0A0A0 solid;
+    border-radius: 50%;
+    -webkit-animation: TypeLoadinganimation .6s infinite linear;
+    animation: TypeLoadinganimation .6s infinite linear;
+}
+
+.closeIt:hover{
+  cursor:pointer;
+}
+
 .TypeLoadingb{
     width: 35px;
     height: 35px;
@@ -156,12 +186,16 @@ clear:left;
 
 
 .tableEtapa{
-    color: #f5f5f5 !important;
-    background-color: #42596D !important;
+    color: #222222 !important;
+    background-color: #FBBB78 !important;
+}
+
+.tableEtapaIndice{
+  color: #FBBB78 !important;
 }
 
 .tableEtapa:hover{
-    background-color: #3E5263 !important;
+    background-color: #F9AF62 !important;
 }
 
 .hoverActions a:hover{

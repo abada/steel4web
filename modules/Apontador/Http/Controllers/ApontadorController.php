@@ -10,7 +10,9 @@ use App\Handle as handle;
 use App\Estagio as est;
 use App\Lote as lote;
 use App\Cronograma as cron;
+use App\CronogramaReal as creal;
 use Pingpong\Modules\Routing\Controller;
+use Log;
 
 class ApontadorController extends Controller {
 	
@@ -53,34 +55,34 @@ class ApontadorController extends Controller {
 
 					$qtd = handle::where('lote_id', $conjunto->lote_id)->where('estagio_id', $estagio->id)->where('MAR_PEZ', $conjunto->MAR_PEZ)->sum('QTA_PEZ');
 
-					$estg =  handle::where('lote_id', $conjunto->lote_id)->where('estagio_id', $estagio->id)->get();
-					$crono = cron::where('lote_id', $conjunto->lote_id)->where('estagio_id', $estagio->id)->get();
+					$estg =  handle::where('lote_id', $conjunto->lote_id)->where('estagio_id', '>', $estagio->id)->where('MAR_PEZ', $conjunto->MAR_PEZ)->get();
+					$estgMenor =  handle::where('lote_id', $conjunto->lote_id)->where('estagio_id', '<=', $estagio->id)->where('MAR_PEZ', $conjunto->MAR_PEZ)->get();
 
 					$ended = false;
+					$mustDoIt = true;
 
-					if(!empty($crono->first()->data_real)){
+					if(!empty($estg->first()->id) && (empty($estgMenor->first()->id) || $qtd < 1)){
 
-						$ended = true;
+						$dataR = creal::where('lote_id', $conjunto->lote_id)->where('estagio_id', $estagio->id)->where('MAR_PEZ', $conjunto->MAR_PEZ)->orderBy('data', 'desc')->get();
 
-					// 	// if(!empty($estg->first()->lote_id)){
-					// 	// 	foreach($estg as $ets){
-					// 	// 		echo $ets->estagio->ordem.' X '.$estagio->ordem.'x'.$estagio->descricao.'<br>';
-					// 	// 		if($ets->estagio->ordem == $estagio->ordem){
-					// 	// 			echo $ets->estagio_id.' X '.$estagio->id.'<br>';
-					// 	// 			$ended = false;
-					// 	// 		}
-					// 	// 	}
-					// 	// }
-							
+						if(!empty($dataR->first()->data)){
+
+							$mustDoIt = false;
+
+							echo " <td><p class=' form-control-static'>0</p></td>
+		                    <td><p class=' form-control-static'>".date('d/m/Y',strtotime($dataR->first()->data))."</p></td> ";
+						}
+
 					}
-					if($ended == true){
-						echo " <td><input min='0' max='0' style='line-height:15px' type='number' disabled value='0' style='line-height:15px'></td>
-	                    <td><input style='line-height:15px' type='text' disabled style='line-height:15px' value='".date('d/m/Y',strtotime($crono->first()->data_real))."'></td> ";
-					}else{
-						$disable = ($qtd < 1) ? ' disabled ' : '';
-						$today = ($qtd < 1) ? '' : date('Y-m-d');
-						echo " <td><input type='number' ".$disable." onkeydown='return false' class='row-qtd' name='qtd&&".$estagio->id."&".$conjunto->id."' value='' min='0' max='".$qtd."' placeholder='".$qtd."' style='line-height:15px'></td>
-	                    <td><input type='date' class='row-date' ".$disable." name='date&&".$estagio->id."&".$conjunto->id."' style='line-height:15px' value='".$today."'></td> ";
+					if($mustDoIt == true){
+						if($qtd < 1){
+							echo "<td><p class=' form-control-static'>0</p></td>
+								  <td><p class=' form-control-static'>dd/mm/aaaa</p></td>";
+						}else{
+							$today = date('Y-m-d');
+							echo " <td><input type='number' onkeydown='return false' class='row-qtd input-sm form-control' name='qtd&&".$estagio->id."&".$conjunto->id."' value='' min='0' max='".$qtd."' placeholder='".$qtd."' style='line-height:15px'></td>
+	                    <td><input type='date' class='row-date input-sm form-control' name='date&&".$estagio->id."&".$conjunto->id."' style='line-height:15px' value='".$today."'></td> ";
+						}		
 					}
 
 					
@@ -119,6 +121,7 @@ class ApontadorController extends Controller {
 		$dados = explode('&xXx&', $dados['dados']);
 		$data = array();
 		$warnings = array();
+		$done = array();
 		foreach($dados as $newDados){
 			$haveStuff = substr($newDados, -1);
 			if($haveStuff != '='){
@@ -160,6 +163,7 @@ class ApontadorController extends Controller {
 			if($type == 'qtd' || $type == 'date' ){
 				list($estagioId, $moreInfo) = explode('&', $info);
 				list($conjuntoId, $value) = explode('=', $moreInfo);
+				$ThisEst = est::find($estagioId);
 				$conj = handle::find($conjuntoId);
 				$estagios = array();
 				foreach($conj->lote->cronogramas as $crono){
@@ -199,10 +203,42 @@ class ApontadorController extends Controller {
 
 					$upEstagio = ['estagio_id' => $newEstagio];
 					$update = handle::where('lote_id', $conj->lote_id)->where('MAR_PEZ',$conj->MAR_PEZ)->where('estagio_id', $estagioId)->orderBy('X', $x)->orderBy('Y', $y)->take($value);
-					$update->update($upEstagio);	
+					$update->update($upEstagio);
+					$done[] = $conj->MAR_PEZ.'&'.$ThisEst->descricao.'&'.$conj->lote->descricao.'&'.$value;
+
 					}
 					
 				}elseif($type == 'date'){
+					$chcc = explode('=',$info);
+					if(in_array($chcc[0], $qtdKey)){
+							if($conj->importacao->sentido == 1){
+							$x = 'ASC'; $y='ASC';
+						}elseif($conj->importacao->sentido == 2){
+							$x = 'DESC'; $y = 'ASC';
+						}elseif($conj->importacao->sentido == 3){
+							$x = 'DESC'; $y = 'DESC';
+						}elseif($conj->importacao->sentido == 4){
+							$x = 'ASC'; $y = 'DESC';
+						}
+						$updateData = handle::where('lote_id', $conj->lote_id)->where('MAR_PEZ',$conj->MAR_PEZ)->where('estagio_id', $newEstagio)->orderBy('X', $x)->orderBy('Y', $y)->take($value)->get();
+		
+						foreach($updateData as $upDat){
+
+							$dataReal = [
+							'estagio_id' 	=>  $estagioId,
+							'lote_id'    	=>  $upDat->lote_id,
+							'handle_id'  	=>  $upDat->id,
+							'MAR_PEZ' 	 	=>  $upDat->MAR_PEZ,
+							'data'       	=>  $value,
+							'user_id'    	=>  access()->user()->id,
+							'locatario_id'  =>  access()->user()->locatario_id
+						];
+
+						$Creal = creal::create($dataReal);
+						}
+						
+
+					}
 
 				}
 			}else{
@@ -217,6 +253,13 @@ class ApontadorController extends Controller {
 			$toReturn .="&ApWarning";
 			return $toReturn;
 		}else{
+			$msg = 'Apontamento: ';
+			foreach($done as $donee){
+				$don = explode('&', $donee);
+				$msg .= 'Conjunto: '.$don[0].' - Quantidade: ' .$don[3]. ' - Estagio: '.$don[1].' - Lote: '.$don[2].' -- ';
+			}
+			$msg .=' Realizado por '. access()->user()->name .'.';
+            Log::info($msg);
 			return 'Apontamento Executado com Sucesso.&ApSuccess';
 		}
 	}

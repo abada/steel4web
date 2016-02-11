@@ -70,6 +70,8 @@ Route::get('obras', array('middleware' => 'ver-cadastro', 'as' => 'obras', 'uses
 Route::get('obra/{id}', array('middleware' => 'ver-cadastro', 'as' => 'obra', 'uses' => 'Cadastros\ObrasController@ver'));
 //Mudar Status
 Route::get('obra/status/{id}', array('middleware' => 'editar-cadastro', 'as' => 'obra/status', 'uses' => 'Cadastros\ObrasController@editarStatus'));
+//Excluir Obra
+Route::get('obra/excluir/{id}', array('middleware' => 'deletar-cadastro', 'as' => 'obra/excluir', 'uses' => 'Cadastros\ObrasController@excluir'));
 
 //END OBRAS
 
@@ -132,6 +134,8 @@ Route::get('cliente/editar/{id}', array('middleware' => 'editar-cadastro', 'as' 
 Route::post('cliente/update', array('middleware' => 'editar-cadastro', 'as' => 'cliente/update', 'uses' => 'Cadastros\ClientesController@gravarEdicao'));
 //Realiza Cadastro
 Route::post('cliente/gravar', array('middleware' => 'criar-cadastro', 'as' => 'cliente/gravar', 'uses' => 'Cadastros\ClientesController@gravar'));
+//Excluir Cliente
+Route::get('cliente/excluir/{id}', array('middleware' => 'deletar-cadastro', 'as' => 'cliente/excluir', 'uses' => 'Cadastros\ClientesController@excluir'));
 
 //END CLIENTES
 
@@ -162,6 +166,8 @@ Route::get('contato/tipo/editar/{id}', array('middleware' => 'editar-cadastro', 
 Route::get('contato/tipo/excluir/{id}', array('middleware' => 'deletar-cadastro', 'as' => 'contato/tipo/excluir/{id}', 'uses' => 'Cadastros\ContatosController@tipoExcluir'));
 //Realiza Edicao de Tipo de Contatos
 Route::post('contato/tipo/update', array('middleware' => 'editar-cadastro', 'as' => 'contato/tipo/update', 'uses' => 'Cadastros\ContatosController@gravarTipoEdicao'));
+//Excluir Contatos
+Route::get('contato/excluir/{id}', array('middleware' => 'deletar-cadastro', 'as' => 'contato/excluir', 'uses' => 'Cadastros\ContatosController@excluir'));
 
 //END CONTATOS
 

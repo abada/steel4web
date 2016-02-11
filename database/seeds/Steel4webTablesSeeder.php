@@ -33,7 +33,18 @@ class Steel4webTablesSeeder extends Seeder {
 			DB::table('handles')->truncate();
 			DB::table('importacoes')->truncate();
 		}
+
+		// 	$faker = Faker::create('fs_ll');
+		// 	$faker->addProvider(new \Faker\Provider\fs_ll\Person($faker));
+		// $faker->addProvider(new \Faker\Provider\fs_ll\Address($faker));
+		// // $faker->addProvider(new \Faker\Provider\en_US\Address($faker));
+		// $faker->addProvider(new \Faker\Provider\fs_ll\PhoneNumber($faker));
+		// $faker->addProvider(new \Faker\Provider\fs_ll\Company($faker));
+		// $faker->addProvider(new \Faker\Provider\Lorem($faker));
+		// $faker->addProvider(new \Faker\Provider\Internet($faker));
+
 		$faker = Faker::create('pt_BR');
+		
 		$faker->addProvider(new \Faker\Provider\pt_BR\Person($faker));
 		$faker->addProvider(new \Faker\Provider\pt_BR\Address($faker));
 		// $faker->addProvider(new \Faker\Provider\en_US\Address($faker));
@@ -41,6 +52,7 @@ class Steel4webTablesSeeder extends Seeder {
 		$faker->addProvider(new \Faker\Provider\pt_BR\Company($faker));
 		$faker->addProvider(new \Faker\Provider\Lorem($faker));
 		$faker->addProvider(new \Faker\Provider\Internet($faker));
+		
 		$locatarios = Locatario::all();
 		foreach ($locatarios as $locatario) {
 			$user = $locatario->users->first();

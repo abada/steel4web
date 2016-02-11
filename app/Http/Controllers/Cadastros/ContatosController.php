@@ -8,6 +8,8 @@ use App\Contato as cont;
 use App\TipoContato as tipo;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use DB;
+use Log;
 
 class ContatosController extends Controller
 {
@@ -86,13 +88,11 @@ class ContatosController extends Controller
     public function tipoExcluir($id){
         $conts = cont::where('tipo_id',$id)->get();
         if(isset($conts[0])){
-             \Session::flash('error', 'Categoria em uso, exclusão proibida.');
-            return redirect()->route('contato/tipos');   
+            return redirect()->back()->withFlashDanger('Tipo em uso, exclusão proibida.'); 
         }
         else{
            $del = tipo::find($id)->delete();
-            \Session::flash('success', 'Categoria excluida com Sucesso.');
-            return redirect()->route('contato/tipos');
+            return redirect()->back()->withFlashSuccess('Tipo de Contato Excluido com Sucesso.'); 
             
         }
 
@@ -159,5 +159,22 @@ class ContatosController extends Controller
             
             }
         die('erro'); 
+    }
+
+    public function excluir($id){
+
+        $exists = DB::table('contato_obra')
+              ->where('contato_id', $id)
+              ->first();
+            if(empty($exists->id)){
+                 $contato = cont::find($id);
+                 $name = $contato->razao;
+                 $contato->delete();
+                 $msg = 'Exclussão de Contato '.$name.' por '. access()->user()->name .'.';
+                Log::info($msg);
+                return redirect()->back()->withFlashSuccess('Contato excluida com Sucesso!');
+            }else{
+                return redirect()->back()->withFlashDanger('Erro ao excluir Contato. Exclua todas as obras relacionadas a ele para exclui-lo.');
+            }
     }
 }

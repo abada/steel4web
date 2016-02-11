@@ -22,22 +22,22 @@
     }
 
     .navbar-inverse {
-        background-color: #1a237e;
-        border-color: #1a237e;
+        background-color: #C2C2C2;
+        border-color: #C2C2C2;
     }
 
     .navbar-inverse .navbar-nav>.active>a,
     .navbar-inverse .navbar-nav>.active>a:focus,
     .navbar-inverse .navbar-nav>.active>a:hover {
-        background-color: #3949ab;
+        background-color: #C2C2C2;
     }
 
     .navbar-inverse .navbar-brand {
-        color: #c5cae9;
+        color: #2F2F2F;
     }
 
     .navbar-inverse .navbar-nav>li>a {
-        color: #c5cae9;
+        color: #2F2F2F;
     }
 
     .navbar-fixed-top {

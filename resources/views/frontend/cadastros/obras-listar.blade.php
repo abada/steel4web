@@ -40,7 +40,7 @@ if ($obra->status == 0) {
                                 <tr class="<?=$tipoStatus;?>" >
                                     <td><?=$obra->codigoObra;?></td>
                                     <td><a href="{{ url('obra/'.$obra->id) }}"><?=$obra->nomeObra;?></a></td>
-                                    <td><?=$obra->fantasia;?></td>
+                                    <td><?=$obra->razao;?></td>
                                     <td class="text-center"><?php echo date("d/m/Y", strtotime($obra->created_at)); ?></td>
                                     <td class="text-center">
                                         <span class="text-<?=$tipoStatus;?>">
@@ -55,6 +55,11 @@ if ($obra->status == 0) {
                                             <a href="{{ url('obra/editar/'.$obra->id) }}" alt="Editar obra" title="Editar obra">
                                                 <i class="fa fa-edit fa-fw"></i>
                                             </a>
+                                             @if (access()->hasRole(1))
+                                            <a href="{{url('obra/excluir/'.$obra->id)}}" alt="Excluir Obra" title="Excluir Obra" style="text-decoration:none">
+                                                <i class="fa fa-trash fa-fw"></i>
+                                            </a>
+                                            @endif
                                         </div>
                                     </td>
                                 </tr>

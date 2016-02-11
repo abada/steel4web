@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\importer\cliente;
 use App\Cliente as client;
+use App\Obra as obr;
 use App\Http\Controllers\Controller;
 use Log;
 
@@ -91,4 +92,18 @@ class ClientesController extends Controller
                 }
             die('erro'); 
         }
+
+    public function excluir($id){
+        $obras = obr::where('cliente_id', $id)->get();
+            if(empty($obras->first()->id)){
+                 $cliente = client::find($id);
+                 $name = $cliente->razao;
+                 $cliente->delete();
+                 $msg = 'Exclussão de Cliente '.$name.' por '. access()->user()->name .'.';
+                Log::info($msg);
+                return redirect()->back()->withFlashSuccess('Cliente excluida com Sucesso!');
+            }else{
+                return redirect()->back()->withFlashDanger('Erro ao excluir cliente. Exclua todas as obras relacionadas a ele para exclui-lo.');
+            }
+    }
 }

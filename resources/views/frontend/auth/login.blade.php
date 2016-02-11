@@ -3,8 +3,8 @@
 @section('content')
 
     <div class="login-box">
-      <div class="login-logo">
-       {{ Html::image('img/logo-Steel4web.png', 'Steel4Web', array('class' => 'loginIMG')) }}
+      <div  style='width:100%'>
+       {{ Html::image('img/logo-Steel4web-600.png', 'Steel4Web', array('class' => 'loginIMG', 'style' => 'width:100%;padding-bottom:20px')) }}
       </div><!-- /.login-logo -->
       <div class="login-box-body">
         @include('includes.partials.messages')

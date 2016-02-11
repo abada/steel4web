@@ -9,8 +9,9 @@ class CronogramaReal extends Model {
 
 	protected $fillable = [
 		'estagio_id',
-		'cjtofab_id',
+		'MAR_PEZ',
 		'handle_id',
+		'lote_id',
 		'data',
 		'user_id',
 		'locatario_id',

@@ -7,9 +7,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a href="{{ route('log-viewer::dashboard') }}" class="navbar-brand">
-                <i class="fa fa-fw fa-book"></i> LogViewer
-            </a>
+            <a href="{!! url('/') !!}" class="logo" ><img style='margin-top:9px;margin-right:20px;' src="{{asset('img/logo-Steel4web.png')}}" alt=""></a>
         </div>
         <ul class="nav navbar-nav">
             <li class="{{ Route::is('log-viewer::dashboard') ? 'active' : '' }}">

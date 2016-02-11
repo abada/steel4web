@@ -78,3 +78,12 @@
         @endif
     </div>
 @endif
+
+<?php 
+    if(\Session::get('ApWarning'))
+            \Session::forget('ApWarning');
+        if(\Session::get('ApDanger'))
+            \Session::forget('ApDanger');
+        if(\Session::get('ApSuccess'))
+            \Session::forget('ApSuccess');
+ ?>

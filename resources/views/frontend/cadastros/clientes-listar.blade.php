@@ -78,6 +78,17 @@
                                             <a href="{{ url($type.'/editar/'.$cliente->id) }}" alt="Editar {{$type}}" title="Editar {{$type}}">
                                                 <i class="fa fa-edit fa-fw"></i>
                                             </a>
+                                            @if (access()->hasRole(1))
+                                            @if(!isset($contato))
+                                            <a href="{{url('cliente/excluir/'.$cliente->id)}}" alt="Excluir Cliente" title="Excluir Cliente" style="text-decoration:none">
+                                                <i class="fa fa-trash fa-fw"></i>
+                                            </a>
+                                            @else
+                                            <a href="{{url('contato/excluir/'.$cliente->id)}}" alt="Excluir Contato" title="Excluir Contato" style="text-decoration:none">
+                                                <i class="fa fa-trash fa-fw"></i>
+                                            </a>
+                                            @endif
+                                            @endif
                                         </div>
                                     </td>
                                 </tr>

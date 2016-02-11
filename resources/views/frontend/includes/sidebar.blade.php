@@ -80,6 +80,9 @@
             <li class="{{ Active::pattern('admin/access/*') }}">
                 <a href="{!!url('admin/access/users')!!}"><i class="fa fa-user fa-fw"></i><span> Usuários</span></a>
             </li>
+            <li>
+                <a href="{!! url('log-viewer') !!}"><i class="fa fa-eye fa-fw"></i><span> Logs</span></a>
+            </li>
             @endif
 
              </ul>

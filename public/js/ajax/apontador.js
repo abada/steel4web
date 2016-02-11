@@ -1,11 +1,23 @@
 $(document).ready(function() {
 
+   $('.tooltipo').tooltip({placement: "right"})
+
+
+   $('.row-qtd').change(function(event) {
+    var value = $(this).val();
+     if(value){
+      $(this).addClass('selectedInput');
+     }
+  });
 
 
     var table = $('#lotPointer').DataTable({
         responsive: false,
         "scrollX": true,
         "iDisplayLength": 25,
+        columnDefs: [
+          { targets: 'no-sort', orderable: false }
+        ],
         "language": {
           "emptyTable": "Nenhum Conjunto Disponivel."
         }
@@ -179,9 +191,6 @@ $(document).ready(function() {
 
  
 
-         $('#importTable').DataTable({
-              responsive: true
-          });
 
          $('.toBeHidden').hide();
     

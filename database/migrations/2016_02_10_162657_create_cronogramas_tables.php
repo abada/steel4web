@@ -41,6 +41,8 @@ class CreateCronogramasTables extends Migration {
 			$table->integer('handle_id')->nullable()->unsigned();
 			$table->foreign('handle_id')->references('id')->on('handles')->onDelete('cascade');
 
+			$table->string('MAR_PEZ')->nullable();
+
 			$table->date('data')->nullable();
 
 			$table->integer('user_id')->unsigned();

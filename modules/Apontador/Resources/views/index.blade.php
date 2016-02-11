@@ -87,8 +87,8 @@
 	                    <th>Descricao</th>
 	                    <th>Tratamento</th>
 	                    @foreach($estagios as $estagio)
-	                    <th>{{$estagio->decricao}} Qtd</th>
-	                    <th>Data Real {{$estagio->descricao}}</th>
+	                    <th class='no-sort'>{{$estagio->decricao}} Qtd</th>
+	                    <th class='no-sort'>Data Real {{$estagio->descricao}}</th>
 	                    @endforeach
                     </tr>
 			 	</thead>
@@ -105,8 +105,8 @@
 			 			<td>{{$lote}}</td>
 			 		<td>{{$conjunto->MAR_PEZ}}</td>
 			 		<td>{{$conjunto->NUM_COM}}</td>
-			 		<td>{{$conjunto->qtd}}</td>
-			 		<td>{{$conjunto->DES_PEZ}}</td>
+			 		<td class='text-center'>{{$conjunto->qtd}}</td>
+			 		<td class='text-center'><img class='tooltipo' data-toggle="tooltip" data-html="true" title='{{$conjunto->DES_PEZ}}' src="{!! asset('img/icons/'.getIcon($conjunto->DES_PEZ)); !!}"></td>
 			 		<td>{{$conjunto->TRA_PEZ}}</td>
 			 		 <?php 
 			 		 	App::make('Modules\Apontador\Http\Controllers\ApontadorController')->printInputs($conjunto->id);

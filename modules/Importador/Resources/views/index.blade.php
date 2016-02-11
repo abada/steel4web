@@ -73,7 +73,7 @@
                         <td>{{$imp->observacoes}}</td>
                         <td>
                             <div class='text-center hoverActions'>
-                                    <a style='color:#f5f5f5' id='delete&{{$imp->id}}' class='delImp' title='Excluir Importacao' href='' ><i class='fa fa-times'></i>
+                                    <a style='color:#222222' id='delete&{{$imp->id}}' class='delImp' title='Excluir Importacao' href='' ><i class='fa fa-trash '></i>
                                 </a>
                             </div>
                         </td>
@@ -122,7 +122,7 @@
 	            </tbody>
 			 </table>
 				<div style='float:right;margin:15px'>
-                <i style='color:#42596D;display:block' class="fa fa-square">  <span style='color:#333333'> Importação</span></i>
+                <i style='display:block' class="fa fa-square tableEtapaIndice">  <span style='color:#333333'> Importação</span></i>
                     <i style='color:#333333' class="fa fa-square-o">  Arquivo</i>
                 </div>
 			</div>

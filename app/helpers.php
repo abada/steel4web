@@ -187,6 +187,16 @@ if (!function_exists('getIcon')) {
 		if (array_key_exists($string, $icons)) {
 			return $icons[$string];
 		} else {
+			$StringEx = explode('-', $string);
+			if(strlen($StringEx[0])>2){
+				foreach(array_keys($icons) as $iconKeys){
+
+					if(strpos($iconKeys,$StringEx[0]) !== FALSE){
+						
+						return $icons[$iconKeys];
+					}
+				}
+			}
 			return $icons['default'];
 		}
 

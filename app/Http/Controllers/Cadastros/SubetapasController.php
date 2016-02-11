@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Subetapa as sub;
 use App\TipoSubetapa as tipo;
 use App\Etapa as etap;
+use App\Importacao as imp;
 
 class SubetapasController extends Controller
 {
@@ -127,7 +128,9 @@ class SubetapasController extends Controller
     {
         $dados = $request->all();
         $subID = $dados['id'];
-        $sub = sub::find($subID);
+        $checking = imp::where('subetapa_id', $subID)->get();
+        if(empty($checking->first()->id)){
+            $sub = sub::find($subID);
         $obraID = $sub->etapa->obra_id;
         if(count($sub->etapa->subetapas) > 1){
             $sub->delete();
@@ -136,5 +139,9 @@ class SubetapasController extends Controller
         else{
             die('erro2');
         }
+    }else{
+        die('erro3');
+    }
+        
         }
 }

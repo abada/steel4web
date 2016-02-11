@@ -5,9 +5,10 @@
                     Listagem de Etapas
                     <div style='float:right;margin-right:15px'>
                         <i style='color:green;font-size:14px' id='tipoSuccess' class="fa fa-check-circle fa-2x hidden">  Excluido com Sucesso.</i>
-                        <i style='color:red;font-size:14px' id='tipoError' class="fa fa-exclamation-circle fa-2x hidden">  Erro ao Excluir, Certifique-se que o objeto não contem dependencias.</i>
-                        <i style='color:red;font-size:14px' id='tipoError2' class="fa fa-exclamation-circle fa-2x hidden">  Erro ao Excluir, Exclua a Etapa para Excluir a Subetapa Principal.</i>
-                        <img src="/img/del.gif" id='tipoLoading' style='width:15px' class='hidden'>
+                        <i style='color:red;font-size:14px' id='tipoError' class="fa fa-exclamation-circle fa-2x hidden">  Erro ao Excluir, Certifique-se que o objeto não contem dependencias.  <i class="fa fa-times closeIt style=''color:red;font-size:14px"></i></i>
+                        <i style='color:red;font-size:14px' id='tipoError2' class="fa fa-exclamation-circle fa-2x hidden">  Erro ao Excluir, Exclua a Etapa para Excluir a Subetapa Principal.  <i class="fa fa-times closeIt style=''color:red;font-size:14px"></i></i>
+                        <i style='color:red;font-size:14px' id='tipoError3' class="fa fa-exclamation-circle fa-2x hidden">  Erro ao Excluir, Subetapa com Importações cadastradas.  <i class="fa fa-times closeIt style=''color:red;font-size:14px"></i></i>
+                        <div id='tipoLoading' class='TypeLoadingC hidden'></div>
                     </div>
                 </div>
                 @if(isset($obra->etapas[0]))
@@ -36,10 +37,10 @@
                                     <td class="text-center"><?php echo date("d/m/Y", strtotime($etapa->created_at));?></td>
                                     <td>
                                         <div class="text-center hoverActions">
-                                            <a style='color:#f5f5f5' href="{{ url('subetapa/criar/'.$etapa->id) }}" title='Criar Subetapa'> <i class="fa fa-plus-square"></i></a>&nbsp;&nbsp;
-                                              <a style='color:#f5f5f5' href="{{ url('etapa/editar/'.$etapa->id) }}" title='Editar Etapa'> <i class="fa fa-edit fa-fw"></i></a>&nbsp;&nbsp;
-                             <a style='color:#f5f5f5' name='{{$etapa->id}}' class='delEtapa' title='Excluir Etapa' href="#" 
-                             ><i class="fa fa-times"></i></a>
+                                            <a style='color:#222222' href="{{ url('subetapa/criar/'.$etapa->id) }}" title='Criar Subetapa'> <i class="fa fa-plus-square"></i></a>&nbsp;&nbsp;
+                                              <a style='color:#222222' href="{{ url('etapa/editar/'.$etapa->id) }}" title='Editar Etapa'> <i class="fa fa-edit fa-fw"></i></a>&nbsp;&nbsp;
+                             <a style='color:#222222' name='{{$etapa->id}}' class='delEtapa' title='Excluir Etapa' href="#" 
+                             ><i class="fa fa-trash"></i></a>
                                         </div>
                                     </td>
                                 </tr>
@@ -47,13 +48,13 @@
                                     <tr class='toBeHidden <?=$etapa->id;?>'>
                                         <td></td>
                                         <td class="text-center"><?=$subetapa->cod;?></td>
-                                        <td class="text-center"><?=$subetapa->peso;?> kg</td>
-                                        <td><?=$subetapa->observacao;?></td>
-                                        <td class="text-center">{{$subetapa->tipo->descricao}}</td>
+                                        <td class="text-center"><?php if(!empty($subetapa->peso)) echo $subetapa->peso.' Kg';?></td>
+                                        <td><?php if(!empty($subetapa->observacao)) echo $subetapa->observacao;?></td>
+                                        <td class="text-center"><?php if(!empty($subetapa->tipo->descricao)) echo $subetapa->tipo->descricao;?></td>
                                         <td>
                                             <div class="text-center">
                                                   <a href="{{ url('subetapa/editar/'.$subetapa->id) }}" title='Editar Subetapa'> <i class="fa fa-edit fa-fw"></i></a>&nbsp;&nbsp;
-                                                  <a title='Excluir Subetapa' href="#" name='{{$subetapa->id}}' class='delSubEtapa'  ><i class="fa fa-times"></i></a>
+                                                  <a title='Excluir Subetapa' href="#" name='{{$subetapa->id}}' class='delSubEtapa'  ><i class="fa fa-trash"></i></a>
                                             </div>
                                         </td>
                                     </tr>
@@ -62,8 +63,8 @@
                             </tbody>
                         </table>
                         <div style='float:right;margin:15px'>
-                        <i style='color:#42596D;display:block' class="fa fa-square">  <span style='color:#333333'>Etapa</span></i>
-                            <i style='color:#333333' class="fa fa-square-o">  Subetapa</i>
+                            <i style='display:block' class="fa fa-square tableEtapaIndice">  <span style='color:#333333'> Etapa</span></i>
+                    <i style='color:#333333' class="fa fa-square-o">  Subetapa</i>
                         </div>
                     </div>
 

@@ -56,6 +56,8 @@ $('#subToggle').click(function(e) {
 
       $('#inputChooseObra').change(function() {
       	$('.TypeLoading').show();
+        $('.inputsubetapa').addClass('hidden');
+        $('#inputSubmit').addClass('hidden');
 
       	var dados = $('#inputChooseObra').val();
      	jQuery.ajax({
@@ -89,6 +91,7 @@ $('#subToggle').click(function(e) {
 
        $('#inputEtapa').change(function() {
         $('.TypeLoading').show();
+        $('#inputSubmit').addClass('hidden');
         var dadoos = $('#inputEtapa').val();
       jQuery.ajax({
                 type: "POST",
@@ -145,7 +148,7 @@ $('#subToggle').click(function(e) {
                     
                     for(var imp in subed.importacoes){
                       var idSize = subed.importacoes[imp].id;
-                      $('#noSort tr:last').after("<tr class='tableEtapa'><td class='text-center' ><i id='"+ subed.importacoes[imp].id +"' title='Importacao "+ subed.importacoes[imp].importacaoNr +"' class='clickTable fa fa-plus fa-fw'></i></td><td>"+ subed.importacoes[imp].descricao +"</td><td>"+ subed.importacoes[imp].importacaoNr +"</td><td>"+ subed.importacoes[imp].observacoes +"</td><td><div class='text-center hoverActions'><a style='color:#f5f5f5' id='delete&"+ subed.importacoes[imp].id +"' class='delImp' title='Excluir Importacao' href='' ><i class='fa fa-times'></i></a></div></td></tr>"); 
+                      $('#noSort tr:last').after("<tr class='tableEtapa'><td class='text-center' ><i id='"+ subed.importacoes[imp].id +"' title='Importacao "+ subed.importacoes[imp].importacaoNr +"' class='clickTable fa fa-plus fa-fw'></i></td><td>"+ subed.importacoes[imp].descricao +"</td><td>"+ subed.importacoes[imp].importacaoNr +"</td><td>"+ subed.importacoes[imp].observacoes +"</td><td><div class='text-center hoverActions'><a style='color:#222222' id='delete&"+ subed.importacoes[imp].id +"' class='delImp' title='Excluir Importacao' href='' ><i class='fa fa-trash'></i></a></div></td></tr>"); 
                       if(subed.importacoes[imp].dbf2d != null){
                           $('#noSort tr:last').after("<tr class='toBeHidden "+ subed.importacoes[imp].id +"'><td class='img-icon text-center'><img src='"+ subed.image+"/dbf.png" +"'></td><td colspan='3'><p>"+ subed.importacoes[imp].dbf2d +"   &nbsp;-&nbsp;   "+subed.sizes[idSize].dbf2d+"</p></td><td class='text-center'><a class='btn btn-download btn-block' title='Download' target='_blank' href='"+ subed.download +"/"+ subed.importacoes[imp].locatario_id+"&"+subed.importacoes[imp].cliente_id+"&"+subed.importacoes[imp].obra_id+"&"+subed.importacoes[imp].etapa_id+"&"+subed.importacoes[imp].subetapa_id+"&"+subed.importacoes[imp].importacaoNr+"&"+subed.importacoes[imp].dbf2d +"'><i class='fa fa-download'></i></a></td></tr>");
                       }

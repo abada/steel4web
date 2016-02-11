@@ -16,6 +16,7 @@ use App\importer\etapa;
 use App\importer\subetapas;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Log;
 
 class ObrasController extends Controller
 {
@@ -174,6 +175,20 @@ class ObrasController extends Controller
         }
 
         die('erro');
+    }
+
+    public function excluir($id){
+        $etapas = etap::where('obra_id', $id)->get();
+            if(empty($etapas->first()->id)){
+                 $obra = obr::find($id);
+                 $name = $obra->nome;
+                 $obra->delete();
+                 $msg = 'Exclussão de Obra '.$name.' por '. access()->user()->name .'.';
+                Log::info($msg);
+                return redirect()->back()->withFlashSuccess('Obra excluida com Sucesso!');
+            }else{
+                return redirect()->back()->withFlashDanger('Erro ao excluir obra. Exclua todas as etapas antes de excluir uma obra.');
+            }
     }
 
     public function editarStatus($id)

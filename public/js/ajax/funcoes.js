@@ -1282,6 +1282,13 @@ $(document).ready(function(){
 
     $('.telefone').mask(FoneMaskBehavior, foneOptions);
 
+    $('.closeIt').click(function(event) {
+         $('#tipoError3').addClass('hidden');
+        $('#tipoError2').addClass('hidden');
+        $('#tipoError').addClass('hidden');
+        $('#tipoSuccess').addClass('hidden');
+    });
+
     // var options = {
     //     onKeyPress: function(documento, e, field, options){
     //         var masks = ['000.000.000-00', '00.000.000/0000-00'];
@@ -1310,6 +1317,7 @@ $(document).ready(function(){
 
     $('.delEtapa').click(function(e) {
         e.preventDefault();
+        $('#tipoError3').addClass('hidden');
         $('#tipoError2').addClass('hidden');
         $('#tipoError').addClass('hidden');
         $('#tipoSuccess').addClass('hidden');
@@ -1324,6 +1332,7 @@ $(document).ready(function(){
            if (result.substring(0,7) == 'sucesso') {
             location.reload();
         } else {
+            $('#tipoError3').addClass('hidden');
             $('#tipoError2').addClass('hidden');
             $('#tipoLoading').addClass('hidden');
             $('#tipoError').removeClass('hidden');
@@ -1331,6 +1340,7 @@ $(document).ready(function(){
         }
           },
         error: function(result){
+            $('#tipoError3').addClass('hidden');
             $('#tipoError2').addClass('hidden');
             $('#tipoLoading').addClass('hidden');
             $('#tipoError').removeClass('hidden');
@@ -1341,6 +1351,7 @@ $(document).ready(function(){
 
     $('.delSubEtapa').click(function(e) {
         e.preventDefault();
+        $('#tipoError3').addClass('hidden');
         $('#tipoError2').addClass('hidden');
         $('#tipoError').addClass('hidden');
         $('#tipoSuccess').addClass('hidden');
@@ -1356,12 +1367,20 @@ $(document).ready(function(){
             location.reload();
         }
         else if(result.substring(0,7) == 'erro2') {
+            $('#tipoError3').addClass('hidden');
             $('#tipoError').addClass('hidden');
             $('#tipoLoading').addClass('hidden');
             $('#tipoError2').removeClass('hidden');
             $('#tipoSuccess').addClass('hidden');
+        }else if(result.substring(0,7) == 'erro3'){
+            $('#tipoError').addClass('hidden');
+            $('#tipoLoading').addClass('hidden');
+            $('#tipoError2').addClass('hidden');
+            $('#tipoSuccess').addClass('hidden');
+            $('#tipoError3').removeClass('hidden');
         }
         else{
+            $('#tipoError3').addClass('hidden');
             $('#tipoError2').addClass('hidden');
             $('#tipoLoading').addClass('hidden');
             $('#tipoError').removeClass('hidden');
@@ -1369,6 +1388,7 @@ $(document).ready(function(){
         }
           },
         error: function(result){
+            $('#tipoError3').addClass('hidden');
             $('#tipoError2').addClass('hidden');
             $('#tipoLoading').addClass('hidden');
             $('#tipoError').removeClass('hidden');

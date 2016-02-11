@@ -152,7 +152,7 @@ if (isset($edicao)) {
             <!-- /.col-lg-4 -->
         </div>
     </div>
-    <a href="javascript:history.back()" type="button" class="btn btn-primary"><< Voltar</a>
+    <a href="{{ url('obras') }}" type="button" class="btn btn-primary"><< Voltar</a>
 
 @endsection
 

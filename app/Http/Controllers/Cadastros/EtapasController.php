@@ -89,6 +89,12 @@ class EtapasController extends Controller
         $dados = $request->all();
         $etapaID = $dados['id'];
         $etapa = etap::find($etapaID);
+        $subs = sub::where('etapa_id', $etapaID)->get();
+        foreach($subs as $sub){
+            if(!empty($sub->importacoes->first()->id)){
+                die('erro') ; 
+            }
+        }
         $obraID = $etapa->obra_id;
         if(count($etapa->subetapas) > 1){
             die('erro') ; 
