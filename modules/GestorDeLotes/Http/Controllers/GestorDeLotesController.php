@@ -98,8 +98,32 @@ class GestorDeLotesController extends Controller {
 			return back()->withFlashDanger('Erro! Não foi possível criar o lote.');
 		}
 
-		// Salva o Cronograma do Conjunto
+		// CRIA CRONOGRAMA POR ESTÁGIOS
+		$estagios = access()->user()->locatario->estagios->where('tipo', 2)->sortBy('ordem');
+		$cronosaved = 0;
+		foreach ($estagios as $estagio) {
+
+			if (!empty($data['data_prev'][$estagio->id])) {
+
+				$crono = new Cronograma;
+
+				$crono->estagio_id = $estagio->id;
+				$crono->lote_id = $lote->id;
+				$crono->data_prev = $data['data_prev'][$estagio->id];
+				$crono->data_real = null;
+				$crono->version = 1;
+				$crono->user_id = access()->user()->id;
+				$crono->locatario_id = access()->user()->locatario->id;
+
+				// SALVA CRONOGRAMA
+				if ($crono->save()) {
+					$cronosaved++;
+				}
+			}
+		}
+
 		$conjuntos = array();
+		$estagios = $lote->estagios();
 
 		foreach (@$data['conjuntos'] as $conjunto => $qtd) {
 
@@ -126,6 +150,7 @@ class GestorDeLotesController extends Controller {
 
 				// Atualiza HANDLE [lote]
 				$handle->lote_id = $lote->id;
+				$handle->estagio_id = $estagios->first()->id;
 				$handle->save();
 
 				$conjuntos[] = $handle->id;
@@ -138,40 +163,6 @@ class GestorDeLotesController extends Controller {
 			}
 		}
 
-		// CRIA CONJUNTO FABR
-		// $data['lote_id'] = $lote->id;
-		// $data['handle_id'] = $handle->id;
-		// $data['user_id'] = access()->user()->id;
-		// $data['locatario_id'] = access()->user()->locatario->id;
-
-		// $cjt = CjtoFabr::create($data);
-		// if (!$cjt) {
-		// 	return back()->withFlashDanger('Erro! Não foi possível criar "CjtoFab"!');
-		// }
-
-		// CRIA CRONOGRAMA POR ESTÁGIOS
-		$estagios = access()->user()->locatario->estagios->where('tipo', 2)->sortBy('ordem');
-		$cronosaved = 0;
-		foreach ($estagios as $estagio) {
-
-			if (!empty($data['data_prev'][$estagio->id])) {
-
-				$crono = new Cronograma;
-
-				$crono->estagio_id = $estagio->id;
-				$crono->lote_id = $lote->id;
-				$crono->data_prev = $data['data_prev'][$estagio->id];
-				$crono->data_real = null;
-				$crono->version = 1;
-				$crono->user_id = access()->user()->id;
-				$crono->locatario_id = access()->user()->locatario->id;
-
-				// SALVA CRONOGRAMA
-				if ($crono->save()) {
-					$cronosaved++;
-				}
-			}
-		}
 		// dd($crono);
 
 		if ($cronosaved > 0) {
@@ -187,4 +178,73 @@ class GestorDeLotesController extends Controller {
 		dd($request->all());
 	}
 
+	/**
+	 * [associar description]
+	 * @param  Request $request [description]
+	 * @return [type]           [description]
+	 */
+	public function associaraolote(Request $request, $id = null) {
+
+		$data = $request->all();
+
+		$data['id'] = $id;
+		$lote = Lote::find($id);
+		if (!$lote) {
+			return "Lote não encontrado!";
+		}
+
+		$conjuntos = array();
+
+		foreach (@$data['handles_ids'] as $conjunto => $qtd) {
+
+			// Pega o promeiro handle só pra pegar a importação, para obter as sequencia de montagem
+			$handle = Handle::where('MAR_PEZ', $conjunto)->where('FLG_REC', 3)->where('subetapa_id', $lote->subetapa_id)->first();
+
+			if ($handle->importacao->sentido == 1) {
+				$x = 'ASC';
+				$y = 'ASC';
+			} elseif ($handle->importacao->sentido == 2) {
+				$x = 'DESC';
+				$y = 'ASC';
+			} elseif ($handle->importacao->sentido == 3) {
+				$x = 'DESC';
+				$y = 'DESC';
+			} elseif ($handle->importacao->sentido == 4) {
+				$x = 'ASC';
+				$y = 'DESC';
+			} else {
+				return 'Falha ao Procurar Sentido de Construção.&ApDanger';
+			}
+
+			// Pega todos os handles à serem alterados de lote
+			$handles_conjunto = Handle::where('MAR_PEZ', $conjunto)
+				->where('lote_id', null)
+				->where('FLG_REC', 3)
+				->orderBy('X', $x)
+				->orderBy('Y', $y)
+				->take($qtd)
+				->get();
+
+			// Para cada handle...
+			foreach ($handles_conjunto as $h) {
+
+				// Atualiza HANDLE [lote]
+				$h->lote_id = $id;
+				$h->save();
+
+				$conjuntos[] = $h->id;
+			}
+
+			//Remove lotes vazios
+			$lotes = access()->user()->locatario->lotes;
+			foreach ($lotes as $lote) {
+				if ($lote->handles->count() == 0) {
+					$lote->delete();
+				}
+			}
+
+		}
+
+		return json_encode($conjuntos);
+	}
 }

@@ -364,14 +364,14 @@ class CreateSteel4webTables extends Migration {
 			$table->string('A', 255)->nullable();
 			$table->string('B', 255)->nullable();
 
-			// $table->index('fkmedicao_idx');
-
 			$table->integer('user_id')->unsigned();
 			$table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 			$table->integer('locatario_id')->unsigned();
 			$table->foreign('locatario_id')->references('id')->on('locatarios')->onDelete('cascade');
 
 			$table->timestamps();
+
+			$table->index('lote_id');
 		});
 
 		Schema::create('temp_handles', function (Blueprint $table) {
@@ -461,6 +461,9 @@ class CreateSteel4webTables extends Migration {
 			$table->foreign('locatario_id')->references('id')->on('locatarios')->onDelete('cascade');
 
 			$table->timestamps();
+
+			$table->index('lote_id');
+
 		});
 
 		// Schema::create('tiposusuarios', function(Blueprint $table) {
@@ -1061,6 +1064,7 @@ class CreateSteel4webTables extends Migration {
 		Schema::drop('cjtomontagem');
 
 		Schema::table('temp_handles', function (Blueprint $table) {
+			$table->dropIndex('temp_handles_lote_id_index');
 			$table->dropForeign('temp_handles_obra_id_foreign');
 			$table->dropForeign('temp_handles_lote_id_foreign');
 			$table->dropForeign('temp_handles_estagio_id_foreign');
@@ -1073,6 +1077,7 @@ class CreateSteel4webTables extends Migration {
 		Schema::drop('temp_handles');
 
 		Schema::table('handles', function (Blueprint $table) {
+			$table->dropIndex('handles_lote_id_index');
 			$table->dropForeign('handles_obra_id_foreign');
 			$table->dropForeign('handles_lote_id_foreign');
 			$table->dropForeign('handles_estagio_id_foreign');

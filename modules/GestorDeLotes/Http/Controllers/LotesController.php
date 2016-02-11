@@ -55,14 +55,13 @@ class LotesController extends Controller {
 		$lotes = Lote::where('obra_id', $obra_id)
 			->where('etapa_id', $etapa_id)
 			->where('subetapa_id', $subetapa_id)
+			->where('producao', false)
 			->get();
 
 		$handlesOfLote = array();
 		foreach ($lotes as $lote) {
-			$handlesOfLote[] = Handle::where('lote_id', $lote->id)->where('estagio_id', null)->selectRaw('*, SUM(QTA_PEZ) as QTA_PEZ')->groupBy('MAR_PEZ')->get();
+			$handlesOfLote[] = Handle::where('lote_id', $lote->id)->where('FLG_REC', 3)->selectRaw('*, SUM(QTA_PEZ) as QTA_PEZ')->groupBy('MAR_PEZ')->get();
 		}
-
-		// CONTINUAR AQUI...
 
 		$response = array();
 		$response['data'] = array();
@@ -178,6 +177,7 @@ class LotesController extends Controller {
 				} else {
 					// Atualiza HANDLE [lote]
 					$handle->lote_id = null;
+					$handle->estagio_id = null;
 					$handle->save();
 				}
 
@@ -200,10 +200,15 @@ class LotesController extends Controller {
 
 		$destroyed = array();
 
-		foreach (@$data['lotes'] as $lote) {
+		foreach (@$data['lotes'] as $lote_id) {
 
-			if (Lote::destroy($lote)) {
-				$destroyed[] = $lote;
+			$lote = Lote::find($lote_id);
+			if ($lote) {
+				$lote->handles()->update(['estagio_id' => null]);
+
+				if (Lote::destroy($lote_id)) {
+					$destroyed[] = $lote_id;
+				}
 			}
 
 		}
@@ -219,27 +224,69 @@ class LotesController extends Controller {
 	public function associar(Request $request, $id = null) {
 
 		$data = $request->all();
+
+		if (null == @$data['handles_ids']) {
+			return 'Informe os conjuntos.';
+		}
+
 		$data['id'] = $id;
+		$lote = Lote::find($id);
+		if (!$lote) {
+			return "Lote não encontrado!";
+		}
 
 		$conjuntos = array();
 
-		foreach (@$data['handles_ids'] as $conjunto => $qtd) {
+		foreach ($data['handles_ids'] as $conjunto => $qtd) {
 
-			$handles_conjunto = Handle::where('MAR_PEZ', $conjunto)->whereNotNull('lote_id')->where('FLG_REC', 3)->orderBy('X', 'desc')->orderBy('Y', 'desc')->orderBy('Z', 'desc')->take($qtd)->get();
+			// Pega o promeiro handle só pra pegar a importação, para obter as sequencia de montagem
+			$handle = Handle::where('MAR_PEZ', $conjunto)->where('FLG_REC', 3)->where('subetapa_id', $lote->subetapa_id)->first();
 
-			foreach ($handles_conjunto as $handle) {
-
-				//Remove lotes vazios
-				if ($handle->lote->handles->count() == 1) {
-					Lote::destroy($handle->lote->id);
-				} else {
-					// Atualiza HANDLE [lote]
-					$handle->lote_id = $id;
-					$handle->save();
-				}
-
-				$conjuntos[] = $handle->id;
+			if ($handle->importacao->sentido == 1) {
+				$x = 'ASC';
+				$y = 'ASC';
+			} elseif ($handle->importacao->sentido == 2) {
+				$x = 'DESC';
+				$y = 'ASC';
+			} elseif ($handle->importacao->sentido == 3) {
+				$x = 'DESC';
+				$y = 'DESC';
+			} elseif ($handle->importacao->sentido == 4) {
+				$x = 'ASC';
+				$y = 'DESC';
+			} else {
+				return 'Falha ao Procurar Sentido de Construção.&ApDanger';
 			}
+
+			// Pega todos os handles à serem alterados de lote
+			$handles_conjunto = Handle::where('MAR_PEZ', $conjunto)
+				->where('lote_id', '!=', $id)
+				->whereNotNull('lote_id')
+				->where('FLG_REC', 3)
+				->orderBy('X', $x)
+				->orderBy('Y', $y)
+				->take($qtd)
+				->get();
+
+			// Para cada handle...
+			foreach ($handles_conjunto as $h) {
+
+				// Atualiza HANDLE [lote]
+				$h->lote_id = $id;
+				$h->save();
+
+				$conjuntos[] = $h->id;
+			}
+
+			//Remove lotes vazios
+			$lotes = access()->user()->locatario->lotes;
+
+			foreach ($lotes as $lote) {
+				if (count($lote->handles) == 0) {
+					$lote->delete();
+				}
+			}
+
 		}
 
 		return json_encode($conjuntos);

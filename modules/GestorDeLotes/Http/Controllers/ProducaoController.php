@@ -152,6 +152,7 @@ class ProducaoController extends Controller {
 		$lotes = Lote::where('obra_id', $obra_id)
 			->where('etapa_id', $etapa_id)
 			->where('subetapa_id', $subetapa_id)
+			->where('producao', true)
 			->get();
 
 		$handlesOfLote = array();
