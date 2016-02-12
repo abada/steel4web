@@ -14,6 +14,7 @@ use App\Temp_Handle as tempH;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Input;
 use Symfony\Component\HttpFoundation\Response;
+use Log;
 
 class ImportadorController extends Controller {
 	
@@ -264,6 +265,8 @@ class ImportadorController extends Controller {
         $final['descricao'] = $descricao;
         $errorr = array();
         $impSucess = imp::create($final);
+        $msg = 'Importação: '.$descricao.'. Realizada por '. access()->user()->name .'.';
+        Log::info($msg);
         if(isset($impSucess)){
             if(!empty($final['dbf2d'])){
             if($nroImportacao == 1){
@@ -523,6 +526,8 @@ class ImportadorController extends Controller {
                 );
 
             $dates = imp::find($importacaoID)->update($attibutes);
+            $msg = 'Conversão de IFC Finalizada: Nome do Arquivo: '.$dados->ifc_orig.'. Refernte a Importação: '.$dados->descricao.'.';
+            Log::info($msg);
             return true;
         }
         return false;
@@ -552,6 +557,8 @@ class ImportadorController extends Controller {
                 );
 
             $dates = imp::find($importacaoID)->update($attibutes);
+            $msg = 'Conversão de FBX Finalizada: Nome do Arquivo: '.$dados->fbx_orig.'. Refernte a Importação: '.$dados->descricao.'.';
+            Log::info($msg);
             return true;
         }
         return false;
@@ -571,6 +578,7 @@ class ImportadorController extends Controller {
         $getRequest  = $request->all();
         $id = str_replace('delete&','',$getRequest['id']);
         $imp = imp::find($id);
+        $name = $imp->descricao;
         \Session::flash('history', $imp->subetapa_id);
         $thisHandles = handle::where('importacao_id',$id)->where('lote_id','!=','')->get();
         if(!empty(count($thisHandles))){
@@ -580,6 +588,8 @@ class ImportadorController extends Controller {
             $check = $this->Wrath($id);
             if(isset($check)){       
                 \Session::flash('flash_success', '<i class="fa fa-check"></i>&nbsp;&nbsp;  Importação excluida com sucesso!');
+                $msg = 'Exclusão de Importação: '.$name.'. Realizada por '. access()->user()->name .'.';
+                Log::info($msg);
                 return url('importador'); 
             }else{
                 \Session::flash('flash_danger', '<i class="fa fa-exclamation-triangle"></i>&nbsp;&nbsp;  Erro ao excluir importação.');

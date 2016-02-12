@@ -10,6 +10,7 @@ use App\Subetapa as sub;
 use App\TipoSubetapa as tipo;
 use App\Etapa as etap;
 use App\Importacao as imp;
+use Log;
 
 class SubetapasController extends Controller
 {
@@ -28,6 +29,8 @@ class SubetapasController extends Controller
         $att = $dados;
            $clienteID = sub::create($att);
         if($clienteID){
+            $msg = 'Cadastro de Subetapa: '.$clienteID->cod.'. Realizada por '. access()->user()->name .'.';
+            Log::info($msg);
             die('sucesso');
         }
      die('erro');
@@ -44,6 +47,8 @@ class SubetapasController extends Controller
         $clienteID = sub::find($id)->update($att);
 
         if($clienteID){
+            $msg = 'Edição de Subetapa: '.$dados['cod'].'. Realizada por '. access()->user()->name .'.';
+            Log::info($msg);
             die('sucesso');
         }
      die('erro');
@@ -79,6 +84,8 @@ class SubetapasController extends Controller
 
 
                 if($clienteID){
+                    $msg = 'Cadastro de Tipo de Subetapa: '.$clienteID->descricao.'. Realizada por '. access()->user()->name .'.';
+                    Log::info($msg);
                     die('sucesso');
                 }
             die('erro');
@@ -99,9 +106,13 @@ class SubetapasController extends Controller
             return redirect()->route('subetapa/tipos');   
         }
         else{
-           $del = tipo::find($id)->delete();
-            \Session::flash('success', 'Tipo excluida com Sucesso.');
-            return redirect()->route('subetapa/tipos');
+           $del = tipo::find($id);
+           $name = $del->descricao;
+           $del->delete();
+           $msg = 'Exclusão de Tipo de Subetapa: '.$name.'. Realizada por '. access()->user()->name .'.';
+            Log::info($msg);
+       //     \Session::flash('success', 'Tipo excluida com Sucesso.');
+            return redirect()->back()->withFlashSuccess('Tipo excluida com Sucesso.');
             
         }
 
@@ -118,6 +129,8 @@ class SubetapasController extends Controller
            $clienteID =   tipo::where('id',$id)->update($dados);
 
         if($clienteID){
+            $msg = 'Edição de Tipo de Subetapa: '.$dados['descricao'].'. Realizada por '. access()->user()->name .'.';
+            Log::info($msg);
             die('sucesso');
         }
 
@@ -133,7 +146,10 @@ class SubetapasController extends Controller
             $sub = sub::find($subID);
         $obraID = $sub->etapa->obra_id;
         if(count($sub->etapa->subetapas) > 1){
+            $name = $sub->cod;
             $sub->delete();
+            $msg = 'Exclusão de Subetapa: '.$name.'. Realizada por '. access()->user()->name .'.';
+            Log::info($msg);
           die('sucesso'); 
         }
         else{

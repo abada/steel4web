@@ -10,6 +10,7 @@ use App\Obra as obr;
 use App\importer\cliente;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Log;
 
 class EtapasController extends Controller
 {
@@ -50,6 +51,8 @@ class EtapasController extends Controller
 
 
                 if($clienteID && $subCreate){
+                    $msg = 'Cadastro de Etapa: '.$dados['codigo'].'. realizada por '. access()->user()->name .'.';
+                    Log::info($msg);
                     die('sucesso');
                 }
             die('erro');
@@ -79,6 +82,8 @@ class EtapasController extends Controller
 
 
                 if($clienteID && $subCreate){
+                    $msg = 'Edição de Etapa: '.$clienteID->codigo.'. realizada por '. access()->user()->name .'.';
+                    Log::info($msg);
                     die('sucesso');
                 }
             die('erro');
@@ -89,6 +94,7 @@ class EtapasController extends Controller
         $dados = $request->all();
         $etapaID = $dados['id'];
         $etapa = etap::find($etapaID);
+        $name = $etapa->codigo;
         $subs = sub::where('etapa_id', $etapaID)->get();
         foreach($subs as $sub){
             if(!empty($sub->importacoes->first()->id)){
@@ -101,6 +107,8 @@ class EtapasController extends Controller
         }
         else{
           $etapa->delete();
+          $msg = 'Exclusão de Etapa: '.$name.'. realizada por '. access()->user()->name .'.';
+          Log::info($msg);
           die('sucesso');
             
         }

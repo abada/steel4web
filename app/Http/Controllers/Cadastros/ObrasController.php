@@ -126,6 +126,8 @@ class ObrasController extends Controller
                 $obra_contato = $obraID->contatos()->attach(1, $mario);
             }
             }
+            $msg = 'Cadastro de Obra: '.$obraID->nome.'. Realizada por '. access()->user()->name .'.';
+            Log::info($msg);
             die('sucesso');
         }
 
@@ -171,6 +173,8 @@ class ObrasController extends Controller
             }
             $delCO = $ThatObra->contatos()->where('obra_id',$id)->detach();
             $obra_contato = $ThatObra->contatos()->attach($mario);
+            $msg = 'Edição de Obra: '.$ThatObra->nome.'. Realizada por '. access()->user()->name .'.';
+            Log::info($msg);
             die('sucesso');
         }
 
@@ -183,7 +187,7 @@ class ObrasController extends Controller
                  $obra = obr::find($id);
                  $name = $obra->nome;
                  $obra->delete();
-                 $msg = 'Exclussão de Obra '.$name.' por '. access()->user()->name .'.';
+                 $msg = 'Exclussão de Obra '.$name.'. Realizada por '. access()->user()->name .'.';
                 Log::info($msg);
                 return redirect()->back()->withFlashSuccess('Obra excluida com Sucesso!');
             }else{
