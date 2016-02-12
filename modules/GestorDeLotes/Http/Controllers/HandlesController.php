@@ -109,7 +109,7 @@ class HandlesController extends Controller {
 				'NOM_PRO' => (null !== $handle->NOM_PRO) ? $handle->NOM_PRO : '',
 				'LUN_PRO' => $handle->LUN_PRO,
 				'LAR_PRO' => $handle->LAR_PRO,
-				'SPE_PRO' => $handle->SPE_PRO,
+				'SPE_PRO' => number_format($handle->SPE_PRO, 2, '.', ''),
 				'MAT_PRO' => $handle->MAT_PRO,
 				'TIP_BUL' => $handle->TIP_BUL,
 				'DIA_BUL' => $handle->DIA_BUL,
