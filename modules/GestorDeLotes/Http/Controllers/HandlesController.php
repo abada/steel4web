@@ -109,7 +109,7 @@ class HandlesController extends Controller {
 				'NOM_PRO' => (null !== $handle->NOM_PRO) ? $handle->NOM_PRO : '',
 				'LUN_PRO' => $handle->LUN_PRO,
 				'LAR_PRO' => $handle->LAR_PRO,
-				'SPE_PRO' => $handle->SPE_PRO,
+				'SPE_PRO' => number_format($handle->SPE_PRO, 2, '.', ''),
 				'MAT_PRO' => $handle->MAT_PRO,
 				'TIP_BUL' => $handle->TIP_BUL,
 				'DIA_BUL' => $handle->DIA_BUL,
@@ -126,7 +126,7 @@ class HandlesController extends Controller {
 				'GROUP' => $handle->GROUP,
 				'etapa_id' => $handle->etapa_id,
 				'CATE' => $handle->CATE,
-				'importacao_id' => 'IMP-0' . $handle->importacao_id,
+				'importacao_id' => 'IMP-' . str_pad($handle->importacao->importacaoNr, 3, "0", STR_PAD_LEFT),
 
 				// 'dataprojeto' => date('d/m/Y', strtotime($handle->importacao->data)),
 				// 'dataprev_pcp' => ($handle->conjuntoCronograma->dataprev_pcp) ? date('d/m/Y', strtotime($handle->conjuntoCronograma->dataprev_pcp)) : null,

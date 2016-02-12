@@ -230,6 +230,7 @@ class GestorDeLotesController extends Controller {
 
 				// Atualiza HANDLE [lote]
 				$h->lote_id = $id;
+				$h->estagio_id = $lote->estagios()->first()->id;
 				$h->save();
 
 				$conjuntos[] = $h->id;
