@@ -102,12 +102,12 @@
 				 		  	$hasLotes = false;
 				 		  }  ?>
 			 		<tr>
-			 			<td>{{$lote}}</td>
-			 		<td>{{$conjunto->MAR_PEZ}}</td>
-			 		<td>{{$conjunto->NUM_COM}}</td>
-			 		<td class='text-center'>{{$conjunto->qtd}}</td>
-			 		<td class='text-center'><img class='tooltipo' data-toggle="tooltip" data-html="true" title='{{$conjunto->DES_PEZ}}' src="{!! asset('img/icons/'.getIcon($conjunto->DES_PEZ)); !!}"></td>
-			 		<td>{{$conjunto->TRA_PEZ}}</td>
+			 			<td><p class='form-control-static'>{{$lote}}</p></td>
+			 		<td><p class='form-control-static'>{{$conjunto->MAR_PEZ}}</p></td>
+			 		<td><p class='form-control-static'>{{$conjunto->NUM_COM}}</p></td>
+			 		<td class='text-center'><p class='form-control-static'>{{$conjunto->qtd}}</p></td>
+			 		<td class='text-center'><p class='form-control-static'><img class='tooltipo' data-toggle="tooltip" data-html="true" title='{{$conjunto->DES_PEZ}}' src="{!! asset('img/icons/'.getIcon($conjunto->DES_PEZ)); !!}"></p></td>
+			 		<td><p class='form-control-static'>{{$conjunto->TRA_PEZ}}</p></td>
 			 		 <?php 
 			 		 	App::make('Modules\Apontador\Http\Controllers\ApontadorController')->printInputs($conjunto->id);
 			 		  ?>

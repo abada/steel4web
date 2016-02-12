@@ -69,7 +69,7 @@ class ApontadorController extends Controller {
 
 							$mustDoIt = false;
 
-							echo " <td><p class=' form-control-static'>0</p></td>
+							echo " <td><p class='form-control-static'>0</p></td>
 		                    <td><p class=' form-control-static'>".date('d/m/Y',strtotime($dataR->first()->data))."</p></td> ";
 						}
 
@@ -119,6 +119,7 @@ class ApontadorController extends Controller {
 	public function apontar(Request $request){
 		$dados = $request->all();
 		$dados = explode('&xXx&', $dados['dados']);
+
 		$data = array();
 		$warnings = array();
 		$done = array();
@@ -135,6 +136,8 @@ class ApontadorController extends Controller {
 		$dates = array();
 		$qtdds = array();
 		$qtdKey = array();
+		$qtds = array();
+		$recordeds = array();
 		foreach($data as $dat){
 			list($tip, $inf) = explode('&&', $dat);
 			if($tip == 'date'){
@@ -145,8 +148,10 @@ class ApontadorController extends Controller {
 				$checko = explode('=', $inf);
 				$qtdKey[] = $checko[0];
 				$qtdds[] = $checko[1];
+				$qtds[$checko[0]] = $checko[1];
 			}
 		}
+
 
 		for($cco = 0;$cco < count($qtdds);$cco++){
 			if($qtdds[$cco] == 0 ){
@@ -203,6 +208,11 @@ class ApontadorController extends Controller {
 
 					$upEstagio = ['estagio_id' => $newEstagio];
 					$update = handle::where('lote_id', $conj->lote_id)->where('MAR_PEZ',$conj->MAR_PEZ)->where('estagio_id', $estagioId)->orderBy('X', $x)->orderBy('Y', $y)->take($value);
+					$toRecord = $update->get();
+					foreach($toRecord as $recor){
+						$recordeds[$chc[0]][] = $recor->id;
+					}
+
 					$update->update($upEstagio);
 					$done[] = $conj->MAR_PEZ.'&'.$ThisEst->descricao.'&'.$conj->lote->descricao.'&'.$value;
 
@@ -210,7 +220,10 @@ class ApontadorController extends Controller {
 					
 				}elseif($type == 'date'){
 					$chcc = explode('=',$info);
+					
+
 					if(in_array($chcc[0], $qtdKey)){
+
 							if($conj->importacao->sentido == 1){
 							$x = 'ASC'; $y='ASC';
 						}elseif($conj->importacao->sentido == 2){
@@ -220,21 +233,27 @@ class ApontadorController extends Controller {
 						}elseif($conj->importacao->sentido == 4){
 							$x = 'ASC'; $y = 'DESC';
 						}
-						$updateData = handle::where('lote_id', $conj->lote_id)->where('MAR_PEZ',$conj->MAR_PEZ)->where('estagio_id', $newEstagio)->orderBy('X', $x)->orderBy('Y', $y)->take($value)->get();
-		
+					//	$Take = (int) $qtds[$chcc[0]];
+						$RecordsID = $recordeds[$chcc[0]];
+						$updateData = handle::where('lote_id', $conj->lote_id)->where('MAR_PEZ',$conj->MAR_PEZ)->where('estagio_id', $newEstagio)->get();
+
 						foreach($updateData as $upDat){
 
-							$dataReal = [
-							'estagio_id' 	=>  $estagioId,
-							'lote_id'    	=>  $upDat->lote_id,
-							'handle_id'  	=>  $upDat->id,
-							'MAR_PEZ' 	 	=>  $upDat->MAR_PEZ,
-							'data'       	=>  $value,
-							'user_id'    	=>  access()->user()->id,
-							'locatario_id'  =>  access()->user()->locatario_id
-						];
+							if(in_array($upDat->id, $RecordsID)){
+								$dataReal = [
+									'estagio_id' 	=>  $estagioId,
+									'lote_id'    	=>  $upDat->lote_id,
+									'handle_id'  	=>  $upDat->id,
+									'MAR_PEZ' 	 	=>  $upDat->MAR_PEZ,
+									'data'       	=>  $value,
+									'user_id'    	=>  access()->user()->id,
+									'locatario_id'  =>  access()->user()->locatario_id
+								];
 
-						$Creal = creal::create($dataReal);
+								$Creal = creal::create($dataReal);
+							}
+
+							
 						}
 						
 
