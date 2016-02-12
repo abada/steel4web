@@ -66,5 +66,10 @@ class RomaneiosController extends Controller {
 		\Session::flash('history', $dados);
 		return route('romaneios');
 	}
+
+	public function criar(){
+		$obras = obr::all();
+		return view('romaneios::criar', compact('obras'));
+	}
 	
 }

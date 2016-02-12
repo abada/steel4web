@@ -133,11 +133,12 @@
 			 		<th><input type="text" placeholder="Tratamento" /></th>
 			 	</tfoot>
 			 </table>
-			 <button id="pointButton">Enviar</button>
+			 
 
 	@else
 		<div class="panel-body">Romaneio</div>
 	@endif
+	<a type='button' class='btn btn-primary' href="{{url('romaneios/criar')}}">Criar Romaneio</a>
 	</div>
 
 	</div> <!-- panel-padrao -->

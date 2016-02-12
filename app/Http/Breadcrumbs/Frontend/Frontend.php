@@ -19,5 +19,10 @@ Breadcrumbs::register('Romaneios::index', function ($breadcrumbs) {
     $breadcrumbs->push(trans('Romaneios'), url('romaneios'));
 });
 
+Breadcrumbs::register('Romaneios::criar', function ($breadcrumbs) {
+    $breadcrumbs->parent('Romaneios::index');
+    $breadcrumbs->push(trans('Criar'), url('romaneios/criar'));
+});
+
 require __DIR__ . '/GestorDeLotes.php';
 require __DIR__ . '/Cadastros.php';

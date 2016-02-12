@@ -16,6 +16,10 @@
   padding-left:3px !important;
 }
 
+.nfInput{
+  margin-top:5px;
+}
+
 #lotPointer.dataTable tr td:not(:first-child):empty {
     background: rgba(51,51,51,0.1);
 

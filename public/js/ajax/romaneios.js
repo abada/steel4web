@@ -1,11 +1,14 @@
 $(document).ready(function() {
 
+
       $('.loadingImp').hide();
       $('.TypeLoading').hide();
       $('.inputObr').removeClass('hidden');
 
       $('#inputChooseObra').change(function() {
       $('.TypeLoading').show();
+
+      
 
       var dados = $('#inputChooseObra').val();
      	jQuery.ajax({
@@ -145,3 +148,28 @@ var table = $('#lotPointer').DataTable({
 function isset(object){
     return (typeof object !=='undefined');
 }
+
+$(document).on('blur', '.nfInput', function(){
+  var flag = true;
+  $('.nfInput').each(function() {
+        if ($.trim($(this).val()) == '') {
+            flag = false;
+        }
+        else {
+            console.log('banana');
+
+        }
+    });
+
+    if(flag === true){
+      $('#nfInputs').append('<input name="nf[]" class="form-control nfInput" type="text">');
+    }else{
+      if($(this).length < 1){
+        console.log($(this).length);
+        $(this).last().remove();
+      }
+      
+    }
+    
+
+  });

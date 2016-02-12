@@ -1,3 +1,4 @@
+   <script>window.urlbaseGeral = '<?= env("APP_URL") ?>'; </script>
     <!-- jQuery 2.1.4 -->
     {!! Html::script('plugins/jQuery/jQuery-2.1.4.min.js') !!}
     <!-- Bootstrap 3.3.5 -->
