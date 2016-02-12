@@ -169,20 +169,25 @@ class LotesController extends Controller {
 
 			$handles_conjunto = Handle::where('MAR_PEZ', $conjunto)->whereNotNull('lote_id')->where('FLG_REC', 3)->orderBy('X', 'desc')->orderBy('Y', 'desc')->orderBy('Z', 'desc')->take($qtd)->get();
 
-			foreach ($handles_conjunto as $handle) {
+			// Para cada handle...
+			foreach ($handles_conjunto as $h) {
 
-				//Remove lote vazio
-				if ($handle->lote->handles->count() == 1) {
-					Lote::destroy($handle->lote->id);
-				} else {
-					// Atualiza HANDLE [lote]
-					$handle->lote_id = null;
-					$handle->estagio_id = null;
-					$handle->save();
-				}
+				$conjuntos[] = $h->id;
 
-				$conjuntos[] = $handle->id;
+				// Atualiza HANDLE [lote]
+				$h->lote_id = null;
+				$h->estagio_id = null;
+				$h->save();
 
+			}
+
+		}
+
+		//Remove lotes vazios
+		$lotes = access()->user()->locatario->lotes;
+		foreach ($lotes as $lote) {
+			if (count($lote->handles) < 1) {
+				$lote->delete();
 			}
 		}
 

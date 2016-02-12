@@ -239,7 +239,7 @@ class GestorDeLotesController extends Controller {
 			//Remove lotes vazios
 			$lotes = access()->user()->locatario->lotes;
 			foreach ($lotes as $lote) {
-				if ($lote->handles->count() == 0) {
+				if (count($lote->handles) < 1) {
 					$lote->delete();
 				}
 			}

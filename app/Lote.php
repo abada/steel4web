@@ -84,7 +84,6 @@ class Lote extends Model {
 		return $this->hasMany('App\Cronograma');
 	}
 
-
 	/**
 	 * Get the related Model
 	 * @return Relationship hasMany
@@ -99,5 +98,16 @@ class Lote extends Model {
 	 */
 	public function handles() {
 		return $this->hasMany('App\Handle');
+	}
+
+	/**
+	 * Exclui lotes vazios
+	 * @return [type] [description]
+	 */
+	public function clean() {
+		if (count($this->handles) < 1) {
+			return $this->delete();
+		}
+		return false;
 	}
 }
