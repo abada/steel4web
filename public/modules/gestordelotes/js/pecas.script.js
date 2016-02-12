@@ -179,8 +179,13 @@ $(document).ready(function($) {
                 // { data: 'CATE' },
                 { data:
                     function (data, type, full) {
-                        if (type === 'display' && data.CATE <= 30) {
-                            return '<img src="'+urlbase+'/img/icons/'+data.CATE+'.png" /> &nbsp; '+data.NOM_PRO;
+                        if (type === 'display' && data.CATE <= 30) {  
+                            console.log(data.NOM_PRO);
+                            if( data.NOM_PRO ){
+                                return '<img src="'+urlbase+'/img/icons/'+data.CATE+'.png" /> &nbsp; '+data.NOM_PRO;
+                            }else{
+                                return '<img src="'+urlbase+'/img/icons/'+data.CATE+'.png" /> &nbsp; CHAPA #'+' '+data.SPE_PRO;
+                            }
                         }
                         return data.CATE;
                     }
