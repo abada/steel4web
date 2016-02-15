@@ -1,5 +1,15 @@
 @extends('frontend.layouts.master')
 
+@section('styles')
+	{{Html::style('css/romaneios.css')}}
+	{{Html::style('css/datatables/select.dataTables.min.css')}}
+	{{Html::style('css/datatables/dataTables.bootstrap.min.css')}}
+	{{ Html::style('modules/'.Module::find('GestorDeLotes')->getLowerName().'/css/datatables.css') }}
+	{{Html::style('plugins/jQueryUI/jquery-ui.theme.min.css')}}
+	{{Html::style('plugins/jQueryUI/jquery-ui.min.css')}}
+	{{Html::style('plugins/jQueryUI/jquery-ui.structure.min.css')}}
+@endsection
+
 @section('content')
 {!! Breadcrumbs::render('Romaneios::criar') !!}
 	<div class="box">
@@ -16,17 +26,17 @@
 	            </li>
 	        </ul>
         </div>
-		<form accept-charset="UTF-8" role="form" id="RomaneiosForm">
+		
         <div class="tab-content no-padding">
         	<div class="tab-pane fade in active" id="dados">
 				<div class="box-body">
+					<form accept-charset="UTF-8" role="form" id="RomaneiosForm">
 		<!-- ================================ COMECO DOS DADOS ================================ -->
 		<!-- ================================================================================== -->
-			
-		<div class="row">
-			<div class="col-md-4">
+		<div class="row dragable">
+			<div class="col-md-6">
 				<div class="box box-primary box-solid">
-					<div class="box-header ui-sortable-handle bg-primary">
+					<div class="box-header ui-sortable-handle toMove bg-primary">
 						<i class="fa fa-building-o"></i> Dados da Obra
 						<div class="pull-right box-tools">
 							<button class="btn btn-primary btn-sm pull-right" data-widget="collapse">
@@ -35,24 +45,24 @@
 						</div>
 					</div>
 					<div class="box-body ">
-						<div class="form-group inputObr" >
+						<div class="form-group inputObr2" >
 			                <label for="obra">Obra: </label>
-			                <select id="inputChooseObra" class="form-control" required="required" name="obra">
+			                <select id="inputChooseObra2" class="form-control" required="required" name="RObra">
 			                    <option class='optPadrao' value='0'>Escolha Uma Obra...</option>
 			                    @foreach ($obras as $obra)
 			                    <option value="<?= $obra->id ?>" <?php if(isset($history)){if($obra->id == $obraID) echo 'selected';} ?>>{{ $obra->nome }}</option>
 			                    @endforeach
 			                </select>
 			            </div>
-			            <div class="form-group inputetapa">
+			            <div class="form-group inputetapa2">
 			                <label  for="etapa"> Etapa: </label>
-			                <select id="inputEtapa" class="form-control" required="required" name="etapa">
+			                <select id="inputEtapa2" class="form-control" required="required" name="REtapa">
 			                    <option class='optPadrao' value='0'>Escolha Uma Obra...</option>
 			                </select>
 			            </div>
-			            <div class="form-group inputsubetapa">
+			            <div class="form-group inputsubetapa2">
 			                <label for="subetapa"> Subetapa: </label>
-			                <select id="inputSubetapa" class="form-control" required="required" name="subetapa">
+			                <select id="inputSubetapa2" class="form-control" required="required" name="RSubetapa">
 								<option class='optPadrao' value='0'>Escolha Uma Obra...</option>
 			                </select>
 			            </div>
@@ -63,9 +73,9 @@
 				</div>
 			</div>
 
-			<div class="col-md-4">
+			<div class="col-md-6">
 				<div class="box box-primary box-solid">
-					<div class="box-header ui-sortable-handle bg-primary">
+					<div class="box-header ui-sortable-handle toMove bg-primary">
 						<i class="fa fa-tasks"></i> Dados do Romaneio
 						<div class="pull-right box-tools">
 							<button class="btn btn-primary btn-sm pull-right" data-widget="collapse">
@@ -73,37 +83,43 @@
 							</button>
 						</div>
 					</div>
-					<div class="box-body ">
+					<div class="box-body">
 						<div class="form-group">
 							<label for="codigo">Codigo</label>
-							<input class="form-control" type="text">
+							<input class="form-control" type="text" name='RCodigo' id='RCodigo'>
 						</div>
 						<div class="form-group" id='nfInputs'>
-							<label for="">NF1</label>
-							<input name='nf[]' class="form-control nfInput" type="text">
+							<label for="">NFs</label>
+							<input name='Rnf[]' class="form-control nfInput" type="text">
 						</div>
 						<div class="form-group">
 							<label for="">Data de Saida</label>
-							<input class="form-control" type="text">
+							<input class="form-control" type="text" name='RSaida' id='RSaida'>
 						</div>
 						<div class="form-group">
 							<label for="">Previsão de Chegada</label>
-							<input class="form-control" type="text">
+							<input class="form-control" type="text" name='RPrevisao' id='RPrevisao'>
 						</div>
 						<div class="form-group">
 							<label for="">Status</label>
-							<select class="form-control" name="status" id="">
-								<option value="Truck">Truck</option>
+							<select class="form-control" name="RStatus" id="">
+								@foreach(config('Romaneios.status') as $stats)
+									<option value="{{$stats}}">{{$stats}}</option>
+								@endforeach
 							</select>
+						</div>
+						<div class="form-group">
+							<label for="">Observações</label>
+							<textarea name="RObs" class='form-control' rows='5'></textarea>
 						</div>
 					</div>
 				</div>
 			</div>
 
-			<div class="col-md-4">
+			<div class="col-md-12">
 				<div class="box box-primary box-solid">
-					<div class="box-header ui-sortable-handle bg-primary">
-						<i class="fa fa-truck"></i> Dados da Transportadora
+					<div class="box-header ui-sortable-handle toMove bg-primary">
+						<i class="fa fa-plane"></i> Dados de Transporte
 						<div class="pull-right box-tools">
 							<button class="btn btn-primary btn-sm pull-right" data-widget="collapse">
 								<i class="fa fa-minus"></i>
@@ -111,25 +127,76 @@
 						</div>
 					</div>
 					<div class="box-body ">
-						<div class="form-group">
-							<label for="codigo">Codigo</label>
-							<input class="form-control" type="text">
+						<div class="row">
+							<div class="col-md-6">
 
-						<div class="form-group">
-							<label for="">Data de Saida</label>
-							<input class="form-control" type="text">
+								<h4><i class="fa fa-truck"></i>&nbsp;&nbsp;Transportadora</h4>	
+								<hr>
+								<div class="form-group">
+									<label for="codigo">Nome</label>
+									<input class="form-control" type="text" name='TNome' id='TNome'>
+								</div>
+								<div class="form-group">
+									<label for="">Fone 1</label>
+									<input class="form-control" type="text" name='TFone1'>
+								</div>
+								<div class="form-group">
+									<label for="">Fone 2</label>
+									<input class="form-control" type="text" name='TFone2'>
+								</div>
+								<div class="form-group">
+									<label for="">Contato 1</label>
+									<input class="form-control" type="text" name='TContato1'>
+								</div>
+								<div class="form-group">
+									<label for="">Contato 2</label>
+									<input class="form-control" type="text" name='TContato2'>
+								</div>
+								<div class="form-group">
+									<label for="">Algo</label>
+									<input class="form-control" type="text" name='TAlgo'>
+								</div>
+								<div class="form-group">
+									<label for="">Observações</label>
+									<textarea name="TObs" class='form-control' rows='5'></textarea>
+								</div>
+								
+							</div>
+							<div class="col-md-6">
+								<h4><i class="fa fa-user"></i>&nbsp;&nbsp;Motorista</h4>	
+								<hr>
+								<div class="form-group">
+									<label for="codigo">Nome</label>
+									<input class="form-control" type="text" name='MNome' id='MNome'>
+								</div>
+								<div class="form-group">
+									<label for="">Fone 1</label>
+									<input class="form-control" type="text" name='MFone1'>
+								</div>
+								<div class="form-group">
+									<label for="">Fone 2</label>
+									<input class="form-control" type="text" name='MFone2'>
+								</div>
+								<div class="form-group">
+									<label for="">Caminhão</label>
+									<select class="form-control" name="MCaminhao" id="">
+										@foreach(config('Romaneios.caminhao') as $caminhao)
+									<option value="{{$caminhao}}">{{$caminhao}}</option>
+								@endforeach
+									</select>
+								</div>
+								<div class="form-group">
+									<label for="">Comprimento (M)</label>
+									<input class="form-control" type="text" name='MComprimento'>
+								</div>
+								<div class="form-group">
+									<label for="">Observações</label>
+									<textarea name="MObs" class='form-control' rows='5'></textarea>
+								</div>
+								
+							</div>
 						</div>
-						<div class="form-group">
-							<label for="">Previsão de Chegada</label>
-							<input class="form-control" type="text">
-						</div>
-						<div class="form-group">
-							<label for="">Status</label>
-							<select class="form-control" name="status" id="">
-								<option value="Truck">Truck</option>
-							</select>
-						</div>
-					</div>
+						
 				</div>
 			</div>
 
@@ -139,12 +206,88 @@
 		<!-- ================================================================================== -->
 		<!-- ================================ FINAL DOS DADOS  ================================ -->
 				</div>
+			</form>
         	</div>
+        </div>
         	<div class="tab-pane fade" id="conjuntos">
 				<div class="box-body">
 		<!-- ================================ COMECO DOS CONJUNTOS ============================ -->
 		<!-- ================================================================================== -->
-
+			<div class="navbar navbar-static-top navForm" role='navigation'>
+		<form accept-charset="UTF-8" class="form-inline" role="form" id="inputImporter">
+	        <div class="navbar-form navbar-left">
+	           <div class="navbar-form navbar-left">
+            <div class="form-group inputObr3" >
+                <label for="obra">Obra: </label>
+                <select id="inputChooseObra3" class="form-control" required="required" name="obra">
+                    <option class='optPadrao' value='0'>Escolha Uma Obra...</option>
+                     @foreach ($obras as $obra)
+                    <option value="<?= $obra->id ?>">{{ $obra->nome }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="form-group inputetapa3 hidden">
+                <label  for="etapa"> Etapa: </label>
+                <select id="inputEtapa3" class="form-control" required="required" name="etapa">
+                    <option value="0">Escolha Uma Etapa...</option>
+                </select>
+            </div>
+            <div class="form-group inputsubetapa3 hidden">
+                <label for="subetapa3"> Subetapa: </label>
+                <select id="inputSubetapa3" class="form-control" required="required" name="subetapa">
+                    <option value="0">Todas</option>
+                </select>
+            </div>
+            <div class="form-group inputimp3 hidden">
+                <label  for="imp"> Importacoes: </label>
+                <select id="inputImp3" class="form-control" required="required" name="imp">
+                    <option value="0">Todas</option>
+                </select>
+            </div>
+	            <div class="form-group">
+	             <div class="TypeLoading" style='margin-left:5px'></div>
+	            </div>
+	        </div>
+    	</form>
+	</div>
+</div>
+	<div class="clearfix"></div>
+	<hr class='lessMargin'>
+	<div class="box-body">
+		<table class="table table-bordered table-striped dt-responsive nowrap table-hover" id="criarRomaneioTable" cellspacing="0" width="100%">
+			<thead width='100%'>
+					<tr>
+						<th></th>
+						<th></th>
+						<th>Lote</th>
+						<th>Conjunto</th>
+						<th>Descrição</th>
+						<th>Tratamento</th>
+						<th>Qtd. Total</th>
+						<th>Qtd. Carregado</th>
+						<th>Saldo</th>
+						<th>Cargo</th>
+						<th>Romaneio</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+				</tbody>
+		</table>
+		<button id="CriarRomaneio">CRIAR</button>
+		</div>
 		<!-- ================================================================================== -->
 		<!-- ================================ FINAL DOS CONJUNTOS  ============================ -->
 				</div>
@@ -153,9 +296,25 @@
 
 	</div>
 
+	<div class="modal fade" id="modalRomaneio">
+    <div class="modal-dialog">
+    	<div class="modal-content">
+      		<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h3 class="modal-title">Confirmar Envio</h3>
+</div>
+		<div class="modal-body modalRBody">
+		    
+		</div>
+		</div>
+    </div>
+</div>
+
 @endsection
 
 @section('scripts')
+{!! Html::script('plugins/jQueryUI/jquery-ui.js') !!}
+{{ Html::script('plugins/datatables/dataTables.select.min.js') }}
 {!! Html::script('js/Ajax/funcoes.js') !!}
 {!! Html::script('js/Ajax/romaneios.js') !!}
 @endsection

@@ -45,7 +45,7 @@
                     @endif
                 </select>
             </div>
-            <div class="form-group inputimp <?php if(!isset($history) || empty($importacoes)) echo 'hidden' ?>">
+            <div class="form-group inputimp <?php if(!isset($history) || empty($subetapa) || empty($importacoes)) echo 'hidden' ?>">
                 <label  for="imp"> Importacoes: </label>
                 <select id="inputImp" class="form-control" required="required" name="imp">
 					@if (isset($history) && !empty($importacoes))
@@ -148,7 +148,7 @@
 @endsection
 
 @section('scripts')
-
+{!! Html::script('plugins/jQueryUI/jquery-ui.min.js') !!}
 {!! Html::script('js/ajax/romaneios.js') !!}
 <script>
 	$(document).ready(function() {

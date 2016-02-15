@@ -3,6 +3,7 @@
 namespace App;
 
 use App\LocatarioScope;
+use App\Lote;
 use Illuminate\Database\Eloquent\Model;
 
 class Handle extends Model {
@@ -73,12 +74,11 @@ class Handle extends Model {
 		'locatario_id',
 	];
 
-	protected static function boot()
-    {
-        parent::boot();
+	protected static function boot() {
+		parent::boot();
 
-        static::addGlobalScope(new LocatarioScope);
-    }
+		static::addGlobalScope(new LocatarioScope);
+	}
 
 	/**
 	 * Get the Obra of the model
@@ -169,6 +169,5 @@ class Handle extends Model {
 	public function cjtomontagem() {
 		return $this->hasMany('App\CjtoMontagem');
 	}
-
 
 }
