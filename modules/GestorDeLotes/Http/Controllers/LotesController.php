@@ -14,6 +14,10 @@ class LotesController extends Controller {
 		$lotes = Lote::all();
 		$obras = Obra::all()->lists('nome', 'id');
 
+		// CONSTRÓI O MENU DE NAVEGAÇÃO
+		$nav = new NavigationController;
+		$nav = $nav->buildnavigation($request);
+
 		if ($request->old('obra_id')) {
 			$etapas = Obra::find($request->old('obra_id'))->etapas->lists('codigo', 'id');
 		} else {
@@ -36,7 +40,7 @@ class LotesController extends Controller {
 			'columns' => $columns,
 		]);
 
-		return view('gestordelotes::lotes.index', compact('obras', 'lotes', 'etapas', 'estagios'));
+		return view('gestordelotes::lotes.index', compact('obras', 'lotes', 'etapas', 'estagios', 'nav'));
 
 	}
 

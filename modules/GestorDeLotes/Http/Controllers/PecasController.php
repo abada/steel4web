@@ -12,6 +12,12 @@ class PecasController extends Controller {
 		$lotes = Lote::all();
 		$obras = Obra::all()->lists('nome', 'id');
 
+		// CONSTRÓI O MENU DE NAVEGAÇÃO
+		$nav = new NavigationController;
+		$nav = $nav->buildnavigation($request);
+
+		// $nav = session('navigation');
+
 		if ($request->old('obra_id')) {
 			$etapas = Obra::find($request->old('obra_id'))->etapas->lists('codigo', 'id');
 		} else {
@@ -33,7 +39,7 @@ class PecasController extends Controller {
 			'selected' => $request->old('handles_ids'),
 			'columns' => $columns,
 		]);
-		return view('gestordelotes::pecas.index', compact('obras', 'lotes', 'etapas', 'estagios'));
+		return view('gestordelotes::pecas.index', compact('obras', 'lotes', 'etapas', 'estagios', 'nav'));
 	}
 
 }

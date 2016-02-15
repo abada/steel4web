@@ -15,6 +15,33 @@ class HandlesController extends Controller {
 		if (null == @$data['obra']) {return json_encode(['' => '']);}
 		if (null == @$data['etapa']) {return json_encode(['' => '']);}
 		if (null == @$data['subetapa']) {return json_encode(['' => '']);}
+
+		// Store in the SESSION
+		// if (null != @$data['obra']) {
+		// 	$obras = Obra::all();
+		// 	$obra = $obras->find($data['obra']);
+		// 	if ($obra) {
+		// 		$request->session()->put('obras', $obras->toArray());
+		// 		$request->session()->put('obras.selected', $obra->toArray());
+		// 	}
+		// }
+		// if (null != @$data['etapa']) {
+		// 	$etapas = Etapa::all();
+		// 	$etapa = $etapas->find($data['etapa']);
+		// 	if ($etapa) {
+		// 		$request->session()->put('etapas', $etapas->toArray());
+		// 		$request->session()->put('etapas.selected', $etapa->toArray());
+		// 	}
+		// }
+		// if (null != @$data['subetapa']) {
+		// 	$subetapas = Subetapa::all();
+		// 	$subetapa = $subetapas->find($data['subetapa']);
+		// 	if ($subetapa) {
+		// 		$request->session()->put('subetapas', $subetapas->toArray());
+		// 		$request->session()->put('subetapas.selected', $subetapa->toArray());
+		// 	}
+		// }
+
 		$obra_id = $data['obra'];
 		$etapa_id = $data['etapa'];
 		$subetapa_id = $data['subetapa'];

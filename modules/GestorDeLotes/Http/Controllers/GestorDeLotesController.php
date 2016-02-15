@@ -12,28 +12,23 @@ class GestorDeLotesController extends Controller {
 
 	public function index(Request $request) {
 
-		$lotes = Lote::all();
-		$obras = Obra::all()->lists('nome', 'id');
+		$data = $request->all();
 
-		// if ($request->ajax()) {
-		// 	dd($request);
-		// } else {
+		$lotes = Lote::all();
+		$obras = Obra::all();
+		$obras = $obras->lists('nome', 'id');
+
+		// CONSTRÓI O MENU DE NAVEGAÇÃO
+		$nav = new NavigationController;
+		$nav = $nav->buildnavigation($request);
+
+		// $nav = session('navigation');
 
 		if ($request->old('obra_id')) {
 			$etapas = Obra::find($request->old('obra_id'))->etapas->lists('codigo', 'id');
 		} else {
 			$etapas = array();
 		}
-
-		// $columns[] = ['data' => NULL, 'defaultContent' => '', 'className' => 'select-checkbox', 'orderable' => true];
-		// $columns[] = ['data' => 'importacao_id'];
-		// $columns[] = ['data' => 'lote'];
-		// $columns[] = ['data' => 'MAR_PEZ'];
-		// $columns[] = ['data' => 'FLG_DWG'];
-		// $columns[] = ['data' => 'QTA_PEZ'];
-		// $columns[] = ['data' => "DES_PEZ"];
-		// $columns[] = ['data' => 'TRA_PEZ'];
-		// $columns[] = ['data' => 'estagio'];
 
 		$estagios = access()->user()->locatario->estagios->where('tipo', 2)->sortBy('ordem');
 
@@ -52,7 +47,7 @@ class GestorDeLotesController extends Controller {
 			'columns' => $columns,
 		]);
 
-		return view('gestordelotes::conjuntos.index', compact('obras', 'lotes', 'etapas', 'estagios'));
+		return view('gestordelotes::conjuntos.index', compact('obras', 'lotes', 'etapas', 'estagios', 'nav'));
 		// }
 	}
 
@@ -248,4 +243,5 @@ class GestorDeLotesController extends Controller {
 
 		return json_encode($conjuntos);
 	}
+
 }

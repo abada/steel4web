@@ -188,11 +188,11 @@ if (!function_exists('getIcon')) {
 			return $icons[$string];
 		} else {
 			$StringEx = explode('-', $string);
-			if(strlen($StringEx[0])>2){
-				foreach(array_keys($icons) as $iconKeys){
+			if (strlen($StringEx[0]) > 2) {
+				foreach (array_keys($icons) as $iconKeys) {
 
-					if(strpos($iconKeys,$StringEx[0]) !== FALSE){
-						
+					if (strpos($iconKeys, $StringEx[0]) !== FALSE) {
+
 						return $icons[$iconKeys];
 					}
 				}
@@ -212,5 +212,11 @@ if (!function_exists('slug')) {
 	function slug($string = NULL) {
 		$string = strtolower(trim(preg_replace('~[^0-9a-z]+~i', '-', html_entity_decode(preg_replace('~&([a-z]{1,2})(?:acute|cedil|circ|grave|lig|orn|ring|slash|th|tilde|uml);~i', '$1', htmlentities($string, ENT_QUOTES, 'UTF-8')), ENT_QUOTES, 'UTF-8')), '-'));
 		return $string;
+	}
+}
+
+if (!function_exists('buildNavigation')) {
+	function buildNavigation($data = NULL) {
+		return $data;
 	}
 }
