@@ -45,13 +45,13 @@
 
 {!! Breadcrumbs::render('GestorDeLotes::pecas') !!}
 
-<div class="panel panel-padrao">
-	<!-- Default panel contents -->
-	<div class="panel-heading text-uppercase">
-		Gestor de Lotes
+<div class="box">
+	<!-- Default box contents -->
+	<div class="box-header with-border bg-padrao text-uppercase">
+		<h3 class="box-title">Gestor de Lotes</h3>
 	</div>
 
-	<div class="panel-body">
+	<div class="box-body">
 
 		<!-- Nav tabs -->
 		<ul class="nav nav-tabs">
@@ -59,33 +59,9 @@
 		</ul>
 	</div>
 
-	<nav class="navbar" role="navigation">
+	@include('gestordelotes::_partials.navigation')
 
-		{{ Form::open(['url'=>url('/gestordelotes'),  'method'=>"POST", 'class'=>"form-inline", 'role'=>"form", "id" => "createLoteForm"]) }}
-			<input type="hidden" name="flg_rec" id="inputFlg_rec" value="4">
-		<div class="navbar-form navbar-left">
-			<div class="form-group">
-				<label class="" for="inputObra">Obra: </label>
-				{{ Form::select('obra', $obras, old('obra_id'), ['id'=>"inputObra", 'class'=>"form-control", 'required'=>"required"]) }}
-			</div>
-
-			<div class="form-group inputetapa hidden">
-				<label class="" for="inputEtapa"> Etapa: </label>
-				{{ Form::select('etapa',[""=>""], old('etapa_id'), ['id'=>"inputEtapa", 'class'=>"form-control", 'required'=>"required"]) }}
-			</div>
-			<div class="form-group inputsubetapa hidden">
-				<label class="" for="inputSubetapa"> Subetapa: </label>
-				{{ Form::select('subetapa', [""=>""], old('subetapa_id'), ['id'=>"inputSubetapa", 'class'=>"form-control", 'required'=>"required"]) }}
-			</div>
-			<a id="getHandles" class="btn btn-default hidden">Carregar</a>
-			<div class="form-group">
-				<div class="loading hidden"></div>
-			</div>
-		</div>
-
-		{{ Form::close() }}
-	</nav>
-	<div class="panel-body">
+	<div class="box-body">
 		<table class="table table-hover stripe" id="handlesGrid" cellspacing="0" width="100%">
 			<thead>
 				<tr>

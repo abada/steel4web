@@ -30,7 +30,10 @@ $(document).ready(function($) {
 
     });
 
-    $('#inputObra').trigger('change');
+    // if( null == $('#inputObra:selected').val() ){
+    //     $("#inputObra")[0].selectedIndex = 1;
+    //     $('#inputObra').trigger('change');       
+    // }
 
     // ON ETAPA CHANGE
     $('#inputEtapa').change(function(event) {
@@ -150,9 +153,34 @@ $(document).ready(function($) {
     });
 
     /* GET HANDLES */
-    $('#getHandles').click(function() {        
+    $('#getHandles').click(function(e) {        
+
+        e.preventDefault();
+        
+        var navdata = $('#navigation').serialize();
+        console.log(navdata);
+
+        $('#navigation ul li').each(function(index, el) {
+            var a = $(this).find('a');            
+            var old_fulladdr = a.attr('href');
+            var old_addr_parts = old_fulladdr.split('?');
+            a.attr('href', old_addr_parts[0] + '?' + navdata);
+        });
+
+        // SALVA NAVEGAÇÃO NA SESSION
+        // $.ajax({
+        //     url: urlbase + '/gestordelotes/buildnavigation',
+        //     type: 'GET',
+        //     dataType: 'json',
+        //     data: navdata
+        // })
+        // .done(function(data) {
+        //     console.log(data);
+        // });
+
         handlesGrid.ajax.url(urlbase + '/gestordelotes/producao/handles').load();    
     });
+
 
     /* REMOVE CONJUNTOS */
     $('#removerconjuntos').click(function(e) {    
@@ -422,4 +450,14 @@ $(document).ready(function($) {
         .on('select', function(e, dt, type, indexes) {
             handlesGrid[type](indexes).nodes().to$().addClass('selected');            
         });
+
+
+    if( null != $('#inputObra').val() || null != $('#inputEtapa').val() || null != $('#inputSubetapa').val() ){
+        $('.inputobra.hidden').removeClass('hidden');
+        $('.inputetapa.hidden').removeClass('hidden');
+        $('.inputsubetapa.hidden').removeClass('hidden');
+        $('#getHandles.hidden').removeClass('hidden');
+        $('#getHandles').trigger('click');
+    }
+    
 });
