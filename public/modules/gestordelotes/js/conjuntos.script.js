@@ -83,9 +83,9 @@ $(document).ready(function($) {
     $('#handlesGrid tbody').on('click', 'tr', function(e, dt, type, indexes) {
         // SHOW/HIDE options
         if (handlesGrid.rows('.selected').data().length) {
-            $('#createLoteForm').find('.loteOptions.hidden').removeClass('hidden');
+            $('#navigation').find('.loteOptions.hidden').removeClass('hidden');
         } else {
-            $('#createLoteForm').find('.loteOptions').addClass('hidden');
+            $('#navigation').find('.loteOptions').addClass('hidden');
         };
 
 
@@ -229,7 +229,7 @@ $(document).ready(function($) {
                 alert( 'Conjuntos alterados de lote com sucesso!' );
                 handlesGrid.ajax.url(urlbase + '/gestordelotes/handles').load();
                 $('.loading').addClass('hidden');
-                $('#createLoteForm').find('.loteOptions').addClass('hidden');             
+                $('#navigation').find('.loteOptions').addClass('hidden');             
 
             });
 
