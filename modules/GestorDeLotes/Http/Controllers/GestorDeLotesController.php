@@ -94,7 +94,8 @@ class GestorDeLotesController extends Controller {
 		}
 
 		// CRIA CRONOGRAMA POR ESTÁGIOS
-		$estagios = access()->user()->locatario->estagios->where('tipo', 2)->sortBy('ordem');
+		// $estagios = access()->user()->locatario->estagios->where('tipo', 2)->sortBy('ordem');
+		$estagios = access()->user()->locatario->estagios->whereBetween('tipo', [2, 10])->sortBy('ordem');
 		$cronosaved = 0;
 		foreach ($estagios as $estagio) {
 
