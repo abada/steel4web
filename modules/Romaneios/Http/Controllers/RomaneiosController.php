@@ -73,37 +73,83 @@ class RomaneiosController extends Controller {
 	}
 
 	public function getConjuntos($params){
-		if($params == "0X0X0X0"){
-			$data = array('aaData' => [
+		if($params == "0X0X0X0X0" || $params == "0X0X0X0X1"){
+			$data = array(
 				'' => ''
-				]
 			);
 		}else{
 			$data = array();
 			$dados = explode('X', $params);
 			if(empty($dados[2])){
-				$handles = handle::selectRaw('*, sum(QTA_PEZ) as qtd')->where('obra_id',$dados[0])->where('etapa_id',$dados[1])->where('FLG_REC', 3)->groupBy('MAR_PEZ')->get();
+				$handles = handle::selectRaw('*, sum(QTA_PEZ) as qtd')->where('obra_id',$dados[0])->where('etapa_id',$dados[1])->where('FLG_REC', 3)->groupBy('MAR_PEZ')->groupBy('estagio_id')->get();
+				$handlesDisp = handle::selectRaw('*,sum(QTA_PEZ) as qtd')->whereHas('estagio', function($q){
+					$q->where('tipo',3);
+				})->where('obra_id',$dados[0])->where('etapa_id',$dados[1])->where('FLG_REC', 3)->groupBy('MAR_PEZ')->groupBy('estagio_id')->get();
+				$handlesCar = handle::selectRaw('*,sum(QTA_PEZ) as qtd')->whereHas('estagio', function($q){
+					$q->where('tipo',4);
+				})->where('obra_id',$dados[0])->where('etapa_id',$dados[1])->where('FLG_REC', 3)->groupBy('MAR_PEZ')->groupBy('estagio_id')->get();
 			}elseif(empty($dados[3])){
-				$handles = handle::selectRaw('*, sum(QTA_PEZ) as qtd')->where('obra_id',$dados[0])->where('etapa_id',$dados[1])->where('subetapa_id',$dados[2])->where('FLG_REC', 3)->groupBy('MAR_PEZ')->get();
+				$handles = handle::selectRaw('*, sum(QTA_PEZ) as qtd')->where('obra_id',$dados[0])->where('etapa_id',$dados[1])->where('subetapa_id',$dados[2])->where('FLG_REC', 3)->groupBy('estagio_id')->groupBy('MAR_PEZ')->get();
+				$handlesDisp = handle::selectRaw('*,sum(QTA_PEZ) as qtd')->whereHas('estagio', function($q){
+					$q->where('tipo',3);
+				})->where('obra_id',$dados[0])->where('etapa_id',$dados[1])->where('subetapa_id',$dados[2])->where('FLG_REC', 3)->groupBy('estagio_id')->groupBy('MAR_PEZ')->get();
+				$handlesCar = handle::selectRaw('*,sum(QTA_PEZ) as qtd')->whereHas('estagio', function($q){
+					$q->where('tipo',4);
+				})->where('obra_id',$dados[0])->where('etapa_id',$dados[1])->where('subetapa_id',$dados[2])->where('FLG_REC', 3)->groupBy('estagio_id')->groupBy('MAR_PEZ')->get();
 			}else{
-				$handles = handle::selectRaw('*, sum(QTA_PEZ) as qtd')->where('obra_id',$dados[0])->where('etapa_id',$dados[1])->where('subetapa_id',$dados[2])->where('importacao_id',$dados[3])->where('FLG_REC', 3)->groupBy('MAR_PEZ')->get();
+				$handles = handle::selectRaw('*, sum(QTA_PEZ) as qtd')->where('obra_id',$dados[0])->where('etapa_id',$dados[1])->where('subetapa_id',$dados[2])->where('importacao_id',$dados[3])->where('FLG_REC', 3)->groupBy('estagio_id')->groupBy('MAR_PEZ')->get();
+				$handlesDisp = handle::selectRaw('*,sum(QTA_PEZ) as qtd')->whereHas('estagio', function($q){
+					$q->where('tipo',3);
+				})->where('obra_id',$dados[0])->where('etapa_id',$dados[1])->where('subetapa_id',$dados[2])->where('importacao_id',$dados[3])->where('FLG_REC', 3)->groupBy('estagio_id')->groupBy('MAR_PEZ')->get();
+				$handlesCar = handle::selectRaw('*,sum(QTA_PEZ) as qtd')->whereHas('estagio', function($q){
+					$q->where('tipo',4);
+				})->where('obra_id',$dados[0])->where('etapa_id',$dados[1])->where('subetapa_id',$dados[2])->where('importacao_id',$dados[3])->where('FLG_REC', 3)->groupBy('estagio_id')->groupBy('MAR_PEZ')->get();
 			}
+
 			foreach($handles as $handle){
-				$lote = !empty($handle->lote->descricao) ? $handle->lote->descricao : '-';
-				$data[] = array(
-				'select-checkbox' => '',
-				'qtd' => "<input type='number' onkeydown='return false' class='row-qtd input-sm form-control' name='qtd&&".$handle->id."&".$handle->id."' value='' min='0' max='".$handle->qtd."' placeholder='".$handle->qtd."'>",
-				'lote' => $lote,
-				'conjunto' => $handle->MAR_PEZ,
-				'descricao' => "<img class='tooltipo'  data-placement='right' data-toggle='tooltip' data-html='true' title='".$handle->DES_PEZ."' src='".asset('img/icons/'.getIcon($handle->DES_PEZ))."''>",
-				'tratamento' => $handle->TRA_PEZ,
-				'total' => $handle->qtd,
-				'carregado' => $handle->qtd,
-				'saldo' => $handle->qtd,
-				'cargo' => 'carg',
-				'romaneio' => 'rom'
-				);
-		}
+				$qtdDisp = 0;
+				if(!empty($handlesDisp->first()->id)){
+					foreach($handlesDisp as $Disp){
+						if($handle->MAR_PEZ == $Disp->MAR_PEZ && $handle->estagio_id == $Disp->estagio_id){
+							$qtdDisp = $Disp->qtd;
+						}
+					}
+				}
+				$Carregados = !empty($handlesCar->qtd) ? $handlesCar->qtd : 0;
+				if($dados[4] == 1){
+					if($qtdDisp != 0){
+						
+						$lote = !empty($handle->lote->descricao) ? $handle->lote->descricao : '-';
+						$data[] = array(
+						'select-checkbox' => '',
+						'qtd' => "<input type='number' onkeydown='return false' class='row-qtd input-sm form-control' name='qtd&&".$handle->id."&".$handle->id."' value='' min='0' max='".$qtdDisp."' placeholder='".$qtdDisp."'>",
+						'lote' => $lote,
+						'estagio' => $handle->estagio->descricao,
+						'conjunto' => $handle->MAR_PEZ,
+						'descricao' => "<img class='tooltipo'  data-placement='right' data-toggle='tooltip' data-html='true' title='".$handle->DES_PEZ."' src='".asset('img/icons/'.getIcon($handle->DES_PEZ))."''>",
+						'tratamento' => $handle->TRA_PEZ,
+						'total' => $handle->qtd,
+						'carregado' => $Carregados,
+						'saldo' => ($qtdDisp - $Carregados),
+						);
+					}
+				}else{
+					$lote = !empty($handle->lote->descricao) ? $handle->lote->descricao : '-';
+					$estagi = !empty($handle->estagio->descricao) ? $handle->estagio->descricao : '-';
+					$data[] = array(
+					'select-checkbox' => '',
+					'qtd' => "<input type='number' onkeydown='return false' class='row-qtd input-sm form-control' name='qtd&&".$handle->id."&".$handle->id."' value='' min='0' max='".$qtdDisp."' placeholder='".$qtdDisp."'>",
+					'lote' => $lote,
+					'estagio' => $handle->estagio->descricao,
+					'conjunto' => $handle->MAR_PEZ,
+					'descricao' => "<img class='tooltipo'  data-placement='right' data-toggle='tooltip' data-html='true' title='".$handle->DES_PEZ."' src='".asset('img/icons/'.getIcon($handle->DES_PEZ))."''>",
+					'tratamento' => $handle->TRA_PEZ,
+					'total' => $handle->qtd,
+					'carregado' => $Carregados,
+					'saldo' => ($qtdDisp - $Carregados),
+					);
+				}
+			}
 		}
 		$total = empty($handles) ? 0 : $handles->count();
 		$response['data'] =  $data;

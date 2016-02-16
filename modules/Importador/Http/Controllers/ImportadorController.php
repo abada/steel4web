@@ -10,6 +10,7 @@ use App\Etapa as etap;
 use App\Subetapa as sub;
 use App\Importacao as imp;
 use App\Handle as handle;
+use App\Estagio as est;
 use App\Temp_Handle as tempH;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Input;
@@ -320,6 +321,7 @@ class ImportadorController extends Controller {
     }
 
     private function savedbf($importacaoID,$temp = null) {
+        $estagio = est::where('tipo', 1)->first();
         $check = true;
         $desc = $this->getFields();
         $dados = imp::find($importacaoID);
@@ -377,6 +379,7 @@ class ImportadorController extends Controller {
             $record['A'] = floatval($record['A']);
             $record['B'] = floatval($record['B']);
             $record['obra_id']         = $dados->obra_id;
+            $record['estagio_id']         = $estagio->id;
             $record['etapa_id']      = $dados->etapa_id;
             $record['importacao_id'] = $dados->id;
             $record['subetapa_id']  = $dados->subetapa_id;

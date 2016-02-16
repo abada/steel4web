@@ -149,6 +149,7 @@
 
 @section('scripts')
 {!! Html::script('plugins/jQueryUI/jquery-ui.min.js') !!}
+{!! Html::script('plugins/iCheck/icheck.min.js') !!}
 {!! Html::script('js/ajax/romaneios.js') !!}
 <script>
 	$(document).ready(function() {

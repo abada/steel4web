@@ -11,7 +11,7 @@ class Estagio extends Model {
 	protected $fillable = [
 		'descricao',
 		'ordem',
-		'tipoestagio_id',
+		'tipo',
 		'user_id',
 		'locatario_id',
 	];

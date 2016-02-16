@@ -241,6 +241,20 @@ class Steel4webTablesSeeder extends Seeder {
 					'user_id' => $user->id,
 					'locatario_id' => $locatario->id,
 				),
+				array(
+					'descricao' => 'Expedição',
+					'ordem' => 9,
+					'tipo' => 3,
+					'user_id' => $user->id,
+					'locatario_id' => $locatario->id,
+				),
+				array(
+					'descricao' => 'Estoque',
+					'ordem' => 10,
+					'tipo' => 4,
+					'user_id' => $user->id,
+					'locatario_id' => $locatario->id,
+				),
 			);
 			// $estagios = Estagio::insert($estagios);
 			DB::table('estagios')->insert($estagios);

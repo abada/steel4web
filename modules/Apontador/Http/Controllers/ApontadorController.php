@@ -138,6 +138,7 @@ class ApontadorController extends Controller {
 		$qtdKey = array();
 		$qtds = array();
 		$recordeds = array();
+		$postEstagios = array();
 		foreach($data as $dat){
 			list($tip, $inf) = explode('&&', $dat);
 			if($tip == 'date'){
@@ -172,8 +173,12 @@ class ApontadorController extends Controller {
 				$conj = handle::find($conjuntoId);
 				$estagios = array();
 				foreach($conj->lote->cronogramas as $crono){
-					$estagios[] = $crono->estagio_id;
+					if($crono->estagio->tipo == 2)
+						$estagios[] = $crono->estagio_id;
+					else
+						$postEstagios[] = $crono->estagio_id;
 				}
+				
 				
 
 				if($type == 'qtd'){
@@ -193,12 +198,15 @@ class ApontadorController extends Controller {
 						return 'Falha ao Procurar Sentido de Construção.&ApDanger';
 					}
 					if($estagioId == end($estagios)){
-						$newEstagio = $conj->estagio_id;
+						if(!empty($postEstagios[0]))
+							$newEstagio = $postEstagios[0];
+						else 
+							$newEstagio = $estagioId;
 						$doIt = 0;
 					}else{
 						$doIt = 1;
 					}
-					
+
 					for($count = 0; $count<count($estagios);$count++){
 						if($estagioId == $estagios[$count] && $doIt == 1){
 							$newEstagio = $estagios[++$count];

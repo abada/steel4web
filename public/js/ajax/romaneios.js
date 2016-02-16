@@ -1,5 +1,11 @@
 $(document).ready(function() {
 
+  $('#inputImporter').iCheck({
+    checkboxClass: 'icheckbox_flat',
+    radioClass: 'iradio_minimal-red',
+    increaseArea: '20%' // optional
+  });
+
 
       $('.loadingImp').hide();
       $('.TypeLoading').hide();
@@ -178,6 +184,7 @@ var table = $('#lotPointer').DataTable({
 $('#inputChooseObra2').change(function() {
   $('.inputimp3').addClass('hidden');
   $('.inputsubetapa3').addClass('hidden');
+  $('.checkSetor').addClass('hidden');
       $('.TypeLoading').show();
 
       
@@ -228,6 +235,7 @@ $('#inputChooseObra2').change(function() {
 
       $('#inputEtapa2').change(function() {
         $('.inputimp3').addClass('hidden');
+        $('.checkSetor').addClass('hidden');
         $('.TypeLoading').show();
 
         var dados = $('#inputEtapa2').val();
@@ -259,9 +267,11 @@ $('#inputChooseObra2').change(function() {
                   text: etapa.cod
               }));
               });
-            $('.TypeLoading').hide();
+            $('#checkSetor').iCheck('check');
             redrawConjuntos();
+            $('.TypeLoading').hide();
             $('.inputsubetapa2').removeClass('hidden');
+            $('.checkSetor').removeClass('hidden');
             $('.inputsubetapa3').removeClass('hidden');
                 }
             });
@@ -313,6 +323,7 @@ $('#inputChooseObra2').change(function() {
 
   $('#inputChooseObra3').change(function() {
     $('.inputimp3').addClass('hidden');
+    $('.checkSetor').addClass('hidden');
   $('.inputsubetapa3').addClass('hidden');
       $('.TypeLoading').show();
 
@@ -363,6 +374,7 @@ $('#inputChooseObra2').change(function() {
       });
 
       $('#inputEtapa3').change(function() {
+        $('.checkSetor').addClass('hidden');
         $('.inputimp3').addClass('hidden');
         $('.TypeLoading').show();
 
@@ -396,8 +408,10 @@ $('#inputChooseObra2').change(function() {
                   text: etapa.cod
               }));
               });
-            $('.TypeLoading').hide();
+            $('#checkSetor').iCheck('check');
             redrawConjuntos();
+            $('.TypeLoading').hide();
+            $('.checkSetor').removeClass('hidden');
             $('.inputsubetapa3').removeClass('hidden');
             $('.inputsubetapa2').removeClass('hidden');
                 }
@@ -445,6 +459,14 @@ $('.TypeLoading').show();
         
       });
 
+  // $('#checkSetor').click(function(event) {
+  //   redrawConjuntos();
+  // });
+
+  $(document).on('ifChanged', '#inputImporter', function(event) {
+    redrawConjuntos();
+  });
+
   $('#inputImp3').change(function(){
       redrawConjuntos();
   });
@@ -463,14 +485,13 @@ $('.TypeLoading').show();
             { "data": "select-checkbox" },
             { "data": "qtd"},
             { "data": "lote" },
+            { "data": "estagio" },
             { "data": "conjunto" },
             { "data": "descricao" },
             { "data": "tratamento" },
             { "data": "total" },
             { "data": "carregado" },
-            { "data": "saldo" },
-            { "data": "cargo" },
-            { "data": "romaneio" }
+            { "data": "saldo" }
         ],
         columnDefs: [ {
             orderable: false,
@@ -478,7 +499,7 @@ $('.TypeLoading').show();
             targets:   0
         },
         {
-          targets: [1, 4], orderable : false
+          targets: [1, 5], orderable : false
         }
          ],
             select: {
@@ -490,14 +511,19 @@ $('.TypeLoading').show();
             },
         });
 
-function redrawConjuntos(){
-   ConjuntosGrid.ajax.url(getConjuntos()).load();
-
-  
-    } 
+  function redrawConjuntos(){
+     ConjuntosGrid.ajax.url(getConjuntos()).load();
+  } 
 
   $(document).on('click', '#CriarRomaneio', function(event) {
-    $('.modalRBody').html('<div class="row"><div class="col-md-6"><dl><dt>Obra</dt><dd>'+$('#inputChooseObra3').find(":selected").text()+'</dd><dt>Etapa</dt><dd>'+$('#inputEtapa3').find(":selected").text()+'</dd><dt>Subetapa</dt><dd>'+$('#inputSubetapa3').find(":selected").text()+'</dd></div><div class="col-md-6"></dl><dl><dt>Codigo</dt><dd>'+$('#RCodigo').val()+'</dd><dt>Data de Saida</dt><dd>'+$('#RSaida').val()+'</dd><dt>Previsão de chegada</dt><dd>'+$('#RPrevisao').val()+'</dd></dl><dl><dt>Transportador</dt><dd>'+$('#TNome').val()+'</dd><dt>'+$('#MNome').val()+'</dt><dd>Motorista</dd></dl></div><h3 class="clearfix text-center info">Deseja Continuar?</h3></div></div><div class="modal-footer"><a href="#" id="RoContinuar" class="pull-left btn-success btn" style="margin-left:30px">Sim</a><a href="#" id="RoCancelar" class="pull-right btn-danger btn" style="margin-right:30px">Não</a></div></div>');
+    var dateSaida = $('#RSaida').val();
+    var dateS = dateSaida.split("-");
+    var RSaida = dateS[2]+'/'+dateS[1]+'/'+dateS[0];
+    var datePrev = $('#RPrevisao').val();
+    var dateP = datePrev.split("-");
+    var RPrev = dateP[2]+'/'+dateP[1]+'/'+dateP[0];
+
+    $('.modalRBody').html('<div class="row"><div class="col-md-6"><dl><dt>Obra</dt><dd>'+$('#inputChooseObra3').find(":selected").text()+'</dd><dt>Etapa</dt><dd>'+$('#inputEtapa3').find(":selected").text()+'</dd><dt>Subetapa</dt><dd>'+$('#inputSubetapa3').find(":selected").text()+'</dd></div><div class="col-md-6"></dl><dl><dt>Codigo</dt><dd>'+$('#RCodigo').val()+'</dd><dt>Data de Saida</dt><dd>'+RSaida+'</dd><dt>Previsão de chegada</dt><dd>'+RPrev+'</dd></dl><dl><dt>Transportador</dt><dd>'+$('#TNome').val()+'</dd><dt>'+$('#MNome').val()+'</dt><dd>Motorista</dd></dl></div></div></div><div class="modal-footer"><h3 class="clearfix text-center info">Deseja Continuar?</h3><a href="#" id="RoContinuar" class="pull-left btn-success btn" style="margin-left:30px">Sim</a><a href="#" id="RoCancelar" class="pull-right btn-danger btn" style="margin-right:30px">Não</a></div></div>');
     $('#modalRomaneio').modal('show');
   });   
 
@@ -510,10 +536,10 @@ function redrawConjuntos(){
   $(document).on('click', '#RoContinuar', function(event) {
     event.preventDefault();
     $.fn.serializeAndEncode = function() {
-    return $.map(this.serializeArray(), function(val) {
+      return $.map(this.serializeArray(), function(val) {
         return [val.name, encodeURIComponent(val.value)].join('=');
-    }).join('&');
-};
+      }).join('&');
+    };
     var selectedItems = ConjuntosGrid.rows('.selected').data();
     var selectedQtd = ConjuntosGrid.$('.selected').find('input');
     var handles_ids = {};
@@ -543,14 +569,18 @@ function redrawConjuntos(){
 function isset(object){
     return (typeof object !=='undefined');
 }
-
+  
 function getConjuntos(first){
   var obrs     = $('#inputChooseObra3').val();
   var etaps   = $('#inputEtapa3').val();
   var subetaps = $('#inputSubetapa3').val();
   var imps     = $('#inputImp3').val();
-
-    return (urlbaseGeral + '/romaneios/getConjuntos/'+obrs+'X'+etaps+'X'+subetaps+'X'+imps);
+  if ($('#checkSetor').is(":checked")) {
+    var setor = 1;
+  }else{
+    var setor = 0;
+  }
+       return (urlbaseGeral + '/romaneios/getConjuntos/'+obrs+'X'+etaps+'X'+subetaps+'X'+imps+'X'+setor);
         
 }
 

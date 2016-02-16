@@ -8,6 +8,7 @@
 	{{Html::style('plugins/jQueryUI/jquery-ui.theme.min.css')}}
 	{{Html::style('plugins/jQueryUI/jquery-ui.min.css')}}
 	{{Html::style('plugins/jQueryUI/jquery-ui.structure.min.css')}}
+	{{Html::style('plugins/iCheck/all.css')}}
 @endsection
 
 @section('content')
@@ -94,11 +95,11 @@
 						</div>
 						<div class="form-group">
 							<label for="">Data de Saida</label>
-							<input class="form-control" type="text" name='RSaida' id='RSaida'>
+							<input class="form-control" type="date" name='RSaida' id='RSaida'>
 						</div>
 						<div class="form-group">
 							<label for="">Previsão de Chegada</label>
-							<input class="form-control" type="text" name='RPrevisao' id='RPrevisao'>
+							<input class="form-control" type="date" name='RPrevisao' id='RPrevisao'>
 						</div>
 						<div class="form-group">
 							<label for="">Status</label>
@@ -138,11 +139,11 @@
 								</div>
 								<div class="form-group">
 									<label for="">Fone 1</label>
-									<input class="form-control" type="text" name='TFone1'>
+									<input class="form-control telefone" type="text" name='TFone1'>
 								</div>
 								<div class="form-group">
 									<label for="">Fone 2</label>
-									<input class="form-control" type="text" name='TFone2'>
+									<input class="form-control telefone" type="text" name='TFone2'>
 								</div>
 								<div class="form-group">
 									<label for="">Contato 1</label>
@@ -153,8 +154,8 @@
 									<input class="form-control" type="text" name='TContato2'>
 								</div>
 								<div class="form-group">
-									<label for="">Algo</label>
-									<input class="form-control" type="text" name='TAlgo'>
+									<label for="">E-Mail</label>
+									<input class="form-control email_mask" type="text" name='TEmail'>
 								</div>
 								<div class="form-group">
 									<label for="">Observações</label>
@@ -171,11 +172,11 @@
 								</div>
 								<div class="form-group">
 									<label for="">Fone 1</label>
-									<input class="form-control" type="text" name='MFone1'>
+									<input class="form-control telefone" type="text" name='MFone1'>
 								</div>
 								<div class="form-group">
 									<label for="">Fone 2</label>
-									<input class="form-control" type="text" name='MFone2'>
+									<input class="form-control telefone" type="text" name='MFone2'>
 								</div>
 								<div class="form-group">
 									<label for="">Caminhão</label>
@@ -244,6 +245,11 @@
                     <option value="0">Todas</option>
                 </select>
             </div>
+            <div class="form-group checkSetor checkbox hidden">
+            	<label>
+            		<input type="checkbox" name="checkSetor" id='checkSetor' value="1" checked> <span>Conjuntos em Expedição</span>
+            	</label>
+            </div>
 	            <div class="form-group">
 	             <div class="TypeLoading" style='margin-left:5px'></div>
 	            </div>
@@ -260,14 +266,13 @@
 						<th></th>
 						<th></th>
 						<th>Lote</th>
+						<th>Estagio</th>
 						<th>Conjunto</th>
 						<th>Descrição</th>
 						<th>Tratamento</th>
 						<th>Qtd. Total</th>
 						<th>Qtd. Carregado</th>
 						<th>Saldo</th>
-						<th>Cargo</th>
-						<th>Romaneio</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -282,16 +287,19 @@
 						<td></td>
 						<td></td>
 						<td></td>
-						<td></td>
 					</tr>
 				</tbody>
 		</table>
-		<button id="CriarRomaneio">CRIAR</button>
+		
 		</div>
 		<!-- ================================================================================== -->
 		<!-- ================================ FINAL DOS CONJUNTOS  ============================ -->
 				</div>
+					
         	</div>
+			<div class="box-footer">
+				<button id="CriarRomaneio" class='btn btn-primary pull-right' style='margin:15px'>Enviar</button>
+			</div>
         </div>
 
 	</div>
@@ -300,12 +308,15 @@
     <div class="modal-dialog">
     	<div class="modal-content">
       		<div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-    <h3 class="modal-title">Confirmar Envio</h3>
-</div>
-		<div class="modal-body modalRBody">
-		    
-		</div>
+			    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			    <h3 class="modal-title">Confirmar Envio</h3>
+			</div>
+			<div class="alert hidden" id='AjaxMessageModal'>
+			    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+			</div>
+			<div class="modal-body modalRBody">
+			    
+			</div>
 		</div>
     </div>
 </div>
@@ -315,6 +326,7 @@
 @section('scripts')
 {!! Html::script('plugins/jQueryUI/jquery-ui.js') !!}
 {{ Html::script('plugins/datatables/dataTables.select.min.js') }}
+{!! Html::script('plugins/iCheck/icheck.min.js') !!}
 {!! Html::script('js/Ajax/funcoes.js') !!}
 {!! Html::script('js/Ajax/romaneios.js') !!}
 @endsection
