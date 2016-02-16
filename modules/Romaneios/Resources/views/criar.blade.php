@@ -103,7 +103,7 @@
 						</div>
 						<div class="form-group">
 							<label for="">Status</label>
-							<select class="form-control" name="RStatus" id="">
+							<select class="form-control" name="RStatus" id="RStatus">
 								@foreach(config('Romaneios.status') as $stats)
 									<option value="{{$stats}}">{{$stats}}</option>
 								@endforeach
@@ -305,7 +305,7 @@
 	</div>
 
 	<div class="modal fade" id="modalRomaneio">
-    <div class="modal-dialog">
+    <div class="modal-dialog" style='width:50%'>
     	<div class="modal-content">
       		<div class="modal-header">
 			    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -314,7 +314,23 @@
 			<div class="alert hidden" id='AjaxMessageModal'>
 			    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 			</div>
-			<div class="modal-body modalRBody">
+			<table class="table table-bordered table-striped hidden" style="margin:15px 5%;width:90%">
+				<thead>
+					<tr>
+						<th>Conjunto</th>
+						<th>Lote</th>
+						<th>Quantidade <button class="btn btn-xs btn-primary pull-right" style="margin-right:10px"><i class="fa fa-minus-circle"></i></button></th>
+					</tr>
+				</thead>
+				<tbody id='modalTableBody'>
+					<tr>
+						<td>M1</td>
+						<td>Lote</td>
+						<td>2</td>
+					</tr>
+				</tbody>
+			</table>
+			<div class="modal-body modalRBody" style="margin:15px 5%;width:90%">
 			    
 			</div>
 		</div>

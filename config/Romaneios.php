@@ -25,8 +25,8 @@
          */
     	'status' =>  [
        
-       		'Carregado',
-       		'Agendando'
+       		'Fechado',
+       		'Aberto'
 
     	]
 	];
