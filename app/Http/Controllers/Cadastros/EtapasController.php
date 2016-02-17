@@ -98,12 +98,12 @@ class EtapasController extends Controller
         $subs = sub::where('etapa_id', $etapaID)->get();
         foreach($subs as $sub){
             if(!empty($sub->importacoes->first()->id)){
-                die('erro') ; 
+                die('&nbsp;&nbsp;Erro ao excluir, etapa com importações cadastradas.') ; 
             }
         }
         $obraID = $etapa->obra_id;
         if(count($etapa->subetapas) > 1){
-            die('erro') ; 
+            die('&nbsp;&nbsp;Erro ao excluir, etapa com subetapas cadastradas.') ; 
         }
         else{
           $etapa->delete();

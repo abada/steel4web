@@ -17,7 +17,7 @@ class RomaneiosController extends Controller {
 	
 	public function index()
 	{
-		$obras = obr::all();
+		$obras = obr::where('status',1)->get(); 
 		if(\Session::get('history')){
         	$ids = (\Session::get('history'));
         	if($ids['eID'] == 0)
@@ -71,7 +71,7 @@ class RomaneiosController extends Controller {
 	}
 
 	public function criar(){
-		$obras = obr::all();
+		$obras = obr::where('status',1)->get(); 
 		return view('romaneios::criar', compact('obras'));
 	}
 

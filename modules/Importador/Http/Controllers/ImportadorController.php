@@ -21,7 +21,7 @@ class ImportadorController extends Controller {
 	
 	public function index()
 	{  
-        $obras = obr::all(); 
+        $obras = obr::where('status',1)->get(); 
         if(\Session::get('history')){
             $subID = \Session::get('history');
             $dados = sub::find($subID);
@@ -61,6 +61,16 @@ class ImportadorController extends Controller {
 		
 		return view('importador::index',compact('obras'));
 	}
+
+    public function download($file){
+        $dados = str_replace('&', '\\', $file);
+        $dados = str_replace('DdxdD', '.', $dados);
+        
+        $path = storage_path('app').'\\'.$dados;
+
+        return response()->download($path);
+
+    }
 
 	public function getEtapas(Request $request){
 		$dados = $request->all();
@@ -202,7 +212,7 @@ class ImportadorController extends Controller {
         
         $maxSize = 1024 * 1024 * 50;
         $final = array();
-        $nroImportacao = count($dados->importacoes);
+        $nroImportacao = isset($dados->importacoes) ? 1 : count($dados->importacoes);
         $nroImportacao = (!empty($nroImportacao)) ? ($nroImportacao+1) : 1;
 
         if($nroImportacao == 1){
@@ -567,15 +577,7 @@ class ImportadorController extends Controller {
         return false;
     } 
 
-    public function download($file){
-        $dados = str_replace('&', '\\', $file);
-        
-        
-        $path = storage_path('app').'\\'.$dados;
-
-       return response()->download($path);
-
-    }
+    
 
     public function excluir(Request $request){
         $getRequest  = $request->all();

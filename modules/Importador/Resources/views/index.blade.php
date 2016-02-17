@@ -57,7 +57,8 @@
 	                    <th class="text-center" width="5%"><i id='subToggle' title='Agrupar' class="fa fa-bars fa-fw"></i></th>
 	                    <th width="30%">Nome</th>
 	                    <th width="10%">N°</th>
-	                    <th width="40%">Observacao</th>
+	                    <th width="30%">Observacao</th>
+                        <th width="10%">Codigo</th>
 	                    <th width="15%">Ações</th>
 	                </tr>
 	            </thead>
@@ -71,6 +72,7 @@
                         <td>{{$imp->descricao}}</td>
                         <td>{{$imp->importacaoNr}}</td>
                         <td>{{$imp->observacoes}}</td>
+                        <td>{{$imp->locatario_id}}.{{$imp->cliente_id}}.{{$imp->obra_id}}.{{$imp->etapa_id}}.{{$imp->subetapa_id}}.{{$imp->importacaoNr}}</td>
                         <td>
                             <div class='text-center hoverActions'>
                                     <a style='color:#222222' id='delete&{{$imp->id}}' class='delImp' title='Excluir Importacao' href='' ><i class='fa fa-trash '></i>
@@ -86,8 +88,10 @@
                                 <td ><p>{{$imp->dbf2d}} &nbsp;-&nbsp; {{$sizes[$imp->id]['dbf2d']}}</p></td>
                                 <td></td>
                                 <td></td>
+                                <td></td>
                                 <td class='text-center'>
-                                    <a class='btn btn-download btn-block' title='Download' target='_blank' href="{{url('importador/download')."/".$imp->locatario_id."&".$imp->obra->cliente_id."&".$imp->obra_id."&".$imp->etapa_id."&".$imp->subetapa_id."&".$imp->importacaoNr."&".$imp->dbf2d}}"><i class='fa fa-download'></i></a>
+                                    <a class='btn btn-download btn-block' title='Download' target='_blank' href="{{url('importador/download')."/".$imp->locatario_id."&".$imp->obra->cliente_id."&".$imp->obra_id."&".$imp->etapa_id."&".$imp->subetapa_id."&".$imp->importacaoNr."&".
+                                        str_replace('.','DdxdD',$imp->dbf2d)}}"><i class='fa fa-download'></i></a>
                                 </td>
                             </tr>
                         @endif
@@ -99,8 +103,9 @@
                                 <td><p>{{$imp->ifc_orig}} &nbsp;-&nbsp; {{$sizes[$imp->id]['ifc_orig']}}</p></td>
                                 <td></td>
                                 <td></td>
+                                <td></td>
                                 <td class='text-center'>
-                                    <a class='btn btn-download btn-block' title='Download' target='_blank' href="{{url('importador/download')."/".$imp->locatario_id."&".$imp->obra->cliente_id."&".$imp->obra_id."&".$imp->etapa_id."&".$imp->subetapa_id."&".$imp->importacaoNr."&".$imp->ifc_orig}}"><i class='fa fa-download'></i></a>
+                                    <a class='btn btn-download btn-block' title='Download' target='_blank' href="{{url('importador/download')."/".$imp->locatario_id."&".$imp->obra->cliente_id."&".$imp->obra_id."&".$imp->etapa_id."&".$imp->subetapa_id."&".$imp->importacaoNr."&".str_replace('.','DdxdD',$imp->ifc_orig)}}"><i class='fa fa-download'></i></a>
                                 </td>
                             </tr>
                         @endif
@@ -112,8 +117,9 @@
                                 <td><p>{{$imp->fbx_orig}} &nbsp;-&nbsp; {{$sizes[$imp->id]['fbx_orig']}}</p></td>
                                 <td></td>
                                 <td></td>
+                                <td></td>
                                 <td class='text-center'>
-                                    <a class='btn btn-download btn-block' title='Download' target='_blank' href="{{url('importador/download')."/".$imp->locatario_id."&".$imp->obra->cliente_id."&".$imp->obra_id."&".$imp->etapa_id."&".$imp->subetapa_id."&".$imp->importacaoNr."&".$imp->fbx_orig}}"><i class='fa fa-download'></i></a>
+                                    <a class='btn btn-download btn-block' title='Download' target='_blank' href="{{url('importador/download')."/".$imp->locatario_id."&".$imp->obra->cliente_id."&".$imp->obra_id."&".$imp->etapa_id."&".$imp->subetapa_id."&".$imp->importacaoNr."&".str_replace('.','DdxdD',$imp->fbx_orig)}}"><i class='fa fa-download'></i></a>
                                 </td>
                             </tr>
                         @endif

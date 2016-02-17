@@ -5,7 +5,7 @@
                     Listagem de Etapas
                     <div style='float:right;margin-right:15px'>
                         <i style='color:green;font-size:14px' id='tipoSuccess' class="fa fa-check-circle fa-2x hidden">  Excluido com Sucesso.</i>
-                        <i style='color:red;font-size:14px' id='tipoError' class="fa fa-exclamation-circle fa-2x hidden">  Erro ao Excluir, Certifique-se que o objeto não contem dependencias.  <i class="fa fa-times closeIt style=''color:red;font-size:14px"></i></i>
+                        <i style='color:red;font-size:14px' id='tipoError' class="fa fa-exclamation-circle fa-2x hidden"><i class="fa fa-times closeIt style=''color:red;font-size:14px"></i></i>
                         <i style='color:red;font-size:14px' id='tipoError2' class="fa fa-exclamation-circle fa-2x hidden">  Erro ao Excluir, Exclua a Etapa para Excluir a Subetapa Principal.  <i class="fa fa-times closeIt style=''color:red;font-size:14px"></i></i>
                         <i style='color:red;font-size:14px' id='tipoError3' class="fa fa-exclamation-circle fa-2x hidden">  Erro ao Excluir, Subetapa com Importações cadastradas.  <i class="fa fa-times closeIt style=''color:red;font-size:14px"></i></i>
                         <div id='tipoLoading' class='TypeLoadingC hidden'></div>

@@ -1335,7 +1335,10 @@ $(document).ready(function(){
             $('#tipoError3').addClass('hidden');
             $('#tipoError2').addClass('hidden');
             $('#tipoLoading').addClass('hidden');
+            
+            $('#tipoError').html(result);
             $('#tipoError').removeClass('hidden');
+            
             $('#tipoSuccess').addClass('hidden');
         }
           },
