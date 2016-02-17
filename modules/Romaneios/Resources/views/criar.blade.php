@@ -49,7 +49,7 @@
 						<div class="form-group inputObr2" >
 			                <label for="obra">Obra: </label>
 			                <select id="inputChooseObra2" class="form-control" required="required" name="RObra">
-			                    <option class='optPadrao' value='0'>Escolha Uma Obra...</option>
+			                    <option class='optPadrao' value='0'>Escolha uma Obra...</option>
 			                    @foreach ($obras as $obra)
 			                    <option value="<?= $obra->id ?>" <?php if(isset($history)){if($obra->id == $obraID) echo 'selected';} ?>>{{ $obra->nome }}</option>
 			                    @endforeach
@@ -58,13 +58,13 @@
 			            <div class="form-group inputetapa2">
 			                <label  for="etapa"> Etapa: </label>
 			                <select id="inputEtapa2" class="form-control" required="required" name="REtapa">
-			                    <option class='optPadrao' value='0'>Escolha Uma Obra...</option>
+			                    <option class='optPadrao' value='0'>Escolha uma Obra...</option>
 			                </select>
 			            </div>
 			            <div class="form-group inputsubetapa2">
 			                <label for="subetapa"> Subetapa: </label>
 			                <select id="inputSubetapa2" class="form-control" required="required" name="RSubetapa">
-								<option class='optPadrao' value='0'>Escolha Uma Obra...</option>
+								<option class='optPadrao' value='0'>Escolha uma Obra...</option>
 			                </select>
 			            </div>
 			            <div class="form-group">
@@ -139,28 +139,29 @@
 								</div>
 								<div class="form-group">
 									<label for="">Fone 1</label>
-									<input class="form-control telefone" type="text" name='TFone1'>
+									<input class="form-control telefone" type="text" name='TFone1' id='TFone'>
 								</div>
 								<div class="form-group">
 									<label for="">Fone 2</label>
-									<input class="form-control telefone" type="text" name='TFone2'>
+									<input class="form-control telefone" type="text" name='TFone2' id='TFone2'>
 								</div>
 								<div class="form-group">
 									<label for="">Contato 1</label>
-									<input class="form-control" type="text" name='TContato1'>
+									<input class="form-control" type="text" name='TContato1' id='TCont'>
 								</div>
 								<div class="form-group">
 									<label for="">Contato 2</label>
-									<input class="form-control" type="text" name='TContato2'>
+									<input class="form-control" type="text" name='TContato2' id='TCont2'>
 								</div>
 								<div class="form-group">
 									<label for="">E-Mail</label>
-									<input class="form-control email_mask" type="text" name='TEmail'>
+									<input class="form-control email_mask" type="text" name='TEmail' id='TMail'>
 								</div>
 								<div class="form-group">
 									<label for="">Observações</label>
-									<textarea name="TObs" class='form-control' rows='5'></textarea>
+									<textarea name="TObs" class='form-control' rows='5' id='TObs'></textarea>
 								</div>
+								<input type="hidden" id='TId' name='TranId' value='0'>
 								
 							</div>
 							<div class="col-md-6">
@@ -172,28 +173,29 @@
 								</div>
 								<div class="form-group">
 									<label for="">Fone 1</label>
-									<input class="form-control telefone" type="text" name='MFone1'>
+									<input class="form-control telefone" type="text" name='MFone1' id='MFone'>
 								</div>
 								<div class="form-group">
 									<label for="">Fone 2</label>
-									<input class="form-control telefone" type="text" name='MFone2'>
+									<input class="form-control telefone" type="text" name='MFone2' id='MFone2'>
 								</div>
 								<div class="form-group">
 									<label for="">Caminhão</label>
-									<select class="form-control" name="MCaminhao" id="">
+									<select class="form-control" name="MCaminhao" id="MCam">
 										@foreach(config('Romaneios.caminhao') as $caminhao)
 									<option value="{{$caminhao}}">{{$caminhao}}</option>
 								@endforeach
 									</select>
 								</div>
 								<div class="form-group">
-									<label for="">Comprimento (M)</label>
-									<input class="form-control" type="text" name='MComprimento'>
+									<label for="">Comprimento (m)</label>
+									<input class="form-control" type="text" name='MComprimento' id='MComp'>
 								</div>
 								<div class="form-group">
 									<label for="">Observações</label>
-									<textarea name="MObs" class='form-control' rows='5'></textarea>
+									<textarea name="MObs" class='form-control' rows='5' id='MObs'></textarea>
 								</div>
+								<input type="hidden" id='MId' name='MotId' value='0'>
 								
 							</div>
 						</div>
@@ -221,7 +223,7 @@
             <div class="form-group inputObr3" >
                 <label for="obra">Obra: </label>
                 <select id="inputChooseObra3" class="form-control" required="required" name="obra">
-                    <option class='optPadrao' value='0'>Escolha Uma Obra...</option>
+                    <option class='optPadrao' value='0'>Escolha uma Obra...</option>
                      @foreach ($obras as $obra)
                     <option value="<?= $obra->id ?>">{{ $obra->nome }}</option>
                     @endforeach
@@ -230,7 +232,7 @@
             <div class="form-group inputetapa3 hidden">
                 <label  for="etapa"> Etapa: </label>
                 <select id="inputEtapa3" class="form-control" required="required" name="etapa">
-                    <option value="0">Escolha Uma Etapa...</option>
+                    <option value="0">Escolha uma Etapa...</option>
                 </select>
             </div>
             <div class="form-group inputsubetapa3 hidden">
@@ -298,6 +300,7 @@
 					
         	</div>
 			<div class="box-footer">
+				<a href='{{url("romaneios")}}' class='btn btn-primary' style='margin:15px'><< Voltar</a>
 				<button id="CriarRomaneio" class='btn btn-primary pull-right' style='margin:15px'>Enviar</button>
 			</div>
         </div>
@@ -314,22 +317,24 @@
 			<div class="alert hidden" id='AjaxMessageModal'>
 			    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 			</div>
-			<table class="table table-bordered table-striped hidden" style="margin:15px 5%;width:90%">
+			<div id="ModalTableWrapper">
+				<table class="table table-bordered table-striped hidden" style="margin:15px 5%;width:90%" id='modalTabel'>
 				<thead>
 					<tr>
-						<th>Conjunto</th>
-						<th>Lote</th>
-						<th>Quantidade <button class="btn btn-xs btn-primary pull-right" style="margin-right:10px"><i class="fa fa-minus-circle"></i></button></th>
+						<th width='35%'>Conjunto</th>
+						<th width='35%'>Lote</th>
+						<th width='20%'>Quantidade</th>
+						<th width='10%'> 
+							<a href='#' class="btn btn-xs bg-maroon pull-right" id='slideModalTable' style="margin-right:10px"><i class="fa fa-minus"></i></a>
+						</th>
 					</tr>
 				</thead>
 				<tbody id='modalTableBody'>
-					<tr>
-						<td>M1</td>
-						<td>Lote</td>
-						<td>2</td>
-					</tr>
+					
 				</tbody>
 			</table>
+			</div>
+			
 			<div class="modal-body modalRBody" style="margin:15px 5%;width:90%">
 			    
 			</div>

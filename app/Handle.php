@@ -97,6 +97,14 @@ class Handle extends Model {
 	}
 
 	/**
+	 * Get the LOTE of the model
+	 * @return Relationship belongsTo
+	 */
+	public function romaneio() {
+		return $this->belongsTo('App\Romaneio');
+	}
+
+	/**
 	 * Get the Estagio of the model
 	 * @return Relationship belongsTo
 	 */

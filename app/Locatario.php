@@ -93,6 +93,30 @@ class Locatario extends Model {
 	}
 
 	/**
+	 * Get the related Model
+	 * @return Relationship hasMany
+	 */
+	public function romaneios() {
+		return $this->hasMany('App\Romaneio');
+	}
+
+	/**
+	 * Get the related Model
+	 * @return Relationship hasMany
+	 */
+	public function motoristas() {
+		return $this->hasMany('App\Motorista');
+	}
+
+	/**
+	 * Get the related Model
+	 * @return Relationship hasMany
+	 */
+	public function transportadoras() {
+		return $this->hasMany('App\Transportadora');
+	}
+
+	/**
 	 * Get the related Models
 	 * @return Relationship hasMany
 	 */

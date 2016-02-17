@@ -138,7 +138,8 @@
 	@else
 		<div class="panel-body">Romaneio</div>
 	@endif
-	<a type='button' class='btn btn-primary' href="{{url('romaneios/criar')}}">Criar Romaneio</a>
+	<a href='{{url("/")}}' class='btn btn-primary'><< Voltar</a>
+	<a type='button' class='btn btn-primary pull-right' href="{{url('romaneios/criar')}}">Criar Romaneio</a>
 	</div>
 
 	</div> <!-- panel-padrao -->

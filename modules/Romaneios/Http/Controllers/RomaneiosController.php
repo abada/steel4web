@@ -9,6 +9,9 @@ use App\Importacao as imp;
 use App\Handle as handle;
 use App\Estagio as est;
 use App\Lote as lote;
+use App\Transportadora as tran;
+use App\Motorista as mot;
+use App\Romaneio as rom;
 
 class RomaneiosController extends Controller {
 	
@@ -163,7 +166,7 @@ class RomaneiosController extends Controller {
 
 	public function gravar(Request $request){
         $dados = $request->all();
-        $romaneios = explode('&', $dados['romaneio']);
+        $romaneios = explode('&', urldecode($dados['romaneio']));
         $rom = array();
         foreach($romaneios as $romaneio){
 	        $check2 = explode('=',$romaneio);
@@ -186,7 +189,7 @@ class RomaneiosController extends Controller {
         		$Romaneio[$rima[0]] = $rima[1];
         	}
         }
-        dd($dados);
+        dd($Romaneio);
 	}
 	
 }

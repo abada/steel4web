@@ -516,23 +516,152 @@ $('.TypeLoading').show();
   } 
 
   $(document).on('click', '#CriarRomaneio', function(event) {
+    var disable = false;
     var dateSaida = $('#RSaida').val();
     if(dateSaida){
     var dateS = dateSaida.split("-");
     var RSaida = dateS[2]+'/'+dateS[1]+'/'+dateS[0];
+    var SaidaStyle = 'color:green';
   }else{
-    var RSaida = 'dd/mm/aaaa';
+    disable = true;
+    var RSaida = '-';
+    var SaidaStyle = 'color:red';
   }
     var datePrev = $('#RPrevisao').val();
     if(datePrev){
       var dateP = datePrev.split("-");
       var RPrev = dateP[2]+'/'+dateP[1]+'/'+dateP[0];
+      var PrevStyle = 'color:green';
     }else{
-      var RPrev = 'dd/mm/aaaa';
+      disable = true;
+      var RPrev = '-';
+      var PrevStyle = 'color:red';
+    }
+    var obra = $('#inputChooseObra3').find(":selected").text();
+    if(obra != 'Escolha uma Obra...'){
+      var obraStyle = 'color:green';
+    }else{
+      disable = true;
+      obra = '-';
+      var obraStyle = 'color:red';
+    }
+     var etapa = $('#inputEtapa3').find(":selected").text()
+    if(etapa != 'Escolha uma Etapa...'){
+      var etapaStyle = 'color:green';
+    }else{
+      disable = true;
+      etapa = '-';
+      var etapaStyle = 'color:red';
+    }
+    var subetapa = $('#inputSubetapa3').find(":selected").text();
+    var subetapaStyle = 'color:green';
+    if(subetapa == 'Todas' || subetapa == 'Escolha uma Subetapa...' || subetapa == 'Escolha uma Etapa...'){
+      subetapa = '-';
+      subetapaStyle = 'color:red';
+      disable = true;
+    }
+    var Rcodigo = $('#RCodigo').val();
+    if(Rcodigo.length > 0){
+      RcodStyle = 'color:green';
+    }else{
+      disable = true;
+      Rcodigo = '-';
+      RcodStyle = 'color:red';
+    }
+
+    var foneRegex = /^\(\d{2}\) \d{4,5}\-\d{4}?$/;
+    var emailRegex = /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+    var compRegex = /^[0-9]*$/;
+
+    var Tname = $('#TNome').val();
+    var Tfone = $('#TFone').val();
+    var Tcont = $('#TCont').val();
+    var Tmail = $('#TMail').val();
+    var Tstyle = 'color:green';
+    var Tmsg = '';
+    var checkTMail = emailRegex.test(Tmail);
+    var checkTFone = foneRegex.test(Tfone);
+
+    if(Tname.length < 1 || Tfone.length < 1 || Tcont.length < 1 || Tmail.length < 1){
+      Tstyle = 'color:red';
+      Tmsg = '&nbsp;&nbsp;* Campos em Branco';
+      disable = true;
+    }else if(checkTFone == false){
+        Tstyle = 'color:red';
+        Tmsg = '&nbsp;&nbsp;* Telefone Invalido';
+        disable = true;
+    }else if(checkTMail == false){
+      Tstyle = 'color:red';
+      Tmsg = '&nbsp;&nbsp;* E-Mail Invalido';
+      disable = true;
     }
     
+    if(Tname.length < 1){
+      Tname = '-';
+    }
 
-    $('.modalRBody').html('<div class="row"><div class="col-md-4"><dl><dt>Obra</dt><dd>'+$('#inputChooseObra3').find(":selected").text()+'</dd><dt>Etapa</dt><dd>'+$('#inputEtapa3').find(":selected").text()+'</dd><dt>Subetapa</dt><dd>'+$('#inputSubetapa3').find(":selected").text()+'</dd></div><div class="col-md-4"></dl><dl><dt>Codigo</dt><dd>'+$('#RCodigo').val()+'</dd><dt>Data de Saida</dt><dd>'+RSaida+'</dd><dt>Previsão de chegada</dt><dd>'+RPrev+'</dd><dt>Status</dt><dd>'+$('#RStatus').val()+'</dd></dl></div><div class="col-md-4"><dl><dt>Transportadora</dt><dd>'+$('#TNome').val()+'</dd><dt>Motorista</dt><dd>'+$('#MNome').val()+'</dd></dl></div></div></div><div class="modal-footer"><h3 class="clearfix text-center info">Deseja Continuar?</h3><a href="#" id="RoContinuar" class="pull-left btn-success btn" style="margin-left:30px">Sim</a><a href="#" id="RoCancelar" class="pull-right btn-danger btn" style="margin-right:30px">Não</a></div></div>');
+    var MNome = $('#MNome').val();
+    var MFone = $('#MFone').val();
+    var MComp = $('#MComp').val();
+    var Mstyle = 'color:green';
+    var Mmsg = '';
+    var checkMFone = foneRegex.test(MFone);
+    var checkComp = compRegex.test(MComp);
+
+
+    if(MNome.length < 1 || MFone.length < 1 || MComp.length < 1){
+      Mstyle = 'color:red';
+      Mmsg = '&nbsp;&nbsp;* Campos em Branco';
+      disable = true;
+    }else if(checkMFone == false){
+        Mstyle = 'color:red';
+        Mmsg = '&nbsp;&nbsp;* Telefone Invalido';
+        disable = true;
+    }else if(checkComp == false){
+      Mstyle = 'color:red';
+      Mmsg = '&nbsp;&nbsp;* Comprimento Invalido';
+      disable = true;
+    }
+
+     if(MNome.length < 1){
+      MNome = '-';
+    }
+
+    
+
+    var selectedItems = ConjuntosGrid.rows('.selected').data();
+    var selectedQtd = ConjuntosGrid.$('.selected').find('input');
+    $('#modalTableBody').find('tr').remove();
+    $('#ModalTableWrapper').find('h4').remove();
+    $('#modalTabel').addClass('hidden');
+    var checkCjt = 0;
+    for (var i = 0; i < selectedItems.length; i++) {              
+        if(selectedQtd[i].value > 0){
+          checkCjt++;
+          $('#modalTableBody').append('<tr><td>'+selectedItems[i].conjunto+'</td><td>'+selectedItems[i].lote+'</td><td colspan="2">'+selectedQtd[i].value+'</td></tr>');
+        }
+    }; 
+
+    if(selectedItems.length > 0 && checkCjt > 0){
+      $('#modalTabel').removeClass('hidden');
+    } 
+    else{
+      $('#ModalTableWrapper').append('<h4 style="color:red" class="text-center">Nenhum Conjunto Selecionado!</h4>');
+      disable = true;
+    }
+      
+
+    if(disable == true){
+     var dtitle = 'title="Campos Invalidos" data-toggle="tooltip" data-html="true"';
+     var DClasses = 'class="tooltipo"';
+     disable = 'disabled';}
+    else{
+     disable = '';
+     var dtitle = '';
+      var DClasses = '';
+    }
+
+    $('.modalRBody').html('<div class="row"><div class="col-md-4"><dl><dt style="'+obraStyle+'">Obra</dt><dd>'+obra+'</dd><dt style="'+etapaStyle+'">Etapa</dt><dd>'+etapa+'</dd><dt style="'+subetapaStyle+'">Subetapa</dt><dd>'+subetapa+'</dd></div><div class="col-md-4"></dl><dl><dt style="'+RcodStyle+'">Codigo</dt><dd>'+Rcodigo+'</dd><dt style="'+SaidaStyle+'">Data de Saida</dt><dd>'+RSaida+'</dd><dt style="'+PrevStyle+'">Previsão de chegada</dt><dd>'+RPrev+'</dd><dt style="color:green">Status</dt><dd>'+$('#RStatus').val()+'</dd></dl></div><div class="col-md-4"><dl><dt style="display:inline-block;'+Tstyle+'">Transportadora</dt><span>'+Tmsg+'</span><dd>'+Tname+'</dd><dt style="display:inline-block;'+Mstyle+'">Motorista</dt><span>'+Mmsg+'</span><dd>'+MNome+'</dd></dl></div></div></div><div class="modal-footer"><h3 class="clearfix text-center info">Deseja Continuar?</h3><a '+disable+' '+dtitle+' href="#" id="RoContinuar" class="pull-left btn-success btn '+DClasses+'" style="margin-left:30px">Sim</a><a href="#" id="RoCancelar" class="pull-right btn-danger btn" style="margin-right:30px">Não</a></div></div>');
     $('#modalRomaneio').modal('show');
   });   
 
@@ -543,6 +672,9 @@ $('.TypeLoading').show();
   }); 
 
   $(document).on('click', '#RoContinuar', function(event) {
+    if ($(this).is("[disabled]")) {
+        return false;
+    }
     event.preventDefault();
     $.fn.serializeAndEncode = function() {
       return $.map(this.serializeArray(), function(val) {
@@ -570,7 +702,86 @@ $('.TypeLoading').show();
       });
   }); 
 
+ $(document).on('click', '#slideModalTable', function(event) {
+   event.preventDefault();
+   $('#modalTableBody').slideToggle('fast');
+   $('#slideModalTable i').toggleClass('fa-minus fa-plus');
+ });
 
+/* ======================================================== */
+/* =====================Autocompletes====================== */
+
+  $("#TNome").autocomplete({
+        minLength: 2,
+        source: function( request, response ) {
+            $.ajax({
+                url: urlbaseGeral+"/api/transportadoras",
+                dataType: "json",
+                data: { searchText: request.term, maxResults: 10 },
+                success: function( data ) {
+                    response( $.map( data, function( item ) {
+                        return {    label: item.nome, 
+                                    id: item.id, 
+                                    fone1: item.fone1,
+                                    fone2: item.fone2,
+                                    contato1: item.contato1,
+                                    contato2: item.contato2,
+                                    email: item.email,
+                                    observacoes: item.observacoes,
+                                    }   
+                    }));
+                }
+            });
+        },
+        select: function (event, ui) {
+            $('#TNome').val(ui.item.label);
+            $('#TFone').val(ui.item.fone1);
+            $('#TFone2').val(ui.item.fone2);
+            $('#TCont').val(ui.item.contato1);
+            $('#TCont2').val(ui.item.contato2);
+            $('#TMail').val(ui.item.email);
+            $('#TObs').val(ui.item.observacoes);
+            $('#TId').val(ui.item.id);
+            return false;
+        },
+    });
+
+
+ $("#MNome").autocomplete({
+        minLength: 2,
+        source: function( request, response ) {
+            $.ajax({
+                url: urlbaseGeral+"/api/motoristas",
+                dataType: "json",
+                data: { searchText: request.term, maxResults: 10 },
+                success: function( data ) {
+                    response( $.map( data, function( item ) {
+                        return {    label: item.nome, 
+                                    id: item.id, 
+                                    fone1: item.fone1,
+                                    fone2: item.fone2,
+                                    caminhao: item.caminhao,
+                                    comprimento: item.comprimento,
+                                    observacoes: item.observacoes,
+                                    }   
+                    }));
+                }
+            });
+        },
+        select: function (event, ui) {
+            $('#MNome').val(ui.item.label);
+            $('#MFone').val(ui.item.fone1);
+            $('#MFone2').val(ui.item.fone2);
+            $('#MCam').val(ui.item.caminhao);
+            $('#MComp').val(ui.item.comprimento);
+            $('#MObs').val(ui.item.observacoes);
+            $('#MId').val(ui.item.id);
+            return false;
+        },
+    });
+
+/* ======================================================== */
+/* ======================================================== */
 
 });
 
@@ -626,9 +837,3 @@ $(document).on('change', '.row-qtd', function(event) {
       $(this).addClass('selectedInput');
      }
   });
-
-
-
-
-
-
