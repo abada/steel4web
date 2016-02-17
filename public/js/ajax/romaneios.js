@@ -517,13 +517,22 @@ $('.TypeLoading').show();
 
   $(document).on('click', '#CriarRomaneio', function(event) {
     var dateSaida = $('#RSaida').val();
+    if(dateSaida){
     var dateS = dateSaida.split("-");
     var RSaida = dateS[2]+'/'+dateS[1]+'/'+dateS[0];
+  }else{
+    var RSaida = 'dd/mm/aaaa';
+  }
     var datePrev = $('#RPrevisao').val();
-    var dateP = datePrev.split("-");
-    var RPrev = dateP[2]+'/'+dateP[1]+'/'+dateP[0];
+    if(datePrev){
+      var dateP = datePrev.split("-");
+      var RPrev = dateP[2]+'/'+dateP[1]+'/'+dateP[0];
+    }else{
+      var RPrev = 'dd/mm/aaaa';
+    }
+    
 
-    $('.modalRBody').html('<div class="row"><div class="col-md-6"><dl><dt>Obra</dt><dd>'+$('#inputChooseObra3').find(":selected").text()+'</dd><dt>Etapa</dt><dd>'+$('#inputEtapa3').find(":selected").text()+'</dd><dt>Subetapa</dt><dd>'+$('#inputSubetapa3').find(":selected").text()+'</dd></div><div class="col-md-6"></dl><dl><dt>Codigo</dt><dd>'+$('#RCodigo').val()+'</dd><dt>Data de Saida</dt><dd>'+RSaida+'</dd><dt>Previsão de chegada</dt><dd>'+RPrev+'</dd></dl><dl><dt>Transportador</dt><dd>'+$('#TNome').val()+'</dd><dt>'+$('#MNome').val()+'</dt><dd>Motorista</dd></dl></div></div></div><div class="modal-footer"><h3 class="clearfix text-center info">Deseja Continuar?</h3><a href="#" id="RoContinuar" class="pull-left btn-success btn" style="margin-left:30px">Sim</a><a href="#" id="RoCancelar" class="pull-right btn-danger btn" style="margin-right:30px">Não</a></div></div>');
+    $('.modalRBody').html('<div class="row"><div class="col-md-4"><dl><dt>Obra</dt><dd>'+$('#inputChooseObra3').find(":selected").text()+'</dd><dt>Etapa</dt><dd>'+$('#inputEtapa3').find(":selected").text()+'</dd><dt>Subetapa</dt><dd>'+$('#inputSubetapa3').find(":selected").text()+'</dd></div><div class="col-md-4"></dl><dl><dt>Codigo</dt><dd>'+$('#RCodigo').val()+'</dd><dt>Data de Saida</dt><dd>'+RSaida+'</dd><dt>Previsão de chegada</dt><dd>'+RPrev+'</dd><dt>Status</dt><dd>'+$('#RStatus').val()+'</dd></dl></div><div class="col-md-4"><dl><dt>Transportadora</dt><dd>'+$('#TNome').val()+'</dd><dt>Motorista</dt><dd>'+$('#MNome').val()+'</dd></dl></div></div></div><div class="modal-footer"><h3 class="clearfix text-center info">Deseja Continuar?</h3><a href="#" id="RoContinuar" class="pull-left btn-success btn" style="margin-left:30px">Sim</a><a href="#" id="RoCancelar" class="pull-right btn-danger btn" style="margin-right:30px">Não</a></div></div>');
     $('#modalRomaneio').modal('show');
   });   
 

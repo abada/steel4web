@@ -186,7 +186,7 @@ class RomaneiosController extends Controller {
         		$Romaneio[$rima[0]] = $rima[1];
         	}
         }
-        dd($Romaneio);
+        dd($dados);
 	}
 	
 }
