@@ -712,6 +712,7 @@ $('.TypeLoading').show();
 /* =====================Autocompletes====================== */
 
   $("#TNome").autocomplete({
+
         minLength: 2,
         source: function( request, response ) {
             $.ajax({
@@ -719,8 +720,12 @@ $('.TypeLoading').show();
                 dataType: "json",
                 data: { searchText: request.term, maxResults: 10 },
                 success: function( data ) {
+
                     response( $.map( data, function( item ) {
-                        return {    label: item.nome, 
+                       var matcher = new RegExp("^" + $.ui.autocomplete.escapeRegex(request.term), "i");
+                        if(matcher.test(item.nome)){
+                        return {    label: item.nome,
+                                    value: item.nome, 
                                     id: item.id, 
                                     fone1: item.fone1,
                                     fone2: item.fone2,
@@ -728,13 +733,14 @@ $('.TypeLoading').show();
                                     contato2: item.contato2,
                                     email: item.email,
                                     observacoes: item.observacoes,
-                                    }   
+                                    }  
+                          } 
                     }));
                 }
             });
         },
         select: function (event, ui) {
-            $('#TNome').val(ui.item.label);
+            $('#TNome').val(ui.item.value);
             $('#TFone').val(ui.item.fone1);
             $('#TFone2').val(ui.item.fone2);
             $('#TCont').val(ui.item.contato1);
@@ -756,7 +762,10 @@ $('.TypeLoading').show();
                 data: { searchText: request.term, maxResults: 10 },
                 success: function( data ) {
                     response( $.map( data, function( item ) {
+                      var matcher = new RegExp("^" + $.ui.autocomplete.escapeRegex(request.term), "i");
+                        if(matcher.test(item.nome)){
                         return {    label: item.nome, 
+                                    value: item.nome, 
                                     id: item.id, 
                                     fone1: item.fone1,
                                     fone2: item.fone2,
@@ -764,6 +773,7 @@ $('.TypeLoading').show();
                                     comprimento: item.comprimento,
                                     observacoes: item.observacoes,
                                     }   
+                          }
                     }));
                 }
             });

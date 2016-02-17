@@ -11,7 +11,7 @@ class UpdateLocatarioTable extends Migration {
 	 */
 	public function up() {
 		Schema::table('handles', function ($table) {
-			$table->integer('romaneio_id')->unsigned();
+			$table->integer('romaneio_id')->unsigned()->nullable();
 			$table->foreign('romaneio_id')->references('id')->on('romaneios')->onDelete('cascade');
 		});
 

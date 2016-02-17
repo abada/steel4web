@@ -103,14 +103,19 @@
 				 		  }else{
 				 		  	$lote = ' - ';
 				 		  	$hasLotes = false;
-				 		  }  ?>
+				 		  }  
+				 		  if(isset($conjunto->romaneio->codigo))
+				 		  	$rom = $conjunto->romaneio->codigo;
+				 		  else
+				 		  	$rom = ' - ';
+				 	?>
 			 		<tr>
 			 		
 			 		<td>{{$conjunto->obra->nome}}</td>
 			 		<td>{{$conjunto->etapa->codigo}}</td>
 			 		<td>{{$conjunto->subetapa->cod}}</td>
 			 		<td>{{$conjunto->importacao->descricao}}</td>
-			 		<td>Rom</td>
+			 		<td>{{$rom}}</td>
 			 		<td>{{$lote}}</td>
 			 		<td>{{$conjunto->MAR_PEZ}}</td>
 			 		<td>{{$conjunto->NUM_COM}}</td>
