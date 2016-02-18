@@ -266,7 +266,7 @@
 			<thead width='100%'>
 					<tr>
 						<th></th>
-						<th></th>
+						<th>Qtd. Sel.</th>
 						<th>Lote</th>
 						<th>Estagio</th>
 						<th>Conjunto</th>

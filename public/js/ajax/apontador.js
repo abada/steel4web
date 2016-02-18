@@ -74,7 +74,7 @@ $(document).ready(function() {
 
      	jQuery.ajax({
                 type: "GET",
-               url: urlbaseGeral+"/api/obras/"+dados+"/etapas",
+               url: urlbaseGeral+"/api/obras/"+dados+"/etapas?has=importacoes",
                 dataType: "html",
                 success: function(result){
                   var etapas = JSON.parse(result);
@@ -111,7 +111,7 @@ $(document).ready(function() {
          if(dados != 0){
       jQuery.ajax({
                 type: "GET",
-               url: urlbaseGeral+"/api/etapas/"+dados+"/subetapas",
+               url: urlbaseGeral+"/api/etapas/"+dados+"/subetapas?has=importacoes",
                 dataType: "html",
                 success: function(result){
                   var etapas = JSON.parse(result);
