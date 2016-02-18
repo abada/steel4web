@@ -10,9 +10,9 @@
 	<!-- Editable with Bootstrap 3 -->
 	{{Html::style('plugins/editable/bootstrap-editable.css')}}
 	<!-- Font Awesome -->
-	{{Html::style('https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css')}}
+	{{Html::style('css/font-awesome.min.css')}}
 	<!-- Ionicons -->
-	{{Html::style('https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css')}}
+	{{Html::style('css/ionicons.min.css')}}
 	<!-- Theme style -->
 	{{Html::style('css/AdminLTE.min.css')}}
 	<!-- AdminLTE Skins. Choose a skin from the css/skins
