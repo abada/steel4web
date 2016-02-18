@@ -29,9 +29,9 @@ class ApontadorController extends Controller {
 
         	$estagios = est::where('tipo', 2)->orderBy('ordem','asc')->get();
             $etapa = etap::find($ids['eID']);
-            $etapas = etap::where('obra_id',$etapa->obra_id)->get();
+            $etapas = etap::has('importacoes')->where('obra_id',$etapa->obra_id)->get();
             $thisSubetapa = sub::find($ids['sID']);
-            $subetapas = sub::where('etapa_id', $ids['eID'])->get();
+            $subetapas = sub::has('importacoes')->where('etapa_id', $ids['eID'])->get();
             $thisLote = lote::find($ids['lID']);
             $lotes = lote::where('subetapa_id', $ids['sID'])->get();
             $history = true;

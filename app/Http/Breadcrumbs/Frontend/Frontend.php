@@ -24,5 +24,7 @@ Breadcrumbs::register('Romaneios::criar', function ($breadcrumbs) {
     $breadcrumbs->push(trans('Criar'), url('romaneios/criar'));
 });
 
+
+require __DIR__ . '/Relatorios.php';
 require __DIR__ . '/GestorDeLotes.php';
 require __DIR__ . '/Cadastros.php';

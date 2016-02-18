@@ -32,10 +32,10 @@ class RomaneiosController extends Controller {
 
         	$estagios = est::orderBy('ordem','asc')->get();
         	$obraID = $ids['oID'];
-        	$etapas = etap::where('obra_id',$ids['oID'])->get();
+        	$etapas = etap::has('importacoes')->where('obra_id',$ids['oID'])->get();
         	if($ids['eID'] != 0){
 				$etapa = etap::find($ids['eID']);
-           	    $subetapas = sub::where('etapa_id', $ids['eID'])->get();
+           	    $subetapas = sub::has('importacoes')->where('etapa_id', $ids['eID'])->get();
 			}else{
 				$etapa = null;
 				$subetapas = null;
@@ -257,7 +257,7 @@ class RomaneiosController extends Controller {
 			}
 			$msg .=' Realizado por '. access()->user()->name .'.';
             Log::info($msg);
-            return 'Apontamento Realizado com Sucesso!';
+            return 'Romaneio Criado com Sucesso!';
 	}
 
 	private function handleTrans($trans){

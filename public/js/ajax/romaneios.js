@@ -697,9 +697,11 @@ $('.TypeLoading').show();
          data: {obraID:obra_id, etapaID:etapa_id, subetapaID:subetapa_id, handles:handles_ids, romaneio:romaneio},
           dataType: "html",
           success: function(r){
-            $('#AjaxMessage').append(r);
+            redrawConjuntos();
+            $('#AjaxMessage').html(r+'<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>');
             $('#modalRomaneio').modal('hide');
             $('#AjaxMessage').removeClass('hidden');
+            $('#AjaxMessage').show();
           }
       });
   }); 

@@ -66,7 +66,7 @@
             <?php 
             	$btnText = isset($history) ? 'Recarregar' : 'Carregar';
              ?>
-            <button type="button" id='inputSubmit' class="btn btn-primary <?php if(!isset($history)) echo 'hidden' ?>" data-toggle="modal" data-target="#impScreen">{{$btnText}}</button>
+            <button type="button" id='inputSubmit' class="btn btn-primary <?php if(!isset($history)) echo 'hidden' ?>">{{$btnText}}</button>
 
 	            <div class="form-group">
 	             <div class="TypeLoading" style='margin-left:5px'></div>

@@ -1,0 +1,1 @@
+<a href="{{url('relatorios/obras')}}" target='_blank' class='btn btn-success'>PDF de Obras</a>
