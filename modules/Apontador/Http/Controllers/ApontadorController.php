@@ -18,7 +18,7 @@ class ApontadorController extends Controller {
 	
 	public function index()
 	{
-        $obras = obr::where('status',1)->get(); 
+        $obras = obr::has('importacoes')->where('status',1)->get(); 
         if(\Session::get('history')){
         	
         	$ids = (\Session::get('history'));

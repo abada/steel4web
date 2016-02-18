@@ -176,6 +176,7 @@ return [
 		DaveJamesMiller\Breadcrumbs\ServiceProvider::class,
 		Laracasts\Utilities\JavaScript\JavaScriptServiceProvider::class,
 		HieuLe\Active\ActiveServiceProvider::class,
+		Barryvdh\DomPDF\ServiceProvider::class,
 		// Laravel\Socialite\SocialiteServiceProvider::class,
 
 		/*
@@ -242,6 +243,7 @@ return [
 		'Gravatar' => Creativeorange\Gravatar\Facades\Gravatar::class,
 		'Html' => Collective\Html\HtmlFacade::class,
 		'Module' => 'Pingpong\Modules\Facades\Module',
+		'PDF' => Barryvdh\DomPDF\Facade::class,
 	],
 
 ];

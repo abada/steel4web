@@ -18,7 +18,7 @@ class RomaneiosController extends Controller {
 	
 	public function index()
 	{
-		$obras = obr::where('status',1)->get(); 
+		$obras = obr::has('importacoes')->where('status',1)->get(); 
 		if(\Session::get('history')){
         	$ids = (\Session::get('history'));
         	if($ids['eID'] == 0)
@@ -72,7 +72,7 @@ class RomaneiosController extends Controller {
 	}
 
 	public function criar(){
-		$obras = obr::where('status',1)->get(); 
+		$obras = obr::has('importacoes')->where('status',1)->get(); 
 		return view('romaneios::criar', compact('obras'));
 	}
 
@@ -257,6 +257,7 @@ class RomaneiosController extends Controller {
 			}
 			$msg .=' Realizado por '. access()->user()->name .'.';
             Log::info($msg);
+            return 'Apontamento Realizado com Sucesso!';
 	}
 
 	private function handleTrans($trans){

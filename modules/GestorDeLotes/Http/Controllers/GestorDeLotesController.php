@@ -1,6 +1,7 @@
 <?php namespace Modules\Gestordelotes\Http\Controllers;
 
 use App\Cronograma;
+use App\Estagio;
 use App\Handle;
 use App\Lote;
 use App\Obra;
@@ -60,7 +61,7 @@ class GestorDeLotesController extends Controller {
 		$grouped = @$data['grouped'];
 		$conjuntos = @$data['handles_ids'];
 
-		$estagios = access()->user()->locatario->estagios->where('tipo', 2)->sortBy('ordem');
+		$estagios = Estagio::where('tipo', '>',1)->where('tipo','<', 11)->orderBy('ordem')->get();
 
 		if ($request->ajax()) {
 			// sleep(2);
@@ -94,8 +95,8 @@ class GestorDeLotesController extends Controller {
 		}
 
 		// CRIA CRONOGRAMA POR ESTÁGIOS
-		// $estagios = access()->user()->locatario->estagios->where('tipo', 2)->sortBy('ordem');
-		$estagios = access()->user()->locatario->estagios->whereBetween('tipo', [2, 10])->sortBy('ordem');
+		 $estagios = Estagio::where('tipo', '>',1)->where('tipo','<', 11)->orderBy('ordem')->get();
+		//$estagios = access()->user()->locatario->estagios->whereBetween('tipo', [2, 10])->sortBy('ordem');
 		$cronosaved = 0;
 		foreach ($estagios as $estagio) {
 
