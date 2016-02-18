@@ -14,8 +14,8 @@ class GestorDeLotesController extends Controller {
 
 		$data = $request->all();
 
-		$lotes = Lote::all();
-		$obras = Obra::all();
+		$lotes = Lote::all();		
+		$obras = Obra::has('importacoes')->get();
 		$obras = $obras->lists('nome', 'id');
 
 		// CONSTRÓI O MENU DE NAVEGAÇÃO

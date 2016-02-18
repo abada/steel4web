@@ -12,7 +12,7 @@ class LotesController extends Controller {
 	public function index(Request $request) {
 
 		$lotes = Lote::all();
-		$obras = Obra::all()->lists('nome', 'id');
+		$obras = Obra::has('importacoes')->get()->lists('nome', 'id'); 
 
 		// CONSTRÓI O MENU DE NAVEGAÇÃO
 		$nav = new NavigationController;
