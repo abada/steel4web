@@ -103,8 +103,6 @@ $(document).ready(function() {
 
   });
 
-
-
 	 var Table = $('#relTable').DataTable({
             ajax: {
               type: 'GET',
