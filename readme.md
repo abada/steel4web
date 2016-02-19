@@ -1,4 +1,5 @@
 [![Stories in Ready](https://badge.waffle.io/System3D/steel4web.png?label=ready&title=Ready)](https://waffle.io/System3D/steel4web)
+[![Stories in Bug](https://badge.waffle.io/System3D/steel4web.png?label=bug&title=BUGS)](https://waffle.io/System3D/steel4web)
 ## STEEL4WEB
 ### Instalação
 ```sh
