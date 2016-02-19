@@ -8,29 +8,43 @@ $(function() {
     var obra1etapa1 = {
         content: "Etapa 1",
         indentation: 1,
-        start: new Date(2016, 3, 1, 8, 0, 0),
-        finish: new Date(2016, 3, 7, 8, 0, 0),
+        start: new Date(2016, 2, 1),
+        finish: new Date(2016, 2, 8),
     };
     var obra1etapa2 = {
         content: "Etapa 2",
         indentation: 1,
-        start: new Date(2016, 3, 1, 8, 0, 0),
-        finish: new Date(2016, 3, 7, 8, 0, 0),
-        completedFinish: new Date(2016, 3, 12, 8, 0, 0),
+        start: new Date(2016, 2, 8),
+        finish: new Date(2016, 2, 14),        
         predecessors: { item: obra1etapa1, dependencyType: "FS" }
     };
 
     var obra2 = {
-        content: "Obra 2",
-        start: new Date(2016, 3, 8, 8, 0, 0),
-        finish: new Date(2016, 3, 14, 8, 0, 0),
+        content: "Obra 2",        
         description: "Descrição da Obra 2"
     };
+    var obra2etapa1 = {
+        content: "Etapa 1",
+        indentation: 1,
+        start: new Date(2016, 2, 15),
+        finish: new Date(2016, 2, 22),
+    };
+    var obra2etapa2 = {
+        content: "Etapa 2",
+        indentation: 1,
+        start: new Date(2016, 2, 22),
+        finish: new Date(2016, 2, 30),        
+        predecessors: { item: obra1etapa1, dependencyType: "SF" }
+    };
 
-    var obras = [obra1,
+
+    var obras = [
+        obra1,
         obra1etapa1,
         obra1etapa2,
-        obra2
+        obra2,
+        obra2etapa1,
+        obra2etapa2
     ];
 
 
@@ -42,8 +56,8 @@ $(function() {
     // columns[0] = {header:"Obras", "width":170};
     columns[0].width = 170;
     columns[0].isSelection = false;
-    columns[1].header = "Inicio";
-    columns[2].header = "Témino";
+    columns[1].header = "Início";
+    columns[2].header = "Término";
     // columns.push({
     //     header: "Descrição xxx",
     //     width: 200,
@@ -53,9 +67,17 @@ $(function() {
     // });
     settings.columns = columns;
     settings.theme = "Modern";
-    settings.displayedTime = new Date(2012, 8, 1);
+    settings.displayedTime = new Date('d-m-Y');
+    settings.dateFormatter = function(a) {
+        return a.toLocaleDateString();
+    }
+    settings.dateTimeFormatter = function(a) {
+        return a.toLocaleDateString();
+    }
+    settings.daysOfWeek = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
 
-    console.log(columns);
+    console.table(settings);
+
     // INITIALIZE
     DlhSoft.Controls.GanttChartView.initialize(ganttChartView, obras, settings);
 });

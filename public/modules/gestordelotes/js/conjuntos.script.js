@@ -5,7 +5,7 @@ $(document).ready(function($) {
 
         //  obter etapas
         $.ajax({
-                url: urlbase + '/api/obras/' + $(this).val() + '/etapas',
+                url: urlbase + '/api/obras/' + $(this).val() + '/etapas?has=importacoes',
                 type: 'GET',
                 dataType: 'json',
                 beforeSend: function() {
@@ -42,7 +42,7 @@ $(document).ready(function($) {
 
         //  obter subetapas
         $.ajax({
-                url: urlbase + '/api/obras/' + $('#inputObra').val() + '/etapas/' + $(this).val() + '/subetapas',
+                url: urlbase + '/api/obras/' + $('#inputObra').val() + '/etapas/' + $(this).val() + '/subetapas?has=importacoes',
                 type: 'GET',
                 dataType: 'json',
                 beforeSend: function() {
@@ -70,7 +70,7 @@ $(document).ready(function($) {
     // ON SUBETAPA CHANGE
     $('#inputSubetapa').change(function(event) {
         // LOAD TABLE
-        var url = urlbase + '/api/obras/' + $('#inputObra').val() + '/etapas/' + $('#inputEtapa').val() + '/subetapas/' + $(this).val() + '/importacoes';
+        var url = urlbase + '/api/obras/' + $('#inputObra').val() + '/etapas/' + $('#inputEtapa').val() + '/subetapas/' + $(this).val() + '/importacoes?has=importacoes';
         $('#getHandles.hidden').removeClass('hidden');
 
     });
