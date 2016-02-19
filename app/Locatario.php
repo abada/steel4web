@@ -139,6 +139,14 @@ class Locatario extends Model {
 	}
 
 	/**
+	 * Get the related Models
+	 * @return Relationship hasMany
+	 */
+	public function filas() {
+		return $this->hasMany('App\Fila');
+	}
+
+	/**
 	 * Get the obras for the blog post.
 	 */
 	public function obras() {

@@ -4,6 +4,7 @@ Route::group(['middleware' => 'web', 'prefix' => 'relatorios', 'namespace' => 'M
 {
 	Route::get('/', 'RelatoriosController@index');
 	Route::get('obras', 'RelatoriosController@obras');
+	Route::get('lotes', 'RelatoriosController@lotes');
 	Route::get('teste', 'RelatoriosController@teste');
-	Route::get('getConjuntosObra/{id}', 'RelatoriosController@getConjuntosObra')->name('relatorios/getConjuntosObra');
+	Route::get('getConjuntos/{params}', 'RelatoriosController@getConjuntos')->name('relatorios/getConjuntos');
 });

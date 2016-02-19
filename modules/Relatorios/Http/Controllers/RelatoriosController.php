@@ -16,7 +16,23 @@ class RelatoriosController extends Controller {
 		return view('relatorios::obras', compact('obras'));
 	}
 
-	public function getConjuntosObra($id){
+	public function lotes(){
+		 $obras = obr::has('lotes')->where('status',1)->get(); 
+		return view('relatorios::lotes', compact('obras'));
+	}
+
+	public function getConjuntos($params){
+		list($type, $p) = explode('XxX', $params);
+		if($type == 'lote'){
+			$this->getConjuntosLote($params);
+		}
+	}
+
+	private function getConjuntosLote($params){
+		dd($params);
+	}
+
+	private function getConjuntosObra($id){
 		if($id == 0){
 			$data = array();
 		}else{

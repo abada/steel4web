@@ -12,6 +12,7 @@ use App\Importacao as imp;
 use App\Handle as handle;
 use App\Estagio as est;
 use App\Temp_Handle as tempH;
+use App\Fila as fila;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Input;
 use Symfony\Component\HttpFoundation\Response;
@@ -304,12 +305,26 @@ class ImportadorController extends Controller {
                }
              }
             if(!empty($final['ifc_orig'])){
-              $convertIFC = $this->converteIfc($impSucess->id);
-              if($convertIFC === false) $errorr['ifc'] = '<i class="fa fa-exclamation-triangle"></i>&nbsp;&nbsp;Falha ao converter IFC.';
+              // $convertIFC = $this->converteIfc($impSucess->id);
+              // if($convertIFC === false) $errorr['ifc'] = '<i class="fa fa-exclamation-triangle"></i>&nbsp;&nbsp;Falha ao converter IFC.';
+             $filaIfc = ['descricao' => $impSucess->descricao,
+                          'arquivo'  => $impSucess->ifc_orig,
+                     'importacao_id' => $impSucess->id,
+                      'locatario_id' => $impSucess->locatario_id  ];
+            $newFilaIfc = fila::create($filaIfc);
+            if(empty($newFilaIfc->id)) $errorr['ifc'] = '<i class="fa fa-exclamation-triangle"></i>&nbsp;&nbsp;Falha ao enviar IFC para conversão.';
+
             }
             if(!empty($final['fbx_orig'])){
-              $convertFBX = $this->converteFbx($impSucess->id);
-              if($convertFBX === false) $errorr['fbx'] = '<i class="fa fa-exclamation-triangle"></i>&nbsp;&nbsp;Falha ao converter FBX.';
+              // $convertFBX = $this->converteFbx($impSucess->id);
+              // if($convertFBX === false) $errorr['fbx'] = '<i class="fa fa-exclamation-triangle"></i>&nbsp;&nbsp;Falha ao converter FBX.';
+
+                $filaFbx = ['descricao' => $impSucess->descricao,
+                          'arquivo'  => $impSucess->fbx_orig,
+                     'importacao_id' => $impSucess->id,
+                      'locatario_id' => $impSucess->locatario_id  ];
+            $newFilaFbx = fila::create($filaFbx);
+            if(empty($newFilaFbx->id)) $errorr['fbx'] = '<i class="fa fa-exclamation-triangle"></i>&nbsp;&nbsp;Falha ao enviar FBX  para conversão.';
             }
             if(count($errorr) > 0){
                 $erroMsg = '';

@@ -88,4 +88,12 @@ class Importacao extends Model {
 		return $this->hasMany('App\Handle');
 	}
 
+	/**
+	 * Get the related Models
+	 * @return Relationship hasMany
+	 */
+	public function filas() {
+		return $this->hasMany('App\Fila');
+	}
+
 }

@@ -60,6 +60,6 @@
 
 @section('scripts')
 
-{!! Html::script('modules/'.Module::find('Relatorios')->getLowerName().'/js/relatorios.js') !!}
+{!! Html::script('modules/'.Module::find('Relatorios')->getLowerName().'/js/obras.js') !!}
 
 @endsection

@@ -88,7 +88,7 @@
         			<div class="icon">
         				<i class="fa fa-th fa-fw"></i>
         			</div>
-        			<a href="{{url('relatorios/obras')}}" class="small-box-footer">Gerar Relatorios <i class="fa fa-arrow-circle-right"></i></a>
+        			<a href="{{url('relatorios/lotes')}}" class="small-box-footer">Gerar Relatorios <i class="fa fa-arrow-circle-right"></i></a>
         		</div>
         	</div>
         	<div class="col-md-3 relCol">
