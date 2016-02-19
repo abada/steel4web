@@ -18,7 +18,7 @@
 			<div class="form-group">
 				<label for="inputdataprev[{{ slug($estagio->descricao) }}]" class="col-sm-3 control-label">{{ $estagio->descricao }}</label>
 				<div class="col-sm-9">
-					<input type="date" placeholder="Informe a data prevista" name="data_prev[{{ $estagio->id }}]" value="{{ ($estagio->descricao == 'PCP')? date('Y-m-d') : '' }}" id="inputdataprev[{{ slug($estagio->descricao) }}]" class="form-control {{ ($estagio->descricao == 'PCP')? '' : 'disabled' }}" tabindex="{{ $estagio->ordem }}" {{ ($estagio->descricao == 'PCP')? 'required="required"' : '' }}>
+					<input type="date" placeholder="Informe a data prevista" name="data_prev[{{ $estagio->id }}]" value="{{ ($estagio->ordem == 1)? date('Y-m-d') : '' }}" id="inputdataprev[{{ slug($estagio->descricao) }}]" class="form-control {{ ($estagio->ordem == 1)? '' : 'disabled' }}" tabindex="{{ $estagio->ordem }}" {{ ($estagio->ordem == 1)? 'required="required"' : '' }}>
 				</div>
 			</div>
 		@endforeach

@@ -1,6 +1,7 @@
 <?php namespace Modules\Gestordelotes\Http\Controllers;
 
 use App\Cronograma;
+use App\Estagio;
 use App\Handle;
 use DB;
 use Illuminate\Http\Request;
@@ -95,7 +96,7 @@ class HandlesController extends Controller {
 
 		$response = array();
 		$response['data'] = array();
-		$estagios = access()->user()->locatario->estagios->where('tipo', 2)->sortBy('ordem');
+		$estagios = Estagio::where('tipo', '>', 1)->where('tipo', '<', 11)->orderBy('ordem')->get();
 
 		foreach ($handles as $handle) {
 

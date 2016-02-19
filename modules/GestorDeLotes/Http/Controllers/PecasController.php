@@ -1,5 +1,6 @@
 <?php namespace Modules\Gestordelotes\Http\Controllers;
 
+use App\Estagio;
 use App\Lote;
 use App\Obra;
 use Illuminate\Http\Request;
@@ -24,7 +25,7 @@ class PecasController extends Controller {
 			$etapas = array();
 		}
 
-		$estagios = access()->user()->locatario->estagios->where('tipo', 2)->sortBy('ordem');
+		$estagios = Estagio::where('tipo', '>', 1)->where('tipo', '<', 11)->orderBy('ordem')->get();
 
 		$columns = array();
 		foreach ($estagios as $estagio) {

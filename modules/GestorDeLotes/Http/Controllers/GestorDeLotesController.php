@@ -31,7 +31,7 @@ class GestorDeLotesController extends Controller {
 			$etapas = array();
 		}
 
-		$estagios = access()->user()->locatario->estagios->where('tipo', 2)->sortBy('ordem');
+		$estagios = access()->user()->locatario->estagios->where('tipo', '>', 1)->where('tipo', '<', 11)->sortBy('ordem');
 
 		$columns = array();
 		foreach ($estagios as $estagio) {

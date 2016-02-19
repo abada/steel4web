@@ -1,6 +1,7 @@
 <?php namespace Modules\Gestordelotes\Http\Controllers;
 
 use App\Cronograma;
+use App\Estagio;
 use App\Handle;
 use App\Lote;
 use App\Obra;
@@ -32,7 +33,7 @@ class ProducaoController extends Controller {
 			$etapas = array();
 		}
 
-		$estagios = access()->user()->locatario->estagios->where('tipo', 2)->sortBy('ordem');
+		$estagios = Estagio::where('tipo', '>', 1)->where('tipo', '<', 11)->orderBy('ordem')->get();
 
 		$columns = array();
 		foreach ($estagios as $estagio) {
@@ -169,7 +170,7 @@ class ProducaoController extends Controller {
 		$response = array();
 		$response['data'] = array();
 
-		$estagios = access()->user()->locatario->estagios->where('tipo', 2)->sortBy('ordem');
+		$estagios = Estagio::where('tipo', 2)->orderBy('ordem')->get();
 
 		foreach ($handlesOfLote as $handleGroup) {
 
