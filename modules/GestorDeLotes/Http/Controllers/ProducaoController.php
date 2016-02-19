@@ -18,7 +18,7 @@ class ProducaoController extends Controller {
 	public function index(Request $request) {
 
 		$lotes = Lote::all();
-		$obras = Obra::has('importacoes')->get()->lists('nome', 'id');	
+		$obras = Obra::has('importacoes')->where('status', 1)->get()->lists('nome', 'id');
 
 		// CONSTRÓI O MENU DE NAVEGAÇÃO
 		$nav = new NavigationController;

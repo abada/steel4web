@@ -18,7 +18,7 @@ class NavigationController extends Controller {
 		// Store in the SESSION
 		if (null != @$data['obra']) {
 			// $request->session()->forget('navigation');
-			$obras = Obra::has('importacoes')->get()->lists('nome', 'id');			
+			$obras = Obra::has('importacoes')->where('status', 1)->get()->lists('nome', 'id');
 			if ($obras) {
 				// $request->session()->forget('navigation.obras.all');
 				$navigation['obras']['all'] = $obras->toArray();

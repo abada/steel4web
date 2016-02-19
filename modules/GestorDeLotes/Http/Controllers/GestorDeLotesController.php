@@ -15,8 +15,8 @@ class GestorDeLotesController extends Controller {
 
 		$data = $request->all();
 
-		$lotes = Lote::all();		
-		$obras = Obra::has('importacoes')->get();
+		$lotes = Lote::all();
+		$obras = Obra::has('importacoes')->where('status', 1)->get();
 		$obras = $obras->lists('nome', 'id');
 
 		// CONSTRÓI O MENU DE NAVEGAÇÃO
@@ -61,7 +61,7 @@ class GestorDeLotesController extends Controller {
 		$grouped = @$data['grouped'];
 		$conjuntos = @$data['handles_ids'];
 
-		$estagios = Estagio::where('tipo', '>',1)->where('tipo','<', 11)->orderBy('ordem')->get();
+		$estagios = Estagio::where('tipo', '>', 1)->where('tipo', '<', 11)->orderBy('ordem')->get();
 
 		if ($request->ajax()) {
 			// sleep(2);
@@ -95,7 +95,7 @@ class GestorDeLotesController extends Controller {
 		}
 
 		// CRIA CRONOGRAMA POR ESTÁGIOS
-		 $estagios = Estagio::where('tipo', '>',1)->where('tipo','<', 11)->orderBy('ordem')->get();
+		$estagios = Estagio::where('tipo', '>', 1)->where('tipo', '<', 11)->orderBy('ordem')->get();
 		//$estagios = access()->user()->locatario->estagios->whereBetween('tipo', [2, 10])->sortBy('ordem');
 		$cronosaved = 0;
 		foreach ($estagios as $estagio) {
