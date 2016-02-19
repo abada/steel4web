@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-	<script>window.urlbaseGeral = '<?= env("APP_URL") ?>'; </script>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<link rel="shortcut icon" href="{{{ asset('img/steel4web.ico') }}}">
