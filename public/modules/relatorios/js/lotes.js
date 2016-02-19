@@ -1,12 +1,111 @@
 $(document).ready(function() {
+  $('#TypeLoading').hide();
 
-	$('#inputRelObra').change(function(event) {
-		$('#inputSubmit').removeClass('hidden');
+	$('#obra').change(function(event) {
+		$('.formSub').addClass('hidden');
+    $('.formLote').addClass('hidden');
+    $('#inputSubmit').addClass('hidden');
+    $('#TypeLoading').show();
+
+    var dados = $('#obra').val();
+      if(dados != 0){
+      jQuery.ajax({
+          type: "GET",
+         url: urlbaseGeral+"/api/obras/"+dados+"/etapas?has=lotes",
+          dataType: "html",
+          success: function(result){
+            var etapas = JSON.parse(result);
+       $('#etapa').find('option').remove().end();
+       $('#etapa').append($('<option>', {
+          value: 0,
+          text: 'Selecione uma Etapa...'
+      }));
+       etapas.each( function (etapa){                  
+             $('#etapa').append($('<option>', {
+            value: etapa.id,
+            text: etapa.codigo
+        }));
+        });
+      $('.TypeLoading').hide();
+      $('.formEtapa').removeClass('hidden');
+          }
+      });
+      }else{
+        $('.TypeLoading').hide(); 
+      }
+
 	});
 
-	
+  $('#etapa').change(function(event) {
+    $('.formLote').addClass('hidden');
+    $('#inputSubmit').addClass('hidden');
+    $('#TypeLoading').show();
 
-	 var Table = $('#relLotesTable').DataTable({
+    var dados = $('#etapa').val();
+      if(dados != 0){
+      jQuery.ajax({
+          type: "GET",
+         url: urlbaseGeral+"/api/etapas/"+dados+"/subetapas?has=lotes",
+          dataType: "html",
+          success: function(result){
+            var etapas = JSON.parse(result);
+       $('#sub').find('option').remove().end();
+       $('#sub').append($('<option>', {
+          value: 0,
+          text: 'Selecione uma Subetapa...'
+      }));
+       etapas.each( function (sub){                  
+             $('#sub').append($('<option>', {
+            value: sub.id,
+            text: sub.cod
+        }));
+        });
+      $('.TypeLoading').hide();
+      $('.formSub').removeClass('hidden');
+          }
+      });
+      }else{
+        $('.TypeLoading').hide(); 
+      }
+
+  });
+
+  $('#sub').change(function(event) {
+    $('#TypeLoading').show();
+
+    var dados = $('#sub').val();
+      if(dados != 0){
+      jQuery.ajax({
+          type: "GET",
+         url: urlbaseGeral+"/api/subetapas/"+dados+"/lotes",
+          dataType: "html",
+          success: function(result){
+            var etapas = JSON.parse(result);
+       $('#lote').find('option').remove().end();
+       $('#lote').append($('<option>', {
+          value: 0,
+          text: 'Selecione um Lote...'
+      }));
+       etapas.each( function (lote){                  
+             $('#lote').append($('<option>', {
+            value: lote.id,
+            text: lote.descricao
+        }));
+        });
+      $('.TypeLoading').hide();
+      $('.formLote').removeClass('hidden');
+      $('#inputSubmit').removeClass('hidden');
+          }
+      });
+      }else{
+        $('.TypeLoading').hide(); 
+      }
+
+  });
+
+
+
+	 var Table = $('#relTable').DataTable({
             ajax: {
               type: 'GET',
               url: getConjuntos()
@@ -30,7 +129,7 @@ $(document).ready(function() {
 });
 
 function getConjuntos(first){
-  var lote     = $('#inputRelLoteLote').val();
+  var lote     = $('#lote').val();
        return (urlbaseGeral + '/relatorios/getConjuntos/lotesXxX'+lote);
         
 }

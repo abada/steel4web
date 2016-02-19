@@ -41,6 +41,13 @@ class Etapa extends Model {
 		return $this->belongsTo('App\Obra');
 	}
 
+		/**
+	 * Get the importacoes for the blog post.
+	 */
+	public function lotes() {
+		return $this->hasMany('App\Lote');
+	}
+
 	/**
 	 * Get the User (owner) of the model
 	 * @return Relationship belongsTo

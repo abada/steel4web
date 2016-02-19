@@ -69,15 +69,14 @@ $(document).ready(function() {
         $('.inputsubetapa').addClass('hidden');
 
       	var dados = $('#inputChooseObra').val();
-        console.log(dados);
         if(dados != 0){
 
      	jQuery.ajax({
                 type: "GET",
                url: urlbaseGeral+"/api/obras/"+dados+"/etapas?has=importacoes",
-                dataType: "html",
+                dataType: "json",
                 success: function(result){
-                  var etapas = JSON.parse(result);
+                  var etapas = result;
              $('#inputEtapa').find('option').remove().end();
              $('#inputSubetapa').find('option').remove().end();
              $('#inputLote').find('option').remove().end();
@@ -85,7 +84,7 @@ $(document).ready(function() {
                 value: 0,
                 text: 'Escolha uma Etapa...'
             }));
-             etapas.forEach( function (etapa){                  
+             $.each(etapas, function (index, etapa){                    
                    $('#inputEtapa').append($('<option>', {
                   value: etapa.id,
                   text: etapa.codigo

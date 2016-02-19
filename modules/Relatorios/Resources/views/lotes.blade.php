@@ -43,9 +43,9 @@
 	                			</select>
 	            			</div>
 
-				            <button type="button hidden" id='inputSubmit' class="btn btn-primary">Carregar</button>
+				            <button type="button" id='inputSubmit' class="btn btn-primary hidden">Carregar</button>
 	            			<div class="form-group">
-				             	<div class="TypeLoading hidden" style='margin-left:5px'></div>
+				             	<div class="TypeLoading" id='TypeLoading' style='margin-left:5px'></div>
 				            </div>
 						</div>
 					</div>
@@ -53,7 +53,7 @@
 	 		</div>
 	 		<hr>
 
-		<table class="table table-bordered table-striped dt-responsive nowrap table-hover" id="relLotesTable" cellspacing="0" width="100%">
+		<table class="table table-bordered table-striped dt-responsive nowrap table-hover" id="relTable" cellspacing="0" width="100%">
 			<thead width='100%'>
 					<tr>
 						<th>Marca</th>

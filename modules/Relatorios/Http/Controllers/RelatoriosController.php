@@ -2,6 +2,7 @@
 
 use Pingpong\Modules\Routing\Controller;
 use App\Obra as obr;
+use App\Lote as lote;
 use PDF;
 
 class RelatoriosController extends Controller {
@@ -23,18 +24,26 @@ class RelatoriosController extends Controller {
 
 	public function getConjuntos($params){
 		list($type, $p) = explode('XxX', $params);
-		if($type == 'lote'){
-			$this->getConjuntosLote($params);
+		if($type == 'lotes'){
+			$response = $this->getConjuntosLote($p);
 		}
+		return json_encode($response);
 	}
 
 	private function getConjuntosLote($params){
-		dd($params);
+		$data = array(''=>'');
+		if($params > 0){
+			$lote = lote::find($params);
+			dd($lote);
+		}
+		
+		$response['data'] =  $data;
+		return $response;
 	}
 
 	private function getConjuntosObra($id){
 		if($id == 0){
-			$data = array();
+			$data = array(''=>'');
 		}else{
 			$obra = obr::find($id);
 			$data = array();

@@ -24,15 +24,15 @@ $(document).ready(function() {
      	jQuery.ajax({
           type: "GET",
          url: urlbaseGeral+"/api/obras/"+dados+"/etapas?has=importacoes",
-          dataType: "html",
+          dataType: "json",
           success: function(result){
-            var etapas = JSON.parse(result);
+            var etapas = result;
        $('#inputEtapa').find('option').remove().end();
        $('#inputEtapa').append($('<option>', {
           value: 0,
           text: 'Todas'
       }));
-       etapas.forEach( function (etapa){                  
+       $.each(etapas, function (index, etapa){                   
              $('#inputEtapa').append($('<option>', {
             value: etapa.id,
             text: etapa.codigo
@@ -195,9 +195,9 @@ $('#inputChooseObra2').change(function() {
       jQuery.ajax({
           type: "GET",
          url: urlbaseGeral+"/api/obras/"+dados+"/etapas?has=importacoes",
-          dataType: "html",
+          dataType: "json",
           success: function(result){
-            var etapas = JSON.parse(result);
+            var etapas = result;
        $('#inputEtapa2').find('option').remove().end();
        $('#inputSubetapa2').find('option').remove().end();
        $('#inputEtapa3').find('option').remove().end();
@@ -213,7 +213,7 @@ $('#inputChooseObra2').change(function() {
           value: 0,
           text: 'Escolha uma Etapa...'
       }));
-       etapas.forEach( function (etapa){                  
+       $.each(etapas, function (index, etapa){                 
              $('#inputEtapa2').append($('<option>', {
             value: etapa.id,
             text: etapa.codigo
@@ -822,7 +822,7 @@ $(document).on('blur', '.nfInput', function(){
   var flag = true;
   var countTrue = 0;
   var countFalse = 0;
-  $('.nfInput').each(function() {
+  $('.nfInput').forEach(function() {
         if ($.trim($(this).val()) == '') {
             flag = false;
             countFalse++;

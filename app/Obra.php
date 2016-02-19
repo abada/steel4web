@@ -80,6 +80,13 @@ class Obra extends Model {
 	}
 
 	/**
+	 * Get the importacoes for the blog post.
+	 */
+	public function lotes() {
+		return $this->hasMany('App\Lote');
+	}
+
+	/**
 	 * Get the related Models
 	 * @return Relationship hasMany
 	 */
