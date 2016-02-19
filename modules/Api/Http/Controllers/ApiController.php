@@ -9,9 +9,8 @@ class ApiController extends Controller {
 	public function index(Request $request, $res_name = null, $res_id = null, $rel_one = null, $rel_one_id = null, $rel_two = null, $rel_two_id = null, $rel_three = null, $rel_three_id = null, $rel_four = null, $rel_four_id = null) {
 		$status = array();
 
+		$data = $request->all();
 
-
-		// dd($request->all());
 		$locatario = new Locatario;
 		$locatario = $locatario->find(access()->user()->locatario_id);
 		$resource = null;
@@ -66,16 +65,14 @@ class ApiController extends Controller {
 			if (!$resource) {$resource = null;}
 		}
 
-		
-		if($request->has('has')){
-			$resource = $resource->filter(function ($item)use($request){
-				return count($item->{$request['has']}) > 0;
-			});	
+		if (isset($data['has'])) {
+			$resource = $resource->filter(function ($item) use ($data) {
+				return count($item->{$data['has']}) > 0;
+			});
+			$resource = collect($resource);
 		}
 
-
-		// dd($resource);
-		return json_encode($resource);
+		return $resource;
 	}
 
 }
