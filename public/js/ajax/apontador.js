@@ -111,16 +111,16 @@ $(document).ready(function() {
       jQuery.ajax({
                 type: "GET",
                url: urlbaseGeral+"/api/etapas/"+dados+"/subetapas?has=importacoes",
-                dataType: "html",
+                dataType: "json",
                 success: function(result){
-                  var etapas = JSON.parse(result);
+                  var etapas = result;
              $('#inputSubetapa').find('option').remove().end();
              $('#inputLote').find('option').remove().end();
              $('#inputSubetapa').append($('<option>', {
                 value: 0,
                 text: 'Escolha uma Subetapa...'
             }));
-             etapas.forEach( function (etapa){                  
+             $.each(etapas, function (index, etapa){                  
                    $('#inputSubetapa').append($('<option>', {
                   value: etapa.id,
                   text: etapa.cod
@@ -145,15 +145,15 @@ $(document).ready(function() {
       jQuery.ajax({
                 type: "GET",
                url: urlbaseGeral+"/api/subetapas/"+sub+"/lotes",
-                dataType: "html",
+                dataType: "json",
                 success: function(result){
-                  var etapas = JSON.parse(result);
+                  var etapas = result;
              $('#inputLote').find('option').remove().end();
              $('#inputLote').append($('<option>', {
                 value: 0,
                 text: 'Todos'
             }));
-             etapas.forEach( function (etapa){                  
+             $.each(etapas, function (index, etapa){                   
                    $('#inputLote').append($('<option>', {
                   value: etapa.id,
                   text: etapa.descricao

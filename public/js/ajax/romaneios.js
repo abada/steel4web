@@ -58,15 +58,15 @@ $(document).ready(function() {
       jQuery.ajax({
                 type: "GET",
                url: urlbaseGeral+"/api/etapas/"+dados+"/subetapas?has=importacoes",
-                dataType: "html",
+                dataType: "json",
                 success: function(result){
-                  var etapas = JSON.parse(result);
+                  var etapas = result;
              $('#inputSubetapa').find('option').remove().end();
              $('#inputSubetapa').append($('<option>', {
                 value: 0,
                 text: 'Todas'
             }));
-             etapas.forEach( function (etapa){                  
+             $.each(etapas, function (index, etapa){                  
                    $('#inputSubetapa').append($('<option>', {
                   value: etapa.id,
                   text: etapa.cod
@@ -91,15 +91,15 @@ $(document).ready(function() {
       jQuery.ajax({
                 type: "GET",
                url: urlbaseGeral+"/api/subetapas/"+sub+"/importacoes",
-                dataType: "html",
+                dataType: "json",
                 success: function(result){
-                  var etapas = JSON.parse(result);
+                  var etapas = result;
              $('#inputImp').find('option').remove().end();
              $('#inputImp').append($('<option>', {
                 value: 0,
                 text: 'Todas'
             }));
-             etapas.forEach( function (etapa){                  
+             $.each(etapas, function (index, etapa){                   
                    $('#inputImp').append($('<option>', {
                   value: etapa.id,
                   text: etapa.descricao
@@ -244,9 +244,9 @@ $('#inputChooseObra2').change(function() {
       jQuery.ajax({
                 type: "GET",
                url: urlbaseGeral+"/api/etapas/"+dados+"/subetapas?has=importacoes",
-                dataType: "html",
+                dataType: "json",
                 success: function(result){
-                  var etapas = JSON.parse(result);
+                  var etapas = result;
              $('#inputSubetapa2').find('option').remove().end();
              $('#inputSubetapa3').find('option').remove().end();
              $('#inputSubetapa2').append($('<option>', {
@@ -257,7 +257,7 @@ $('#inputChooseObra2').change(function() {
                 value: 0,
                 text: 'Todas'
             }));
-             etapas.forEach( function (etapa){                  
+             $.each(etapas, function (index, etapa){                   
                    $('#inputSubetapa2').append($('<option>', {
                   value: etapa.id,
                   text: etapa.cod
@@ -289,15 +289,15 @@ $('#inputChooseObra2').change(function() {
       jQuery.ajax({
                 type: "GET",
                url: urlbaseGeral+"/api/subetapas/"+sub+"/importacoes",
-                dataType: "html",
+                dataType: "json",
                 success: function(result){
-                  var etapas = JSON.parse(result);
+                  var etapas = result;
              $('#inputImp3').find('option').remove().end();
              $('#inputImp3').append($('<option>', {
                 value: 0,
                 text: 'Todas'
             }));
-             etapas.forEach( function (etapa){                  
+             $.each(etapas, function (index, etapa){                   
                    $('#inputImp3').append($('<option>', {
                   value: etapa.id,
                   text: etapa.descricao
@@ -335,9 +335,9 @@ $('#inputChooseObra2').change(function() {
       jQuery.ajax({
           type: "GET",
          url: urlbaseGeral+"/api/obras/"+dados+"/etapas?has=importacoes",
-          dataType: "html",
+          dataType: "json",
           success: function(result){
-            var etapas = JSON.parse(result);
+            var etapas = result;
        $('#inputEtapa3').find('option').remove().end();
        $('#inputSubetapa3').find('option').remove().end();
        $('#inputEtapa2').find('option').remove().end();
@@ -353,7 +353,7 @@ $('#inputChooseObra2').change(function() {
           value: 0,
           text: 'Escolha uma Etapa...'
       }));
-       etapas.forEach( function (etapa){                  
+       $.each(etapas, function (index, etapa){                   
              $('#inputEtapa3').append($('<option>', {
             value: etapa.id,
             text: etapa.codigo
@@ -384,10 +384,10 @@ $('#inputChooseObra2').change(function() {
       jQuery.ajax({
                 type: "GET",
                url: urlbaseGeral+"/api/etapas/"+dados+"/subetapas?has=importacoes",
-                dataType: "html",
+                dataType: "json",
                 success: function(result){
                   getConjuntos();
-                  var etapas = JSON.parse(result);
+                  var etapas = result;
              $('#inputSubetapa3').find('option').remove().end();
              $('#inputSubetapa2').find('option').remove().end();
              $('#inputSubetapa2').append($('<option>', {
@@ -398,7 +398,7 @@ $('#inputChooseObra2').change(function() {
                 value: 0,
                 text: 'Todas'
             }));
-             etapas.forEach( function (etapa){                  
+             $.each(etapas, function (index, etapa){                   
                    $('#inputSubetapa3').append($('<option>', {
                   value: etapa.id,
                   text: etapa.cod
@@ -430,15 +430,15 @@ $('.TypeLoading').show();
       jQuery.ajax({
                 type: "GET",
                url: urlbaseGeral+"/api/subetapas/"+sub+"/importacoes",
-                dataType: "html",
+                dataType: "json",
                 success: function(result){
-                  var etapas = JSON.parse(result);
+                  var etapas = result;
              $('#inputImp3').find('option').remove().end();
              $('#inputImp3').append($('<option>', {
                 value: 0,
                 text: 'Todas'
             }));
-             etapas.forEach( function (etapa){                  
+             $.each(etapas, function (index, etapa){                   
                    $('#inputImp3').append($('<option>', {
                   value: etapa.id,
                   text: etapa.descricao
