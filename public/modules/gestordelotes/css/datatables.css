@@ -36,7 +36,7 @@ table.dataTable tr td:not(:first-child):empty {
     background: rgba(26,34,38,0.1);
 }
 
-table.dataTable tr td input.input-sm {
+table.dataTable tr td input[type=number] {
     padding: 2px 4px;
     font-size: 12px;
     line-height: 1.5;
@@ -44,6 +44,15 @@ table.dataTable tr td input.input-sm {
     height: 23px;
     width: 60px;
     margin: -2px;
+}
+table.dataTable tr td input[type=text] {
+    padding: 2px 4px;
+    font-size: 12px;
+    line-height: 1.5;
+    border-radius: 3px;
+    height: 23px;
+    width: auto;
+    margin: 0px 2px -2px -2px;
 }
 
 div.dataTables_wrapper {

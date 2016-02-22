@@ -97,12 +97,14 @@
 					<th>Conjunto</th>
 					<th>Desenho</th>
 					<th>Tipologia</th>
+					<th>Ícone</th>
 					<th>Tratamento</th>
 					<th>Engenharia</th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr>
+					<td></td>
 					<td></td>
 					<td></td>
 					<td></td>
