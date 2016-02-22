@@ -60,13 +60,13 @@
             @endauth
             @endif
 
-           {{--  @if( Module::has('Relatorios') )
+            @if( Module::has('Relatorios') )
            @permission('visualizar-gestor', 'criar-lotes', 'editar-lotes')
             <li class="{{ (Request::is(Module::find('Relatorios')->getLowerName() . '*')) ? 'active' : ''}}">
                 <a href="{{ url('relatorios') }}"><i class="fa fa-clipboard"></i></i> Relatorios</a>
             </li>
             @endauth
-            @endif --}}
+            @endif
 
             <li class="">
                 <a href="http://www.steel4web.com.br/s4w_1/server/S4W_WebGL/" target="_blank"><i class="fa fa-codepen fa-fw"></i> 3D Viewer</a>

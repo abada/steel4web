@@ -1,4 +1,3 @@
-<script>window.urlbaseGeral = '<?= env("APP_URL") ?>'; </script>
 <header class="main-header">
         <!-- Logo -->
         <a href="{{ route('/') }}" class="logo">

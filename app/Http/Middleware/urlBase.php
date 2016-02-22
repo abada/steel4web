@@ -12,7 +12,7 @@ class UrlBase {
 
 	public function handle($request, Closure $next) {
 		JavaScript::put([
-			'urlbaseGeral' => env("APP_URL"),
+			'urlbaseGeral' => env("APP_URL") . env("APP_URLPREFIX"),
 		]);
 		return $next($request);
 
