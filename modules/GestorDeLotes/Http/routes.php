@@ -10,6 +10,7 @@ Route::group(['middleware' => 'admin', 'prefix' => 'gestordelotes', 'namespace' 
 	Route::get('/criar', 'GestorDeLotesController@create');
 	Route::post('/', 'GestorDeLotesController@store');
 	Route::get('/handles', 'HandlesController@index');
+	Route::post('/handles', 'GestorDeLotesController@change');
 
 	Route::get('/producao/handles', 'ProducaoController@getHandles');
 	Route::resource('/producao', 'ProducaoController');

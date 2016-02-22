@@ -62,14 +62,14 @@
 
             @if( Module::has('Relatorios') )
            @permission('visualizar-gestor', 'criar-lotes', 'editar-lotes')
-            <li class="{{ (Request::is(Module::find('Relatorios')->getLowerName() . '*')) ? 'active' : ''}}">
+            <!-- <li class="{{ (Request::is(Module::find('Relatorios')->getLowerName() . '*')) ? 'active' : ''}}">
                 <a href="{{ url('relatorios') }}"><i class="fa fa-clipboard"></i></i> Relatorios</a>
-            </li>
+            </li> -->
             @endauth
             @endif
 
             <li class="">
-                <a href="http://www.steel4web.com.br/s4w_1/server/S4W_WebGL/" target="_blank"><i class="fa fa-codepen fa-fw"></i> 3D Viewer</a>
+                <a href="{{url('/')}}/server/S4W_WebGL/" target="_blank"><i class="fa fa-codepen fa-fw"></i> 3D Viewer</a>
             </li>
 
            @permission('ver-cadastro', 'criar-cadastro', 'deletar-cadastro', 'editar-cadastro')

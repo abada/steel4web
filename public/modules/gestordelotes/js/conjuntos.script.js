@@ -100,15 +100,15 @@ $(document).ready(function($) {
     $('#criarlote').click(function(e) {
         e.preventDefault();
 
-    
+
         var selectedItems = handlesGrid.rows('.selected').data();
         var selectedQtd = handlesGrid.$('.selected').find('input');
-        var handles_ids = {};        
+        var handles_ids = {};
 
-        for (var i = 0; i < selectedItems.length; i++) {        
+        for (var i = 0; i < selectedItems.length; i++) {
             // handles_ids[selectedItems[i].id] = selectedQtd[i].value;          
             handles_ids[selectedItems[i].MAR_PEZ] = selectedQtd[i].value;
-        };        
+        };
 
         $.ajax({
                 url: urlbase + '/gestordelotes/criar',
@@ -144,12 +144,11 @@ $(document).ready(function($) {
     $('#getHandles').click(function(e) {
 
         e.preventDefault();
-        
+
         var navdata = $('#navigation').serialize();
-        console.log(navdata);
 
         $('#navigation ul li').each(function(index, el) {
-            var a = $(this).find('a');            
+            var a = $(this).find('a');
             var old_fulladdr = a.attr('href');
             var old_addr_parts = old_fulladdr.split('?');
             a.attr('href', old_addr_parts[0] + '?' + navdata);
@@ -163,7 +162,6 @@ $(document).ready(function($) {
         //     data: navdata
         // })
         // .done(function(data) {
-        //     console.log(data);
         // });
 
         // ATUALIZA TABELA
@@ -172,71 +170,71 @@ $(document).ready(function($) {
 
 
     /* ASSOCIAR AO LOTE */
-    function changelote(e) {   
-    
+    function changelote(e) {
+
         var selectedItems = handlesGrid.rows('.selected').data();
         var selectedQtd = handlesGrid.$('.selected').find('input');
-        var handles_ids = {};        
+        var handles_ids = {};
 
-        for (var i = 0; i < selectedItems.length; i++) {             
-            if( undefined !== handles_ids[selectedItems[i].MAR_PEZ] ){
+        for (var i = 0; i < selectedItems.length; i++) {
+            if (undefined !== handles_ids[selectedItems[i].MAR_PEZ]) {
                 handles_ids[selectedItems[i].MAR_PEZ] += parseInt(selectedQtd[i].value, 10);
-            }else{
+            } else {
                 handles_ids[selectedItems[i].MAR_PEZ] = parseInt(selectedQtd[i].value, 10);
             }
-        };                
+        };
 
         $.ajax({
                 url: e.attr('href'),
                 type: 'GET',
                 dataType: 'json',
-                data: {                    
+                data: {
                     handles_ids: handles_ids,
                 }
             })
-            .done(function(data) {                
+            .done(function(data) {
 
                 $.ajax({
-                    url: urlbase + '/api/lotes',
-                    type: 'GET',
-                    dataType: 'json',
-                    beforeSend: function() {
-                        $('.loading.hidden').removeClass('hidden');
-                        $('#lotes').parent().addClass('hidden');
-                    }
-                })
-                .done(function(lotes) {
-                    $('#lotes').html('');
-                    $('.loading').addClass('hidden');
-                    
-                    $.each(lotes, function(index, val) {
-                        $('#lotes').append('<li><a href="' + urlbase + '/gestordelotes/associaraolote/' + val.id + '">' + val.descricao + '</a></li>');
+                        url: urlbase + '/api/lotes',
+                        type: 'GET',
+                        dataType: 'json',
+                        beforeSend: function() {
+                            $('.loading.hidden').removeClass('hidden');
+                            $('#lotes').parent().addClass('hidden');
+                        }
+                    })
+                    .done(function(lotes) {
+                        $('#lotes').html('');
+                        $('.loading').addClass('hidden');
+
+                        $.each(lotes, function(index, val) {
+                            $('#lotes').append('<li><a href="' + urlbase + '/gestordelotes/associaraolote/' + val.id + '">' + val.descricao + '</a></li>');
+                        });
+                        $('#lotes').parent().removeClass('hidden');
+
+
+                        $('#lotes li a').click(function(e) {
+                            e.preventDefault();
+                            changelote($(this));
+                        });
+
+                    })
+                    .fail(function() {
+
                     });
-                    $('#lotes').parent().removeClass('hidden');
 
-
-                    $('#lotes li a').click(function (e) {
-                        e.preventDefault();
-                        changelote($(this));
-                    });
-
-                })
-                .fail(function() {
-
-                });
-                
                 $('.loading.hidden').removeClass('hidden');
-                alert( 'Conjuntos alterados de lote com sucesso!' );
+                alert('Conjuntos alterados de lote com sucesso!');
                 handlesGrid.ajax.url(urlbase + '/gestordelotes/handles').load();
                 $('.loading').addClass('hidden');
-                $('#navigation').find('.loteOptions').addClass('hidden');             
+                $('#navigation').find('.loteOptions').addClass('hidden');
 
             });
 
     };
-    $('#lotes li a').click(function (e) {
-        e.preventDefault();        
-        changelote( $(this) );
+    $('#lotes li a').click(function(e) {
+        e.preventDefault();
+        changelote($(this));
     });
 
 
@@ -244,40 +242,110 @@ $(document).ready(function($) {
      * DATABLES     
      */
     var colunas = [{
-        data: null,
-        defaultContent: "",
-        className: "select-checkbox",
-        orderable: true
-    }, {
-        data: function(data, type, full) {
-            if (type === 'display') {
-                return '<input type="number" name="qtd['+data.MAR_PEZ+']" class="form-control input-sm" value="' + data.QTA_PEZ + '" min="1" max="' + data.QTA_PEZ + '" step="1" title="">';
-            }
-            return null;
+            data: null,
+            defaultContent: "",
+            className: "select-checkbox",
+            orderable: true
+        }, {
+            data: function(data, type, full) {
+                if (type === 'display') {
+                    return '<input type="number" name="qtd[' + data.MAR_PEZ + ']" class="form-control input-sm" value="' + data.QTA_PEZ + '" min="1" max="' + data.QTA_PEZ + '" step="1" title="">';
+                }
+                return null;
+            },
+            className: "input-qtd",
+            orderable: false
+        }, {
+            data: "QTA_PEZ"
+        }, {
+            data: "importacao_id"
+        }, {
+            data: "MAR_PEZ"
+        }, {
+            data: "FLG_DWG"
         },
-        className: "input-qtd",
-        orderable: false
-    }, {
-        data: "QTA_PEZ"
-    }, {
-        data: "importacao_id"
-    },{
-        data: "MAR_PEZ"
-    }, {
-        data: "FLG_DWG"
-    }, {
-        data: function(data, type, full) {
-            if (type === 'display') {
-                return '<img src="'+urlbase+'/img/icons/' + data.DES_PEZ + '"/>';
+        // {
+        //     data: "DES_PEZ"
+        // },
+        {
+            data: function(data, type, full) {
+                if (type === 'display') {
+                    return '<form class="DES_PEZ"><input type="text" class="form-control input-sm" name="DES_PEZ[' + data.MAR_PEZ + ']" value="' + data.DES_PEZ + '" title=""><button class="btn btn-success btn-xs hidden" type="submit"><i class="fa fa-save"></i></button><i class="fa-loading fa fa-circle-o-notch fa-spin hidden"></i><i class="fa-success fa fa-check text-success hidden"></i></form>';
+                }
+                return data.DES_PEZ;
             }
-            return data.DES_PEZ;
+        }, {
+            data: function(data, type, full) {
+                if (type === 'display') {
+                    return '<img src="' + urlbase + '/img/icons/' + data.ICON + '"/>';
+                }
+                return data.DES_PEZ;
+            }
+        },
+        // {
+        //     data: "TRA_PEZ"
+        // },
+        {
+            data: function(data, type, full) {
+                if (type === 'display') {
+                    return '<form class="TRA_PEZ"><input type="text" class="form-control input-sm" name="TRA_PEZ[' + data.MAR_PEZ + ']" value="' + data.TRA_PEZ + '"><button class="btn btn-success btn-xs hidden" type="submit"><i class="fa fa-save"></i></button><i class="fa-loading fa fa-circle-o-notch fa-spin hidden"></i><i class="fa-success fa fa-check text-success hidden"></i></form>';
+                    // return '<input type="text" name="TRA_PEZ['+data.MAR_PEZ+']" class="form-control input-sm" value="' + data.TRA_PEZ + '" title="">';
+                }
+                return data.TRA_PEZ;
+            }
+        }, {
+            data: "estagio"
         }
-    }, {
-        data: "TRA_PEZ"
-    }, {
-        data: "estagio"
-    }];
+    ];
     //var cols = $.merge(colunas, columns); //columns vem por js        
+    
+
+    // CHANGE TRA_PEZ e DES_PEZ
+    var buildforms = function () {
+        $('form.DES_PEZ input, form.TRA_PEZ input').keyup(function() {
+            $(this).next('.btn.hidden').removeClass('hidden');            
+        });
+        $('form.DES_PEZ, form.TRA_PEZ').on('click', '.btn', function(event) {
+            event.preventDefault();     
+
+            var form = $(this).parent();
+            var submit = $(this);       
+            var success = form.find('i.fa-success');
+            var loading = form.find('i.fa-loading');
+            
+            $.ajax({
+                url: urlbase + '/gestordelotes/handles',
+                type: 'POST',
+                dataType: 'json',
+                data: form.serialize(),
+                beforeSend: function(el) { 
+                    loading.removeClass('hidden');
+                    submit.addClass('hidden');
+                },
+                headers:
+                {
+                    'X-CSRF-Token': $('input[name="_token"]').val()
+                }
+            })
+            .done(function(data) {
+               loading.addClass('hidden');
+               success.removeClass('hidden');
+               setTimeout(function() {
+                    success.addClass('hidden');
+               }, 1000);
+            })
+            .fail(function() {
+            })
+            .always(function() {
+            });
+        });
+
+        
+
+        // $('form.TRA_PEZ').on('click', '.btn', function(event) {
+        //     event.preventDefault();
+        // });
+    }
 
     var handlesGrid = $('#handlesGrid').DataTable({
             ajax: {
@@ -287,7 +355,7 @@ $(document).ready(function($) {
                     d.obra = $('#inputObra').val();
                     d.etapa = $('#inputEtapa').val();
                     d.subetapa = $('#inputSubetapa').val();
-                }
+                }                
             },
             scrollX: true,
             responsive: true,
@@ -297,23 +365,26 @@ $(document).ready(function($) {
                 selector: 'tr td.select-checkbox'
             },
             rowCallback: function(row, data) {
-
                 if ($.inArray(String(data.id), selected) !== -1) {
-                    $(row).addClass('selected');                    
+                    $(row).addClass('selected');
                 }
+            },
+            drawCallback: function( settings ) {
+                buildforms();
             }
-        })
+        })        
         .on('preXhr.dt', function(e, settings, data) {
             $('.loading.hidden').removeClass('hidden');
         })
         .on('xhr.dt', function(e, settings, json, xhr) {
-            $('.loading').addClass('hidden');
+            $('.loading').addClass('hidden');            
         })
         .on('select', function(e, dt, type, indexes) {
             handlesGrid[type](indexes).nodes().to$().addClass('selected');
         });
 
-    if( $('#inputObra').val() || $('#inputEtapa').val() || $('#inputSubetapa').val() ){
+    
+    if ($('#inputObra').val() || $('#inputEtapa').val() || $('#inputSubetapa').val()) {
         $('.inputobra.hidden').removeClass('hidden');
         $('.inputetapa.hidden').removeClass('hidden');
         $('.inputsubetapa.hidden').removeClass('hidden');

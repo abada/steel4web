@@ -246,4 +246,24 @@ class GestorDeLotesController extends Controller {
 		return json_encode($conjuntos);
 	}
 
+	public function change(Request $request) {
+		$data = $request->all();
+		if (null !== @$data['TRA_PEZ']) {
+			$mar_pez = key($data['TRA_PEZ']);
+			$handles = Handle::where('MAR_PEZ', $mar_pez)
+				->where('FLG_REC', 3)
+				->whereNull('lote_id')
+				->update(['TRA_PEZ' => $data['TRA_PEZ'][$mar_pez]]);
+		}
+		if (null !== @$data['DES_PEZ']) {
+			$mar_pez = key($data['DES_PEZ']);
+			$handles = Handle::where('MAR_PEZ', $mar_pez)
+				->where('FLG_REC', 3)
+				->whereNull('lote_id')
+				->update(['DES_PEZ' => $data['DES_PEZ'][$mar_pez]]);
+		}
+
+		return $handles;
+	}
+
 }
