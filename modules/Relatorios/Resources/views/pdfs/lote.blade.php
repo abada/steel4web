@@ -33,13 +33,14 @@
 	<table class='pdftable'>
 		<thead>
 			<tr>
-				<th colspan='2' style='text-align:center'>Estagios</th>
+				<th colspan='3' style='text-align:center'>Estagios</th>
 			</tr>
 		</thead>
 		<thead>
 			<tr>
 				<th>Estagio</th>
 				<th>Data de Término Prevista</th>
+				<th>Conjuntos(quantidade)</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -47,6 +48,13 @@
 				<tr>
 					<td>{{$crono->estagio->descricao}}</td>
 					<td>{!! date('d/m/Y', strtotime($crono->data_prev)) !!}</td>
+					<?php 
+					$count = 0;
+						foreach($crono->estagio->handles as $hand){
+							if($hand->lote_id == $crono->lote_id) $count++;
+						}
+					 ?>
+					<td>{{$count}}</td>
 				</tr>
 			@endforeach
 		</tbody>

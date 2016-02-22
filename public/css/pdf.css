@@ -71,7 +71,7 @@ thead, th{
 }.pdftable tr:hover td{
 	
 }
-.pdftable tr:nth-child(odd){ background-color:#e5e5e5; }
+.pdftable tr:nth-child(odd){ background-color:#E9E9E9; }
 .pdftable tr:nth-child(even)    { background-color:#ffffff; }.pdftable td{
 	vertical-align:middle;
 	

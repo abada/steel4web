@@ -62,9 +62,9 @@
 
             @if( Module::has('Relatorios') )
            @permission('visualizar-gestor', 'criar-lotes', 'editar-lotes')
-            <!-- <li class="{{ (Request::is(Module::find('Relatorios')->getLowerName() . '*')) ? 'active' : ''}}">
+            <li class="{{ (Request::is(Module::find('Relatorios')->getLowerName() . '*')) ? 'active' : ''}}">
                 <a href="{{ url('relatorios') }}"><i class="fa fa-clipboard"></i></i> Relatorios</a>
-            </li> -->
+            </li>
             @endauth
             @endif
 
