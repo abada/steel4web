@@ -112,6 +112,7 @@ class ImportadorController extends Controller {
     public function toImport(Request $request){
     	$dados = $request->all();
     	$data = $dados['id'];
+
     	$subetapa = sub::find($data);
         $impsNr =  count($subetapa->importacoes);
         if($impsNr > 0){
@@ -121,8 +122,10 @@ class ImportadorController extends Controller {
         }
         $imps = $subetapa->importacoes;
          $sizes = array();
+         $user = array();
             foreach($imps as $imp){
-                
+
+                $user[$imp->id] = $imp->user->name;
                 if(!empty($imp['dbf2d'])){
                     $file =  $imp->locatario_id . "/" . $imp->cliente_id . "/" . $imp->obra_id . "/" 
                     . $imp->etapa_id . "/" . $imp->subetapa_id . "/" . $imp->importacaoNr . "/" . $imp->dbf2d;
@@ -155,7 +158,8 @@ class ImportadorController extends Controller {
             'excluir'       =>  url('importador/excluir'),
             'download'      =>  url('importador/download'),
             'image'         =>  asset('img/'),
-            'sizes'         =>  $sizes
+            'sizes'         =>  $sizes,
+            'users'         =>  $user
     	); 
         return json_encode($send);
     }

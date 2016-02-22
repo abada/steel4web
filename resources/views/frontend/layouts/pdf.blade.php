@@ -10,7 +10,7 @@
 	@else
 	<h1 id='locName'>{{access()->user()->locatario->fantasia}}</h1>
 	@endif
-	<img style='margin-left:78%;width:25px;height:auto;margin-top:2px' src="{{ asset('img/icon.png') }}">
+	{{-- <img style='margin-left:78%;width:25px;height:auto;margin-top:2px' src="{{ asset('img/icon.png') }}"> --}}
     @yield('content')
 </body>
 </html>

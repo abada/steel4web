@@ -107,6 +107,12 @@ return [
 
     'attributes' => [
 
+    'assignees_roles'  => 'Papéis Associados',
+    'password'      =>  'Senha',
+    'password_confirmation' => 'Confirme sua Senha',
+    'name'   =>   'Nome',
+    'email'  =>  'Endereço de E-mail',
+
         'backend' => [
             'access' => [
                 'permissions' => [
@@ -133,6 +139,7 @@ return [
                 'users' => [
                     'active' => 'Ativo',
                     'associated_roles' => 'Papéis Associados',
+                    'assignees_roles'  => 'Papéis Associados',
                     'confirmed' => 'Confirmado',
                     'email' => 'Endereço de e-mail',
                     'name' => 'Nome',

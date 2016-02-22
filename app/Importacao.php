@@ -67,7 +67,7 @@ class Importacao extends Model {
 	 * @return Relationship belongsTo
 	 */
 	public function user() {
-		return $this->belongsTo('App\Model\Access\User\User');
+		return $this->belongsTo('App\Models\Access\User\User');
 	}
 
 	/**

@@ -29,6 +29,7 @@ class StoreUserRequest extends Request
     {
         return [
             'name'                  => 'required',
+            'assignees_roles'       => 'required',
             'email'                 => 'required|email|unique:users',
             'password'              => 'required|alpha_num|min:6|confirmed',
             'password_confirmation' => 'required|alpha_num|min:6',

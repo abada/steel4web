@@ -7,6 +7,7 @@
 body{
     font-family: 'open_sansregular','Helvetica Neue',Helvetica,Arial,sans-serif;
     font-size: 12px;
+    padding-bottom: 30px !important;
 }
 .breadcrumb {
     padding: 8px 15px;

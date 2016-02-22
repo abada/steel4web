@@ -135,7 +135,7 @@ if (isset($edicao)) {
                     Erro ao gravar!
                 </div>
                 <div class="panel-body">
-                    <p>A obra não pôde ser gravado, tente novamente mais tarde!</p>
+                    <p>A obra não pôde ser gravada, tente novamente mais tarde!</p>
                 </div>
             </div>
             <!-- /.col-lg-4 -->
@@ -146,7 +146,7 @@ if (isset($edicao)) {
                     Erro ao gravar!
                 </div>
                 <div class="panel-body">
-                    <p>A obra não pôde ser gravado, verifique os dados</p>
+                    <p>A obra não pôde ser gravada, possivelmente já existe!</p>
                 </div>
             </div>
             <!-- /.col-lg-4 -->

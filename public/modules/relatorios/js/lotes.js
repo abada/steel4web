@@ -2,6 +2,7 @@ $(document).ready(function() {
   $('#TypeLoading').hide();
 
 	$('#obra').change(function(event) {
+    $('#gerarPdf').addClass('hidden');
 		$('.formSub').addClass('hidden');
     $('.formLote').addClass('hidden');
     $('#inputSubmit').addClass('hidden');
@@ -37,8 +38,10 @@ $(document).ready(function() {
 	});
 
   $('#etapa').change(function(event) {
+    $('#gerarPdf').addClass('hidden');
     $('.formLote').addClass('hidden');
     $('#inputSubmit').addClass('hidden');
+    $('#gerarPdf').addClass('hidden');
     $('#TypeLoading').show();
 
     var dados = $('#etapa').val();
@@ -121,13 +124,42 @@ $(document).ready(function() {
             },
         });
 
+    var TableEstagios = $('#relInfoTable').DataTable({
+            ajax: {
+              type: 'GET',
+              url: getEstagios()
+            },
+            scrollX: true,
+            responsive: true,
+            "bSort" : false,
+            columns:  [
+            { "data": "estagio" },
+            { "data": "prev"}
+        ],
+            "language": {
+              "emptyTable": "Nenhuma Data Disponivel."
+            },
+        });
+
 	$('#inputSubmit').click(function(event) {
+    var ThisLote = $('#lote').val();
+     $('#gerarPdf').attr({
+       href: urlbaseGeral +'/relatorios/lote/'+ThisLote,
+     });
 		Table.ajax.url(getConjuntos()).load();
+    TableEstagios.ajax.url(getEstagios()).load();
+    $('#gerarPdf').removeClass('hidden');
 	});
+
 });
 
-function getConjuntos(first){
+function getConjuntos(){
   var lote     = $('#lote').val();
        return (urlbaseGeral + '/relatorios/getConjuntos/lotesXxX'+lote);
         
+}
+
+function getEstagios(){
+  var lote     = $('#lote').val();
+       return (urlbaseGeral + '/relatorios/getEstagios/'+lote);
 }

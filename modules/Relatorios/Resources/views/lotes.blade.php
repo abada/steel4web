@@ -9,7 +9,6 @@
 		<div class="box-header bg-padrao with-border">
 			RELATORIOS DE LOTES
 		</div>
-
 		<div class="box-body">
 			<div class="navbar navbar-static-top navForm" role='navigation'>
 				<form accept-charset="UTF-8" class="form-inline" role="form" id="RelObras">
@@ -51,26 +50,59 @@
 					</div>
 				</form>
 	 		</div>
-	 		<hr>
 
-		<table class="table table-bordered table-striped dt-responsive nowrap table-hover" id="relTable" cellspacing="0" width="100%">
-			<thead width='100%'>
-					<tr>
-						<th>Marca</th>
-						<th>Quantidade</th>
-						<th>Peso Unid.</th>
-						<th>Peso Total</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-				</tbody>
-		</table>
+	 		<div class="row">
+	 			<div class="col-md-6">
+	 				<div class="box box-primary">
+	 					<h4 class='box-header' style='padding-bottom:0 !important'>Conjuntos</h4>
+	 					<hr>
+	 					<table class="table table-bordered table-striped dt-responsive nowrap table-hover" id="relTable" cellspacing="0" width="100%">
+							<thead width='100%'>
+									<tr>
+										<th>Marca</th>
+										<th>Quantidade</th>
+										<th>Peso Unid.</th>
+										<th>Peso Total</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td></td>
+										<td></td>
+										<td></td>
+										<td></td>
+									</tr>
+								</tbody>
+						</table>
+	 				</div>
+	 			</div>
+	 			<div class="col-md-6">
+	 				<div class="box box-primary">
+	 					<h4 class='box-header' style='padding-bottom:0 !important'>Estagios<span class='pull-right'>Data:  {!! date('d/m/Y'); !!}</span></h4>
+	 					<hr>
+	 					<table class="table table-bordered table-striped dt-responsive nowrap table-hover" id="relInfoTable" cellspacing="0" width="100%">
+							<thead width='100%'>
+									<tr>
+										<th>Estagio</th>
+										<th>Data Prevista</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td></td>
+										<td></td>
+									</tr>
+								</tbody>
+						</table>
+	 				</div>
+	 			</div>
+	 		</div>
+
+		
+
+		
+
+		<a class="btn btn-primary hidden pull-right" href='#' target='_blank' id='gerarPdf' >Gerar PDF</a>
 
 	</div>
 
@@ -78,6 +110,6 @@
 
 @section('scripts')
 
-{!! Html::script('modules/'.Module::find('Relatorios')->getLowerName().'/js/lotes.js') !!}
+{!! Html::script('modules/relatorios/js/lotes.js') !!}
 
 @endsection

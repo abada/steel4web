@@ -59,6 +59,12 @@ class ClientesController extends Controller
 
             if(isset($dados['razao']) && isset($dados['tipo'])) {
 
+                $checkClient = client::where('razao', $dados['razao']);
+
+                if(!empty($checkClient->first()->id)){
+                    die('erro');
+                }
+
 
                 $clienteID = cliente::create($dados);
 

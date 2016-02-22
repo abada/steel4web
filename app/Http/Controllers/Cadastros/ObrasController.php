@@ -100,6 +100,11 @@ class ObrasController extends Controller
         $dadinho['locatario_id'] =access()->user()->locatario_id;
         $dadinho['user_id']   =access()->user()->id;
         $dadinho['status'] = 1;
+        $checkObra = obr::where('nome', $dadinho['nome']);
+
+        if(!empty($checkObra->first()->id)){
+            die('erro');
+        }
         $obraID = obr::create($dadinho);
         $users = users::where('locatario_id', access()->user()->locatario_id)->get();
 

@@ -57,9 +57,10 @@
 	                    <th class="text-center" width="5%"><i id='subToggle' title='Agrupar' class="fa fa-bars fa-fw"></i></th>
 	                    <th width="30%">Nome</th>
 	                    <th width="10%">N°</th>
-	                    <th width="30%">Observacao</th>
-                        <th width="10%">Codigo</th>
-	                    <th width="15%">Ações</th>
+	                    <th width="25%">Observacao</th>
+                        <th width='10%'>Usuário</th>
+                        <th width="8%">Codigo</th>
+	                    <th width="12%">Ações</th>
 	                </tr>
 	            </thead>
 	            <tbody>
@@ -72,6 +73,7 @@
                         <td>{{$imp->descricao}}</td>
                         <td>{{$imp->importacaoNr}}</td>
                         <td>{{$imp->observacoes}}</td>
+                        <td>{{$imp->user->name}}</td>
                         <td>{{$imp->locatario_id}}.{{$imp->cliente_id}}.{{$imp->obra_id}}.{{$imp->etapa_id}}.{{$imp->subetapa_id}}.{{$imp->importacaoNr}}</td>
                         <td>
                             <div class='text-center hoverActions'>
@@ -86,6 +88,7 @@
                                     <img src="{{asset('img/dbf.png')}}">
                                 </td>
                                 <td ><p>{{$imp->dbf2d}} &nbsp;-&nbsp; {{$sizes[$imp->id]['dbf2d']}}</p></td>
+                                <td></td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
@@ -104,6 +107,7 @@
                                 <td></td>
                                 <td></td>
                                 <td></td>
+                                <td></td>
                                 <td class='text-center'>
                                     <a class='btn btn-download btn-block' title='Download' target='_blank' href="{{url('importador/download')."/".$imp->locatario_id."&".$imp->obra->cliente_id."&".$imp->obra_id."&".$imp->etapa_id."&".$imp->subetapa_id."&".$imp->importacaoNr."&".str_replace('.','DdxdD',$imp->ifc_orig)}}"><i class='fa fa-download'></i></a>
                                 </td>
@@ -115,6 +119,7 @@
                                     <img src="{{asset('img/fbx.png')}}">
                                 </td>
                                 <td><p>{{$imp->fbx_orig}} &nbsp;-&nbsp; {{$sizes[$imp->id]['fbx_orig']}}</p></td>
+                                <td></td>
                                 <td></td>
                                 <td></td>
                                 <td></td>

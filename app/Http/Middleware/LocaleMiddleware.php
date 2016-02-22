@@ -31,7 +31,7 @@ class LocaleMiddleware
         if (session()->has('locale') && in_array(session()->get('locale'), $this->languages)) {
             app()->setLocale(session()->get('locale'));
         }
-
+        app()->setLocale('pt-BR');
         return $next($request);
     }
 }
