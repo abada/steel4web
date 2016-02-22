@@ -1,7 +1,7 @@
 <?php  
 
 Breadcrumbs::register('Relatorios::index', function ($breadcrumbs) {
-    $breadcrumbs->parent('GestorDeLotes::dashboard');
+    $breadcrumbs->push('Home', url('/'));
     $breadcrumbs->push(trans('Relatorios'), url('relatorios'));
 });
 

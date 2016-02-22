@@ -168,14 +168,14 @@ class ImportadorController extends Controller {
         }
         else{
             \Session::flash('flash_danger', '<i class="fa fa-exclamation-triangle"></i>&nbsp;&nbsp;  Falha na Importação, Tente Reselecionar a Subetapa.');
-            return redirect()->route('importador');
+            return redirect()->back(); 
         }
          \Session::flash('history', $subetapa_id);
         if(!empty($getRequest['descricao']))
              $descricao = $getRequest['descricao'];
         else{
             \Session::flash('imp_danger', '<i class="fa fa-exclamation-triangle"></i>&nbsp;&nbsp;  Informe a Descrição desta importação.');
-            return redirect()->route('importador');
+            return redirect()->back(); 
         }
         $observacoes = isset($getRequest['observacoes']) ? $getRequest['observacoes'] : null;
         
@@ -195,10 +195,10 @@ class ImportadorController extends Controller {
                     $ext = strtolower($ext);
                     if(!in_array($ext, $exts)){
                          \Session::flash('imp_danger', '<i class="fa fa-exclamation-triangle"></i>&nbsp;&nbsp;  Falha na Importação, Envie somente arquivos dbf, ifc ou fbx.');
-                         return redirect()->route('importador');
+                         return redirect()->back(); 
                     }elseif(in_array($ext, $extDone)){
                          \Session::flash('flash_danger', '<i class="fa fa-exclamation-triangle"></i>&nbsp;&nbsp;  Falha na Importação, Envie somente um arquivo de cada tipo.');
-                        return redirect()->route('importador');
+                        return redirect()->back(); 
                     }else{
                         $extDone[] = $ext;
                     }
@@ -208,7 +208,7 @@ class ImportadorController extends Controller {
 
         if(empty($extDone)){
             \Session::flash('imp_danger', '<i class="fa fa-exclamation-triangle"></i>&nbsp;&nbsp;  Falha na Importação, Nenhum Arquivo Recebido.');
-               return redirect()->route('importador');
+               return redirect()->back(); 
         }
         
         $maxSize = 1024 * 1024 * 50;
@@ -221,7 +221,7 @@ class ImportadorController extends Controller {
              $sentido     = $getRequest['sentido'];
             else{
                 \Session::flash('imp_danger', '<i class="fa fa-exclamation-triangle"></i>&nbsp;&nbsp;  Informe o Sentido de Construção.');
-                return redirect()->route('importador');
+                return redirect()->back(); 
             }
         }else{
             $sentido = $dados->importacoes[0]->sentido;
@@ -231,13 +231,13 @@ class ImportadorController extends Controller {
          if($nroImportacao <= 1){
             if(count($extDone) < 2){
                 \Session::flash('imp_danger', '<i class="fa fa-exclamation-triangle"></i>&nbsp;&nbsp;  Arquivos dbf e ifc obrigatorios na primeira Importação.');
-                     return redirect()->route('importador');
+                    return redirect()->back(); 
             }elseif(!in_array('dbf', $extDone)){
                  \Session::flash('imp_danger', '<i class="fa fa-exclamation-triangle"></i>&nbsp;&nbsp;  Arquivos dbf e ifc obrigatorios na primeira Importação.');
-                     return redirect()->route('importador');
+                    return redirect()->back(); 
             }elseif(!in_array('ifc', $extDone)){
                \Session::flash('imp_danger', '<i class="fa fa-exclamation-triangle"></i>&nbsp;&nbsp;  Arquivos dbf e ifc obrigatorios na primeira Importação.');
-                     return redirect()->route('importador');
+                     return redirect()->back(); 
             }
         } 
 
@@ -247,7 +247,7 @@ class ImportadorController extends Controller {
                 if(isset($file)){
                     if($file->getSize() > $maxSize){
                         \Session::flash('imp_danger', '<i class="fa fa-exclamation-triangle"></i>&nbsp;&nbsp;  O arquivo enviado é muito grande, envie arquivos de até 50MB.');
-                     return redirect()->route('importador');
+                     return redirect()->back(); 
                     }
                     $extension = $file->getClientOriginalExtension();
                     $finalName = $file->getClientOriginalName();
@@ -333,15 +333,15 @@ class ImportadorController extends Controller {
                     $erroMsg .= $ero.'<br>';
                 }
                  \Session::flash('imp_danger', $erroMsg);
-                     return redirect()->route('importador');
+                     return redirect()->back(); 
             }else{
                 \Session::flash('flash_success', '<i class="fa fa-check"></i>&nbsp;&nbsp;  Importação realizada com sucesso!');
-                return redirect()->route('importador'); 
+                return redirect()->back(); 
                 
             }
         }else{
             \Session::flash('imp_danger', '<i class="fa fa-exclamation-triangle"></i>&nbsp;&nbsp;  Falha ao Importar.');
-                return redirect()->route('importador');
+                return redirect()->back(); 
         }
     }
 

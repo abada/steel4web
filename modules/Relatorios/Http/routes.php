@@ -1,6 +1,6 @@
 <?php
 
-Route::group(['middleware' => 'web', 'prefix' => 'relatorios', 'namespace' => 'Modules\Relatorios\Http\Controllers'], function()
+Route::group(['middleware' => 'admin', 'prefix' => 'relatorios', 'namespace' => 'Modules\Relatorios\Http\Controllers'], function()
 {
 	Route::get('/', 'RelatoriosController@index');
 	Route::get('obras', 'RelatoriosController@obras');

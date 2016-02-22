@@ -23,7 +23,7 @@ $(document).ready(function() {
       if(dados != 0){
      	jQuery.ajax({
           type: "GET",
-         url: urlbaseGeral+"/api/obras/"+dados+"/etapas?has=importacoes",
+         url: urlbaseGeral+"/api/obras/"+dados+"/etapas?has=lotes",
           dataType: "json",
           success: function(result){
             var etapas = result;
@@ -57,7 +57,7 @@ $(document).ready(function() {
         if(dados != 0){
       jQuery.ajax({
                 type: "GET",
-               url: urlbaseGeral+"/api/etapas/"+dados+"/subetapas?has=importacoes",
+               url: urlbaseGeral+"/api/etapas/"+dados+"/subetapas?has=lotes",
                 dataType: "json",
                 success: function(result){
                   var etapas = result;
@@ -194,7 +194,7 @@ $('#inputChooseObra2').change(function() {
       if(dados != 0){
       jQuery.ajax({
           type: "GET",
-         url: urlbaseGeral+"/api/obras/"+dados+"/etapas?has=importacoes",
+         url: urlbaseGeral+"/api/obras/"+dados+"/etapas?has=lotes",
           dataType: "json",
           success: function(result){
             var etapas = result;
@@ -243,7 +243,7 @@ $('#inputChooseObra2').change(function() {
         if(dados != 0){
       jQuery.ajax({
                 type: "GET",
-               url: urlbaseGeral+"/api/etapas/"+dados+"/subetapas?has=importacoes",
+               url: urlbaseGeral+"/api/etapas/"+dados+"/subetapas?has=lotes",
                 dataType: "json",
                 success: function(result){
                   var etapas = result;
@@ -334,7 +334,7 @@ $('#inputChooseObra2').change(function() {
       if(dados != 0){
       jQuery.ajax({
           type: "GET",
-         url: urlbaseGeral+"/api/obras/"+dados+"/etapas?has=importacoes",
+         url: urlbaseGeral+"/api/obras/"+dados+"/etapas?has=lotes",
           dataType: "json",
           success: function(result){
             var etapas = result;
@@ -383,7 +383,7 @@ $('#inputChooseObra2').change(function() {
         if(dados != 0){
       jQuery.ajax({
                 type: "GET",
-               url: urlbaseGeral+"/api/etapas/"+dados+"/subetapas?has=importacoes",
+               url: urlbaseGeral+"/api/etapas/"+dados+"/subetapas?has=lotes",
                 dataType: "json",
                 success: function(result){
                   getConjuntos();
