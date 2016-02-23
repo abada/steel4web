@@ -9,4 +9,5 @@ Route::group(['middleware' => 'admin', 'prefix' => 'relatorios', 'namespace' => 
 	Route::get('getConjuntos/{params}', 'RelatoriosController@getConjuntos')->name('relatorios/getConjuntos');
 	Route::get('lote/{params}', 'RelatoriosController@getPdfLote')->name('relatorios/lote');
 	Route::get('getEstagios/{params}', 'RelatoriosController@getEstagios')->name('relatorios/getEstagios');
+	Route::get('lotePeso/{params}', 'RelatoriosController@lotePeso')->name('relatorios/lotePeso');
 });

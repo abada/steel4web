@@ -5,12 +5,16 @@
     {{Html::style('css/pdf.css')}}
 </head>
 <body>
+	<header style='width:60%;display:inline-block'>@yield('header')</header>
 	@if(!empty(access()->user()->locatario->logo))
-	<img style='float:left;width:125px;max-height:50px;' src="{{ asset('img/logos/1.png') }}">
+	<img style='width:15%;max-height:50px;margin-left:25%;display:inline-block' src="{{ asset('img/logos/1.png') }}">
 	@else
 	<h1 id='locName'>{{access()->user()->locatario->fantasia}}</h1>
 	@endif
-	{{-- <img style='margin-left:78%;width:25px;height:auto;margin-top:2px' src="{{ asset('img/icon.png') }}"> --}}
+	<hr>
     @yield('content')
+    <img class='s4w' src="{{ asset('img/logo-Steel4web-600.png') }}">
+    <span class="date">Data: {!! date('d/m/Y'); !!}</span>
+    
 </body>
 </html>

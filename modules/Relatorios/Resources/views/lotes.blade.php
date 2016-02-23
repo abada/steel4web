@@ -54,15 +54,15 @@
 	 		<div class="row">
 	 			<div class="col-md-6">
 	 				<div class="box box-primary">
-	 					<h4 class='box-header' style='padding-bottom:0 !important'>Conjuntos</h4>
+	 					<h4 class='box-header' style='padding-bottom:0 !important'>Conjuntos<span class='pull-right' id='pesoTot'></span></h4>
 	 					<hr>
 	 					<table class="table table-bordered table-striped dt-responsive nowrap table-hover" id="relTable" cellspacing="0" width="100%">
 							<thead width='100%'>
 									<tr>
 										<th>Marca</th>
 										<th>Quantidade</th>
-										<th>Peso Unid.</th>
-										<th>Peso Total</th>
+										<th>Peso Unid. (Kg)</th>
+										<th>Peso Total (Kg)</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -85,10 +85,14 @@
 									<tr>
 										<th>Estagio</th>
 										<th>Data Prevista</th>
+										<th>Peso(Kg)</th>
+										<th>%</th>
 									</tr>
 								</thead>
 								<tbody>
 									<tr>
+										<td></td>
+										<td></td>
 										<td></td>
 										<td></td>
 									</tr>

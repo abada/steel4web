@@ -75,6 +75,7 @@ $(document).ready(function() {
 
   $('#sub').change(function(event) {
     $('#TypeLoading').show();
+    $('#inputSubmit').addClass('hidden');
 
     var dados = $('#sub').val();
       if(dados != 0){
@@ -97,7 +98,7 @@ $(document).ready(function() {
         });
       $('.TypeLoading').hide();
       $('.formLote').removeClass('hidden');
-      $('#inputSubmit').removeClass('hidden');
+      
           }
       });
       }else{
@@ -106,7 +107,17 @@ $(document).ready(function() {
 
   });
 
+   $('#lote').change(function(event) {
+     $('#inputSubmit').removeClass('hidden');
+   });
+
+
 	 var Table = $('#relTable').DataTable({
+            "formatNumber": function ( toFormat ) {
+            return toFormat.toString().replace(
+              /\B(?=(\d{3})+(?!\d))/g, "."
+            );
+          },
             ajax: {
               type: 'GET',
               url: getConjuntos()
@@ -134,7 +145,9 @@ $(document).ready(function() {
             "bSort" : false,
             columns:  [
             { "data": "estagio" },
-            { "data": "prev"}
+            { "data": "prev"},
+            { "data": "peso"},
+            { "data": "porc"}
         ],
             "language": {
               "emptyTable": "Nenhuma Data Disponivel."
@@ -148,6 +161,15 @@ $(document).ready(function() {
      });
 		Table.ajax.url(getConjuntos()).load();
     TableEstagios.ajax.url(getEstagios()).load();
+    $.ajax({
+      url:  urlbaseGeral +'/relatorios/lotePeso/'+ThisLote,
+      type: 'GET',
+      dataType: 'html',
+       success: function(result){
+        console.log(result);
+          $('#pesoTot').html('Peso Total: '+result);
+        }
+    });
     $('#gerarPdf').removeClass('hidden');
 	});
 

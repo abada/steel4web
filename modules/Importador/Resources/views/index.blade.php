@@ -57,9 +57,9 @@
 	                    <th class="text-center" width="5%"><i id='subToggle' title='Agrupar' class="fa fa-bars fa-fw"></i></th>
 	                    <th width="30%">Nome</th>
 	                    <th width="10%">N°</th>
-	                    <th width="25%">Observacao</th>
+	                    <th width="25%">Observações</th>
                         <th width='10%'>Usuário</th>
-                        <th width="8%">Codigo</th>
+                        <th width="8%">Código</th>
 	                    <th width="12%">Ações</th>
 	                </tr>
 	            </thead>

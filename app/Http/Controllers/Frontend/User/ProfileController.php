@@ -56,8 +56,8 @@ class ProfileController extends Controller
         }
        
         $user->updateProfile(access()->id(), $dados);
-        \Session::flash('flash_success', '<i class="fa fa-check"></i>&nbsp;&nbsp;  Perfil Editado com Sucesso!');
-        return redirect()->route('frontend.user.perfil');
+
+        return redirect()->route('frontend.user.perfil')->withFlashSuccess('<i class="fa fa-check"></i>&nbsp;&nbsp;  Perfil Editado com Sucesso!');
     }
 
     public function preview($id){
