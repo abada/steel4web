@@ -37,8 +37,8 @@ class LocatariosTableSeeder extends Seeder {
 
 		$locatarios_data = [
 			array(
-				'razao' => 'Metalfoort Indústria Metalúrgica',
-				'fantasia' => 'Metalfoort',
+				'razao' => 'Locatário 1',
+				'fantasia' => 'Locatário 1',
 				'tipo' => false,
 				'documento' => NULL,
 				'inscricao' => NULL,
@@ -46,11 +46,11 @@ class LocatariosTableSeeder extends Seeder {
 				'cidade' => 'Santa Cruz do Sul - RS',
 				'endereco' => 'Av. Felisberto B. de Moraes 80 - distrito Industrial',
 				'cep' => '96835-645',
-				'email' => 'projeto@metalfoort.com.br',
+				'email' => 'admin@locatario1.com',
 				'status' => false,
 			),
 			array(
-				'razao' => 'Locatário FAKE',
+				'razao' => 'Locatário 2',
 				// 'razao' => $faker->firstName() . " " . $faker->lastName(),
 				'fantasia' => $faker->company(),
 				'tipo' => false,
@@ -60,7 +60,7 @@ class LocatariosTableSeeder extends Seeder {
 				'cidade' => $faker->city(),
 				'endereco' => $faker->address(),
 				'cep' => '95320-000',
-				'email' => $faker->email(),
+				'email' => 'admin@locatario2.com',
 				'status' => false,
 			)];
 

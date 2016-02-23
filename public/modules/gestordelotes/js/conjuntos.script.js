@@ -371,6 +371,30 @@ $(document).ready(function($) {
             },
             drawCallback: function( settings ) {
                 buildforms();
+            },
+            language: {
+                "decimal":        "",
+                "emptyTable":     "Sem dados ara exibir",
+                "info":           "Exibindo _START_ à _END_ de _TOTAL_ registros",
+                "infoEmpty":      "Exibindo 0 à 0 de 0 registros",
+                "infoFiltered":   "(filtrado de _MAX_ registros)",
+                "infoPostFix":    "",
+                "thousands":      ",",
+                "lengthMenu":     "Exibir _MENU_ registros",
+                "loadingRecords": "Carregando...",
+                "processing":     "Processando...",
+                "search":         "Procurar:",
+                "zeroRecords":    "Sem dados ara exibir",
+                "paginate": {
+                    "first":      "Primeiro",
+                    "last":       "Último",
+                    "next":       "Próximo",
+                    "previous":   "Anterior"
+                },
+                "aria": {
+                    "sortAscending":  ": activate to sort column ascending",
+                    "sortDescending": ": activate to sort column descending"
+                }
             }
         })        
         .on('preXhr.dt', function(e, settings, data) {

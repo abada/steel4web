@@ -151,7 +151,7 @@ class HandlesController extends Controller {
 				'obra_id' => $handle->obra_id,
 				'lote_id' => $handle->lote_id,
 				'lote' => ($handle->lote_id) ? $handle->lote->descricao : '',
-				'estagio' => date('d/m/Y', strtotime($handle->importacao->created_at)), //$handle->estagio->descricao,
+				'estagio' => date('d/m/Y', strtotime(@$handle->importacao->created_at)), //$handle->estagio->descricao,
 				'GROUP' => $handle->GROUP,
 				'etapa_id' => $handle->etapa_id,
 				'CATE' => $handle->CATE,
