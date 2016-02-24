@@ -17,11 +17,11 @@ class DatabaseSeeder extends Seeder {
 			DB::statement('SET FOREIGN_KEY_CHECKS=0;');
 		}
 
-		// $this->call(LocatariosTableSeeder::class);
+		$this->call(LocatariosTableSeeder::class);
 
-		// $this->call(AccessTableSeeder::class);
+		$this->call(AccessTableSeeder::class);
 
-		// $this->call(Steel4webTablesSeeder::class);
+		$this->call(Steel4webTablesSeeder::class);
 
 		$this->call(NovoLocatarioSeeder::class);
 
