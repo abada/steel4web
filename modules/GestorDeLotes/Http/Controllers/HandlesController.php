@@ -151,23 +151,11 @@ class HandlesController extends Controller {
 				'obra_id' => $handle->obra_id,
 				'lote_id' => $handle->lote_id,
 				'lote' => ($handle->lote_id) ? $handle->lote->descricao : '',
-				'estagio' => date('d/m/Y', strtotime(@$handle->importacao->created_at)), //$handle->estagio->descricao,
+				'estagio' => date('d/m/Y', strtotime($handle->importacao->created_at)), //$handle->estagio->descricao,
 				'GROUP' => $handle->GROUP,
 				'etapa_id' => $handle->etapa_id,
 				'CATE' => $handle->CATE,
 				'importacao_id' => 'IMP-' . str_pad($handle->importacao->importacaoNr, 3, "0", STR_PAD_LEFT),
-
-				// 'dataprojeto' => date('d/m/Y', strtotime($handle->importacao->data)),
-				// 'dataprev_pcp' => ($handle->conjuntoCronograma->dataprev_pcp) ? date('d/m/Y', strtotime($handle->conjuntoCronograma->dataprev_pcp)) : null,
-				// 'dataprev_preparacao' => ($handle->conjuntoCronograma->dataprev_preparacao) ? date('d/m/Y', strtotime($handle->conjuntoCronograma->dataprev_preparacao)) : null,
-				// 'dataprev_gabarito' => ($handle->conjuntoCronograma->dataprev_gabarito) ? date('d/m/Y', strtotime($handle->conjuntoCronograma->dataprev_gabarito)) : null,
-				// 'dataprev_solda' => ($handle->conjuntoCronograma->dataprev_solda) ? date('d/m/Y', strtotime($handle->conjuntoCronograma->dataprev_solda)) : null,
-				// 'dataprev_pintura' => ($handle->conjuntoCronograma->dataprev_pintura) ? date('d/m/Y', strtotime($handle->conjuntoCronograma->dataprev_pintura)) : null,
-				// 'dataprev_expedicao' => ($handle->conjuntoCronograma->dataprev_expedicao) ? date('d/m/Y', strtotime($handle->conjuntoCronograma->dataprev_expedicao)) : null,
-				// 'dataprev_montagem' => ($handle->conjuntoCronograma->dataprev_montagem) ? date('d/m/Y', strtotime($handle->conjuntoCronograma->dataprev_montagem)) : null,
-				// 'dataprev_entrega' => ($handle->conjuntoCronograma->dataprev_entrega) ? date('d/m/Y', strtotime($handle->conjuntoCronograma->dataprev_entrega)) : null,
-
-				// 'status' => null,
 			);
 			foreach ($estagios as $estagio) {
 

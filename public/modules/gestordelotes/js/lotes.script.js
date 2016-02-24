@@ -295,7 +295,7 @@ $(document).ready(function($) {
 
                 console.log(data);
                 
-                handlesGrid.ajax.url(urlbase + '/gestordelotes/producao/handles').load();
+                handlesGrid.ajax.url(urlbase + '/gestordelotes/lotes/handles').load();
 
             });
         }
