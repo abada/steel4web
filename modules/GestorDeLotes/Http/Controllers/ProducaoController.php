@@ -170,7 +170,7 @@ class ProducaoController extends Controller {
 		$response = array();
 		$response['data'] = array();
 
-		$estagios = Estagio::where('tipo', 2)->orderBy('ordem')->get();
+		$estagios = Estagio::where('tipo', '>', 1)->where('tipo', '<', 11)->orderBy('ordem')->get();
 
 		foreach ($handlesOfLote as $handleGroup) {
 
