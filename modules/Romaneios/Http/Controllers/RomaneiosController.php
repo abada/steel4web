@@ -20,17 +20,16 @@ class RomaneiosController extends Controller {
 	{
 		$obras = obr::has('importacoes')->where('status',1)->get(); 
 		if(\Session::get('history')){
+
         	$ids = (\Session::get('history'));
         	if($ids['eID'] == 0)
-        		$conjuntos = handle::selectRaw('*, sum(QTA_PEZ) as qtd')->where('obra_id',$ids['oID'])->where('FLG_REC',3)->groupBy('MAR_PEZ')->groupBy('etapa_id')->groupBy('subetapa_id')->groupBy('importacao_id')->groupBy('romaneio_id')->groupBy('lote_id')->get();
+        		$romaneios = rom::where('obra_id',$ids['oID'])->get();
         	elseif($ids['sID'] == 0)
-        		$conjuntos = handle::selectRaw('*, sum(QTA_PEZ) as qtd')->where('etapa_id',$ids['eID'])->where('FLG_REC',3)->groupBy('MAR_PEZ')->groupBy('subetapa_id')->groupBy('importacao_id')->groupBy('romaneio_id')->groupBy('lote_id')->get();
-        	elseif($ids['iID'] == 0)
-        		$conjuntos = handle::selectRaw('*, sum(QTA_PEZ) as qtd')->where('subetapa_id',$ids['sID'])->where('FLG_REC',3)->groupBy('MAR_PEZ')->groupBy('importacao_id')->groupBy('romaneio_id')->groupBy('lote_id')->get();
+        		$romaneios = rom::where('etapa_id',$ids['eID'])->get();
         	else
-        		$conjuntos = handle::selectRaw('*, sum(QTA_PEZ) as qtd')->where('subetapa_id',$ids['sID'])->where('FLG_REC',3)->where('importacao_id', $ids['iID'])->groupBy('MAR_PEZ')->groupBy('lote_id')->groupBy('romaneio_id')->get();
+        		$romaneios = rom::where('subetapa_id',$ids['sID'])->get();
 
-        	$estagios = est::orderBy('ordem','asc')->get();
+        	$obraID = $ids['oID'];
         	$obraID = $ids['oID'];
         	$etapas = etap::has('importacoes')->where('obra_id',$ids['oID'])->get();
         	if($ids['eID'] != 0){
@@ -48,19 +47,10 @@ class RomaneiosController extends Controller {
 				$thisSubetapa = null;
 				$importacoes = null;
 			}
-
-			if($ids['iID'] != 0){
-				$thisImp = imp::find($ids['iID']);
-            	
-			}else{
-				$thisImp = null;
-				
-			}
-            
-            
+        
             
             $history = true;
-            return view('romaneios::index',compact('obras','obraID', 'etapas', 'etapa', 'history','conjuntos','estagios', 'subetapas', 'thisSubetapa', 'importacoes', 'thisImp'));
+            return view('romaneios::index',compact('obras','obraID', 'etapas', 'romaneios','history','etapas', 'etapa','subetapas', 'thisSubetapa'));
         }
 		return view('romaneios::index', compact('obras'));
 	}
@@ -69,6 +59,21 @@ class RomaneiosController extends Controller {
 		$dados = $request->all();
 		\Session::flash('history', $dados);
 		return route('romaneios');
+	}
+
+	public function perfil($id){
+		$obras = obr::has('importacoes')->where('status',1)->get(); 
+		$romaneio = rom::find($id);
+		$editar = false;
+		$perfil = true;
+		$handles = handle::selectRaw('*, sum(QTA_PEZ) as qtd')->where('romaneio_id',$id)->where('FLG_REC', 3)->groupBy('MAR_PEZ')->get();
+		 
+		if($romaneio->status != 'Fechado'){
+			$handles = 0;
+			$editar = true;
+			$perfil = false;
+		}
+		return view('romaneios::criar', compact('obras','romaneio','editar','perfil','handles'));
 	}
 
 	public function criar(){
@@ -85,7 +90,7 @@ class RomaneiosController extends Controller {
 			$data = array();
 			$dados = explode('X', $params);
 			if(empty($dados[2])){
-				$handles = handle::selectRaw('*, sum(QTA_PEZ) as qtd')->where('obra_id',$dados[0])->where('etapa_id',$dados[1])->where('FLG_REC', 3)->groupBy('MAR_PEZ')->groupBy('estagio_id')->get();
+				$handles = handle::selectRaw('*, sum(QTA_PEZ) as qtd')->where('obra_id',$dados[0])->where('etapa_id',$dados[1])->where('FLG_REC', 3)->has('lote')->groupBy('MAR_PEZ')->groupBy('estagio_id')->get();
 				$handlesDisp = handle::selectRaw('*,sum(QTA_PEZ) as qtd')->whereHas('estagio', function($q){
 					$q->where('tipo',3);
 				})->where('obra_id',$dados[0])->where('etapa_id',$dados[1])->where('FLG_REC', 3)->groupBy('MAR_PEZ')->groupBy('estagio_id')->get();
@@ -93,7 +98,7 @@ class RomaneiosController extends Controller {
 					$q->where('tipo',4);
 				})->where('obra_id',$dados[0])->where('etapa_id',$dados[1])->where('FLG_REC', 3)->groupBy('MAR_PEZ')->groupBy('estagio_id')->get();
 			}elseif(empty($dados[3])){
-				$handles = handle::selectRaw('*, sum(QTA_PEZ) as qtd')->where('obra_id',$dados[0])->where('etapa_id',$dados[1])->where('subetapa_id',$dados[2])->where('FLG_REC', 3)->groupBy('estagio_id')->groupBy('MAR_PEZ')->get();
+				$handles = handle::selectRaw('*, sum(QTA_PEZ) as qtd')->has('lote')->where('obra_id',$dados[0])->where('etapa_id',$dados[1])->where('subetapa_id',$dados[2])->where('FLG_REC', 3)->groupBy('estagio_id')->groupBy('MAR_PEZ')->get();
 				$handlesDisp = handle::selectRaw('*,sum(QTA_PEZ) as qtd')->whereHas('estagio', function($q){
 					$q->where('tipo',3);
 				})->where('obra_id',$dados[0])->where('etapa_id',$dados[1])->where('subetapa_id',$dados[2])->where('FLG_REC', 3)->groupBy('estagio_id')->groupBy('MAR_PEZ')->get();
@@ -101,7 +106,7 @@ class RomaneiosController extends Controller {
 					$q->where('tipo',4);
 				})->where('obra_id',$dados[0])->where('etapa_id',$dados[1])->where('subetapa_id',$dados[2])->where('FLG_REC', 3)->groupBy('estagio_id')->groupBy('MAR_PEZ')->get();
 			}else{
-				$handles = handle::selectRaw('*, sum(QTA_PEZ) as qtd')->where('obra_id',$dados[0])->where('etapa_id',$dados[1])->where('subetapa_id',$dados[2])->where('importacao_id',$dados[3])->where('FLG_REC', 3)->groupBy('estagio_id')->groupBy('MAR_PEZ')->get();
+				$handles = handle::selectRaw('*, sum(QTA_PEZ) as qtd')->has('lote')->where('obra_id',$dados[0])->where('etapa_id',$dados[1])->where('subetapa_id',$dados[2])->where('importacao_id',$dados[3])->where('FLG_REC', 3)->groupBy('estagio_id')->groupBy('MAR_PEZ')->get();
 				$handlesDisp = handle::selectRaw('*,sum(QTA_PEZ) as qtd')->whereHas('estagio', function($q){
 					$q->where('tipo',3);
 				})->where('obra_id',$dados[0])->where('etapa_id',$dados[1])->where('subetapa_id',$dados[2])->where('importacao_id',$dados[3])->where('FLG_REC', 3)->groupBy('estagio_id')->groupBy('MAR_PEZ')->get();
@@ -162,6 +167,27 @@ class RomaneiosController extends Controller {
 		$response['total'] = $total;
 
 			
+		return json_encode($response);
+	}
+
+	public function getConjuntosRomaneio($id){
+		$romaneio = rom::find($id);
+
+		$handles = handle::selectRaw('*, sum(QTA_PEZ) as qtd')->where('romaneio_id',$id)->where('FLG_REC', 3)->groupBy('MAR_PEZ')->get();
+		
+		foreach($handles as $handle){
+			$qtd = ($romaneio->status == 'Fechado') ? $handle->qtd : "<input type='number' onkeydown='return false' class='row-qtd input-sm form-control' name='qtd&&".$handle->id."&".$handle->id."' value='' min='0' max='".$handle->qtd."' placeholder='".$handle->qtd."'>";
+			$data[] = array(
+				'select-checkbox' => '',
+				'qtd' => $qtd,
+				'conjunto' => $handle->MAR_PEZ,
+				'lote' => $handle->lote->descricao,
+				'estagio' => $handle->estagio->descricao,
+				'descricao' => "<img class='tooltipo'  data-placement='right' data-toggle='tooltip' data-html='true' title='".$handle->DES_PEZ."' src='".asset('img/icons/'.getIcon($handle->DES_PEZ))."''>",
+				'tratamento' => $handle->TRA_PEZ,
+				);
+		}
+		$response['data'] =  $data;
 		return json_encode($response);
 	}
 
@@ -258,6 +284,98 @@ class RomaneiosController extends Controller {
 			$msg .=' Realizado por '. access()->user()->name .'.';
             Log::info($msg);
             return 'Romaneio Criado com Sucesso!';
+	}
+
+	public function adicionar(Request $request){
+		 $dados = $request->all(); 
+		 $newEstage = est::where('tipo',4)->first();
+		 $newRom = rom::find($dados['id']);
+		 $xc = 0;
+		 foreach($dados['handles'] as $cjt => $qtd){
+		 	if(!empty($qtd)){
+		 		$cjto = handle::where('MAR_PEZ', $cjt)->where('FLG_REC', 3)->whereHas('estagio', function($q){
+					$q->where('tipo',3);
+				})->where('subetapa_id', $newRom->subetapa_id)->first();
+        	if($cjto->importacao->sentido == 1){
+				$x = 'ASC'; $y='ASC';
+			}elseif($cjto->importacao->sentido == 2){
+				$x = 'DESC'; $y = 'ASC';
+			}elseif($cjto->importacao->sentido == 3){
+				$x = 'DESC'; $y = 'DESC';
+			}elseif($cjto->importacao->sentido == 4){
+				$x = 'ASC'; $y = 'DESC';
+			}
+			$putRom = handle::where('MAR_PEZ',$cjto->MAR_PEZ)->where('FLG_REC', 3)->whereHas('estagio', function($q){
+					$q->where('tipo',3);
+				})->where('subetapa_id', $newRom->subetapa_id)->orderBy('X', $x)->orderBy('Y', $y)->take($qtd);
+			$toRecord = $putRom->get();
+			
+				$recordeds[$xc]['MAR_PEZ'] = $toRecord->first()->MAR_PEZ;
+				$recordeds[$xc]['qtd'] = $dados['handles'][$toRecord->first()->MAR_PEZ];
+				$xc++;
+
+			$valtoUpdate = ['romaneio_id' => $newRom->id, 'estagio_id' => $newEstage->id];
+			$putRom->update($valtoUpdate);
+		 	}
+        		
+        }
+
+        if($xc == 0)
+        	return 'Nenhum Conjunto Selecionado&alert-warning';
+
+        $msg =  'Conjuntos: ';
+
+        foreach($recordeds as $don){
+				$msg .= $don['MAR_PEZ'].' - Qtd: ' .$don['qtd']. ' -- ';
+			}
+			$msg .='Adicionados ao Romaneio: '. $newRom->codigo.'. Realizado por '. access()->user()->name .'.';
+            Log::info($msg);
+            return 'Conjuntos Adicionados a '.$newRom->codigo.' com Sucesso!&alert-success';
+	}
+
+	public function remover(Request $request){
+		 $dados = $request->all(); 
+		 $newEstage = est::where('tipo',3)->first();
+		 $newRom = rom::find($dados['id']);
+		 $xc = 0;
+		 foreach($dados['handles'] as $cjt => $qtd){
+		 	if(!empty($qtd)){
+		 		$cjto = handle::where('MAR_PEZ', $cjt)->where('FLG_REC', 3)->whereHas('estagio', function($q){
+					$q->where('tipo',4);
+				})->where('subetapa_id', $newRom->subetapa_id)->first();
+        	if($cjto->importacao->sentido == 1){
+				$x = 'DESC'; $y='DESC';
+			}elseif($cjto->importacao->sentido == 2){
+				$x = 'ASC'; $y = 'DESC';
+			}elseif($cjto->importacao->sentido == 3){
+				$x = 'ASC'; $y = 'ASC';
+			}elseif($cjto->importacao->sentido == 4){
+				$x = 'DESC'; $y = 'ASC';
+			}
+			$putRom = handle::where('MAR_PEZ',$cjto->MAR_PEZ)->where('FLG_REC', 3)->where('romaneio_id', $newRom->id)->orderBy('X', $x)->orderBy('Y', $y)->take($qtd);
+			$toRecord = $putRom->get();
+			
+				$recordeds[$xc]['MAR_PEZ'] = $toRecord->first()->MAR_PEZ;
+				$recordeds[$xc]['qtd'] = $dados['handles'][$toRecord->first()->MAR_PEZ];
+				$xc++;
+
+			$valtoUpdate = ['romaneio_id' => null, 'estagio_id' => $newEstage->id];
+			$putRom->update($valtoUpdate);
+		 	}
+        		
+        }
+
+        if($xc == 0)
+        	return 'Nenhum Conjunto Selecionado&alert-warning';
+
+        $msg =  'Conjuntos: ';
+
+        foreach($recordeds as $don){
+				$msg .= $don['MAR_PEZ'].' - Qtd: ' .$don['qtd']. ' -- ';
+			}
+			$msg .='Removidos do Romaneio: '. $newRom->codigo.'. Realizado por '. access()->user()->name .'.';
+            Log::info($msg);
+            return 'Conjuntos Removidos de '.$newRom->codigo.' com Sucesso!&alert-success';
 	}
 
 	private function handleTrans($trans){

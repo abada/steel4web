@@ -1,8 +1,14 @@
 @extends('frontend.layouts.master')
 
+@section('styles')
+	{{Html::style('css/romaneios.css')}}
+	{{Html::style('plugins/iCheck/all.css')}}
+@endsection
+
 @section('content')
 
     {!! Breadcrumbs::render('Romaneios::index') !!}
+
 	
 	<div class="panel panel-padrao">
 
@@ -23,7 +29,7 @@
                     @endforeach
                 </select>
             </div>
-            <div class="form-group inputetapa <?php if(!isset($history)) echo 'hidden' ?>">
+             <div class="form-group inputetapa <?php if(!isset($history)) echo 'hidden' ?>">
                 <label  for="etapa"> Etapa: </label>
                 <select id="inputEtapa" class="form-control" required="required" name="etapa">
                     @if (isset($history))
@@ -45,106 +51,92 @@
                     @endif
                 </select>
             </div>
-            <div class="form-group inputimp <?php if(!isset($history) || empty($subetapa) || empty($importacoes)) echo 'hidden' ?>">
-                <label  for="imp"> Importacoes: </label>
-                <select id="inputImp" class="form-control" required="required" name="imp">
-					@if (isset($history) && !empty($importacoes))
-                        <option value="0">Todas</option>
-                    @if(!empty($importacoes->first()->descricao))
-                    <?php 
-                    	$thisimportacoesId = !empty($thisImp->id) ? $thisImp->id : 0;
-                     ?>
-                    @foreach($importacoes as $imp)
-                        <option value="{{$imp->id}}" <?php if(!empty($thisimportacoesId)){ if($imp->id == $thisimportacoesId) echo 'selected'; }?>>{{$imp->descricao}}</option>
-                    @endforeach
-                    @endif
-                    @endif
-                </select>
-            </div>
-
 
             <?php 
             	$btnText = isset($history) ? 'Recarregar' : 'Carregar';
              ?>
             <button type="button" id='inputSubmit' class="btn btn-primary <?php if(!isset($history)) echo 'hidden' ?>">{{$btnText}}</button>
-
+			@if(isset($history))
+			<div class="form-group checkStatus checkbox" style='margin-left:10px'>
+            	<label>
+            		<input  type="checkbox" name="checkStatus" id='checkStatus' value="1" checked> <span>Listar Somente Romaneios Abertos</span>
+            	</label>
+            </div>
+			@endif
 	            <div class="form-group">
 	             <div class="TypeLoading" style='margin-left:5px'></div>
 	            </div>
+	            
 	        </div>
     	</form>
+
 	</div>
+	<div class="form-group pull-right">
+					<a type='button' class='btn btn-primary' href="{{url('romaneios/criar')}}">Criar Romaneio</a>
+				</div>
+
+
 		<div class="clearfix"></div>
+
 	<hr class='lessMargin'>
 
 	<div class="panel-body">
 	@if(isset($history))
 
-			 <table class="table table-bordered table-striped dt-responsive nowrap table-hover" cellspacing="0" width="100%" id="lotPointer">
+			 <table class="table dt-responsive nowrap" cellspacing="0" width="100%" id="lotPointer">
 			 	<thead>
 			 		<tr>
-	                    <th>Obra</th>
-	                    <th>Etapa</th>
+			 			<th>Código</th>
+			 			<th>Etapa</th>
 	                    <th>Subetapa</th>
-	                    <th>Importação</th>
-	                    <th>Romaneio</th>
-	                    <th>Lote Fab.</th>
-	                    <th>Conjunto</th>
-	                    <th>Projeto</th>
-	                    <th>Descrição</th>
-	                    <th>Tratamento</th>
+	                    <th>Data de Saída</th>
+	                    <th>Previsão de Chegada</th>
+	                    <th>NFs</th>
+	                    <th>Transportadora</th>
+	                    <th>Motorista</th>
+	                    <th>Observações</th>
+	                    <th>Status</th>
                     </tr>
 			 	</thead>
 			 	<tbody>
-			 		@foreach($conjuntos as $conjunto)
-			 		<?php if(isset($conjunto->lote->descricao)){
-				 			$lote = $conjunto->lote->descricao;
-				 			$hasLotes = true;
-				 		  }else{
-				 		  	$lote = ' - ';
-				 		  	$hasLotes = false;
-				 		  }  
-				 		  if(isset($conjunto->romaneio->codigo))
-				 		  	$rom = $conjunto->romaneio->codigo;
-				 		  else
-				 		  	$rom = ' - ';
-				 	?>
-			 		<tr>
-			 		
-			 		<td>{{$conjunto->obra->nome}}</td>
-			 		<td>{{$conjunto->etapa->codigo}}</td>
-			 		<td>{{$conjunto->subetapa->cod}}</td>
-			 		<td>{{$conjunto->importacao->descricao}}</td>
-			 		<td>{{$rom}}</td>
-			 		<td>{{$lote}}</td>
-			 		<td>{{$conjunto->MAR_PEZ}}</td>
-			 		<td>{{$conjunto->NUM_COM}}</td>
-			 		<td>{{$conjunto->DES_PEZ}}</td>
-			 		<td>{{$conjunto->TRA_PEZ}}</td>
-			 		
-			 		</tr>
+			 		@foreach($romaneios as $romaneio)
+			 			<?php $bck = ($romaneio->status == 'Fechado') ? '#EFFFF4' : '#EDF9FF' ?>
+			 			<?php $stat = ($romaneio->status == 'Fechado') ? 'romClosed hidden' : 'romOpened' ?>
+			 			<tr class='{{$stat}}'>
+			 				<td style='background-color:{{$bck}}'><a href="{{url('romaneios/perfil').'/'.$romaneio->id}}">{{$romaneio->codigo}}</a></td>
+			 				<td style='background-color:{{$bck}}'>{{$romaneio->etapa->codigo}}</td>
+			 				<td style='background-color:{{$bck}}'>{{$romaneio->subetapa->cod}}</td>
+			 				<td style='background-color:{{$bck}}'>{{date('d/m/Y',strtotime($romaneio->data_saida))}}</td>
+			 				<td style='background-color:{{$bck}}'>{{date('d/m/Y',strtotime($romaneio->previsao_chegada))}}</td>
+			 				<td style='background-color:{{$bck}}'>{!! empty($romaneio->Nfs) ? '-' : $romaneio->Nfs !!}</td>
+			 				<td style='background-color:{{$bck}}'>{{$romaneio->transportadora->nome}}</td>
+			 				<td style='background-color:{{$bck}}'>{{$romaneio->motorista->nome}}</td>
+			 				<td style='background-color:{{$bck}}'>{!! empty($romaneio->observacoes) ? '-' : $romaneio->observacoes !!}</td>
+			 				<td style='background-color:{{$bck}}'>{{$romaneio->status}}</td>
+			 			</tr>
 			 		@endforeach
 			 	</tbody>
-			 	<tfoot>
-			 		<th><input type="text" placeholder="Obra" /></th>
-			 		<th><input type="text" placeholder="Etapa" /></th>
-			 		<th><input type="text" placeholder="Subetapa" /></th>
-			 		<th><input type="text" placeholder="Importação" /></th>
-			 		<th><input type="text" placeholder="Romaneio" /></th>
-			 		<th><input type="text" placeholder="Lote Fab." /></th>
-			 		<th><input type="text" placeholder="Conjunto" /></th>
-			 		<th><input type="text" placeholder="Projeto" /></th>
-			 		<th><input type="text" placeholder="Descrição" /></th>
-			 		<th><input type="text" placeholder="Tratamento" /></th>
-			 	</tfoot>
 			 </table>
-			 
-
 	@else
-		<div class="panel-body">Romaneio</div>
+		 <table class="table table-bordered table-striped dt-responsive nowrap table-hover" cellspacing="0" width="100%" id="lotPointer">
+			 	<thead>
+			 		<tr>
+	                    <th>Etapa</th>
+			 			<th>Subetapa</th>
+	                    <th>Codigo</th>
+	                    <th>Data de Saída</th>
+	                    <th>Previsão de Chegada</th>
+	                    <th>NFs</th>
+	                    <th>Transportadora</th>
+	                    <th>Motorista</th>
+	                    <th>Observações</th>
+	                    <th>Status</th>
+                    </tr>
+                 </thead>
+           </table>
 	@endif
 	<a href='{{url("/")}}' class='btn btn-primary'><< Voltar</a>
-	<a type='button' class='btn btn-primary pull-right' href="{{url('romaneios/criar')}}">Criar Romaneio</a>
+
 	</div>
 
 	</div> <!-- panel-padrao -->
@@ -156,7 +148,7 @@
 @section('scripts')
 {!! Html::script('plugins/jQueryUI/jquery-ui.min.js') !!}
 {!! Html::script('plugins/iCheck/icheck.min.js') !!}
-{!! Html::script('js/ajax/romaneios.js') !!}
+{!! Html::script('modules/romaneios/js/romaneios.js') !!}
 <script>
 	$(document).ready(function() {
     if(urlbaseGeral == null)

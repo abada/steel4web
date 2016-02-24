@@ -84,13 +84,27 @@
 	                    <th>Conjunto</th>
 	                    <th>Projeto</th>
 	                    <th>Qtd.</th>
-	                    <th>Descricao</th>
+	                    <th>Tipologia</th>
+	                    <th class='no-sort'>Ícone</th>
 	                    <th>Tratamento</th>
 	                    @foreach($estagios as $estagio)
 	                    <th class='no-sort'>{{$estagio->decricao}} Qtd</th>
 	                    <th class='no-sort'>Data Real {{$estagio->descricao}}</th>
 	                    @endforeach
                     </tr>
+                    <tr>
+			 			<th><input type="text" placeholder="Lote" /></th>
+				 		<th><input type="text" placeholder="Conjunto" /></th>
+				 		<th><input type="text" placeholder="Projeto" /></th>
+				 		<th></th>
+				 		<th><input type="text" placeholder="Tipologia" /></th>
+				 		<th></th>
+				 		<th><input type="text" placeholder="Tratamento" /></th>
+						@foreach($estagios as $estagio)
+	                    <th></th>
+	                    <th></th>
+	                    @endforeach
+			 		</tr>
 			 	</thead>
 			 	<tbody>
 			 		@foreach($conjuntos as $conjunto)
@@ -106,6 +120,7 @@
 			 		<td><p class='form-control-static'>{{$conjunto->MAR_PEZ}}</p></td>
 			 		<td><p class='form-control-static'>{{$conjunto->NUM_COM}}</p></td>
 			 		<td class='text-center'><p class='form-control-static'>{{$conjunto->qtd}}</p></td>
+			 		<td><p class='form-control-static'>{{$conjunto->DES_PEZ}}</p></td>
 			 		<td class='text-center'><p class='form-control-static'><img class='tooltipo' data-toggle="tooltip" data-html="true" title='{{$conjunto->DES_PEZ}}' src="{!! asset('img/icons/'.getIcon($conjunto->DES_PEZ)); !!}"></p></td>
 			 		<td><p class='form-control-static'>{{$conjunto->TRA_PEZ}}</p></td>
 			 		 <?php 
@@ -132,11 +147,11 @@
 
 @section('scripts')
 
-{!! Html::script('js/ajax/apontador.js') !!}
+{!! Html::script('modules/apontador/js/apontador.js') !!}
 <script>
 	$(document).ready(function() {
     if(urlbaseGeral == null)
-    	urlbaseGeral = '<?php echo env("APP_URL") ?>' ;
+    	urlbaseGeral = {!! json_encode(url('/')) !!} ;
 	} );
 </script>
 {!! Html::script('js/ajax/funcoes.js') !!}

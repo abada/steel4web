@@ -108,7 +108,7 @@ class RelatoriosController extends Controller {
 						'estagio' => $crono->estagio->descricao,
 						'prev'    => date('d/m/Y', strtotime($crono->data_prev)),
 						'peso'    => number_format($pesoE, 2, ',','.'),
-						'porc'    => ceil($porc).' %'
+						'porc'    => round($porc).' %'
 				);
 				$x++;
 		}	
@@ -146,7 +146,6 @@ class RelatoriosController extends Controller {
 	public function getPdfLote($params){
 		$cronos = crono::where('lote_id',$params)->orderBy('estagio_id', 'asc')->get();
 		$handles = $this->getConjuntosLote($params, true);
-
 		foreach($cronos as $crono){
 				$pesoE = 0;
 				$count = 0;
@@ -167,11 +166,10 @@ class RelatoriosController extends Controller {
 						'estagio' => $crono->estagio->descricao,
 						'prev'    => date('d/m/Y', strtotime($crono->data_prev)),
 						'peso'    => number_format($pesoE, 2, ',','.'),
-						'porc'    => ceil($porc).' %'
+						'porc'    => round($porc).' %'
 				);
 
 		}
-
 		$parameter = array();
 		$lote = lote::find($params);
 		$parameter['lote'] = $lote;

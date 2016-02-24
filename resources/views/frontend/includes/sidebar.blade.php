@@ -69,7 +69,7 @@
             @endif
 
             <li class="">
-                <a href="{{url('/')}}/server/S4W_WebGL/" target="_blank"><i class="fa fa-codepen fa-fw"></i> 3D Viewer</a>
+                <a href="{{ env('3D_PATH', url('server/S4W_WebGL'))}}" target="_blank"><i class="fa fa-codepen fa-fw"></i> 3D Viewer</a>
             </li>
 
            @permission('ver-cadastro', 'criar-cadastro', 'deletar-cadastro', 'editar-cadastro')
@@ -118,7 +118,7 @@
             </li>
             <li class="treeview">
                 <a href="#">
-                    <i class="fa fa-pie-chart"></i>
+                    <i class="fa fa-pie-chart"D></i>
                     <span>Charts</span>
                     <i class="fa fa-angle-left pull-right"></i>
                 </a>

@@ -30,11 +30,14 @@ hr{
 
 
 .pdftable {
+	vertical-align: top;
 	width:100%;
 	font-size:14px;
 }
 
 .pdftable td{
+	vertical-align: top;
+	padding: 3px;
 	font-size: 12px;
 }
 

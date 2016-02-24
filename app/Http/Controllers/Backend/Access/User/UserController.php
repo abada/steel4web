@@ -175,9 +175,13 @@ class UserController extends Controller
     }
 
     public function excluir($id){
-       
+      
         $user = userr::find($id);
-         $nome = $user->name;
+        if($user->hasRole('Administrador')){
+            return redirect()->back()->withFlashDanger('Usuários Administradores não podem ser removidos.');
+        }
+            
+        $nome = $user->name;
         $user->delete();
         $msg = 'Exclusão de usuario: '.$nome.'. realizada por '. access()->user()->name .'.';
         Log::info($msg);

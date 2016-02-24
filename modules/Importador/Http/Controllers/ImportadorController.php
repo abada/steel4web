@@ -13,6 +13,7 @@ use App\Handle as handle;
 use App\Estagio as est;
 use App\Temp_Handle as tempH;
 use App\Fila as fila;
+use App\Models\Access\User\User as users;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Input;
 use Symfony\Component\HttpFoundation\Response;
@@ -124,8 +125,14 @@ class ImportadorController extends Controller {
          $sizes = array();
          $user = array();
             foreach($imps as $imp){
-
-                $user[$imp->id] = $imp->user->name;
+                if(!empty($imp->user_id)){
+                    $userX = users::find($imp->user_id);
+                if(!empty($userX->name))
+                    $user[$imp->id] = $userX->name;
+                else
+                    $user[$imp->id] = '-';
+                }
+               
                 if(!empty($imp['dbf2d'])){
                     $file =  $imp->locatario_id . "/" . $imp->cliente_id . "/" . $imp->obra_id . "/" 
                     . $imp->etapa_id . "/" . $imp->subetapa_id . "/" . $imp->importacaoNr . "/" . $imp->dbf2d;

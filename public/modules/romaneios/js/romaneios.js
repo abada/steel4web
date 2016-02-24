@@ -1,10 +1,21 @@
 $(document).ready(function() {
 
+
   $('#inputImporter').iCheck({
     checkboxClass: 'icheckbox_flat',
     radioClass: 'iradio_minimal-red',
     increaseArea: '20%' // optional
   });
+
+  $('.checkStatus').on('ifClicked', function(event){
+    if ($('#checkStatus').is(":checked")) {
+    $('.romClosed').removeClass('hidden');
+  }else{
+    $('.romClosed').addClass('hidden');
+  }
+  });
+
+
 
 
       $('.loadingImp').hide();
@@ -12,16 +23,10 @@ $(document).ready(function() {
       $('.inputObr').removeClass('hidden');
 
       $('#inputChooseObra').change(function() {
-      $('.inputetapa').addClass('hidden');
-      $('.inputsubetapa').addClass('hidden');
-      $('.inputimp').addClass('hidden');
-      $('.TypeLoading').show();
-
-      
-
+        $('.TypeLoading').show();
       var dados = $('#inputChooseObra').val();
       if(dados != 0){
-     	jQuery.ajax({
+          jQuery.ajax({
           type: "GET",
          url: urlbaseGeral+"/api/obras/"+dados+"/etapas?has=lotes",
           dataType: "json",
@@ -39,12 +44,18 @@ $(document).ready(function() {
         }));
         });
       $('.TypeLoading').hide();
+      $('.inputsubetapa').addClass('hidden');
+      $('#inputSubetapa').val(0);
+
       $('.inputetapa').removeClass('hidden');
       $('#inputSubmit').removeClass('hidden');
           }
       });
       }else{
-        $('.TypeLoading').hide(); 
+         $('#inputSubmit').addClass('hidden');
+         $('.TypeLoading').hide();
+         $('.inputsubetapa').addClass('hidden');
+         $('.inputetapa').addClass('hidden');
       }
       });
 
@@ -82,60 +93,23 @@ $(document).ready(function() {
         
       });
 
-      $('#inputSubetapa').change(function() {
-      $('.inputimp').addClass('hidden');
-        $('.TypeLoading').show();
-
-        var sub = $('#inputSubetapa').val();
-      if(sub != 0){
-      jQuery.ajax({
-                type: "GET",
-               url: urlbaseGeral+"/api/subetapas/"+sub+"/importacoes",
-                dataType: "json",
-                success: function(result){
-                  var etapas = result;
-             $('#inputImp').find('option').remove().end();
-             $('#inputImp').append($('<option>', {
-                value: 0,
-                text: 'Todas'
-            }));
-             $.each(etapas, function (index, etapa){                   
-                   $('#inputImp').append($('<option>', {
-                  value: etapa.id,
-                  text: etapa.descricao
-              }));
-              });
-            $('.TypeLoading').hide();
-            $('.inputimp').removeClass('hidden');
-            
-                }
-           
-            });
-    }
-       else{
-              $('.TypeLoading').hide();
-            }
-        
-      });
 
 
-  $('#inputSubmit').click(function(e) {
+ $('#inputSubmit').click(function(e) {
     e.preventDefault();
     $('.TypeLoading').show();
      var oID = $('#inputChooseObra').val();
      var eID = $('#inputEtapa').val();
      var sID = $('#inputSubetapa').val();
-     var iID = $('#inputImp').val();
      if (!isset(eID))
         eID = 0;
       if (!isset(sID))
         eID = 0;
-        if (!isset(iID))
-        eID = 0;
+
 
       jQuery.ajax({
         type: "POST",
-        data: {eID:eID, sID:sID, iID:iID, oID:oID},
+        data: {eID:eID, sID:sID, oID:oID},
        url: urlbaseGeral+"/romaneios/setRHistory",
         dataType: "html",
         success: function(r){
@@ -151,25 +125,12 @@ var table = $('#lotPointer').DataTable({
         responsive: false,
         "scrollX": true,
         "language": {
-          "emptyTable": "Nenhum Conjunto Disponivel."
+          "emptyTable": "Nenhum Romaneio Disponivel."
         },
     });
 
 
- table.columns().every( function () {
-        var that = this;
- 
-        $( 'input', this.header() ).on( 'keyup change', function () {
-            if ( that.search() !== this.value ) {
-                that
-                    .search( this.value )
-                    .draw();
-            }
-        } );
-    } );
-
-   $("#lotPointer thead input").on( 'keyup change', function () {
-    console.log('porra');
+   $("thead input").on( 'keyup change', function () {
         table
             .column( $(this).parent().index()+':visible' )
             .search( this.value )
@@ -332,6 +293,7 @@ $('#inputChooseObra2').change(function() {
 /* ============================3=========================== */
 
   $('#inputChooseObra3').change(function() {
+      $('.inputetapa3').addClass('hidden');
     $('.inputimp3').addClass('hidden');
     $('.checkSetor').addClass('hidden');
   $('.inputsubetapa3').addClass('hidden');
@@ -340,7 +302,6 @@ $('#inputChooseObra2').change(function() {
       
 
       var dados = $('#inputChooseObra3').val();
-      $('#inputChooseObra2').val(dados);
       if(dados != 0){
       jQuery.ajax({
           type: "GET",
@@ -350,32 +311,21 @@ $('#inputChooseObra2').change(function() {
             var etapas = result;
        $('#inputEtapa3').find('option').remove().end();
        $('#inputSubetapa3').find('option').remove().end();
-       $('#inputEtapa2').find('option').remove().end();
-       $('#inputSubetapa3').append($('<option>', {
-                value: 0,
-          text: 'Escolha uma Etapa...'
-            }));
+      
        $('#inputEtapa3').append($('<option>', {
           value: 0,
           text: 'Escolha uma Etapa...'
       }));
-       $('#inputEtapa2').append($('<option>', {
-          value: 0,
-          text: 'Escolha uma Etapa...'
-      }));
+      
        $.each(etapas, function (index, etapa){                   
              $('#inputEtapa3').append($('<option>', {
             value: etapa.id,
             text: etapa.codigo
         }));
-             $('#inputEtapa2').append($('<option>', {
-            value: etapa.id,
-            text: etapa.codigo
-        }));
+           
         });
       $('.TypeLoading').hide();
       $('.inputetapa3').removeClass('hidden');
-      $('.inputetapa2').removeClass('hidden');
           }
       });
       }else{
@@ -384,12 +334,12 @@ $('#inputChooseObra2').change(function() {
       });
 
       $('#inputEtapa3').change(function() {
+        $('.inputsubetapa3').addClass('hidden');
         $('.checkSetor').addClass('hidden');
         $('.inputimp3').addClass('hidden');
         $('.TypeLoading').show();
 
         var dados = $('#inputEtapa3').val();
-        $('#inputEtapa2').val(dados);
         if(dados != 0){
       jQuery.ajax({
                 type: "GET",
@@ -399,11 +349,7 @@ $('#inputChooseObra2').change(function() {
                   getConjuntos();
                   var etapas = result;
              $('#inputSubetapa3').find('option').remove().end();
-             $('#inputSubetapa2').find('option').remove().end();
-             $('#inputSubetapa2').append($('<option>', {
-                value: 0,
-                text: 'Escolha uma Subetapa...'
-            }));
+
              $('#inputSubetapa3').append($('<option>', {
                 value: 0,
                 text: 'Todas'
@@ -413,17 +359,14 @@ $('#inputChooseObra2').change(function() {
                   value: etapa.id,
                   text: etapa.cod
               }));
-                    $('#inputSubetapa2').append($('<option>', {
-                  value: etapa.id,
-                  text: etapa.cod
-              }));
+
               });
             $('#checkSetor').iCheck('check');
             redrawConjuntos();
             $('.TypeLoading').hide();
             $('.checkSetor').removeClass('hidden');
             $('.inputsubetapa3').removeClass('hidden');
-            $('.inputsubetapa2').removeClass('hidden');
+
                 }
             });
     }else{
@@ -433,9 +376,10 @@ $('#inputChooseObra2').change(function() {
       });
 
       $('#inputSubetapa3').change(function() {
-$('.TypeLoading').show();
+        $('.TypeLoading').show();
+        $('.inputimp3').addClass('hidden');
         var sub = $('#inputSubetapa3').val();
-        $('#inputSubetapa2').val(sub).change();
+
         if(sub != 0){
       jQuery.ajax({
                 type: "GET",
@@ -484,6 +428,8 @@ $('.TypeLoading').show();
 /* ======================================================== */
 /* ======================== CONJUNTOS ===================== */
 
+
+
  var ConjuntosGrid = $('#criarRomaneioTable').DataTable({
             ajax: {
               type: 'GET',
@@ -521,6 +467,81 @@ $('.TypeLoading').show();
               "emptyTable": "Nenhum Conjunto Disponivel."
             },
         });
+
+
+
+
+  $('#criarRomaneioTable tbody').on('click', 'tr', function(e, dt, type, indexes) {
+        // SHOW/HIDE options
+        if (ConjuntosGrid.rows('.selected').data().length) {
+            $('#addHandle').removeClass('hidden');
+        } else {
+            $('#addHandle').addClass('hidden');
+        };
+
+    });
+
+  var RomaneioTable = $('#RomaneioCanDel').DataTable({
+     ajax: {
+        type: 'GET',
+        url: getConjuntosRomaneio()
+      },
+            responsive: true,
+            columns:  [
+            { "data": "select-checkbox" },
+            { "data": "qtd"},
+            { "data": "conjunto" },
+            { "data": "lote" },
+            { "data": "estagio" },
+            { "data": "descricao" },
+            { "data": "tratamento" },
+        ],
+         columnDefs: [ {
+            orderable: false,
+            className: 'select-checkbox',
+            targets:   0
+        }
+         ],
+         select: {
+                style: 'multi',
+                selector: 'tr td.select-checkbox'
+            },
+        "iDisplayLength": 100,
+        "language": {
+          "emptyTable": "Nenhum Conjunto Disponivel."
+        },
+  });
+
+  var StaticRomaneio = $('#RomaneioProfile').DataTable({
+     ajax: {
+        type: 'GET',
+        url: getConjuntosRomaneio()
+      },
+            responsive: true,
+            columns:  [
+            { "data": "select-checkbox" },
+             { "data": "qtd"},
+            { "data": "conjunto" },
+            { "data": "lote" },
+            { "data": "estagio" },
+            { "data": "descricao" },
+            { "data": "tratamento" },
+        ],
+        "iDisplayLength": 100,
+        "language": {
+          "emptyTable": "Nenhum Conjunto Disponivel."
+        },
+  });
+
+   $('#RomaneioCanDel tbody').on('click', 'tr', function(e, dt, type, indexes) {
+        // SHOW/HIDE options
+        if (RomaneioTable.rows('.selected').data().length) {
+            $('#removeHandle').removeClass('hidden');
+        } else {
+            $('#removeHandle').addClass('hidden');
+        };
+
+    });
 
   function redrawConjuntos(){
      ConjuntosGrid.ajax.url(getConjuntos()).load();
@@ -709,18 +730,79 @@ $('.TypeLoading').show();
           dataType: "html",
           success: function(r){
             redrawConjuntos();
-            $('#AjaxMessage').html(r+'<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>');
+            var res = r.split("&");
+            $('#AjaxMessage').html(res[0]+'<button type="button" class="closeAjax">&times;</button>');
             $('#modalRomaneio').modal('hide');
+            $('#AjaxMessage').addClass(res[1]);
             $('#AjaxMessage').removeClass('hidden');
-            $('#AjaxMessage').show();
           }
       });
   }); 
+
+
+
+$('#addHandle').click(function(event) {
+    var selectedItems = ConjuntosGrid.rows('.selected').data();
+    var selectedQtd = ConjuntosGrid.$('.selected').find('input');
+    var RomID = $('#RomaneioID').val();
+    var handles_ids = {};
+    for (var i = 0; i < selectedItems.length; i++) {              
+          handles_ids[selectedItems[i].conjunto] = selectedQtd[i].value;
+    }; 
+     jQuery.ajax({
+          type: "POST",
+         url: urlbaseGeral+"/romaneios/adicionar",
+         data: {handles:handles_ids, id: RomID},
+          dataType: "html",
+          success: function(r){
+            redrawConjuntos();
+            RomaneioTable.ajax.url(getConjuntosRomaneio()).load();
+            var res = r.split("&");
+            $('#addHandle').addClass('hidden');
+            $('#AjaxMessage').html(res[0]+'<button type="button" class="closeAjax">&times;</button>');
+             $('#AjaxMessage').removeClass('alert-success');
+            $('#AjaxMessage').removeClass('alert-warning');
+            $('#AjaxMessage').addClass(res[1]);
+            $('#AjaxMessage').removeClass('hidden');
+          }
+      });
+});
+
+$('#removeHandle').click(function(event) {
+    var selectedItems = RomaneioTable.rows('.selected').data();
+    var selectedQtd = RomaneioTable.$('.selected').find('input');
+    var RomID = $('#RomaneioID').val();
+    var handles_ids = {};
+    for (var i = 0; i < selectedItems.length; i++) {              
+          handles_ids[selectedItems[i].conjunto] = selectedQtd[i].value;
+    }; 
+     jQuery.ajax({
+          type: "POST",
+         url: urlbaseGeral+"/romaneios/remover",
+         data: {handles:handles_ids, id: RomID},
+          dataType: "html",
+          success: function(r){
+            redrawConjuntos();
+            RomaneioTable.ajax.url(getConjuntosRomaneio()).load();
+            var res = r.split("&");
+            $('#removeHandle').addClass('hidden');
+            $('#AjaxMessage').html(res[0]+'<button type="button" class="closeAjax">&times;</button>');
+            $('#AjaxMessage').removeClass('alert-success');
+            $('#AjaxMessage').removeClass('alert-warning');
+            $('#AjaxMessage').addClass(res[1]);
+            $('#AjaxMessage').removeClass('hidden');
+          }
+      });
+});
 
  $(document).on('click', '#slideModalTable', function(event) {
    event.preventDefault();
    $('#modalTableBody').slideToggle('fast');
    $('#slideModalTable i').toggleClass('fa-minus fa-plus');
+ });
+
+ $(document).on('click', '.closeAjax', function(event) {
+   $('#AjaxMessage').addClass('hidden');
  });
 
 /* ======================================================== */
@@ -829,11 +911,16 @@ function getConjuntos(first){
         
 }
 
+function getConjuntosRomaneio(first){
+  var RomID = $('#RomaneioID').val();
+  return (urlbaseGeral + '/romaneios/getConjuntosRomaneio/'+RomID);
+}
+
 $(document).on('blur', '.nfInput', function(){
   var flag = true;
   var countTrue = 0;
   var countFalse = 0;
-  $('.nfInput').forEach(function() {
+  $('.nfInput').each(function() {
         if ($.trim($(this).val()) == '') {
             flag = false;
             countFalse++;

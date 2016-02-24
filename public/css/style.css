@@ -9,6 +9,20 @@ body{
     font-size: 12px;
     padding-bottom: 30px !important;
 }
+
+.closeAjax{
+    float:right;
+    margin-right:10px;
+    border: none;
+    background: none;
+    font-size:16px;
+}
+
+.closeAjax:hover{
+    color:#EDEDED;
+    text-decoration: underline;
+}
+
 .breadcrumb {
     padding: 8px 15px;
     margin-bottom: 20px;

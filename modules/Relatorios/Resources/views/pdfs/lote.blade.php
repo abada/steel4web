@@ -47,7 +47,7 @@
 			@foreach($estagios as $estagio)
 				<tr>
 					<td>{{$estagio['estagio']}}</td>
-					<td>{!! date('d/m/Y', strtotime($estagio['prev'])) !!}</td>
+					<td>{{$estagio['prev'] }}</td>
 					<td>{{$estagio['peso']}}</td>
 					<td>{{$estagio['porc']}}</td>
 				</tr>
