@@ -22,7 +22,11 @@ if (isset($perfil)) {
 @endsection
 
 @section('content')
+@if(isset($filled))
+{!! Breadcrumbs::render('Romaneios::perfil', $romaneio->id, $romaneio->codigo) !!}
+@else
 {!! Breadcrumbs::render('Romaneios::criar') !!}
+@endif
 	<div class="box">
 		<div class="box-header bg-padrao with-border">
 			CRIAR ROMANEIO
@@ -41,7 +45,15 @@ if (isset($perfil)) {
 		            <li><a href="#conjuntosRom" data-toggle="tab">Conjuntos do Romaneio</a>
 		            </li>
 	            @endif
+	          
+	            	@if(isset($editar))
+	            	@if($editar == true)
+				    	<a href="{{url('romaneios/fechar').'/'.$romaneio->id}}" style='margin-right:15px' class="btn btn-success pull-right"><i class="fa fa-check"></i>&nbsp;&nbsp; Fechar Romaneio</a>
+				    @endif
+				    @endif
+	          
 	        </ul>
+
         </div>
 
         <div class="tab-content no-padding">
@@ -80,32 +92,42 @@ if (isset($perfil)) {
 			            <div class="form-group inputetapa2">
 			                <label  for="etapa"> Etapa: </label>
 			                <select {{$disabled}} id="inputEtapa2" class="form-control" required="required" name="REtapa">
-			                    <option class='optPadrao' value='0'>Escolha uma Obra...</option>
+			                   
 			                    @if(isset($filled))
+			                   	 <option class='optPadrao' value='0'>Escolha uma Etapa...</option>
 			                    	@foreach($romaneio->obra->etapas as $etapa)
-			                    		<option class='optPadrao' value='{{$etapa->id}}' <?php
-										if ($etapa->id == $romaneio->etapa_id) {
-											echo 'selected';
-										}
-										?>
-			                    		>{{$etapa->codigo}}</option>
+			                    		@if(!empty($etapa->lotes->first()->id))
+				                    		<option class='optPadrao' value='{{$etapa->id}}' <?php
+											if ($etapa->id == $romaneio->etapa_id) {
+												echo 'selected';
+											}
+											?>
+				                    		>{{$etapa->codigo}}</option>
+			                    		@endif
 			                    	@endforeach
+			                    @else
+			                     <option class='optPadrao' value='0'>Escolha uma Obra...</option>
 			                    @endif
 			                </select>
 			            </div>
 			            <div class="form-group inputsubetapa2">
 			                <label for="subetapa"> Subetapa: </label>
 			                <select {{$disabled}} id="inputSubetapa2" class="form-control" required="required" name="RSubetapa">
-								<option class='optPadrao' value='0'>Escolha uma Obra...</option>
+								
 								@if(isset($filled))
+									<option class='optPadrao' value='0'>Escolha uma Subetapa...</option>
 			                    	@foreach($romaneio->etapa->subetapas as $subetapa)
-			                    		<option class='optPadrao' value='{{$etapa->id}}' <?php
-										if ($subetapa->id == $romaneio->subetapa_id) {
-											echo 'selected';
-										}
-										?>
-			                    		>{{$subetapa->cod}}</option>
+			                    		@if(!empty($subetapa->lotes->first()->id))
+				                    		<option class='optPadrao' value='{{$subetapa->id}}' <?php
+											if ($subetapa->id == $romaneio->subetapa_id) {
+												echo 'selected';
+											}
+											?>
+				                    		>{{$subetapa->cod}}</option>
+			                    		@endif
 			                    	@endforeach
+			                    @else
+			                    <option class='optPadrao' value='0'>Escolha uma Obra...</option>
 			                    @endif
 			                </select>
 			            </div>
@@ -168,23 +190,6 @@ if (isset($perfil)) {
 								echo date($romaneio->previsao_chegada);
 							}
 							?>'>
-						</div>
-						<div class="form-group">
-							<label for="">Status</label>
-							<select {{$disabled}} class="form-control" name="RStatus" id="RStatus">
-									<option value="Fechado" <?php if (isset($filled)) {
-								if ($perfil == true) {
-									echo 'selected';
-								}
-							}
-							?>>Fechado</option>
-							<option value="Aberto" <?php if (isset($filled)) {
-								if ($editar == true) {
-									echo 'selected';
-								}
-							}
-							?>>Aberto</option>
-							</select>
 						</div>
 						<div class="form-group">
 							<label for="">Observações</label>
@@ -402,15 +407,32 @@ if (isset($perfil)) {
 						<th>Lote</th>
 						<th>Estagio</th>
 						<th>Conjunto</th>
-						<th>Descrição</th>
+						<th>Tipologia</th>
 						<th>Tratamento</th>
+						<th>Ícone</th>
+						<th>Peso U.(Kg)</th>
 						<th>Qtd. Total</th>
 						<th>Qtd. Carregado</th>
 						<th>Saldo</th>
 					</tr>
+					 <tr>
+					 	<th></th>
+					 	<th></th>
+			 			<th><input type="text" placeholder="Lote" /></th>
+				 		<th><input type="text" placeholder="Estagio" /></th>
+				 		<th><input type="text" placeholder="Conjunto" /></th>
+				 		<th><input type="text" placeholder="Tipologia" /></th>
+				 		<th><input type="text" placeholder="Tratamento" /></th>
+				 		<th></th>
+				 		<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+			 		</tr>
 				</thead>
 				<tbody>
 					<tr>
+						<td></td>
 						<td></td>
 						<td></td>
 						<td></td>
@@ -436,6 +458,7 @@ if (isset($perfil)) {
 		<div class="tab-pane fade" id="conjuntosRom">
 				<div class="box-header">
 					<span style='font-size:20px'>  Conjuntos de {{$romaneio->codigo}}</span>
+					<span style='margin-left:20px'>Peso Total: </span><span id='pesoTotal'>{{$pesoTotal}}</span><span> Kg</span> 
 					@if(isset($editar))
 					<button class="btn btn-danger pull-right hidden" id='removeHandle'><i class="fa fa-arrow-left"></i>&nbsp;&nbsp; Remover do Romaneio</button>
 					@endif
@@ -451,11 +474,14 @@ if (isset($perfil)) {
 								<th>Conjunto</th>
 								<th>Lote</th>
 								<th>Estagio</th>
-								<th>Descrição</th>
+								<th>Peso U.(Kg)</th>
+								<th>Tipologia</th>
+								<th>Ícone</th>
 								<th>Tratamento</th>
 							</tr>
 						</thead>
 						<tbody>
+							<td></td>
 							<td></td>
 							<td></td>
 							<td></td>
@@ -478,7 +504,7 @@ if (isset($perfil)) {
 				<button id="CriarRomaneio" class='btn btn-primary pull-right' style='margin:15px'>Enviar</button>
 			@else
 				@if($perfil == true)
-					<a id="RomaneioPDF" href='{{url('romaneios/pdf').'/'.$romaneio->id}}' class='btn btn-primary pull-right' style='margin:15px'>Gerar PDF</a>
+					<a id="RomaneioPDF" target='_blank' href='{{url('romaneios/pdf').'/'.$romaneio->id}}' class='btn btn-primary pull-right' style='margin:15px'>Gerar PDF</a>
 				@endif
 			@endif
 			</div>
@@ -496,6 +522,7 @@ if (isset($perfil)) {
 			<div class="alert hidden" id='AjaxMessageModal'>
 			    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 			</div>
+            <div class="TypeLoadingb hidden" id='ModalLoad'></div>
 			<div id="ModalTableWrapper">
 				<table class="table table-bordered table-striped hidden" style="margin:15px 5%;width:90%" id='modalTabel'>
 				<thead>

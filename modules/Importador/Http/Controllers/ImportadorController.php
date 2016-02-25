@@ -314,6 +314,7 @@ class ImportadorController extends Controller {
                 }
               
                }
+               $this->setPesos($impSucess->id);
              }
             if(!empty($final['ifc_orig'])){
               // $convertIFC = $this->converteIfc($impSucess->id);
@@ -629,6 +630,33 @@ class ImportadorController extends Controller {
         }
         
 
+    }
+
+    private function setPesos($id){
+        $handles = handle::where('importacao_id', $id)->get();
+        foreach($handles as $handle){
+            $peso = 0;
+            if($handle->FLG_REC == 3){
+                $peso = handle::selectRaw('sum(PUN_LIS) as peso')->where('FLG_REC',4)->where('importacao_id',$id)->where('MAR_PEZ',$handle->MAR_PEZ)->first();
+                $pesoUpdate = array('PUN_LIS' => $peso->peso);
+                $handle->update($pesoUpdate);
+            }
+        }
+    }
+
+    public function calibrar(){
+        $imps = imp::all();
+        foreach($imps as $imp){
+           $handles = handle::where('importacao_id', $imp->id)->get();
+        foreach($handles as $handle){
+            $peso = 0;
+            if($handle->FLG_REC == 3){
+                $peso = handle::selectRaw('sum(PUN_LIS) as peso')->where('FLG_REC',4)->where('importacao_id',$imp->id)->where('MAR_PEZ',$handle->MAR_PEZ)->first();
+                $pesoUpdate = array('PUN_LIS' => $peso->peso);
+                $handle->update($pesoUpdate);
+            }
+        }
+        }
     }
 
     private function formatBytes($bytes, $precision = 2) { 

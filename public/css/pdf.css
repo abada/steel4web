@@ -7,6 +7,29 @@ table {
     border-collapse: collapse;
     width: 100%;
 }
+@page { margin: 80px; }
+.header,
+.footer {
+    width: 100%;
+    text-align: center;
+    position: fixed;
+}
+.header {
+    top: -50px;
+}
+.footer {
+    bottom: 0px;
+}
+.pagenum:before {
+	
+    content: counter(page);
+}
+.pagina{
+	 position: fixed;
+	left: 0px;
+	top: -50px;
+	width: 10%;
+}
 
 h1{
 	font-weight: regular;
@@ -25,7 +48,7 @@ hr{
 
 #locName{
 	 font-size: 28px;
-	 width:15%;max-height:50px;margin-left:25%;display:inline-block;
+	 width:20%;max-height:50px;margin-left:70%;display:inline-block;
 }
 
 
@@ -33,6 +56,7 @@ hr{
 	vertical-align: top;
 	width:100%;
 	font-size:14px;
+	margin-bottom: 5px;
 }
 
 .pdftable td{

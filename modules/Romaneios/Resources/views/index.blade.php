@@ -95,11 +95,17 @@
 	                    <th>Transportadora</th>
 	                    <th>Motorista</th>
 	                    <th>Observações</th>
+	                    <th>Peso (Kg)</th>
 	                    <th>Status</th>
                     </tr>
 			 	</thead>
 			 	<tbody>
 			 		@foreach($romaneios as $romaneio)
+			 		<?php $peso = 0;
+			 			  foreach($romaneio->handles as $handle){
+			 			  		$peso = $handle->PUN_LIS + $peso; 
+			 			  }
+			 		 ?>
 			 			<?php $bck = ($romaneio->status == 'Fechado') ? '#EFFFF4' : '#EDF9FF' ?>
 			 			<?php $stat = ($romaneio->status == 'Fechado') ? 'romClosed hidden' : 'romOpened' ?>
 			 			<tr class='{{$stat}}'>
@@ -111,7 +117,8 @@
 			 				<td style='background-color:{{$bck}}'>{!! empty($romaneio->Nfs) ? '-' : $romaneio->Nfs !!}</td>
 			 				<td style='background-color:{{$bck}}'>{{$romaneio->transportadora->nome}}</td>
 			 				<td style='background-color:{{$bck}}'>{{$romaneio->motorista->nome}}</td>
-			 				<td style='background-color:{{$bck}}'>{!! empty($romaneio->observacoes) ? '-' : $romaneio->observacoes !!}</td>
+			 				<td style='background-color:{{$bck}}'>{!! empty($romaneio->observacoes) ? '-' : Str::limit($romaneio->observacoes, 40) !!}</td>
+			 				<td style='background-color:{{$bck}}'>{{$peso}}</td>
 			 				<td style='background-color:{{$bck}}'>{{$romaneio->status}}</td>
 			 			</tr>
 			 		@endforeach

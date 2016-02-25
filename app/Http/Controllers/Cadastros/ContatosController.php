@@ -122,7 +122,6 @@ class ContatosController extends Controller
 
             $dados['locatario_id'] =access()->user()->locatario_id;
             $dados['user_id']   =access()->user()->id;
-            $dados['cliente_id']   = cliente::first()->id;
             $dados['fone'] = $dados['telefone'];
             unset($dados['telefone']);
 
