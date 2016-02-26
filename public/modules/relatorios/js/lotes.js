@@ -113,11 +113,6 @@ $(document).ready(function() {
 
 
 	 var Table = $('#relTable').DataTable({
-            "formatNumber": function ( toFormat ) {
-            return toFormat.toString().replace(
-              /\B(?=(\d{3})+(?!\d))/g, "."
-            );
-          },
             ajax: {
               type: 'GET',
               url: getConjuntos()
@@ -130,6 +125,9 @@ $(document).ready(function() {
             { "data": "peso_unid" },
             { "data": "peso_tot" },
         ],
+        columnDefs: [
+       { type: 'numeric-comma', targets: [2,3] }
+     ],
             "language": {
               "emptyTable": "Nenhum Conjunto Disponivel."
             },
@@ -166,7 +164,6 @@ $(document).ready(function() {
       type: 'GET',
       dataType: 'html',
        success: function(result){
-        console.log(result);
           $('#pesoTot').html('Peso Total: '+result+' Kg');
         }
     });
@@ -185,3 +182,4 @@ function getEstagios(){
   var lote     = $('#lote').val();
        return (urlbaseGeral + '/relatorios/getEstagios/'+lote);
 }
+

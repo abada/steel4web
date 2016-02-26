@@ -66,7 +66,7 @@
 
   <footer class="main-footer">
   	<div class="pull-right hidden-xs">
-  		<b>Versão</b> 1.0
+  		<b>Versão</b> {{env('APP_VERSION', '1.0')}}
   	</div>
   	<small><strong>Copyright &copy; {{ date('Y') }} <a href="http://stee4web.com.br">System3D</a>.</strong> Todos os direitos reservados.</small>
   </footer>

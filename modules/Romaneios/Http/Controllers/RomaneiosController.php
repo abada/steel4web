@@ -19,39 +19,29 @@ class RomaneiosController extends Controller {
 	
 	public function index()
 	{
-		$obras = obr::has('lotes')->where('status',1)->get(); 
+		$obras = obr::has('romaneios')->where('status',1)->get(); 
 		if(\Session::get('history')){
 
         	$ids = (\Session::get('history'));
         	if($ids['eID'] == 0)
         		$romaneios = rom::where('obra_id',$ids['oID'])->get();
-        	elseif($ids['sID'] == 0)
-        		$romaneios = rom::where('etapa_id',$ids['eID'])->get();
-        	else
-        		$romaneios = rom::where('subetapa_id',$ids['sID'])->get();
+        	else{
+        		$eid = $ids['eID'];
+        		$romaneios = rom::where('obra_id',$ids['oID'])->whereHas('etapas', function($q) use ($eid){
+				 	$q->where('etapa_id',$eid);
+				 })->get();
+        	}
+        		
 
         	$obraID = $ids['oID'];
-        	$obraID = $ids['oID'];
-        	$etapas = etap::has('lotes')->where('obra_id',$ids['oID'])->get();
+        	$etapas = etap::has('romaneios')->where('obra_id',$ids['oID'])->get();
         	if($ids['eID'] != 0){
 				$etapa = etap::find($ids['eID']);
-           	    $subetapas = sub::has('lotes')->where('etapa_id', $ids['eID'])->get();
 			}else{
 				$etapa = null;
-				$subetapas = null;
-			}
-
-			if($ids['sID'] != 0){
-				$thisSubetapa = sub::find($ids['sID']);
-            	$importacoes = imp::where('subetapa_id', $ids['sID'])->get();
-			}else{
-				$thisSubetapa = null;
-				$importacoes = null;
-			}
-        
-            
+			}     
             $history = true;
-            return view('romaneios::index',compact('obras','obraID', 'etapas', 'romaneios','history','etapas', 'etapa','subetapas', 'thisSubetapa'));
+            return view('romaneios::index',compact('obras','obraID', 'etapas', 'romaneios','history','etapas', 'etapa'));
         }
 		return view('romaneios::index', compact('obras'));
 	}
@@ -63,8 +53,12 @@ class RomaneiosController extends Controller {
 	}
 
 	public function perfil($id){
-		$obras = obr::has('lotes')->where('status',1)->get(); 
 		$romaneio = rom::find($id);
+		if($romaneio == null){
+			return redirect('romaneios')->withFlashDanger('Romaneio não encontrado.');
+		}
+		$obras = obr::has('lotes')->where('status',1)->get(); 
+		
 		$editar = false;
 		$perfil = true;
 		$handles = handle::selectRaw('*, sum(QTA_PEZ) as qtd')->where('romaneio_id',$id)->where('FLG_REC', 3)->groupBy('MAR_PEZ')->get();
@@ -100,14 +94,16 @@ class RomaneiosController extends Controller {
 			$data = array();
 			$dados = explode('X', $params);
 			if(empty($dados[1])){
-				$handlesTotal = handle::selectRaw('*, sum(QTA_PEZ) as qtd')->where('obra_id',$dados[0])->where('FLG_REC', 3)->has('lote')->groupBy('MAR_PEZ')->get();
-				$handles = handle::selectRaw('*, sum(QTA_PEZ) as qtd')->where('obra_id',$dados[0])->where('FLG_REC', 3)->has('lote')->groupBy('MAR_PEZ')->groupBy('estagio_id')->get();
-				$handlesDisp = handle::selectRaw('*,sum(QTA_PEZ) as qtd')->whereHas('estagio', function($q){
-					$q->where('tipo',3);
-				})->where('obra_id',$dados[0])->where('FLG_REC', 3)->groupBy('MAR_PEZ')->groupBy('estagio_id')->get();
-				$handlesCar = handle::selectRaw('*,sum(QTA_PEZ) as qtd')->whereHas('estagio', function($q){
-					$q->where('tipo',4);
-				})->where('obra_id',$dados[0])->where('FLG_REC', 3)->groupBy('MAR_PEZ')->groupBy('estagio_id')->get();
+				// $handlesTotal = handle::selectRaw('*, sum(QTA_PEZ) as qtd')->where('obra_id',$dados[0])->where('FLG_REC', 3)->has('lote')->groupBy('MAR_PEZ')->get();
+				// $handles = handle::selectRaw('*, sum(QTA_PEZ) as qtd')->where('obra_id',$dados[0])->where('FLG_REC', 3)->has('lote')->groupBy('MAR_PEZ')->groupBy('estagio_id')->get();
+				// $handlesDisp = handle::selectRaw('*,sum(QTA_PEZ) as qtd')->whereHas('estagio', function($q){
+				// 	$q->where('tipo',3);
+				// })->where('obra_id',$dados[0])->where('FLG_REC', 3)->groupBy('MAR_PEZ')->groupBy('estagio_id')->get();
+				// $handlesCar = handle::selectRaw('*,sum(QTA_PEZ) as qtd')->whereHas('estagio', function($q){
+				// 	$q->where('tipo',4);
+				// })->where('obra_id',$dados[0])->where('FLG_REC', 3)->groupBy('MAR_PEZ')->groupBy('estagio_id')->get();
+				$response['data'] =  $data;
+				return json_encode($response);
 			}
 			elseif(empty($dados[2])){
 				$handlesTotal = handle::selectRaw('*, sum(QTA_PEZ) as qtd')->where('obra_id',$dados[0])->where('etapa_id',$dados[1])->where('FLG_REC', 3)->has('lote')->groupBy('MAR_PEZ')->get();
@@ -116,7 +112,7 @@ class RomaneiosController extends Controller {
 					$q->where('tipo',3);
 				})->where('obra_id',$dados[0])->where('etapa_id',$dados[1])->where('FLG_REC', 3)->groupBy('MAR_PEZ')->groupBy('estagio_id')->get();
 				$handlesCar = handle::selectRaw('*,sum(QTA_PEZ) as qtd')->whereHas('estagio', function($q){
-					$q->where('tipo',4);
+					$q->where('tipo',12);
 				})->where('obra_id',$dados[0])->where('etapa_id',$dados[1])->where('FLG_REC', 3)->groupBy('MAR_PEZ')->groupBy('estagio_id')->get();
 			}elseif(empty($dados[3])){
 				$handlesTotal = handle::selectRaw('*, sum(QTA_PEZ) as qtd')->has('lote')->where('obra_id',$dados[0])->where('etapa_id',$dados[1])->where('subetapa_id',$dados[2])->where('FLG_REC', 3)->groupBy('MAR_PEZ')->get();
@@ -125,7 +121,7 @@ class RomaneiosController extends Controller {
 					$q->where('tipo',3);
 				})->where('obra_id',$dados[0])->where('etapa_id',$dados[1])->where('subetapa_id',$dados[2])->where('FLG_REC', 3)->groupBy('estagio_id')->groupBy('MAR_PEZ')->get();
 				$handlesCar = handle::selectRaw('*,sum(QTA_PEZ) as qtd')->whereHas('estagio', function($q){
-					$q->where('tipo',4);
+					$q->where('tipo',12);
 				})->where('obra_id',$dados[0])->where('etapa_id',$dados[1])->where('subetapa_id',$dados[2])->where('FLG_REC', 3)->groupBy('estagio_id')->groupBy('MAR_PEZ')->get();
 			}else{
 				$handlesTotal = handle::selectRaw('*, sum(QTA_PEZ) as qtd')->has('lote')->where('obra_id',$dados[0])->where('etapa_id',$dados[1])->where('subetapa_id',$dados[2])->where('importacao_id',$dados[3])->where('FLG_REC', 3)->groupBy('MAR_PEZ')->get();
@@ -134,7 +130,7 @@ class RomaneiosController extends Controller {
 					$q->where('tipo',3);
 				})->where('obra_id',$dados[0])->where('etapa_id',$dados[1])->where('subetapa_id',$dados[2])->where('importacao_id',$dados[3])->where('FLG_REC', 3)->groupBy('estagio_id')->groupBy('MAR_PEZ')->get();
 				$handlesCar = handle::selectRaw('*,sum(QTA_PEZ) as qtd')->whereHas('estagio', function($q){
-					$q->where('tipo',4);
+					$q->where('tipo',12);
 				})->where('obra_id',$dados[0])->where('etapa_id',$dados[1])->where('subetapa_id',$dados[2])->where('importacao_id',$dados[3])->where('FLG_REC', 3)->groupBy('estagio_id')->groupBy('MAR_PEZ')->get();
 			}
 
@@ -179,7 +175,7 @@ class RomaneiosController extends Controller {
 						'tipologia' => $handle->DES_PEZ,
 						'tratamento' => $handle->TRA_PEZ,
 						'icone' => "<img class='tooltipo'  data-placement='right' data-toggle='tooltip' data-html='true' title='".$handle->DES_PEZ."' src='".asset('img/icons/'.getIcon($handle->DES_PEZ))."''>",
-						'peso' => $handle->PUN_LIS,
+						'peso' => number_format($handle->PUN_LIS, 2, ',','.'),
 						'total' => $Total,
 						'carregado' => $Carregados,
 						'saldo' => $qtdDisp,
@@ -197,7 +193,7 @@ class RomaneiosController extends Controller {
 					'tipologia' => $handle->DES_PEZ,
 					'tratamento' => $handle->TRA_PEZ,
 					'icone' => "<img class='tooltipo'  data-placement='right' data-toggle='tooltip' data-html='true' title='".$handle->DES_PEZ."' src='".asset('img/icons/'.getIcon($handle->DES_PEZ))."''>",
-					'peso' => $handle->PUN_LIS,
+					'peso' => number_format($handle->PUN_LIS, 2, ',','.'),
 					'total' => $Total,
 					'carregado' => $Carregados,
 					'saldo' => $qtdDisp,
@@ -218,7 +214,7 @@ class RomaneiosController extends Controller {
 	public function getConjuntosRomaneio($id){
 		$romaneio = rom::find($id);
 
-		$handles = handle::selectRaw('*, sum(QTA_PEZ) as qtd')->where('romaneio_id',$id)->where('FLG_REC', 3)->groupBy('MAR_PEZ')->get();
+		$handles = handle::selectRaw('*, sum(QTA_PEZ) as qtd')->where('romaneio_id',$id)->where('FLG_REC', 3)->groupBy('MAR_PEZ')->groupBy('etapa_id')->get();
 		if(!empty($handles->first()->id)){
 			foreach($handles as $handle){
 			$qtd = ($romaneio->status == 'Fechado') ? $handle->qtd : "<input type='number' onkeydown='return false' class='row-qtd input-sm form-control' name='qtd&&".$handle->id."&".$handle->id."' value='' min='0' max='".$handle->qtd."' placeholder='".$handle->qtd."'>";
@@ -226,9 +222,11 @@ class RomaneiosController extends Controller {
 				'select-checkbox' => '',
 				'qtd' => $qtd,
 				'conjunto' => $handle->MAR_PEZ,
+				'etapaID' => $handle->etapa_id,
+				'etapa'  => $handle->etapa->codigo,
 				'lote' => $handle->lote->descricao,
 				'estagio' => $handle->estagio->descricao,
-				'peso' => $handle->PUN_LIS,
+				'peso' => number_format($handle->PUN_LIS, 2, ',','.'),
 				'tipologia' => $handle->DES_PEZ,
 				'icone' => "<img class='tooltipo'  data-placement='right' data-toggle='tooltip' data-html='true' title='".$handle->DES_PEZ."' src='".asset('img/icons/'.getIcon($handle->DES_PEZ))."''>",
 				'tratamento' => $handle->TRA_PEZ,
@@ -301,49 +299,52 @@ class RomaneiosController extends Controller {
         $romanei['motorista_id'] = $this->handleMot($motora);
         if(!empty($romanei['obs']))
         $romanei['observacoes'] = $romanei['obs'];
+    	if(!empty($romanei['nfs']))
+        $romanei['Nfs'] = $romanei['nfs'];
         $newRom = rom::create($romanei);
-        $newEstage = est::where('tipo',11)->first();
-        $msg = 'Romaneio: '. $newRom->codigo;
 
-        if(!empty($dados['handles'][0])){
+        // $newEstage = est::where('tipo',11)->first();
+        $msg = 'Criação de Romaneio: '. $newRom->codigo;
+
+        // if(!empty($dados['handles'][0])){
 
 
-	        foreach($dados['handles'] as $cjt => $qtd){
-	   //      	$cjto = handle::where('MAR_PEZ', $cjt)->where('FLG_REC', 3)->whereHas('estagio', function($q){
-				// 		$q->where('tipo',3);
-				// 	})->where('subetapa_id', $newRom->subetapa_id)->first();
-	   //      	if($cjto->importacao->sentido == 1){
-				// 	$x = 'ASC'; $y='ASC';
-				// }elseif($cjto->importacao->sentido == 2){
-				// 	$x = 'DESC'; $y = 'ASC';
-				// }elseif($cjto->importacao->sentido == 3){
-				// 	$x = 'DESC'; $y = 'DESC';
-				// }elseif($cjto->importacao->sentido == 4){
-				// 	$x = 'ASC'; $y = 'DESC';
-				// }
-				// $putRom = handle::where('MAR_PEZ',$cjto->MAR_PEZ)->where('FLG_REC', 3)->whereHas('estagio', function($q){
-				// 		$q->where('tipo',3);
-				// 	})->where('subetapa_id', $newRom->subetapa_id)->orderBy('X', $x)->orderBy('Y', $y)->take($qtd);
-				$putRom = handle::where('MAR_PEZ',$cjto->MAR_PEZ)->where('FLG_REC', 3)->whereHas('estagio', function($q){
-				 		$q->where('tipo',3);
-				 	})->take($qtd);
-				$toRecord = $putRom->get();
+	 //        foreach($dados['handles'] as $cjt => $qtd){
+	 //   //      	$cjto = handle::where('MAR_PEZ', $cjt)->where('FLG_REC', 3)->whereHas('estagio', function($q){
+		// 		// 		$q->where('tipo',3);
+		// 		// 	})->where('subetapa_id', $newRom->subetapa_id)->first();
+	 //   //      	if($cjto->importacao->sentido == 1){
+		// 		// 	$x = 'ASC'; $y='ASC';
+		// 		// }elseif($cjto->importacao->sentido == 2){
+		// 		// 	$x = 'DESC'; $y = 'ASC';
+		// 		// }elseif($cjto->importacao->sentido == 3){
+		// 		// 	$x = 'DESC'; $y = 'DESC';
+		// 		// }elseif($cjto->importacao->sentido == 4){
+		// 		// 	$x = 'ASC'; $y = 'DESC';
+		// 		// }
+		// 		// $putRom = handle::where('MAR_PEZ',$cjto->MAR_PEZ)->where('FLG_REC', 3)->whereHas('estagio', function($q){
+		// 		// 		$q->where('tipo',3);
+		// 		// 	})->where('subetapa_id', $newRom->subetapa_id)->orderBy('X', $x)->orderBy('Y', $y)->take($qtd);
+		// 		$putRom = handle::where('MAR_PEZ',$cjto->MAR_PEZ)->where('FLG_REC', 3)->whereHas('estagio', function($q){
+		// 		 		$q->where('tipo',3);
+		// 		 	})->take($qtd);
+		// 		$toRecord = $putRom->get();
 				
-					$recordeds[$xc]['MAR_PEZ'] = $toRecord->first()->MAR_PEZ;
-					$recordeds[$xc]['qtd'] = $dados['handles'][$toRecord->first()->MAR_PEZ];
-					$xc++;
+		// 			$recordeds[$xc]['MAR_PEZ'] = $toRecord->first()->MAR_PEZ;
+		// 			$recordeds[$xc]['qtd'] = $dados['handles'][$toRecord->first()->MAR_PEZ];
+		// 			$xc++;
 
-				$valtoUpdate = ['romaneio_id' => $newRom->id, 'estagio_id' => $newEstage->id];
-				$putRom->update($valtoUpdate);
-				$msg .= ' Conjuntos: ';
+		// 		$valtoUpdate = ['romaneio_id' => $newRom->id, 'estagio_id' => $newEstage->id];
+		// 		$putRom->update($valtoUpdate);
+		// 		$msg .= ' Conjuntos: ';
 				
-	        }
+	 //        }
 
-	        foreach($recordeds as $don){
-					$msg .= $don['MAR_PEZ'].' - Qtd: ' .$don['qtd']. ' -- ';
-				}
-		}
-			$msg .=' Realizado por '. access()->user()->name .'.';
+	 //        foreach($recordeds as $don){
+		// 			$msg .= $don['MAR_PEZ'].' - Qtd: ' .$don['qtd']. ' -- ';
+		// 		}
+		// }
+			$msg .='. Realizado por '. access()->user()->name .'.';
             Log::info($msg);
             \Session::flash('flash_success', 'Romaneio Criado com Sucesso!');
             return $newRom->id;
@@ -403,6 +404,8 @@ class RomaneiosController extends Controller {
         $romanei['motorista_id'] = $this->handleMot($motora);
         if(!empty($romanei['obs']))
         $romanei['observacoes'] = $romanei['obs'];
+        if(!empty($romanei['nfs']))
+        $romanei['Nfs'] = $romanei['nfs'];
         $newRom = rom::find($dados['id'])->update($romanei);
         if($newRom) return 'Romaneio Atualizado com Sucesso!&alert-success';
         else return 'Erro ao Atualizar Romaneio.&alert-danger';
@@ -410,31 +413,40 @@ class RomaneiosController extends Controller {
 
 	public function adicionar(Request $request){
 		 $dados = $request->all(); 
+		 $doEtapa = true;
+		 $etapaID = $dados['etapaID'];
+		
+		 $etapa = etap::find($etapaID);
 		 $newEstage = est::where('tipo',11)->first();
 		 $newRom = rom::find($dados['id']);
+		 $etapasIds = array();
+		 foreach($newRom->etapas as $etapaX){
+		 	$etapasIds[] = $etapaX->id;
+		 }
+		 
 		 $xc = 0;
 		 foreach($dados['handles'] as $cjt => $qtd){
 		 	if(!empty($qtd)){
-		 // 		$cjto = handle::where('MAR_PEZ', $cjt)->where('FLG_REC', 3)->whereHas('estagio', function($q){
-			// 		$q->where('tipo',3);
-			// 	})->where('subetapa_id', $newRom->subetapa_id)->first();
-   //      	if($cjto->importacao->sentido == 1){
-			// 	$x = 'ASC'; $y='ASC';
-			// }elseif($cjto->importacao->sentido == 2){
-			// 	$x = 'DESC'; $y = 'ASC';
-			// }elseif($cjto->importacao->sentido == 3){
-			// 	$x = 'DESC'; $y = 'DESC';
-			// }elseif($cjto->importacao->sentido == 4){
-			// 	$x = 'ASC'; $y = 'DESC';
-			// }
-			// $putRom = handle::where('MAR_PEZ',$cjt)->where('FLG_REC', 3)->whereHas('estagio', function($q){
-			// 		$q->where('tipo',3);
-			// 	})->where('subetapa_id', $newRom->subetapa_id)->orderBy('X', $x)->orderBy('Y', $y)->take($qtd);
-		 		$putRom = handle::where('MAR_PEZ',$cjt)->where('FLG_REC', 3)->whereHas('estagio', function($q){
-			 		$q->where('tipo',3);
-			 	})->take($qtd);
+	 			if(!in_array($etapaID, $etapasIds) && $doEtapa==true){
+				 	$newRom->etapas()->attach($etapa);
+				 	$doEtapa = false;
+				 }
+		 		$cjto = handle::where('MAR_PEZ', $cjt)->where('FLG_REC', 3)->where('etapa_id', $etapa->id)->first();
+
+         	if($cjto->importacao->sentido == 1){
+				$x = 'ASC'; $y='ASC';
+			}elseif($cjto->importacao->sentido == 2){
+				$x = 'DESC'; $y = 'ASC';
+			}elseif($cjto->importacao->sentido == 3){
+				$x = 'DESC'; $y = 'DESC';
+			}elseif($cjto->importacao->sentido == 4){
+				$x = 'ASC'; $y = 'DESC';
+			}
+			$putRom = handle::where('MAR_PEZ',$cjt)->where('FLG_REC', 3)->whereHas('estagio', function($q){
+					$q->where('tipo',3);
+				})->where('etapa_id', $etapa->id)->orderBy('X', $x)->orderBy('Y', $y)->take($qtd);
+
 			$toRecord = $putRom->get();
-			
 				$recordeds[$xc]['MAR_PEZ'] = $toRecord->first()->MAR_PEZ;
 				$recordeds[$xc]['qtd'] = $dados['handles'][$toRecord->first()->MAR_PEZ];
 				$xc++;
@@ -462,27 +474,27 @@ class RomaneiosController extends Controller {
 		 $dados = $request->all(); 
 		 $newEstage = est::where('tipo',3)->first();
 		 $newRom = rom::find($dados['id']);
+		 foreach($newRom->etapas as $etapaX){
+		 	$etapasIds[] = $etapaX->id;
+		 }
 		 $xc = 0;
-		 foreach($dados['handles'] as $cjt => $qtd){
-		 	if(!empty($qtd)){
-		 // 		$cjto = handle::where('MAR_PEZ', $cjt)->where('FLG_REC', 3)->whereHas('estagio', function($q){
-			// 		$q->where('tipo',4);
-			// 	})->where('subetapa_id', $newRom->subetapa_id)->first();
-   //      	if($cjto->importacao->sentido == 1){
-			// 	$x = 'DESC'; $y='DESC';
-			// }elseif($cjto->importacao->sentido == 2){
-			// 	$x = 'ASC'; $y = 'DESC';
-			// }elseif($cjto->importacao->sentido == 3){
-			// 	$x = 'ASC'; $y = 'ASC';
-			// }elseif($cjto->importacao->sentido == 4){
-			// 	$x = 'DESC'; $y = 'ASC';
-			// }
-			// $putRom = handle::where('MAR_PEZ',$cjto->MAR_PEZ)->where('FLG_REC', 3)->where('romaneio_id', $newRom->id)->orderBy('X', $x)->orderBy('Y', $y)->take($qtd);
-			$putRom = handle::where('MAR_PEZ',$cjt)->where('FLG_REC', 3)->where('romaneio_id', $newRom->id)->take($qtd);
+		 foreach($dados['handles'] as $cjt){
+		 	if(!empty($cjt['qtd'])){
+		$cjto = handle::where('MAR_PEZ', $cjt['handles'])->where('FLG_REC', 3)->where('etapa_id',$cjt['etapa'])->where('romaneio_id', $newRom->id)->first();
+        	if($cjto->importacao->sentido == 1){
+				$x = 'DESC'; $y='DESC';
+			}elseif($cjto->importacao->sentido == 2){
+				$x = 'ASC'; $y = 'DESC';
+			}elseif($cjto->importacao->sentido == 3){
+				$x = 'ASC'; $y = 'ASC';
+			}elseif($cjto->importacao->sentido == 4){
+				$x = 'DESC'; $y = 'ASC';
+			}
+			$putRom = handle::where('MAR_PEZ',$cjt['handles'])->where('FLG_REC', 3)->where('etapa_id',$cjt['etapa'])->where('romaneio_id', $newRom->id)->orderBy('X', $x)->orderBy('Y', $y)->take($cjt['qtd']);
+
 			$toRecord = $putRom->get();
-			
 				$recordeds[$xc]['MAR_PEZ'] = $toRecord->first()->MAR_PEZ;
-				$recordeds[$xc]['qtd'] = $dados['handles'][$toRecord->first()->MAR_PEZ];
+				$recordeds[$xc]['qtd'] = $cjt['qtd'];
 				$xc++;
 
 			$valtoUpdate = ['romaneio_id' => null, 'estagio_id' => $newEstage->id];
@@ -491,8 +503,28 @@ class RomaneiosController extends Controller {
         		
         }
 
-        if($xc == 0)
+        if($xc == 0){
         	return 'Nenhum Conjunto Selecionado&alert-warning';
+        }else{
+        	$newEtapas = array();
+        	$newnewRom = rom::find($dados['id']);
+        	if(isset($newnewRom->handles->first()->id)){
+        		 foreach($newnewRom->handles as $handloca){
+        		 	if(!in_array($handloca->etapa_id, $newEtapas))
+        	 			$newEtapas[] = $handloca->etapa_id;
+			 }
+        	}
+        	if(isset($etapasIds) && !empty($etapasIds)){
+        		 foreach($etapasIds as $eid){
+				 	if(!in_array($eid, $newEtapas)){
+				 		$etapaGone = etap::find($eid);
+				 		$newnewRom->etapas()->detach($etapaGone);
+				 	}
+			 	}
+        	}
+			
+        }
+        	
 
         $msg =  'Conjuntos: ';
 
@@ -518,11 +550,26 @@ class RomaneiosController extends Controller {
 			}
 
 			if(isset($update))
-				return redirect()->back()->withFlashSuccss('Romaneio Fechado com Sucesso!');
+				return redirect()->back()->withFlashSuccess('Romaneio Fechado com Sucesso!');
 			else
 				return redirect()->back()->withFlashDanger('Erro ao Fechar Romaneio!');
 			
 		}
+	}
+
+	public function excluir($id){
+		$romaneio = rom::find($id);
+		$romaneio->etapas()->detach();
+		$newEstage = est::select('id')->where('tipo',3)->first();
+		$updateData = array('estagio_id' => $newEstage->id, 'romaneio_id', null);
+		foreach($romaneio->handles as $handle){
+			$handle->update($updateData);
+		}
+		
+        $msg =  'Romaneio Removido: '.$romaneio->codigo.'. Realizado por: '.access()->user()->name .'.';
+        $romaneio->delete();
+         Log::info($msg);
+         return redirect('romaneios')->withFlashSuccess('Romaneio Excluido com Sucesso!');
 	}
 
 	public function pdf($id){

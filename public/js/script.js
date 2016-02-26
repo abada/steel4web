@@ -46,5 +46,23 @@ $(document).ready(function() {
     $('body').on('loaded.bs.modal', '#modal', function() {        
         modalscripts();
     });
+
+/* Volta para a Tab sendo visualizada em um refresh/redirectBack */
+    var url = document.location.toString();
+if (url.match('#')) {
+    $('.nav-tabs a[href=#'+url.split('#')[1]+']').tab('show') ;
+} 
+
+// Change hash for page-reload
+$('.nav-tabs a').on('shown.bs.tab', function (e) {
+    window.location.hash = e.target.hash;
+})
+
+/* Adiciona Token no Header de cada ajax*/
+ $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+        }
+    });
 	
 });

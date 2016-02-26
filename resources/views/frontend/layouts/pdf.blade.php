@@ -8,7 +8,7 @@
 	<div class="header">
 		<span class='pagina'>Página <span class="pagenum"></span></span>
 		@if(!empty(access()->user()->locatario->logo))
-		<img style='width:20%;max-height:50px;margin-left:70%;display:block' src="{{ asset('img/logos/1.png') }}">
+		<img class='locatarioLogoImg' src="{{ asset('img/logos/1.png') }}">
 		@else
 		<h1 id='locName'>{{access()->user()->locatario->fantasia}}</h1>
 		@endif

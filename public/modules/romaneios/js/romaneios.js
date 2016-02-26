@@ -28,7 +28,7 @@ $(document).ready(function() {
       if(dados != 0){
           jQuery.ajax({
           type: "GET",
-         url: urlbaseGeral+"/api/obras/"+dados+"/etapas?has=lotes",
+         url: urlbaseGeral+"/api/obras/"+dados+"/etapas?has=romaneios",
           dataType: "json",
           success: function(result){
             var etapas = result;
@@ -59,39 +59,39 @@ $(document).ready(function() {
       }
       });
 
-      $('#inputEtapa').change(function() {
-        $('.inputsubetapa').addClass('hidden');
-      $('.inputimp').addClass('hidden');
-        $('.TypeLoading').show();
+    //   $('#inputEtapa').change(function() {
+    //     $('.inputsubetapa').addClass('hidden');
+    //   $('.inputimp').addClass('hidden');
+    //     $('.TypeLoading').show();
 
-        var dados = $('#inputEtapa').val();
-        if(dados != 0){
-      jQuery.ajax({
-                type: "GET",
-               url: urlbaseGeral+"/api/etapas/"+dados+"/subetapas?has=lotes",
-                dataType: "json",
-                success: function(result){
-                  var etapas = result;
-             $('#inputSubetapa').find('option').remove().end();
-             $('#inputSubetapa').append($('<option>', {
-                value: 0,
-                text: 'Todas'
-            }));
-             $.each(etapas, function (index, etapa){                  
-                   $('#inputSubetapa').append($('<option>', {
-                  value: etapa.id,
-                  text: etapa.cod
-              }));
-              });
-            $('.TypeLoading').hide();
-            $('.inputsubetapa').removeClass('hidden');
-                }
-            });
-    }else{
-        $('.TypeLoading').hide();
-      }
+    //     var dados = $('#inputEtapa').val();
+    //     if(dados != 0){
+    //   jQuery.ajax({
+    //             type: "GET",
+    //            url: urlbaseGeral+"/api/etapas/"+dados+"/subetapas?has=lotes",
+    //             dataType: "json",
+    //             success: function(result){
+    //               var etapas = result;
+    //          $('#inputSubetapa').find('option').remove().end();
+    //          $('#inputSubetapa').append($('<option>', {
+    //             value: 0,
+    //             text: 'Todas'
+    //         }));
+    //          $.each(etapas, function (index, etapa){                  
+    //                $('#inputSubetapa').append($('<option>', {
+    //               value: etapa.id,
+    //               text: etapa.cod
+    //           }));
+    //           });
+    //         $('.TypeLoading').hide();
+    //         $('.inputsubetapa').removeClass('hidden');
+    //             }
+    //         });
+    // }else{
+    //     $('.TypeLoading').hide();
+    //   }
         
-      });
+    //   });
 
 
 
@@ -100,16 +100,13 @@ $(document).ready(function() {
     $('.TypeLoading').show();
      var oID = $('#inputChooseObra').val();
      var eID = $('#inputEtapa').val();
-     var sID = $('#inputSubetapa').val();
      if (!isset(eID))
-        eID = 0;
-      if (!isset(sID))
         eID = 0;
 
 
       jQuery.ajax({
         type: "POST",
-        data: {eID:eID, sID:sID, oID:oID},
+        data: {eID:eID, oID:oID},
        url: urlbaseGeral+"/romaneios/setRHistory",
         dataType: "html",
         success: function(r){
@@ -127,6 +124,9 @@ var table = $('#lotPointer').DataTable({
         "language": {
           "emptyTable": "Nenhum Romaneio Disponivel."
         },
+         columnDefs: [ 
+       { type: 'numeric-comma', targets: 8 }
+         ]
     });
 
 
@@ -139,7 +139,7 @@ var table = $('#lotPointer').DataTable({
 
          $('.toBeHidden').hide();
 
-    $('.dragable').sortable({  
+    $('.dragable').sortable({ 
     connectWith: '.dragable',  
     handle: '.box-header',  
     cursor: 'move',  
@@ -152,142 +152,142 @@ var table = $('#lotPointer').DataTable({
 /* ======================================================== */
 /* ============================2=========================== */
 
-$('#inputChooseObra2').change(function() {
-  $('.inputimp3').addClass('hidden');
-  $('.inputsubetapa3').addClass('hidden');
-  $('.checkSetor').addClass('hidden');
-      $('.TypeLoading').show();
+// $('#inputChooseObra2').change(function() {
+//   $('.inputimp3').addClass('hidden');
+//   $('.inputsubetapa3').addClass('hidden');
+//   $('.checkSetor').addClass('hidden');
+//       $('.TypeLoading').show();
 
       
 
-      var dados = $('#inputChooseObra2').val();
-      $('#inputChooseObra3').val(dados).change();
-      if(dados != 0){
-      jQuery.ajax({
-          type: "GET",
-         url: urlbaseGeral+"/api/obras/"+dados+"/etapas?has=lotes",
-          dataType: "json",
-          success: function(result){
-            var etapas = result;
-       $('#inputEtapa2').find('option').remove().end();
-       $('#inputSubetapa2').find('option').remove().end();
-       $('#inputEtapa3').find('option').remove().end();
-       $('#inputSubetapa2').append($('<option>', {
-                value: 0,
-          text: 'Escolha uma Etapa...'
-            }));
-       $('#inputEtapa2').append($('<option>', {
-          value: 0,
-          text: 'Escolha uma Etapa...'
-      }));
-       $('#inputEtapa3').append($('<option>', {
-          value: 0,
-          text: 'Escolha uma Etapa...'
-      }));
-       $.each(etapas, function (index, etapa){                 
-             $('#inputEtapa2').append($('<option>', {
-            value: etapa.id,
-            text: etapa.codigo
-        }));
-             $('#inputEtapa3').append($('<option>', {
-            value: etapa.id,
-            text: etapa.codigo
-        }));
-        });
-      $('.TypeLoading').hide();
-      $('.inputetapa2').removeClass('hidden');
-      $('.inputetapa3').removeClass('hidden');
-          }
-      });
-      }else{
-        $('.TypeLoading').hide(); 
-      }
-      });
+//       var dados = $('#inputChooseObra2').val();
+//       $('#inputChooseObra3').val(dados).change();
+//       if(dados != 0){
+//       jQuery.ajax({
+//           type: "GET",
+//          url: urlbaseGeral+"/api/obras/"+dados+"/etapas?has=lotes",
+//           dataType: "json",
+//           success: function(result){
+//             var etapas = result;
+//        $('#inputEtapa2').find('option').remove().end();
+//        $('#inputSubetapa2').find('option').remove().end();
+//        $('#inputEtapa3').find('option').remove().end();
+//        $('#inputSubetapa2').append($('<option>', {
+//                 value: 0,
+//           text: 'Escolha uma Etapa...'
+//             }));
+//        $('#inputEtapa2').append($('<option>', {
+//           value: 0,
+//           text: 'Escolha uma Etapa...'
+//       }));
+//        $('#inputEtapa3').append($('<option>', {
+//           value: 0,
+//           text: 'Escolha uma Etapa...'
+//       }));
+//        $.each(etapas, function (index, etapa){                 
+//              $('#inputEtapa2').append($('<option>', {
+//             value: etapa.id,
+//             text: etapa.codigo
+//         }));
+//              $('#inputEtapa3').append($('<option>', {
+//             value: etapa.id,
+//             text: etapa.codigo
+//         }));
+//         });
+//       $('.TypeLoading').hide();
+//       $('.inputetapa2').removeClass('hidden');
+//       $('.inputetapa3').removeClass('hidden');
+//           }
+//       });
+//       }else{
+//         $('.TypeLoading').hide(); 
+//       }
+//       });
 
-      $('#inputEtapa2').change(function() {
-        $('.inputimp3').addClass('hidden');
-        $('.checkSetor').addClass('hidden');
-        $('.TypeLoading').show();
+//       $('#inputEtapa2').change(function() {
+//         $('.inputimp3').addClass('hidden');
+//         $('.checkSetor').addClass('hidden');
+//         $('.TypeLoading').show();
 
-        var dados = $('#inputEtapa2').val();
-        $('#inputEtapa3').val(dados).change();
-        if(dados != 0){
-      jQuery.ajax({
-                type: "GET",
-               url: urlbaseGeral+"/api/etapas/"+dados+"/subetapas?has=lotes",
-                dataType: "json",
-                success: function(result){
-                  var etapas = result;
-             $('#inputSubetapa2').find('option').remove().end();
-             $('#inputSubetapa3').find('option').remove().end();
-             $('#inputSubetapa2').append($('<option>', {
-                value: 0,
-                text: 'Escolha uma Subetapa...'
-            }));
-             $('#inputSubetapa3').append($('<option>', {
-                value: 0,
-                text: 'Todas'
-            }));
-             $.each(etapas, function (index, etapa){                   
-                   $('#inputSubetapa2').append($('<option>', {
-                  value: etapa.id,
-                  text: etapa.cod
-              }));
-                    $('#inputSubetapa3').append($('<option>', {
-                  value: etapa.id,
-                  text: etapa.cod
-              }));
-              });
-            $('#checkSetor').iCheck('check');
-            redrawConjuntos();
-            $('.TypeLoading').hide();
-            $('.inputsubetapa2').removeClass('hidden');
-            $('.checkSetor').removeClass('hidden');
-            $('.inputsubetapa3').removeClass('hidden');
-                }
-            });
-    }else{
-        $('.TypeLoading').hide();
-      }
+//         var dados = $('#inputEtapa2').val();
+//         $('#inputEtapa3').val(dados).change();
+//         if(dados != 0){
+//       jQuery.ajax({
+//                 type: "GET",
+//                url: urlbaseGeral+"/api/etapas/"+dados+"/subetapas?has=lotes",
+//                 dataType: "json",
+//                 success: function(result){
+//                   var etapas = result;
+//              $('#inputSubetapa2').find('option').remove().end();
+//              $('#inputSubetapa3').find('option').remove().end();
+//              $('#inputSubetapa2').append($('<option>', {
+//                 value: 0,
+//                 text: 'Escolha uma Subetapa...'
+//             }));
+//              $('#inputSubetapa3').append($('<option>', {
+//                 value: 0,
+//                 text: 'Todas'
+//             }));
+//              $.each(etapas, function (index, etapa){                   
+//                    $('#inputSubetapa2').append($('<option>', {
+//                   value: etapa.id,
+//                   text: etapa.cod
+//               }));
+//                     $('#inputSubetapa3').append($('<option>', {
+//                   value: etapa.id,
+//                   text: etapa.cod
+//               }));
+//               });
+//             $('#checkSetor').iCheck('check');
+//             redrawConjuntos();
+//             $('.TypeLoading').hide();
+//             $('.inputsubetapa2').removeClass('hidden');
+//             $('.checkSetor').removeClass('hidden');
+//             $('.inputsubetapa3').removeClass('hidden');
+//                 }
+//             });
+//     }else{
+//         $('.TypeLoading').hide();
+//       }
         
-      });
+//       });
 
-      $('#inputSubetapa2').change(function() {
+//       $('#inputSubetapa2').change(function() {
 
-        var sub = $('#inputSubetapa2').val();
-        $('#inputSubetapa3').val(sub);
-        if(sub != 0){
-      jQuery.ajax({
-                type: "GET",
-               url: urlbaseGeral+"/api/subetapas/"+sub+"/importacoes",
-                dataType: "json",
-                success: function(result){
-                  var etapas = result;
-             $('#inputImp3').find('option').remove().end();
-             $('#inputImp3').append($('<option>', {
-                value: 0,
-                text: 'Todas'
-            }));
-             $.each(etapas, function (index, etapa){                   
-                   $('#inputImp3').append($('<option>', {
-                  value: etapa.id,
-                  text: etapa.descricao
-              }));
-              });
-            $('.TypeLoading').hide();
-            redrawConjuntos();
-            $('.inputimp3').removeClass('hidden');
+//         var sub = $('#inputSubetapa2').val();
+//         $('#inputSubetapa3').val(sub);
+//         if(sub != 0){
+//       jQuery.ajax({
+//                 type: "GET",
+//                url: urlbaseGeral+"/api/subetapas/"+sub+"/importacoes",
+//                 dataType: "json",
+//                 success: function(result){
+//                   var etapas = result;
+//              $('#inputImp3').find('option').remove().end();
+//              $('#inputImp3').append($('<option>', {
+//                 value: 0,
+//                 text: 'Todas'
+//             }));
+//              $.each(etapas, function (index, etapa){                   
+//                    $('#inputImp3').append($('<option>', {
+//                   value: etapa.id,
+//                   text: etapa.descricao
+//               }));
+//               });
+//             $('.TypeLoading').hide();
+//             redrawConjuntos();
+//             $('.inputimp3').removeClass('hidden');
             
-                }
+//                 }
            
-            });
-    }
-       else{
-              $('.TypeLoading').hide();
-            }
+//             });
+//     }
+//        else{
+//               $('.TypeLoading').hide();
+//             }
         
         
-      });
+//       });
 
 /* ======================================================== */
 /* ============================3=========================== */
@@ -314,7 +314,7 @@ $('#inputChooseObra2').change(function() {
       
        $('#inputEtapa3').append($('<option>', {
           value: 0,
-          text: 'Todas'
+          text: 'Escolha uma Etapa...'
       }));
       
        $.each(etapas, function (index, etapa){                   
@@ -327,11 +327,11 @@ $('#inputChooseObra2').change(function() {
        $('#checkSetor').iCheck('check');
         redrawConjuntos();
       $('.TypeLoading').hide();
-      $('.checkSetor').removeClass('hidden');
       $('.inputetapa3').removeClass('hidden');
           }
       });
       }else{
+         redrawConjuntos();
         $('.TypeLoading').hide(); 
       }
       });
@@ -469,7 +469,8 @@ $('#inputChooseObra2').change(function() {
         },
         {
           targets: [1, 5], orderable : false
-        }
+        },
+       { type: 'numeric-comma', targets: 8 }
          ],
             select: {
                 style: 'multi',
@@ -504,6 +505,7 @@ $('#inputChooseObra2').change(function() {
             { "data": "select-checkbox" },
             { "data": "qtd"},
             { "data": "conjunto" },
+            { "data": "etapa" },
             { "data": "lote" },
             { "data": "estagio" },
             { "data": "peso" },
@@ -515,7 +517,8 @@ $('#inputChooseObra2').change(function() {
             orderable: false,
             className: 'select-checkbox',
             targets:   0
-        }
+        },
+        { type: 'numeric-comma', targets: 6 }
          ],
          select: {
                 style: 'multi',
@@ -538,6 +541,7 @@ $('#inputChooseObra2').change(function() {
             { "data": "select-checkbox" },
              { "data": "qtd"},
             { "data": "conjunto" },
+            { "data": "etapa" },
             { "data": "lote" },
             { "data": "estagio" },
             { "data": "peso" },
@@ -545,6 +549,9 @@ $('#inputChooseObra2').change(function() {
             { "data": "icone" },
             { "data": "tratamento" },
         ],
+        columnDefs: [
+        { type: 'numeric-comma', targets: 6 }
+         ],
         "iDisplayLength": 100,
         "language": {
           "emptyTable": "Nenhum Conjunto Disponivel."
@@ -603,21 +610,21 @@ $('#inputChooseObra2').change(function() {
       obra = '-';
       var obraStyle = 'color:red';
     }
-     var etapa = $('#inputEtapa2').find(":selected").text()
-    if(etapa != 'Escolha uma Etapa...' && etapa != 'Escolha uma Obra...'){
-      var etapaStyle = 'color:green';
-    }else{
-      disable = true;
-      etapa = '-';
-      var etapaStyle = 'color:red';
-    }
-    var subetapa = $('#inputSubetapa2').find(":selected").text();
-    var subetapaStyle = 'color:green';
-    if(subetapa == 'Escolha uma Obra...' || subetapa == 'Escolha uma Subetapa...' || subetapa == 'Escolha uma Etapa...'){
-      subetapa = '-';
-      subetapaStyle = 'color:red';
-      disable = true;
-    }
+    //  var etapa = $('#inputEtapa2').find(":selected").text()
+    // if(etapa != 'Escolha uma Etapa...' && etapa != 'Escolha uma Obra...'){
+    //   var etapaStyle = 'color:green';
+    // }else{
+    //   disable = true;
+    //   etapa = '-';
+    //   var etapaStyle = 'color:red';
+    // }
+    // var subetapa = $('#inputSubetapa2').find(":selected").text();
+    // var subetapaStyle = 'color:green';
+    // if(subetapa == 'Escolha uma Obra...' || subetapa == 'Escolha uma Subetapa...' || subetapa == 'Escolha uma Etapa...'){
+    //   subetapa = '-';
+    //   subetapaStyle = 'color:red';
+    //   disable = true;
+    // }
     var Rcodigo = $('#RCodigo').val();
     if(Rcodigo.length > 0){
       RcodStyle = 'color:green';
@@ -687,25 +694,25 @@ $('#inputChooseObra2').change(function() {
 
     
 
-    var selectedItems = ConjuntosGrid.rows('.selected').data();
-    var selectedQtd = ConjuntosGrid.$('.selected').find('input');
-    $('#modalTableBody').find('tr').remove();
-    $('#ModalTableWrapper').find('h4').remove();
-    $('#modalTabel').addClass('hidden');
-    var checkCjt = 0;
-    for (var i = 0; i < selectedItems.length; i++) {              
-        if(selectedQtd[i].value > 0){
-          checkCjt++;
-          $('#modalTableBody').append('<tr><td>'+selectedItems[i].conjunto+'</td><td>'+selectedItems[i].lote+'</td><td colspan="2">'+selectedQtd[i].value+'</td></tr>');
-        }
-    }; 
+    // var selectedItems = ConjuntosGrid.rows('.selected').data();
+    // var selectedQtd = ConjuntosGrid.$('.selected').find('input');
+    // $('#modalTableBody').find('tr').remove();
+    // $('#ModalTableWrapper').find('h4').remove();
+    // $('#modalTabel').addClass('hidden');
+    // var checkCjt = 0;
+    // for (var i = 0; i < selectedItems.length; i++) {              
+    //     if(selectedQtd[i].value > 0){
+    //       checkCjt++;
+    //       $('#modalTableBody').append('<tr><td>'+selectedItems[i].conjunto+'</td><td>'+selectedItems[i].lote+'</td><td colspan="2">'+selectedQtd[i].value+'</td></tr>');
+    //     }
+    // }; 
 
-    if(selectedItems.length > 0 && checkCjt > 0){
-      $('#modalTabel').removeClass('hidden');
-    } 
-    else{
-      $('#ModalTableWrapper').append('<h4 style="color:#C25A0D" class="text-center">Nenhum Conjunto Selecionado!</h4>');
-    }
+    // if(selectedItems.length > 0 && checkCjt > 0){
+    //   $('#modalTabel').removeClass('hidden');
+    // } 
+    // else{
+    //   $('#ModalTableWrapper').append('<h4 style="color:#C25A0D" class="text-center">Nenhum Conjunto Selecionado!</h4>');
+    // }
       
 
     if(disable == true){
@@ -717,8 +724,9 @@ $('#inputChooseObra2').change(function() {
      var dtitle = '';
       var DClasses = '';
     }
+// <dt style="'+etapaStyle+'">Etapa</dt><dd>'+etapa+'</dd><dt style="'+subetapaStyle+'">Subetapa</dt><dd>'+subetapa+'</dd>
 
-    $('.modalRBody').html('<div class="row"><div class="col-md-4"><dl><dt style="'+obraStyle+'">Obra</dt><dd>'+obra+'</dd><dt style="'+etapaStyle+'">Etapa</dt><dd>'+etapa+'</dd><dt style="'+subetapaStyle+'">Subetapa</dt><dd>'+subetapa+'</dd></div><div class="col-md-4"></dl><dl><dt style="'+RcodStyle+'">Codigo</dt><dd>'+Rcodigo+'</dd><dt style="'+SaidaStyle+'">Data de Saida</dt><dd>'+RSaida+'</dd><dt style="'+PrevStyle+'">Previsão de chegada</dt><dd>'+RPrev+'</dd></dl></div><div class="col-md-4"><dl><dt style="display:inline-block;'+Tstyle+'">Transportadora</dt><span>'+Tmsg+'</span><dd>'+Tname+'</dd><dt style="display:inline-block;'+Mstyle+'">Motorista</dt><span>'+Mmsg+'</span><dd>'+MNome+'</dd></dl></div></div></div><div class="modal-footer"><h3 class="clearfix text-center info">Deseja Continuar?</h3><a '+disable+' '+dtitle+' href="#" id="RoContinuar" class="pull-left btn-success btn '+DClasses+'" style="margin-left:30px">Sim</a><a href="#" id="RoCancelar" class="pull-right btn-danger btn" style="margin-right:30px">Não</a></div></div>');
+    $('.modalRBody').html('<div class="row"><div class="col-md-4"><dl><dt style="'+obraStyle+'">Obra</dt><dd>'+obra+'</dd></div><div class="col-md-4"></dl><dl><dt style="'+RcodStyle+'">Codigo</dt><dd>'+Rcodigo+'</dd><dt style="'+SaidaStyle+'">Data de Saida</dt><dd>'+RSaida+'</dd><dt style="'+PrevStyle+'">Previsão de chegada</dt><dd>'+RPrev+'</dd></dl></div><div class="col-md-4"><dl><dt style="display:inline-block;'+Tstyle+'">Transportadora</dt><span>'+Tmsg+'</span><dd>'+Tname+'</dd><dt style="display:inline-block;'+Mstyle+'">Motorista</dt><span>'+Mmsg+'</span><dd>'+MNome+'</dd></dl></div></div></div><div class="modal-footer"><h3 class="clearfix text-center info">Deseja Continuar?</h3><a href="#" id="RoCancelar" class="pull-left btn-danger btn" style="margin-right:30px">Não</a><a '+disable+' '+dtitle+' href="#" id="RoContinuar" class="pull-right btn-success btn '+DClasses+'" style="margin-left:30px">Sim</a></div></div>');
     $('#modalRomaneio').modal('show');
   });   
 
@@ -739,8 +747,8 @@ $('#inputChooseObra2').change(function() {
     var selectedQtd = ConjuntosGrid.$('.selected').find('input');
     var handles_ids = {};
     var obra_id     = $('#inputChooseObra2').val();
-    var etapa_id   = $('#inputEtapa2').val();
-    var subetapa_id = $('#inputSubetapa2').val();
+    // var etapa_id   = $('#inputEtapa2').val();
+    // var subetapa_id = $('#inputSubetapa2').val();
     var romaneio = $('#RomaneiosForm').serializeAndEncode().replace(/%5B%5D/g, '[]');
     for (var i = 0; i < selectedItems.length; i++) {              
           handles_ids[selectedItems[i].conjunto] = selectedQtd[i].value;
@@ -748,7 +756,7 @@ $('#inputChooseObra2').change(function() {
     jQuery.ajax({
           type: "POST",
          url: urlbaseGeral+"/romaneios/gravar",
-         data: {obraID:obra_id, etapaID:etapa_id, subetapaID:subetapa_id, handles:handles_ids, romaneio:romaneio},
+         data: {obraID:obra_id, handles:handles_ids, romaneio:romaneio},
           dataType: "html",
           success: function(r){
              window.location.href = urlbaseGeral+'/romaneios/perfil/'+r;
@@ -786,21 +794,21 @@ $(document).on('click', '#AtualizarDados', function(event) {
       obra = '-';
       var obraStyle = 'color:red';
     }
-     var etapa = $('#inputEtapa2').find(":selected").text()
-    if(etapa != 'Escolha uma Etapa...' && etapa != 'Escolha uma Obra...'){
-      var etapaStyle = 'color:green';
-    }else{
-      disable = true;
-      etapa = '-';
-      var etapaStyle = 'color:red';
-    }
-    var subetapa = $('#inputSubetapa2').find(":selected").text();
-    var subetapaStyle = 'color:green';
-    if(subetapa == 'Escolha uma Subetapa...' || subetapa == 'Escolha uma Etapa...' || subetapa == 'Escolha uma Obra...'){
-      subetapa = '-';
-      subetapaStyle = 'color:red';
-      disable = true;
-    }
+    //  var etapa = $('#inputEtapa2').find(":selected").text()
+    // if(etapa != 'Escolha uma Etapa...' && etapa != 'Escolha uma Obra...'){
+    //   var etapaStyle = 'color:green';
+    // }else{
+    //   disable = true;
+    //   etapa = '-';
+    //   var etapaStyle = 'color:red';
+    // }
+    // var subetapa = $('#inputSubetapa2').find(":selected").text();
+    // var subetapaStyle = 'color:green';
+    // if(subetapa == 'Escolha uma Subetapa...' || subetapa == 'Escolha uma Etapa...' || subetapa == 'Escolha uma Obra...'){
+    //   subetapa = '-';
+    //   subetapaStyle = 'color:red';
+    //   disable = true;
+    // }
     var Rcodigo = $('#RCodigo').val();
     if(Rcodigo.length > 0){
       RcodStyle = 'color:green';
@@ -879,7 +887,7 @@ $(document).on('click', '#AtualizarDados', function(event) {
       var DClasses = '';
     }
 
-    $('.modalRBody').html('<div class="row"><div class="col-md-4"><dl><dt style="'+obraStyle+'">Obra</dt><dd>'+obra+'</dd><dt style="'+etapaStyle+'">Etapa</dt><dd>'+etapa+'</dd><dt style="'+subetapaStyle+'">Subetapa</dt><dd>'+subetapa+'</dd></div><div class="col-md-4"></dl><dl><dt style="'+RcodStyle+'">Codigo</dt><dd>'+Rcodigo+'</dd><dt style="'+SaidaStyle+'">Data de Saida</dt><dd>'+RSaida+'</dd><dt style="'+PrevStyle+'">Previsão de chegada</dt><dd>'+RPrev+'</dd></dl></div><div class="col-md-4"><dl><dt style="display:inline-block;'+Tstyle+'">Transportadora</dt><span>'+Tmsg+'</span><dd>'+Tname+'</dd><dt style="display:inline-block;'+Mstyle+'">Motorista</dt><span>'+Mmsg+'</span><dd>'+MNome+'</dd></dl></div></div></div><div class="modal-footer"><h3 class="clearfix text-center info">Deseja Continuar?</h3><a '+disable+' '+dtitle+' href="#" id="RoUpdateContinuar" class="pull-left btn-success btn '+DClasses+'" style="margin-left:30px">Sim</a><a href="#" id="RoCancelar" class="pull-right btn-danger btn" style="margin-right:30px">Não</a></div></div>');
+    $('.modalRBody').html('<div class="row"><div class="col-md-4"><dl><dt style="'+obraStyle+'">Obra</dt><dd>'+obra+'</dd></div><div class="col-md-4"></dl><dl><dt style="'+RcodStyle+'">Codigo</dt><dd>'+Rcodigo+'</dd><dt style="'+SaidaStyle+'">Data de Saida</dt><dd>'+RSaida+'</dd><dt style="'+PrevStyle+'">Previsão de chegada</dt><dd>'+RPrev+'</dd></dl></div><div class="col-md-4"><dl><dt style="display:inline-block;'+Tstyle+'">Transportadora</dt><span>'+Tmsg+'</span><dd>'+Tname+'</dd><dt style="display:inline-block;'+Mstyle+'">Motorista</dt><span>'+Mmsg+'</span><dd>'+MNome+'</dd></dl></div></div></div><div class="modal-footer"><h3 class="clearfix text-center info">Deseja Continuar?</h3><a '+disable+' '+dtitle+' href="#" id="RoUpdateContinuar" class="pull-right btn-success btn '+DClasses+'" style="margin-left:30px">Sim</a><a href="#" id="RoCancelar" class="pull-left btn-danger btn" style="margin-right:30px">Não</a></div></div>');
     $('#modalRomaneio').modal('show');
   });   
 
@@ -891,14 +899,12 @@ $(document).on('click', '#RoUpdateContinuar', function(event) {
     event.preventDefault();
     $('#ModalLoad').removeClass('hidden');
     var obra_id     = $('#inputChooseObra2').val();
-    var etapa_id   = $('#inputEtapa2').val();
-    var subetapa_id = $('#inputSubetapa2').val();
     var romaneio = $('#RomaneiosForm').serializeAndEncode().replace(/%5B%5D/g, '[]');
     var romID = $('#RomaneioID').val();
      jQuery.ajax({
           type: "POST",
          url: urlbaseGeral+"/romaneios/update",
-         data: {obraID:obra_id, etapaID:etapa_id, subetapaID:subetapa_id,id:romID,romaneio:romaneio},
+         data: {obraID:obra_id,id:romID,romaneio:romaneio},
           dataType: "html",
           success: function(r){
             var res = r.split("&");
@@ -917,6 +923,7 @@ $('#addHandle').click(function(event) {
     var selectedItems = ConjuntosGrid.rows('.selected').data();
     var selectedQtd = ConjuntosGrid.$('.selected').find('input');
     var RomID = $('#RomaneioID').val();
+    var etapaId = $('#inputEtapa3').val();
     var handles_ids = {};
     for (var i = 0; i < selectedItems.length; i++) {              
           handles_ids[selectedItems[i].conjunto] = selectedQtd[i].value;
@@ -924,7 +931,7 @@ $('#addHandle').click(function(event) {
      jQuery.ajax({
           type: "POST",
          url: urlbaseGeral+"/romaneios/adicionar",
-         data: {handles:handles_ids, id: RomID},
+         data: {handles:handles_ids, id: RomID, etapaID:etapaId},
           dataType: "html",
           success: function(r){
             getPeso(RomID);
@@ -944,10 +951,16 @@ $('#addHandle').click(function(event) {
 $('#removeHandle').click(function(event) {
     var selectedItems = RomaneioTable.rows('.selected').data();
     var selectedQtd = RomaneioTable.$('.selected').find('input');
+    var etapaId = $('#inputEtapa3').val();
     var RomID = $('#RomaneioID').val();
-    var handles_ids = {};
+    var handles_ids = new Array([]);
+    var handles_etapas = {};
     for (var i = 0; i < selectedItems.length; i++) {              
-          handles_ids[selectedItems[i].conjunto] = selectedQtd[i].value;
+          handles_ids[i] = {
+            qtd: selectedQtd[i].value,
+            handles:  selectedItems[i].conjunto,
+            etapa: selectedItems[i].etapaID
+          };
     }; 
      jQuery.ajax({
           type: "POST",
@@ -984,7 +997,7 @@ $('#removeHandle').click(function(event) {
 
   $("#TNome").autocomplete({
 
-        minLength: 2,
+        minLength: 0,
         source: function( request, response ) {
             $.ajax({
                 url: urlbaseGeral+"/api/transportadoras",
@@ -1021,11 +1034,13 @@ $('#removeHandle').click(function(event) {
             $('#TId').val(ui.item.id);
             return false;
         },
-    });
+    }).focus(function() {
+    $(this).autocomplete('search', $(this).val())
+});
 
 
  $("#MNome").autocomplete({
-        minLength: 2,
+        minLength: 0,
         source: function( request, response ) {
             $.ajax({
                 url: urlbaseGeral+"/api/motoristas",
@@ -1059,7 +1074,9 @@ $('#removeHandle').click(function(event) {
             $('#MId').val(ui.item.id);
             return false;
         },
-    });
+    }).focus(function() {
+    $(this).autocomplete('search', $(this).val())
+});
 
 /* ======================================================== */
 /* ======================================================== */

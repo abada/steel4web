@@ -19,6 +19,8 @@
     <!-- Masks -->
     {!! Html::script('plugins/jquery.mask.min.js') !!}
 
+     {!! Html::script('js/datatables_plugin.js') !!}
+
 
     <!-- Bootstrap Select -->
     {!! Html::script('js/bootstrap-select.min.js') !!}

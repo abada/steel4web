@@ -40,17 +40,6 @@
                     @endif
                 </select>
             </div>
-            <div class="form-group inputsubetapa <?php if(!isset($history) || empty($etapa)) echo 'hidden' ?>">
-                <label for="subetapa"> Subetapa: </label>
-                <select id="inputSubetapa" class="form-control" required="required" name="subetapa">
-					@if (isset($history) && !empty($subetapas))
-                        <option value="0">Todas</option>
-                    @foreach($subetapas as $subetapa)
-                        <option value="{{$subetapa->id}}" <?php if(!empty($thisSubetapa->cod)){ if($subetapa->id == $thisSubetapa->id) echo 'selected'; }?>>{{$subetapa->cod}}</option>
-                    @endforeach
-                    @endif
-                </select>
-            </div>
 
             <?php 
             	$btnText = isset($history) ? 'Recarregar' : 'Carregar';
@@ -87,8 +76,7 @@
 			 	<thead>
 			 		<tr>
 			 			<th>Código</th>
-			 			<th>Etapa</th>
-	                    <th>Subetapa</th>
+			 			<th>Etapas</th>
 	                    <th>Data de Saída</th>
 	                    <th>Previsão de Chegada</th>
 	                    <th>NFs</th>
@@ -110,15 +98,29 @@
 			 			<?php $stat = ($romaneio->status == 'Fechado') ? 'romClosed hidden' : 'romOpened' ?>
 			 			<tr class='{{$stat}}'>
 			 				<td style='background-color:{{$bck}}'><a href="{{url('romaneios/perfil').'/'.$romaneio->id}}">{{$romaneio->codigo}}</a></td>
-			 				<td style='background-color:{{$bck}}'>{{$romaneio->etapa->codigo}}</td>
-			 				<td style='background-color:{{$bck}}'>{{$romaneio->subetapa->cod}}</td>
+			 				<td style='background-color:{{$bck}}'>
+
+							@if(isset($romaneio->etapas->first()->id))
+							<?php $firsta = true; ?>
+			 					@foreach($romaneio->etapas as $etapex)
+			 					<?php if($firsta == false){
+			 						echo '<br>';
+			 					}else{
+			 						$firsta = false;
+			 					} ?>
+			 						{{$etapex->codigo}}
+								@endforeach
+							@else
+								-
+							@endif
+			 				</td>
 			 				<td style='background-color:{{$bck}}'>{{date('d/m/Y',strtotime($romaneio->data_saida))}}</td>
 			 				<td style='background-color:{{$bck}}'>{{date('d/m/Y',strtotime($romaneio->previsao_chegada))}}</td>
 			 				<td style='background-color:{{$bck}}'>{!! empty($romaneio->Nfs) ? '-' : $romaneio->Nfs !!}</td>
 			 				<td style='background-color:{{$bck}}'>{{$romaneio->transportadora->nome}}</td>
 			 				<td style='background-color:{{$bck}}'>{{$romaneio->motorista->nome}}</td>
 			 				<td style='background-color:{{$bck}}'>{!! empty($romaneio->observacoes) ? '-' : Str::limit($romaneio->observacoes, 40) !!}</td>
-			 				<td style='background-color:{{$bck}}'>{{$peso}}</td>
+			 				<td style='background-color:{{$bck}}'>{{number_format($peso, 2, ',','.')}}</td>
 			 				<td style='background-color:{{$bck}}'>{{$romaneio->status}}</td>
 			 			</tr>
 			 		@endforeach

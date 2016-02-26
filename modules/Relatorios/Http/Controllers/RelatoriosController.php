@@ -4,6 +4,7 @@ use Pingpong\Modules\Routing\Controller;
 use App\Obra as obr;
 use App\Lote as lote;
 use App\Handle as handle;
+use App\Estagio as est;
 use App\Cronograma as crono;
 use PDF;
 use Illuminate\Http\Request;
@@ -80,25 +81,25 @@ class RelatoriosController extends Controller {
 
 	public function getEstagios($id){
 		$data = array();
-		$handles = $this->getConjuntosLote($id, true);
+		$handles = handle::selectRaw('*, sum(QTA_PEZ) as qtd')->where('FLG_REC', 3)->where('lote_id', $id)->groupBy('estagio_id')->groupBy('MAR_PEZ')->get();
 
 		$cronos = crono::where('lote_id',$id)->orderBy('estagio_id', 'asc')->get();
-		if(!empty($handles['pesoTotal'])){
-			$pesoT =  $handles['pesoTotal'];
-			unset($handles['pesoTotal']);
+		if(!empty($handles->first()->id)){
+			$pesoT =  0;
+			foreach($handles as $handle){
+		 		$pesoT = ($handle->PUN_LIS * $handle->qtd) + $pesoT;
+		 	}
 			$x = 0;
 
 			foreach($cronos as $crono){
 				$pesoE = 0;
 				$count = 0;
-				foreach($crono->estagio->handles as $hand){
-					if($hand->lote_id == $crono->lote_id){
-						foreach($handles as $hande){
-							if($hande['marcas'] == $hand->MAR_PEZ){
-								$pesoU = $hande['peso_unid'];
-							}
-						}
-						$pesoE = $pesoE + $pesoU;
+				foreach($handles as $hand){
+					$toCompare = $hand->estagio_id;
+					if($hand->estagio->tipo == 11 || $hand->estagio->tipo == 12)
+						$toCompare = est::where('tipo',3)->first()->id;
+					if($toCompare == $crono->estagio_id){
+						$pesoE = $pesoE + ($hand->PUN_LIS * $hand->qtd);
 					}
 				}
 

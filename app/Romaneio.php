@@ -59,22 +59,6 @@ class Romaneio extends Model
 	 * Get the Etapa of the model
 	 * @return Relationship belongsTo
 	 */
-	public function etapa() {
-		return $this->belongsTo('App\Etapa');
-	}
-
-	/**
-	 * Get the Subetapa of the model
-	 * @return Relationship belongsTo
-	 */
-	public function subetapa() {
-		return $this->belongsTo('App\Subetapa');
-	}
-
-	/**
-	 * Get the Etapa of the model
-	 * @return Relationship belongsTo
-	 */
 	public function transportadora() {
 		return $this->belongsTo('App\Transportadora');
 	}
@@ -93,5 +77,13 @@ class Romaneio extends Model
 	 */
 	public function handles() {
 		return $this->hasMany('App\Handle');
+	}
+
+	/**
+	 * Get the Users of the Obras
+	 * @return Relationship belongsTo
+	 */
+	public function etapas() {
+		return $this->belongsToMany('App\Etapa', 'romaneio_etapa');
 	}
 }

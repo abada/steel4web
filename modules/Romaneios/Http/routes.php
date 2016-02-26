@@ -14,6 +14,7 @@ Route::group(['middleware' => 'web', 'prefix' => 'romaneios', 'namespace' => 'Mo
 	Route::post('adicionar', 'RomaneiosController@adicionar')->name('romaneios/adicionar');
 	Route::post('remover', 'RomaneiosController@remover')->name('romaneios/remover');
 	Route::get('perfil/{id}', 'RomaneiosController@perfil')->name('romaneios/perfil');
+	Route::get('excluir/{id}', 'RomaneiosController@excluir')->name('romaneios/excluir');
 	Route::get('getPeso/{id}', 'RomaneiosController@getPeso')->name('romaneios/getPeso');
 	Route::get('getConjuntosRomaneio/{id}', 'RomaneiosController@getConjuntosRomaneio')->name('romaneios/getConjuntosRomaneio');
 });

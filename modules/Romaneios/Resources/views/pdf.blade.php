@@ -7,7 +7,33 @@
 @endsection
 
 @section('content')
-
+<?php if(count($romaneio->etapas) == 1){
+	$etap = 'Etapa';
+}else{
+	$etap = 'Etapas';
+} ?>
+	<table class="pdftable">
+		<thead>
+			<tr>
+				<th width='10%'>Obra: </th>
+				<th style='font-weight:regular' width='40%'>{{$romaneio->obra->nome}}</th>
+				<th width='10%'>{{$etap}}:</th>
+				<th style='font-weight:regular' width='40%'>
+					<?php $first = true; ?>
+					@foreach($romaneio->etapas as $etapa)
+					<?php 
+						if($first != true)
+							echo '   -   ';
+						else
+							$first = false;
+					 ?>
+					{{$etapa->codigo}}
+					@endforeach
+				</th>
+			</tr>
+		</thead>
+	</table>
+<hr>
 	<table class="pdftable">
 		
 		<thead>
@@ -22,7 +48,7 @@
 		<tbody>
 			<tr>
 				<td>{{$romaneio->codigo}}</td>
-				<td>{{$romaneio->Nfs}}</td>
+				<td>{{!empty($romaneio->Nfs) ? $romaneio->Nfs : '-'}}</td>
 				<td>{{date('d/m/Y',strtotime($romaneio->data_saida))}}</td>
 				<td>{{date('d/m/Y',strtotime($romaneio->previsao_chegada))}}</td>
 				<td>{{number_format($pesoTotal, 2, ',','.')}} Kg</td>			
@@ -46,9 +72,9 @@
 			<tr>
 				<td>{{$romaneio->transportadora->nome}}</td>
 				<td>{{$romaneio->transportadora->fone1}}</td>
-				<td>{{isset($romaneio->transportadora->fone2) ? $romaneio->transportadora->fone2 : '-'}}</td>
+				<td>{{!empty($romaneio->transportadora->fone2) ? $romaneio->transportadora->fone2 : '-'}}</td>
 				<td>{{$romaneio->transportadora->contato1}}</td>
-				<td>{{isset($romaneio->transportadora->contato2) ? $romaneio->transportadora->contato2 : '-'}}</td>
+				<td>{{!empty($romaneio->transportadora->contato2) ? $romaneio->transportadora->contato2 : '-'}}</td>
 				<td>{{$romaneio->transportadora->email}}</td>
 			</tr>
 		</tbody>
@@ -58,9 +84,9 @@
 		<thead>
 			<tr>
 				<th width='20%'>Motorista</th>
-				<th width='20%'>Fone 1</th>
-				<th width='20%'>Fone 2</th>
-				<th width='20%'>Caminhão</th>
+				<th width='15%'>Fone 1</th>
+				<th width='15%'>Fone 2</th>
+				<th width='30%'>Caminhão</th>
 				<th width='20%'>Comprimento</th>
 			</tr>
 		</thead>
@@ -68,7 +94,7 @@
 			<tr>
 				<td>{{$romaneio->motorista->nome}}</td>
 				<td>{{$romaneio->motorista->fone1}}</td>
-				<td>{{isset($romaneio->motorista->fone2) ? $romaneio->motorista->fone2 : '-'}}</td>
+				<td>{{!empty($romaneio->motorista->fone2) ? $romaneio->motorista->fone2 : '-'}}</td>
 				<td>{{$romaneio->motorista->caminhao}}</td>
 				<td>{{$romaneio->motorista->comprimento}} M</td>
 			</tr>

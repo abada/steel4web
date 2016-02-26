@@ -21,14 +21,21 @@ table {
     bottom: 0px;
 }
 .pagenum:before {
-	
     content: counter(page);
 }
 .pagina{
 	 position: fixed;
-	left: 0px;
+	right: 0px;
 	top: -50px;
 	width: 10%;
+}
+
+.locatarioLogoImg{
+	top: -50px;
+	width:20%;
+	max-height:50px;
+	position: fixed;
+	left:0px;
 }
 
 h1{

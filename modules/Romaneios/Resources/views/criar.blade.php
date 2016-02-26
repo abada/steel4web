@@ -9,6 +9,11 @@ if (isset($perfil)) {
 		$disabled = ' disabled ';
 	}
 }
+if(isset($filled)){
+	$Obradisabled = ' disabled ';
+}else{
+	$Obradisabled = '';
+}
 ?>
 @section('styles')
 	{{Html::style('css/romaneios.css')}}
@@ -37,7 +42,7 @@ if (isset($perfil)) {
 	            <li class="active">
 	            	<a href="#dados" data-toggle="tab">Dados</a>
 	            </li>
-	            @if(!isset($filled) || $perfil == false)
+	             @if(isset($editar) && $editar == true)
 	            <li><a href="#conjuntos" data-toggle="tab">Conjuntos</a>
 	            </li>
 	            @endif
@@ -48,7 +53,9 @@ if (isset($perfil)) {
 	          
 	            	@if(isset($editar))
 	            	@if($editar == true)
-				    	<a href="{{url('romaneios/fechar').'/'.$romaneio->id}}" style='margin-right:15px' class="btn btn-success pull-right"><i class="fa fa-check"></i>&nbsp;&nbsp; Fechar Romaneio</a>
+				    	<button style='margin-right:15px' data-toggle="modal" data-target="#fecharModal" class="btn btn-success pull-right"><i class="fa fa-check"></i>&nbsp;&nbsp; Fechar Romaneio</button>
+
+			    		<button style='margin-right:15px' data-toggle="modal" data-target="#deleteonfirm" class="btn btn-danger pull-right"><i class="fa fa-trash"></i>&nbsp;&nbsp; Excluir Romaneio</button>
 				    @endif
 				    @endif
 	          
@@ -76,7 +83,7 @@ if (isset($perfil)) {
 					<div class="box-body ">
 						<div class="form-group inputObr2" >
 			                <label for="obra">Obra: </label>
-			                <select {{$disabled}} id="inputChooseObra2" class="form-control" required="required" name="RObra">
+			                <select {{$Obradisabled}} id="inputChooseObra2" class="form-control" required="required" name="RObra">
 			                    <option class='optPadrao' value='0'>Escolha uma Obra...</option>
 			                    @foreach ($obras as $obra)
 			                    <option value="<?=$obra->id?>" <?php
@@ -89,54 +96,18 @@ if (isset($perfil)) {
 			                    @endforeach
 			                </select>
 			            </div>
-			            <div class="form-group inputetapa2">
-			                <label  for="etapa"> Etapa: </label>
-			                <select {{$disabled}} id="inputEtapa2" class="form-control" required="required" name="REtapa">
-			                   
-			                    @if(isset($filled))
-			                   	 <option class='optPadrao' value='0'>Escolha uma Etapa...</option>
-			                    	@foreach($romaneio->obra->etapas as $etapa)
-			                    		@if(!empty($etapa->lotes->first()->id))
-				                    		<option class='optPadrao' value='{{$etapa->id}}' <?php
-											if ($etapa->id == $romaneio->etapa_id) {
-												echo 'selected';
-											}
-											?>
-				                    		>{{$etapa->codigo}}</option>
-			                    		@endif
-			                    	@endforeach
-			                    @else
-			                     <option class='optPadrao' value='0'>Escolha uma Obra...</option>
-			                    @endif
-			                </select>
-			            </div>
-			            <div class="form-group inputsubetapa2">
-			                <label for="subetapa"> Subetapa: </label>
-			                <select {{$disabled}} id="inputSubetapa2" class="form-control" required="required" name="RSubetapa">
-								
-								@if(isset($filled))
-									<option class='optPadrao' value='0'>Escolha uma Subetapa...</option>
-			                    	@foreach($romaneio->etapa->subetapas as $subetapa)
-			                    		@if(!empty($subetapa->lotes->first()->id))
-				                    		<option class='optPadrao' value='{{$subetapa->id}}' <?php
-											if ($subetapa->id == $romaneio->subetapa_id) {
-												echo 'selected';
-											}
-											?>
-				                    		>{{$subetapa->cod}}</option>
-			                    		@endif
-			                    	@endforeach
-			                    @else
-			                    <option class='optPadrao' value='0'>Escolha uma Obra...</option>
-			                    @endif
-			                </select>
-			            </div>
 			            @if(isset($filled))
+			            @if(isset($romaneio->etapas))
+			            <div class="form-group inputetapa55">
+			               @foreach($romaneio->etapas as $etapa)
+			               	<input disabled class="form-control" type="text" value='{{$etapa->codigo}}'>
+			               @endforeach
+			            </div>
+						@endif
+			            
 			            <input type="hidden" id='RomaneioID' value="{{$romaneio->id}}">
 			            @endif
-			            <div class="form-group">
-			            	<div class="TypeLoading" style='margin-left:5px'></div>
-			            </div>
+
 					</div>
 				</div>
 			</div>
@@ -343,12 +314,11 @@ if (isset($perfil)) {
 			</form>
         	</div>
         </div>
-        @if(!isset($filled) || $perfil == false)
+        @if(isset($editar) && $editar == true)
         	<div class="tab-pane fade" id="conjuntos">
 				<div class="box-body">
 		<!-- ================================ COMECO DOS CONJUNTOS ============================ -->
 		<!-- ================================================================================== -->
-
 			<div class="navbar navbar-static-top navForm" role='navigation'>
 		<form accept-charset="UTF-8" class="form-inline" role="form" id="inputImporter">
 	        <div class="navbar-form navbar-left">
@@ -392,9 +362,9 @@ if (isset($perfil)) {
     	</form>
 
 	</div>
-	@if(isset($editar))
+
 	<button class="btn btn-success pull-right hidden" id='addHandle'>Adicionar ao Romaneio &nbsp;&nbsp;<i class="fa fa-arrow-right"></i></button>
-	@endif
+
 </div>
 	<div class="clearfix"></div>
 	<hr class='lessMargin'>
@@ -472,6 +442,7 @@ if (isset($perfil)) {
 								<th></th>
 								<th>Quantidade</th>
 								<th>Conjunto</th>
+								<th>Etapa</th>
 								<th>Lote</th>
 								<th>Estagio</th>
 								<th>Peso U.(Kg)</th>
@@ -481,6 +452,7 @@ if (isset($perfil)) {
 							</tr>
 						</thead>
 						<tbody>
+							<td></td>
 							<td></td>
 							<td></td>
 							<td></td>
@@ -548,6 +520,43 @@ if (isset($perfil)) {
     </div>
 </div>
 
+@if(isset($editar) && $editar == true)
+<div class="modal fade modal-danger" id='deleteonfirm'>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Deseja Realmente Excluir este Romaneio?</h4>
+      </div>
+      <div class="modal-footer">
+      	<button type="button" class="btn btn-outline pull-left"  data-dismiss="modal">Cancelar</button>
+        <a href="{{url('romaneios/excluir').'/'.$romaneio->id}}" type="button" class="btn btn-outline pull-right">Continuar</a>
+        
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+ <div class="modal fade modal-success" id='fecharModal'>
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Deseja Realmente Fechar este Romaneio?</h4>
+           
+          </div>
+          <div class="modal-body">
+             <p>Depois de fechado um romaneio não pode mais ser editado nem excluido, e os conjuntos atribuidos a ele não podem ser incorporados em novos romaneios.</p>
+          </div>
+          <div class="modal-footer">
+          	<button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Cancelar</button>
+            <a  href="{{url('romaneios/fechar').'/'.$romaneio->id}}" type="button" class="btn btn-outline pull-right" >Continuar</a>
+            
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+@endif
 @endsection
 
 @section('scripts')

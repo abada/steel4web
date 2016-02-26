@@ -105,4 +105,12 @@ class Etapa extends Model {
 		return $this->hasMany('App\Subetapa');
 	}
 
+	/**
+	 * Get the Users of the Obras
+	 * @return Relationship belongsTo
+	 */
+	public function romaneios() {
+		return $this->belongsToMany('App\Romaneio', 'romaneio_etapa');
+	}
+
 }

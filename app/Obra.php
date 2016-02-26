@@ -103,6 +103,13 @@ class Obra extends Model {
 	}
 
 	/**
+	 * Get the importacoes for the blog post.
+	 */
+	public function romaneios() {
+		return $this->hasMany('App\Romaneio');
+	}
+
+	/**
 	 * Get the Contatos of the Obras
 	 * @return Relationship belongsTo
 	 */
