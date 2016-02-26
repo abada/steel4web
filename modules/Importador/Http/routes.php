@@ -8,6 +8,9 @@ Route::group(['middleware' => 'importador', 'prefix' => 'importador', 'namespace
 	Route::post('/subetapas', 'ImportadorController@getSubetapas')->name('importador.subetapas');
 	Route::post('/importar', 'ImportadorController@toImport')->name('importador.importar');
 	Route::post('/gravar', 'ImportadorController@gravar')->name('importador.gravar');
-	
 	Route::post('/excluir', 'ImportadorController@excluir')->name('importador.excluir');
+});
+
+Route::group(['middleware' => 'admin', 'namespace' => 'Modules\Importador\Http\Controllers'], function(){
+	Route::get('calibrar', 'ImportadorController@calibrar')->name('calibrar');
 });

@@ -167,7 +167,7 @@ $(document).ready(function() {
       dataType: 'html',
        success: function(result){
         console.log(result);
-          $('#pesoTot').html('Peso Total: '+result);
+          $('#pesoTot').html('Peso Total: '+result+' Kg');
         }
     });
     $('#gerarPdf').removeClass('hidden');

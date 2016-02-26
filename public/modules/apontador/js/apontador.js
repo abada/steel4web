@@ -14,7 +14,8 @@ $(document).ready(function() {
     var table = $('#lotPointer').DataTable({
         responsive: false,
         "scrollX": true,
-        "iDisplayLength": 25,
+        orderCellsTop: true ,
+        "iDisplayLength": 100,
         columnDefs: [
           { targets: 'no-sort', orderable: false }
         ],
@@ -22,6 +23,13 @@ $(document).ready(function() {
           "emptyTable": "Nenhum Conjunto Disponivel."
         }
     });
+
+     $("thead input").on( 'keyup change', function () {
+        table
+            .column( $(this).parent().index()+':visible' )
+            .search( this.value )
+            .draw();
+    } );
  
     $('#pointButton').click( function() {
       $.fn.serializeAndEncode = function() {

@@ -78,8 +78,8 @@
         @endif
     </div>
 @endif
-<div class="alert alert-success hidden" id='AjaxMessage'>
-    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+<div class="alert hidden" id='AjaxMessage'>
+    
 </div>
 
 <?php 

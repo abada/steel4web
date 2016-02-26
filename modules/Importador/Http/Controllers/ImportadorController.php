@@ -13,6 +13,7 @@ use App\Handle as handle;
 use App\Estagio as est;
 use App\Temp_Handle as tempH;
 use App\Fila as fila;
+use App\Models\Access\User\User as users;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Input;
 use Symfony\Component\HttpFoundation\Response;
@@ -124,8 +125,14 @@ class ImportadorController extends Controller {
          $sizes = array();
          $user = array();
             foreach($imps as $imp){
-
-                $user[$imp->id] = $imp->user->name;
+                if(!empty($imp->user_id)){
+                    $userX = users::find($imp->user_id);
+                if(!empty($userX->name))
+                    $user[$imp->id] = $userX->name;
+                else
+                    $user[$imp->id] = '-';
+                }
+               
                 if(!empty($imp['dbf2d'])){
                     $file =  $imp->locatario_id . "/" . $imp->cliente_id . "/" . $imp->obra_id . "/" 
                     . $imp->etapa_id . "/" . $imp->subetapa_id . "/" . $imp->importacaoNr . "/" . $imp->dbf2d;
@@ -307,6 +314,7 @@ class ImportadorController extends Controller {
                 }
               
                }
+               $this->setPesos($impSucess->id);
              }
             if(!empty($final['ifc_orig'])){
               // $convertIFC = $this->converteIfc($impSucess->id);
@@ -622,6 +630,33 @@ class ImportadorController extends Controller {
         }
         
 
+    }
+
+    private function setPesos($id){
+        $handles = handle::where('importacao_id', $id)->get();
+        foreach($handles as $handle){
+            $peso = 0;
+            if($handle->FLG_REC == 3){
+                $peso = handle::selectRaw('sum(PUN_LIS) as peso')->where('FLG_REC',4)->where('importacao_id',$id)->where('MAR_PEZ',$handle->MAR_PEZ)->first();
+                $pesoUpdate = array('PUN_LIS' => $peso->peso);
+                $handle->update($pesoUpdate);
+            }
+        }
+    }
+
+    public function calibrar(){
+        $imps = imp::all();
+        foreach($imps as $imp){
+           $handles = handle::where('importacao_id', $imp->id)->get();
+        foreach($handles as $handle){
+            $peso = 0;
+            if($handle->FLG_REC == 3){
+                $peso = handle::selectRaw('sum(PUN_LIS) as peso')->where('FLG_REC',4)->where('importacao_id',$imp->id)->where('MAR_PEZ',$handle->MAR_PEZ)->first();
+                $pesoUpdate = array('PUN_LIS' => $peso->peso);
+                $handle->update($pesoUpdate);
+            }
+        }
+        }
     }
 
     private function formatBytes($bytes, $precision = 2) { 

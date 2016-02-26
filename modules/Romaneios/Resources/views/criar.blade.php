@@ -1,10 +1,20 @@
 @extends('frontend.layouts.master')
-
+<?php
+$disabled = '';
+if (isset($perfil) || isset($editar)) {
+	$filled = true;
+}
+if (isset($perfil)) {
+	if ($perfil == true) {
+		$disabled = ' disabled ';
+	}
+}
+?>
 @section('styles')
 	{{Html::style('css/romaneios.css')}}
 	{{Html::style('css/datatables/select.dataTables.min.css')}}
 	{{Html::style('css/datatables/dataTables.bootstrap.min.css')}}
-	{{ Html::style('modules/'.Module::find('GestorDeLotes')->getLowerName().'/css/datatables.css') }}
+	{{Html::style('modules/'.Module::find('GestorDeLotes')->getLowerName().'/css/datatables.css') }}
 	{{Html::style('plugins/jQueryUI/jquery-ui.theme.min.css')}}
 	{{Html::style('plugins/jQueryUI/jquery-ui.min.css')}}
 	{{Html::style('plugins/jQueryUI/jquery-ui.structure.min.css')}}
@@ -12,22 +22,40 @@
 @endsection
 
 @section('content')
+@if(isset($filled))
+{!! Breadcrumbs::render('Romaneios::perfil', $romaneio->id, $romaneio->codigo) !!}
+@else
 {!! Breadcrumbs::render('Romaneios::criar') !!}
+@endif
 	<div class="box">
 		<div class="box-header bg-padrao with-border">
 			CRIAR ROMANEIO
 		</div>
-		
+
 		<div class="nav-tabs-custom" style='margin-top:5px'>
 			<ul class="nav nav-tabs ui-sortable-handle">
 	            <li class="active">
 	            	<a href="#dados" data-toggle="tab">Dados</a>
 	            </li>
+	            @if(!isset($filled) || $perfil == false)
 	            <li><a href="#conjuntos" data-toggle="tab">Conjuntos</a>
 	            </li>
+	            @endif
+	            @if(isset($filled))
+		            <li><a href="#conjuntosRom" data-toggle="tab">Conjuntos do Romaneio</a>
+		            </li>
+	            @endif
+	          
+	            	@if(isset($editar))
+	            	@if($editar == true)
+				    	<a href="{{url('romaneios/fechar').'/'.$romaneio->id}}" style='margin-right:15px' class="btn btn-success pull-right"><i class="fa fa-check"></i>&nbsp;&nbsp; Fechar Romaneio</a>
+				    @endif
+				    @endif
+	          
 	        </ul>
+
         </div>
-		
+
         <div class="tab-content no-padding">
         	<div class="tab-pane fade in active" id="dados">
 				<div class="box-body">
@@ -48,25 +76,64 @@
 					<div class="box-body ">
 						<div class="form-group inputObr2" >
 			                <label for="obra">Obra: </label>
-			                <select id="inputChooseObra2" class="form-control" required="required" name="RObra">
+			                <select {{$disabled}} id="inputChooseObra2" class="form-control" required="required" name="RObra">
 			                    <option class='optPadrao' value='0'>Escolha uma Obra...</option>
 			                    @foreach ($obras as $obra)
-			                    <option value="<?= $obra->id ?>" <?php if(isset($history)){if($obra->id == $obraID) echo 'selected';} ?>>{{ $obra->nome }}</option>
+			                    <option value="<?=$obra->id?>" <?php
+								if (isset($filled)) {
+									if ($obra->id == $romaneio->obra->id) {
+										echo 'selected';
+									}
+								}
+								?>>{{ $obra->nome }}</option>
 			                    @endforeach
 			                </select>
 			            </div>
 			            <div class="form-group inputetapa2">
 			                <label  for="etapa"> Etapa: </label>
-			                <select id="inputEtapa2" class="form-control" required="required" name="REtapa">
-			                    <option class='optPadrao' value='0'>Escolha uma Obra...</option>
+			                <select {{$disabled}} id="inputEtapa2" class="form-control" required="required" name="REtapa">
+			                   
+			                    @if(isset($filled))
+			                   	 <option class='optPadrao' value='0'>Escolha uma Etapa...</option>
+			                    	@foreach($romaneio->obra->etapas as $etapa)
+			                    		@if(!empty($etapa->lotes->first()->id))
+				                    		<option class='optPadrao' value='{{$etapa->id}}' <?php
+											if ($etapa->id == $romaneio->etapa_id) {
+												echo 'selected';
+											}
+											?>
+				                    		>{{$etapa->codigo}}</option>
+			                    		@endif
+			                    	@endforeach
+			                    @else
+			                     <option class='optPadrao' value='0'>Escolha uma Obra...</option>
+			                    @endif
 			                </select>
 			            </div>
 			            <div class="form-group inputsubetapa2">
 			                <label for="subetapa"> Subetapa: </label>
-			                <select id="inputSubetapa2" class="form-control" required="required" name="RSubetapa">
-								<option class='optPadrao' value='0'>Escolha uma Obra...</option>
+			                <select {{$disabled}} id="inputSubetapa2" class="form-control" required="required" name="RSubetapa">
+								
+								@if(isset($filled))
+									<option class='optPadrao' value='0'>Escolha uma Subetapa...</option>
+			                    	@foreach($romaneio->etapa->subetapas as $subetapa)
+			                    		@if(!empty($subetapa->lotes->first()->id))
+				                    		<option class='optPadrao' value='{{$subetapa->id}}' <?php
+											if ($subetapa->id == $romaneio->subetapa_id) {
+												echo 'selected';
+											}
+											?>
+				                    		>{{$subetapa->cod}}</option>
+			                    		@endif
+			                    	@endforeach
+			                    @else
+			                    <option class='optPadrao' value='0'>Escolha uma Obra...</option>
+			                    @endif
 			                </select>
 			            </div>
+			            @if(isset($filled))
+			            <input type="hidden" id='RomaneioID' value="{{$romaneio->id}}">
+			            @endif
 			            <div class="form-group">
 			            	<div class="TypeLoading" style='margin-left:5px'></div>
 			            </div>
@@ -87,31 +154,49 @@
 					<div class="box-body">
 						<div class="form-group">
 							<label for="codigo">Codigo</label>
-							<input class="form-control" type="text" name='RCodigo' id='RCodigo'>
+							<input {{$disabled}} class="form-control" type="text" name='RCodigo' id='RCodigo' value='<?php if (isset($filled)) {
+								echo $romaneio->codigo;
+							}
+							?>'>
 						</div>
 						<div class="form-group" id='nfInputs'>
 							<label for="">NFs</label>
-							<input name='Rnf[]' class="form-control nfInput" type="text">
+							<?php if (isset($filled)) {
+								if (!empty($romaneio->Nfs)) {
+									$Nfs = explode(',', $romaneio->Nfs);
+									foreach ($Nfs as $Nf) {
+										if (!empty($Nf)) {
+											echo '<input ' . $disabled . ' name="Rnf[]" class="form-control nfInput" type="text" value="' . $Nf . '">';
+										}
+
+									}
+								}
+							}
+							?>
+							 @if((isset($editar) && $perfil == false) || empty($romaneio->Nfs))
+							<input {{$disabled}} name="Rnf[]" class="form-control nfInput" type="text">
+							@endif
 						</div>
 						<div class="form-group">
 							<label for="">Data de Saida</label>
-							<input class="form-control" type="date" name='RSaida' id='RSaida'>
+							<input {{$disabled}} class="form-control" type="date" name='RSaida' id='RSaida' value='<?php if (isset($filled)) {
+								echo date($romaneio->data_saida);
+							}
+							?>'>
 						</div>
 						<div class="form-group">
 							<label for="">Previsão de Chegada</label>
-							<input class="form-control" type="date" name='RPrevisao' id='RPrevisao'>
-						</div>
-						<div class="form-group">
-							<label for="">Status</label>
-							<select class="form-control" name="RStatus" id="RStatus">
-								@foreach(config('Romaneios.status') as $stats)
-									<option value="{{$stats}}">{{$stats}}</option>
-								@endforeach
-							</select>
+							<input {{$disabled}} class="form-control" type="date" name='RPrevisao' id='RPrevisao' value='<?php if (isset($filled)) {
+								echo date($romaneio->previsao_chegada);
+							}
+							?>'>
 						</div>
 						<div class="form-group">
 							<label for="">Observações</label>
-							<textarea name="RObs" class='form-control' rows='5'></textarea>
+							<textarea {{$disabled}} name="RObs" class='form-control' rows='5'><?php if (isset($filled)) {
+								echo $romaneio->observacoes;
+							}
+							?></textarea>
 						</div>
 					</div>
 				</div>
@@ -131,79 +216,125 @@
 						<div class="row">
 							<div class="col-md-6">
 
-								<h4><i class="fa fa-truck"></i>&nbsp;&nbsp;Transportadora</h4>	
+								<h4><i class="fa fa-truck"></i>&nbsp;&nbsp;Transportadora</h4>
 								<hr>
 								<div class="form-group">
 									<label for="codigo">Nome</label>
-									<input class="form-control" type="text" name='TNome' id='TNome'>
+									<input {{$disabled}} class="form-control" type="text" name='TNome' id='TNome' value='<?php if (isset($filled)) {
+										echo $romaneio->transportadora->nome;
+									}
+									?>'>
 								</div>
 								<div class="form-group">
 									<label for="">Fone 1</label>
-									<input class="form-control telefone" type="text" name='TFone1' id='TFone'>
+									<input {{$disabled}} class="form-control telefone" type="text" name='TFone1' id='TFone' value='<?php if (isset($filled)) {
+										echo $romaneio->transportadora->fone1;
+									}
+									?>'>
 								</div>
 								<div class="form-group">
 									<label for="">Fone 2</label>
-									<input class="form-control telefone" type="text" name='TFone2' id='TFone2'>
+									<input {{$disabled}} class="form-control telefone" type="text" name='TFone2' id='TFone2' value='<?php if (isset($filled)) {
+										echo $romaneio->transportadora->fone2;
+									}
+									?>'>
 								</div>
 								<div class="form-group">
 									<label for="">Contato 1</label>
-									<input class="form-control" type="text" name='TContato1' id='TCont'>
+									<input {{$disabled}} class="form-control" type="text" name='TContato1' id='TCont' value='<?php if (isset($filled)) {
+										echo $romaneio->transportadora->contato1;
+									}
+									?>'>
 								</div>
 								<div class="form-group">
 									<label for="">Contato 2</label>
-									<input class="form-control" type="text" name='TContato2' id='TCont2'>
+									<input {{$disabled}} class="form-control" type="text" name='TContato2' id='TCont2' value='<?php if (isset($filled)) {
+										echo $romaneio->transportadora->contato2;
+									}
+									?>'>
 								</div>
 								<div class="form-group">
 									<label for="">E-Mail</label>
-									<input class="form-control email_mask" type="text" name='TEmail' id='TMail'>
+									<input {{$disabled}} class="form-control email_mask" type="text" name='TEmail' id='TMail' value='<?php if (isset($filled)) {
+											echo $romaneio->transportadora->email;
+										}
+										?>'>
 								</div>
 								<div class="form-group">
 									<label for="">Observações</label>
-									<textarea name="TObs" class='form-control' rows='5' id='TObs'></textarea>
+									<textarea {{$disabled}} name="TObs" class='form-control' rows='5' id='TObs'><?php if (isset($filled)) {
+										echo $romaneio->transportadora->observacoes;
+									}
+									?></textarea>
 								</div>
 								<input type="hidden" id='TId' name='TranId' value='0'>
-								
+
 							</div>
 							<div class="col-md-6">
-								<h4><i class="fa fa-user"></i>&nbsp;&nbsp;Motorista</h4>	
+								<h4><i class="fa fa-user"></i>&nbsp;&nbsp;Motorista</h4>
 								<hr>
 								<div class="form-group">
 									<label for="codigo">Nome</label>
-									<input class="form-control" type="text" name='MNome' id='MNome'>
+									<input {{$disabled}} class="form-control" type="text" name='MNome' id='MNome' value='<?php if (isset($filled)) {
+										echo $romaneio->motorista->nome;
+									}
+									?>'>
 								</div>
 								<div class="form-group">
 									<label for="">Fone 1</label>
-									<input class="form-control telefone" type="text" name='MFone1' id='MFone'>
+									<input {{$disabled}} class="form-control telefone" type="text" name='MFone1' id='MFone' value='<?php if (isset($filled)) {
+											echo $romaneio->motorista->fone1;
+										}
+										?>'>
 								</div>
 								<div class="form-group">
 									<label for="">Fone 2</label>
-									<input class="form-control telefone" type="text" name='MFone2' id='MFone2'>
+									<input {{$disabled}} class="form-control telefone" type="text" name='MFone2' id='MFone2' value='<?php if (isset($filled)) {
+											echo $romaneio->motorista->fone2;
+										}
+										?>'>
 								</div>
 								<div class="form-group">
 									<label for="">Caminhão</label>
-									<select class="form-control" name="MCaminhao" id="MCam">
+									<select {{$disabled}} class="form-control" name="MCaminhao" id="MCam">
 										@foreach(config('Romaneios.caminhao') as $caminhao)
-									<option value="{{$caminhao}}">{{$caminhao}}</option>
+									<option value="{{$caminhao}}" <?php if (isset($filled)) {
+										if ($romaneio->motorista->caminhao == $caminhao) {
+											echo 'selected';
+										}
+									}
+									?>>{{$caminhao}}</option>
 								@endforeach
 									</select>
 								</div>
 								<div class="form-group">
 									<label for="">Comprimento (m)</label>
-									<input class="form-control" type="text" name='MComprimento' id='MComp'>
+									<input {{$disabled}} class="form-control" type="text" name='MComprimento' id='MComp' value='<?php if (isset($filled)) {
+										echo $romaneio->motorista->comprimento;
+									}
+									?>'>
 								</div>
 								<div class="form-group">
 									<label for="">Observações</label>
-									<textarea name="MObs" class='form-control' rows='5' id='MObs'></textarea>
+									<textarea {{$disabled}} name="MObs" class='form-control' rows='5' id='MObs'><?php if (isset($filled)) {
+										echo $romaneio->motorista->observacoes;
+									}
+									?></textarea>
 								</div>
 								<input type="hidden" id='MId' name='MotId' value='0'>
-								
+
 							</div>
 						</div>
-						
+
 				</div>
 			</div>
 
 		</div>
+		@if(isset($editar))
+		@if($editar == true)
+		<button type='button' id='AtualizarDados' class="btn btn-primary pull-right" style='margin:15px'>Atualizar Dados</button>
+		@endif
+		@endif
 
 
 		<!-- ================================================================================== -->
@@ -212,10 +343,12 @@
 			</form>
         	</div>
         </div>
+        @if(!isset($filled) || $perfil == false)
         	<div class="tab-pane fade" id="conjuntos">
 				<div class="box-body">
 		<!-- ================================ COMECO DOS CONJUNTOS ============================ -->
 		<!-- ================================================================================== -->
+
 			<div class="navbar navbar-static-top navForm" role='navigation'>
 		<form accept-charset="UTF-8" class="form-inline" role="form" id="inputImporter">
 	        <div class="navbar-form navbar-left">
@@ -225,7 +358,7 @@
                 <select id="inputChooseObra3" class="form-control" required="required" name="obra">
                     <option class='optPadrao' value='0'>Escolha uma Obra...</option>
                      @foreach ($obras as $obra)
-                    <option value="<?= $obra->id ?>">{{ $obra->nome }}</option>
+                    <option value="<?=$obra->id?>">{{ $obra->nome }}</option>
                     @endforeach
                 </select>
             </div>
@@ -257,7 +390,11 @@
 	            </div>
 	        </div>
     	</form>
+
 	</div>
+	@if(isset($editar))
+	<button class="btn btn-success pull-right hidden" id='addHandle'>Adicionar ao Romaneio &nbsp;&nbsp;<i class="fa fa-arrow-right"></i></button>
+	@endif
 </div>
 	<div class="clearfix"></div>
 	<hr class='lessMargin'>
@@ -270,12 +407,28 @@
 						<th>Lote</th>
 						<th>Estagio</th>
 						<th>Conjunto</th>
-						<th>Descrição</th>
+						<th>Tipologia</th>
 						<th>Tratamento</th>
+						<th>Ícone</th>
+						<th>Peso U.(Kg)</th>
 						<th>Qtd. Total</th>
 						<th>Qtd. Carregado</th>
 						<th>Saldo</th>
 					</tr>
+					 <tr>
+					 	<th></th>
+					 	<th></th>
+			 			<th><input type="text" placeholder="Lote" /></th>
+				 		<th><input type="text" placeholder="Estagio" /></th>
+				 		<th><input type="text" placeholder="Conjunto" /></th>
+				 		<th><input type="text" placeholder="Tipologia" /></th>
+				 		<th><input type="text" placeholder="Tratamento" /></th>
+				 		<th></th>
+				 		<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+			 		</tr>
 				</thead>
 				<tbody>
 					<tr>
@@ -289,19 +442,71 @@
 						<td></td>
 						<td></td>
 						<td></td>
+						<td></td>
 					</tr>
 				</tbody>
 		</table>
-		
+
+
 		</div>
 		<!-- ================================================================================== -->
 		<!-- ================================ FINAL DOS CONJUNTOS  ============================ -->
 				</div>
-					
+			</div>
+		@endif
+		@if(isset($filled))
+		<div class="tab-pane fade" id="conjuntosRom">
+				<div class="box-header">
+					<span style='font-size:20px'>  Conjuntos de {{$romaneio->codigo}}</span>
+					<span style='margin-left:20px'>Peso Total: </span><span id='pesoTotal'>{{$pesoTotal}}</span><span> Kg</span> 
+					@if(isset($editar))
+					<button class="btn btn-danger pull-right hidden" id='removeHandle'><i class="fa fa-arrow-left"></i>&nbsp;&nbsp; Remover do Romaneio</button>
+					@endif
+				</div>
+				<hr>
+			<div class="box-body">
+				<?php $tableId = ($editar == true) ? 'RomaneioCanDel' : 'RomaneioProfile';?>
+				<table class="table table-bordered table-striped dt-responsive nowrap table-hover" id="{{$tableId}}" cellspacing="0" width="100%">
+					<thead width='100%'>
+							<tr>
+								<th></th>
+								<th>Quantidade</th>
+								<th>Conjunto</th>
+								<th>Lote</th>
+								<th>Estagio</th>
+								<th>Peso U.(Kg)</th>
+								<th>Tipologia</th>
+								<th>Ícone</th>
+								<th>Tratamento</th>
+							</tr>
+						</thead>
+						<tbody>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+						</tbody>
+				</table>
+			</div>
+		</div>
+
+		@endif
+
+
         	</div>
 			<div class="box-footer">
 				<a href='{{url("romaneios")}}' class='btn btn-primary' style='margin:15px'><< Voltar</a>
+			@if(!isset($filled))
 				<button id="CriarRomaneio" class='btn btn-primary pull-right' style='margin:15px'>Enviar</button>
+			@else
+				@if($perfil == true)
+					<a id="RomaneioPDF" target='_blank' href='{{url('romaneios/pdf').'/'.$romaneio->id}}' class='btn btn-primary pull-right' style='margin:15px'>Gerar PDF</a>
+				@endif
+			@endif
 			</div>
         </div>
 
@@ -317,6 +522,7 @@
 			<div class="alert hidden" id='AjaxMessageModal'>
 			    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 			</div>
+            <div class="TypeLoadingb hidden" id='ModalLoad'></div>
 			<div id="ModalTableWrapper">
 				<table class="table table-bordered table-striped hidden" style="margin:15px 5%;width:90%" id='modalTabel'>
 				<thead>
@@ -324,19 +530,19 @@
 						<th width='35%'>Conjunto</th>
 						<th width='35%'>Lote</th>
 						<th width='20%'>Quantidade</th>
-						<th width='10%'> 
+						<th width='10%'>
 							<a href='#' class="btn btn-xs bg-maroon pull-right" id='slideModalTable' style="margin-right:10px"><i class="fa fa-minus"></i></a>
 						</th>
 					</tr>
 				</thead>
 				<tbody id='modalTableBody'>
-					
+
 				</tbody>
 			</table>
 			</div>
-			
+
 			<div class="modal-body modalRBody" style="margin:15px 5%;width:90%">
-			    
+
 			</div>
 		</div>
     </div>
@@ -349,5 +555,5 @@
 {{ Html::script('plugins/datatables/dataTables.select.min.js') }}
 {!! Html::script('plugins/iCheck/icheck.min.js') !!}
 {!! Html::script('js/Ajax/funcoes.js') !!}
-{!! Html::script('js/Ajax/romaneios.js') !!}
+{!! Html::script('modules/romaneios/js/romaneios.js') !!}
 @endsection

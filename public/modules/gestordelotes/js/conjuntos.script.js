@@ -384,7 +384,7 @@ $(document).ready(function($) {
                 "loadingRecords": "Carregando...",
                 "processing":     "Processando...",
                 "search":         "Procurar:",
-                "zeroRecords":    "Sem dados ara exibir",
+                "zeroRecords":    "Sem dados para exibir",
                 "paginate": {
                     "first":      "Primeiro",
                     "last":       "Último",
