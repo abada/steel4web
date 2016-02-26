@@ -1,6 +1,6 @@
 <?php namespace Modules\Gestordelotes\Http\Controllers;
 
-use App\Cronograma;
+use App\CronogramaPrevisto;
 use App\Estagio;
 use App\Handle;
 use App\Lote;
@@ -74,7 +74,7 @@ class ProducaoController extends Controller {
 		// Altera na handles para o próximo estágio
 
 		// Tabela LOTES.producao = true
-		// CRONOS.data_real = no primeiro estágio
+		// CRONOGRAMAREAL.data = no primeiro estágio
 
 		$done = 0;
 		foreach (@$data['lotes'] as $lote_id) {
@@ -84,6 +84,7 @@ class ProducaoController extends Controller {
 			if ($lote) {
 
 				$estagiosdolote = $lote->estagios();
+				// dd($estagiosdolote->toArray());
 				$estagiosdolote_ids = array();
 				foreach ($estagiosdolote as $estagio) {
 					$estagiosdolote_ids[] = $estagio->id;
@@ -94,19 +95,18 @@ class ProducaoController extends Controller {
 				$key = array_search($estagioatual, $estagiosdolote_ids);
 
 				// Altera na HANDLES para o próximo estágio
-				if (!$key) {
-					// 	$lote->handles()->update(array("estagio_id" => $key++)); //altera
-					// } else {
+				foreach ($lote->cronogramaReal as $cronoReal) {
 
-					foreach ($lote->cronogramas as $crono) {
+					// print_r($estagiosdolote_ids);
+					// print_r($key);
+					// dd($cronoReal->estagio_id);
 
-						if ($crono->estagio_id == $estagiosdolote_ids[$key]) {
-							$crono->data_real = date('Y-m-d');
-							$crono->save();
-						}
+					if ($cronoReal->estagio_id == $estagiosdolote_ids[$key]) {
+						$cronoReal->data = date('Y-m-d');
+						$cronoReal->save();
 					}
-					$lote->handles()->update(array("estagio_id" => reset($estagiosdolote_ids)));
 				}
+				$lote->handles()->update(["estagio_id" => $estagiosdolote_ids[$key + 1]]);
 
 				// Marca lote como enviado para produção
 				$lote->producao = true;
@@ -237,10 +237,10 @@ class ProducaoController extends Controller {
 				foreach ($estagios as $estagio) {
 
 					if ($handle->lote_id) {
-						$cronograma = Cronograma::where('estagio_id', $estagio->id)->where('lote_id', $handle->lote_id)->first();
+						$cronograma = CronogramaPrevisto::where('estagio_id', $estagio->id)->where('lote_id', $handle->lote_id)->first();
 					}
-					if (null !== @$cronograma && null !== $cronograma->data_prev) {
-						$data_prev = ['ESTAGIO_' . $estagio->id => date('d/m/Y', strtotime($cronograma->data_prev))];
+					if (null !== @$cronograma && null !== $cronograma->data) {
+						$data_prev = ['ESTAGIO_' . $estagio->id => date('d/m/Y', strtotime($cronograma->data))];
 					} else {
 						$data_prev = ['ESTAGIO_' . $estagio->id => null];
 					}

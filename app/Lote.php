@@ -81,7 +81,15 @@ class Lote extends Model {
 	 * @return Relationship hasMany
 	 */
 	public function cronogramas() {
-		return $this->hasMany('App\Cronograma');
+		return $this->hasMany('App\CronogramaPrevisto');
+	}
+
+	/**
+	 * Get the related Model
+	 * @return Relationship hasMany
+	 */
+	public function cronogramaReal() {
+		return $this->hasMany('App\CronogramaReal');
 	}
 
 	/**

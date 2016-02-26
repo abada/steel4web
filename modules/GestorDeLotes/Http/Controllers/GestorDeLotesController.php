@@ -1,6 +1,7 @@
 <?php namespace Modules\Gestordelotes\Http\Controllers;
 
-use App\Cronograma;
+use App\CronogramaPrevisto;
+use App\CronogramaReal;
 use App\Estagio;
 use App\Handle;
 use App\Lote;
@@ -74,8 +75,6 @@ class GestorDeLotesController extends Controller {
 	public function store(Request $request) {
 		$data = $request->all();
 
-		// dd($data);
-
 		// Salva o lote
 		$lote = Lote::create([
 			'descricao' => @$data['descricao'],
@@ -96,31 +95,32 @@ class GestorDeLotesController extends Controller {
 
 		// CRIA CRONOGRAMA POR ESTÁGIOS
 		$estagios = Estagio::where('tipo', '>', 1)->where('tipo', '<', 11)->orderBy('ordem')->get();
-		//$estagios = access()->user()->locatario->estagios->whereBetween('tipo', [2, 10])->sortBy('ordem');
+
 		$cronosaved = 0;
 		foreach ($estagios as $estagio) {
 
 			if (!empty($data['data_prev'][$estagio->id])) {
 
-				$crono = new Cronograma;
-
-				$crono->estagio_id = $estagio->id;
-				$crono->lote_id = $lote->id;
-				$crono->data_prev = $data['data_prev'][$estagio->id];
-				$crono->data_real = null;
-				$crono->version = 1;
-				$crono->user_id = access()->user()->id;
-				$crono->locatario_id = access()->user()->locatario->id;
+				// Cria cronograma previsto
+				$cronoprev = new CronogramaPrevisto;
+				$cronoprev->estagio_id = $estagio->id;
+				$cronoprev->lote_id = $lote->id;
+				$cronoprev->data = $data['data_prev'][$estagio->id];
+				$cronoprev->version = 1;
+				$cronoprev->user_id = access()->user()->id;
+				$cronoprev->locatario_id = access()->user()->locatario->id;
 
 				// SALVA CRONOGRAMA
-				if ($crono->save()) {
+				if ($cronoprev->save()) {
 					$cronosaved++;
 				}
+
 			}
 		}
 
 		$conjuntos = array();
-		$estagios = $lote->estagios();
+		// PEGA ESTÁGIO BASEADO NO CRONOGRAMA
+		$estagiosdolote = $lote->estagios();
 
 		foreach (@$data['conjuntos'] as $conjunto => $qtd) {
 
@@ -147,10 +147,26 @@ class GestorDeLotesController extends Controller {
 
 				// Atualiza HANDLE [lote]
 				$handle->lote_id = $lote->id;
-				$handle->estagio_id = $estagios->first()->id;
+				$handle->estagio_id = $estagiosdolote->first()->id;
 				$handle->save();
 
 				$conjuntos[] = $handle->id;
+			}
+		}
+
+		// $estagios = Estagio::where('tipo', '>', 1)->where('tipo', '<', 11)->orderBy('ordem')->get();
+		foreach ($estagios as $estagio) {
+			// Cria cronograma realizado vazio pra cada handle
+			foreach ($lote->handles as $h) {
+				$cronoreal = new CronogramaReal;
+				$cronoreal->estagio_id = $estagio->id;
+				$cronoreal->lote_id = $lote->id;
+				$cronoreal->data = NULL;
+				$cronoreal->handle_id = $h->id;
+				$cronoreal->MAR_PEZ = $h->MAR_PEZ;
+				$cronoreal->user_id = access()->user()->id;
+				$cronoreal->locatario_id = access()->user()->locatario->id;
+				$cronoreal->save();
 			}
 		}
 

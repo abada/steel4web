@@ -1,6 +1,6 @@
 <?php namespace Modules\Gestordelotes\Http\Controllers;
 
-use App\Cronograma;
+use App\CronogramaPrevisto;
 use App\Estagio;
 use App\Handle;
 use DB;
@@ -17,32 +17,6 @@ class HandlesController extends Controller {
 		if (null == @$data['etapa']) {return json_encode(['' => '']);}
 		if (null == @$data['subetapa']) {return json_encode(['' => '']);}
 
-		// Store in the SESSION
-		// if (null != @$data['obra']) {
-		// 	$obras = Obra::all();
-		// 	$obra = $obras->find($data['obra']);
-		// 	if ($obra) {
-		// 		$request->session()->put('obras', $obras->toArray());
-		// 		$request->session()->put('obras.selected', $obra->toArray());
-		// 	}
-		// }
-		// if (null != @$data['etapa']) {
-		// 	$etapas = Etapa::all();
-		// 	$etapa = $etapas->find($data['etapa']);
-		// 	if ($etapa) {
-		// 		$request->session()->put('etapas', $etapas->toArray());
-		// 		$request->session()->put('etapas.selected', $etapa->toArray());
-		// 	}
-		// }
-		// if (null != @$data['subetapa']) {
-		// 	$subetapas = Subetapa::all();
-		// 	$subetapa = $subetapas->find($data['subetapa']);
-		// 	if ($subetapa) {
-		// 		$request->session()->put('subetapas', $subetapas->toArray());
-		// 		$request->session()->put('subetapas.selected', $subetapa->toArray());
-		// 	}
-		// }
-
 		$obra_id = $data['obra'];
 		$etapa_id = $data['etapa'];
 		$subetapa_id = $data['subetapa'];
@@ -52,19 +26,10 @@ class HandlesController extends Controller {
 		$orderBy = $request->input('sort', ['id' => 'asc']);
 
 		$handle = new Handle;
-		$cronograma = new Cronograma;
 
 		$handles = $handle->where('obra_id', $obra_id)
 			->where('etapa_id', $etapa_id)
 			->where('subetapa_id', $subetapa_id);
-
-		// $handles = $handle->join($cronograma->getTable() . ' as cronograma', 'cronograma.fkpeca', '=', $handle->getTable() . '.id')
-		// 	->where($handle->getTable() . '.obra', $obra_id)
-		// 	->where($handle->getTable() . '.fketapa', $etapa_id)
-		// 	->where($handle->getTable() . '.FLG_REC', $flg_rec)
-		// 	->orderBy('cronograma.' . current(array_keys($orderBy)), current($orderBy))
-		// 	->select($handle->getTable() . '.*') // just to avoid fetching anything from joined table
-		// 	->with('lote'); // if you need options data anyway
 
 		if (isset($data['haslote'])) {
 			$handles = $handles->where('lote_id', '>', 0);
@@ -89,10 +54,6 @@ class HandlesController extends Controller {
 				$handles = $handles->get();
 			}
 		}
-
-		// if ($request->ajax()) {
-
-		// dd($handles);
 
 		$response = array();
 		$response['data'] = array();
@@ -160,11 +121,10 @@ class HandlesController extends Controller {
 			foreach ($estagios as $estagio) {
 
 				if ($handle->lote_id) {
-					// $cjtofab = CjtoFabr::where('lote_id', $handle->lote_id)->first();
-					$cronograma = Cronograma::where('estagio_id', $estagio->id)->where('lote_id', $handle->lote_id)->first();
+					$cronograma = CronogramaPrevisto::where('estagio_id', $estagio->id)->where('lote_id', $handle->lote_id)->first();
 				}
 				if (null !== @$cronograma) {
-					$data_prev = ['ESTAGIO_' . $estagio->id => $cronograma->data_prev];
+					$data_prev = ['ESTAGIO_' . $estagio->id => $cronograma->data];
 				} else {
 					$data_prev = ['ESTAGIO_' . $estagio->id => null];
 
@@ -181,10 +141,6 @@ class HandlesController extends Controller {
 		$response['total'] = $handles->count();
 
 		return json_encode($response);
-
-		// } else {
-		// 	dd($handles);
-		// }
 	}
 
 }
