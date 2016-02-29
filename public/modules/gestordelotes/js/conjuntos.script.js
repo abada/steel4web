@@ -173,7 +173,7 @@ $(document).ready(function($) {
     function changelote(e) {
 
         var selectedItems = handlesGrid.rows('.selected').data();
-        var selectedQtd = handlesGrid.$('.selected').find('input');
+        var selectedQtd = handlesGrid.$('.selected').find('input.qtd');
         var handles_ids = {};
 
         for (var i = 0; i < selectedItems.length; i++) {
