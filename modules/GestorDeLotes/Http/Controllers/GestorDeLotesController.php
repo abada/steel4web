@@ -16,7 +16,7 @@ class GestorDeLotesController extends Controller {
 
 		$data = $request->all();
 
-		$lotes = Lote::all();
+		$lotes = Lote::where('producao', 0)->get(); // Lotes não enviados para produção
 		$obras = Obra::has('importacoes')->where('status', 1)->get();
 		$obras = $obras->lists('nome', 'id');
 

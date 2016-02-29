@@ -62,7 +62,8 @@
 
 				<a id="criarlote" class="btn btn-primary" data-toggle="modal" data-target="#modal">Criar Lote</a>
 
-				@if( $lotes )
+
+				@if( $lotes && count( $lotes ) )
 				<!-- Single dropdown -->
 				<div class="btn-group">
 					<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

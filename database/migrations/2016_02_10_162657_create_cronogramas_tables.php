@@ -27,6 +27,7 @@ class CreateCronogramasTables extends Migration {
 			$table->foreign('locatario_id')->references('id')->on('locatarios')->onDelete('cascade');
 
 			$table->timestamps();
+
 		});
 
 		Schema::create('cronogramaReal', function (Blueprint $table) {
