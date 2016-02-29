@@ -147,30 +147,35 @@ class RelatoriosController extends Controller {
 	public function getPdfLote($params){
 		$cronos = crono::where('lote_id',$params)->orderBy('estagio_id', 'asc')->get();
 		$handles = $this->getConjuntosLote($params, true);
-		foreach($cronos as $crono){
+		$pesoT = 0;
+		$handlex = handle::selectRaw('*, sum(QTA_PEZ) as qtd')->where('FLG_REC', 3)->where('lote_id', $params)->groupBy('estagio_id')->groupBy('MAR_PEZ')->get();
+		foreach($handlex as $handle){
+		 		$pesoT = ($handle->PUN_LIS * $handle->qtd) + $pesoT;
+		 	}
+			$x = 0;
+
+			foreach($cronos as $crono){
 				$pesoE = 0;
 				$count = 0;
-				foreach($crono->estagio->handles as $hand){
-					if($hand->lote_id == $crono->lote_id){
-						foreach($handles as $hande){
-							if($hande['marcas'] == $hand->MAR_PEZ){
-								$pesoU = $hande['peso_unid'];
-							}
-						}
-						$pesoE = $pesoE + $pesoU;
+				foreach($handlex as $hand){
+					$toCompare = $hand->estagio_id;
+					if($hand->estagio->tipo == 11 || $hand->estagio->tipo == 12)
+						$toCompare = est::where('tipo',3)->first()->id;
+					if($toCompare == $crono->estagio_id){
+						$pesoE = $pesoE + ($hand->PUN_LIS * $hand->qtd);
 					}
 				}
 
-				$porc = $pesoE/$handles['pesoTotal'] * 100;
+				$porc = $pesoE/$pesoT * 100;
 				
-				$data[] = array(
+				$data[$x] = array(
 						'estagio' => $crono->estagio->descricao,
 						'prev'    => date('d/m/Y', strtotime($crono->data_prev)),
 						'peso'    => number_format($pesoE, 2, ',','.'),
 						'porc'    => round($porc).' %'
 				);
-
-		}
+				$x++;
+		}	
 		$parameter = array();
 		$lote = lote::find($params);
 		$parameter['lote'] = $lote;

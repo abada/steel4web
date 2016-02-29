@@ -43,14 +43,13 @@ class ApontadorController extends Controller {
 	public function printInputs($conjunto_id){
 		$conjunto = handle::find($conjunto_id);
 		$estagios = est::where('tipo',2)->orderBy('ordem','asc')->get();
-		if(isset($conjunto->lote->descricao)){
+		if(isset($conjunto->lote->id)){
 			$estags = array();
+			dd($conjunto->lote);
 			foreach($conjunto->lote->cronogramas as $cronos){
 				$estags[] = $cronos->estagio_id;
 			}	
-
 			foreach($estagios as $estagio){
-
 				if(in_array($estagio->id, $estags)){
 
 					$qtd = handle::where('lote_id', $conjunto->lote_id)->where('estagio_id', $estagio->id)->where('MAR_PEZ', $conjunto->MAR_PEZ)->sum('QTA_PEZ');
@@ -63,8 +62,7 @@ class ApontadorController extends Controller {
 
 					if(!empty($estg->first()->id) && (empty($estgMenor->first()->id) || $qtd < 1)){
 
-						$dataR = creal::where('lote_id', $conjunto->lote_id)->where('estagio_id', $estagio->id)->where('MAR_PEZ', $conjunto->MAR_PEZ)->orderBy('data', 'desc')->get();
-
+						$dataR = creal::where('lote_id', $conjunto->lote_id)->where('estagio_id', $estagio->id)->where('MAR_PEZ', $conjunto->MAR_PEZ)->whereNotNull('data')->orderBy('data', 'desc')->get();
 						if(!empty($dataR->first()->data)){
 
 							$mustDoIt = false;

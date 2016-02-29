@@ -657,6 +657,7 @@ class ImportadorController extends Controller {
             }
         }
         }
+        return redirect()->back->withFlashSuccess('Everything up to date, silly.');
     }
 
     private function formatBytes($bytes, $precision = 2) { 
